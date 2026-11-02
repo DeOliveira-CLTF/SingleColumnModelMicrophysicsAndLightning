@@ -1,0 +1,31 @@
+&ensemble
+  npoints     = 1
+  nsatconfigs = 2
+
+  point_label = 'portillo_chile_tempestade_2023'
+  path_pl     = 'era5_pressure_level_portillo_chile_tempestade_2023.nc'
+  path_sl     = 'era5_single_level_portillo_chile_tempestade_2023.nc'
+  target_lat  = -32.8333
+  target_lon  = -70.1333
+  itime_pick  = 13   ! 12:00 UTC, 20/08/2023 -- ajuste se quiser outro horário do evento
+
+  ! -- duas camadas plausíveis pra disparar a nuvem orográfica --
+  satconfig_label = 'nivel_da_crista', 'nivel_frontal_medio'
+  sat_z_lo        = 3000.0, 5000.0
+  sat_z_hi        = 4500.0, 7000.0
+  sat_rh_target   = 1.0, 1.0
+
+  nz              = 60
+  ztop            = 20000.0
+  dz0             = 50.0
+  dt_microp       = 20.0
+  run_duration_s  = 10800.0   ! 3h -- evento frontal, mais duradouro que convecção isolada
+  pulse_sigma_z   = 1500.0
+  pulse_duration_s= 3600.0    ! 1h -- aqui é reforço, não o motor principal (ver texto)
+  pulse_w_max     = 1.0       ! bem menor que no caso convectivo: o w real do ERA5 já deve
+                              ! carregar a maior parte do sinal de ascensão orográfica
+
+  path_summary    = 'andes_portillo_wsm6_summary.csv'
+  write_profiles  = .true.
+  microp_scheme   = 'wsm6'
+/

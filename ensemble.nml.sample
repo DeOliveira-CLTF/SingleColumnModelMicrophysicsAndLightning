@@ -1,0 +1,42 @@
+&ensemble
+  npoints     = 5
+  nsatconfigs = 3
+
+  ! -- pontos ERA5 (ver download_era5_ensemble.py) --
+  point_label = 'amazonia_tropical_umida', 'nordeste_semiarido', 'sul_subtropical',
+                'itcz_atlantico_maritimo', 'extratropical_frio'
+  path_pl     = 'era5_pressure_level_amazonia_tropical_umida.nc',
+                'era5_pressure_level_nordeste_semiarido.nc',
+                'era5_pressure_level_sul_subtropical.nc',
+                'era5_pressure_level_itcz_atlantico_maritimo.nc',
+                'era5_pressure_level_extratropical_frio.nc'
+  path_sl     = 'era5_single_level_amazonia_tropical_umida.nc',
+                'era5_single_level_nordeste_semiarido.nc',
+                'era5_single_level_sul_subtropical.nc',
+                'era5_single_level_itcz_atlantico_maritimo.nc',
+                'era5_single_level_extratropical_frio.nc'
+  target_lat  = -3.0, -8.0, -28.0, 0.0, -45.0
+  target_lon  = -60.0, -40.0, -52.0, -30.0, -60.0
+  itime_pick  = 16, 16, 16, 16, 16   ! 15:00 UTC -- ajuste se quiser outro horário (1 = 00 UTC)
+
+  ! -- configurações de saturação (aplicadas às MESMAS 3 faixas de
+  !    altura em todos os pontos, já que a grade vertical do driver é
+  !    igual pra todo mundo) --
+  satconfig_label = 'camada_limite', 'nivel_medio', 'nivel_alto'
+  sat_z_lo        = 500.0,  3500.0, 7500.0
+  sat_z_hi        = 1500.0, 5500.0, 9500.0
+  sat_rh_target   = 1.0, 1.0, 1.0
+
+  ! -- parâmetros de execução --
+  nz              = 60
+  ztop            = 20000.0
+  dz0             = 50.0
+  dt_microp       = 20.0
+  run_duration_s  = 7200.0    ! 2h por membro
+  pulse_sigma_z   = 1000.0    ! m, largura do pulso sintético
+  pulse_duration_s= 1800.0    ! 30 min
+  pulse_w_max     = 3.0       ! m/s, amplitude do pulso (somado ao w real do ERA5)
+
+  path_summary    = 'ensemble_summary.csv'
+  write_profiles  = .true.
+/

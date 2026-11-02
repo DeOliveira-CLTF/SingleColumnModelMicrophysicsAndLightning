@@ -1,0 +1,228 @@
+# =============================================================================
+# Makefile ? mp_offline (driver offline SCM para microfisica MONAN/MPAS)
+#
+# Uso:
+#   make               compila mp_offline_driver e ensemble_driver
+#   make drivers       idem
+#   make mp_offline_driver | ensemble_driver
+#   make tests         compila os testes do protótipo EDMF (src/unified_edmf)
+#   make run           roda o caso GOAMAZON (namelist.mp_offline, em ./)
+#   make clean         remove build/ e executaveis
+#   make -j8           compilacao paralela (as dependencias entre modulos
+#                      estao explicitas, entao -j e seguro)
+#
+# Variaveis uteis (sobrescreva na linha de comando):
+#   make FC=gfortran OPT="-O0 -g -fcheck=all -ffpe-trap=invalid,zero,overflow"
+#   make NETCDF_INC=/opt/netcdf/include NETCDF_LIB=/opt/netcdf/lib
+#
+# Requisitos: gfortran (testado com GCC 13, Ubuntu 24.04) e NetCDF-Fortran
+#   (Ubuntu: sudo apt install gfortran libnetcdff-dev make)
+# =============================================================================
+
+FC      ?= gfortran
+OPT     ?= -O2
+
+# --- NetCDF: usa nf-config se existir; senao, NETCDF_INC/NETCDF_LIB ----------
+NF_CONFIG ?= nf-config
+ifneq ($(shell which $(NF_CONFIG) 2>/dev/null),)
+  NETCDF_INC ?= $(shell $(NF_CONFIG) --includedir)
+  NETCDF_LIB_FLAGS ?= $(shell $(NF_CONFIG) --flibs)
+else
+  NETCDF_INC ?= /usr/include
+  NETCDF_LIB ?= /usr/lib/x86_64-linux-gnu
+  NETCDF_LIB_FLAGS ?= -L$(NETCDF_LIB) -lnetcdff -lnetcdf
+endif
+
+SRC   := src
+BLD   := build
+
+# Precisao dupla por padrao (convencao do MPAS); -Dmpas seleciona a ramificacao
+# MPAS do Thompson (exclui a tabela de ativacao de aerossois que exigiria MPI);
+# -cpp aplica o pre-processador tambem nos .F90; codigo em formato livre (.F e
+# .F90) sem limite de comprimento de linha.
+FFLAGS  := $(OPT) -cpp -Dmpas -ffree-form -ffree-line-length-none \
+           -fdefault-real-8 -fdefault-double-8 \
+           -fallow-argument-mismatch -fno-range-check \
+           -J$(BLD) -I$(BLD) -I$(NETCDF_INC)
+LDFLAGS := $(NETCDF_LIB_FLAGS)
+
+# -----------------------------------------------------------------------------
+# Objetos (na ordem da arvore de dependencias de modulos)
+# -----------------------------------------------------------------------------
+# infraestrutura minima + constantes + funcoes auxiliares
+O_INFRA := $(BLD)/mpas_stubs_offline.o \
+           $(BLD)/mpas_constants.o \
+           $(BLD)/mpas_atmphys_constants.o \
+           $(BLD)/mpas_atmphys_functions.o \
+           $(BLD)/ccpp_kind_types.o
+
+# radar + microfisica
+O_MP    := $(BLD)/module_mp_radar.o \
+           $(BLD)/module_mp_thompson.o \
+           $(BLD)/module_libmassv.o \
+           $(BLD)/mp_wsm6.o \
+           $(BLD)/mp_wsm6_effectRad.o \
+           $(BLD)/module_mp_wsm6.o
+
+# MYNN (superficie + CLP) e acoplamento
+O_MYNN  := $(BLD)/mynn_shared.o \
+           $(BLD)/bl_mynn_subroutines.o \
+           $(BLD)/bl_mynn.o \
+           $(BLD)/sf_mynn.o \
+           $(BLD)/mynn_offline_coupling.o
+
+# relampagos
+O_LGT   := $(BLD)/mpas_atmphys_lightning.o
+
+# encapsulador do Thompson na pluma (usado pelo mp_offline_driver)
+O_PLUME := $(BLD)/plume_microphysics_thompson.o
+
+# pontes de dados e saidas
+O_IO_MP  := $(BLD)/goamazon_bridge.o $(BLD)/output_mp_netcdf.o
+O_IO_ENS := $(BLD)/era5_bridge.o $(BLD)/output_mp_netcdf.o \
+            $(BLD)/output_ensemble_netcdf.o \
+            $(BLD)/saturation_perturbation.o $(BLD)/updraft_forcing.o
+
+OBJ_MP_DRIVER := $(O_INFRA) $(O_MP) $(O_MYNN) $(O_LGT) $(O_PLUME) \
+                 $(BLD)/goamazon_bridge.o $(BLD)/output_mp_netcdf.o \
+                 $(BLD)/mp_offline_driver.o
+
+OBJ_ENS_DRIVER := $(O_INFRA) $(O_MP) $(O_LGT) \
+                  $(BLD)/era5_bridge.o $(BLD)/output_mp_netcdf.o \
+                  $(BLD)/output_ensemble_netcdf.o \
+                  $(BLD)/saturation_perturbation.o $(BLD)/updraft_forcing.o \
+                  $(BLD)/ensemble_driver.o
+
+# -----------------------------------------------------------------------------
+# Alvos principais
+# -----------------------------------------------------------------------------
+.PHONY: all drivers tests run clean distclean help
+all: drivers
+drivers: mp_offline_driver ensemble_driver
+
+help:
+	@sed -n '2,20p' Makefile
+
+mp_offline_driver: $(OBJ_MP_DRIVER)
+	$(FC) $(FFLAGS) -o $@ $^ $(LDFLAGS)
+
+ensemble_driver: $(OBJ_ENS_DRIVER)
+	$(FC) $(FFLAGS) -o $@ $^ $(LDFLAGS)
+
+run: mp_offline_driver
+	./mp_offline_driver
+
+# -----------------------------------------------------------------------------
+# Regras de compilacao (.F e .F90 em qualquer subdiretorio de src/)
+# -----------------------------------------------------------------------------
+$(BLD):
+	@mkdir -p $(BLD)
+
+$(BLD)/%.o: $(SRC)/%.F90 | $(BLD)
+	$(FC) $(FFLAGS) -c $< -o $@
+$(BLD)/%.o: $(SRC)/%.F | $(BLD)
+	$(FC) $(FFLAGS) -c $< -o $@
+$(BLD)/%.o: $(SRC)/mynn/%.F90 | $(BLD)
+	$(FC) $(FFLAGS) -c $< -o $@
+$(BLD)/%.o: $(SRC)/mynn/%.F | $(BLD)
+	$(FC) $(FFLAGS) -c $< -o $@
+$(BLD)/%.o: $(SRC)/wsm6/%.F90 | $(BLD)
+	$(FC) $(FFLAGS) -c $< -o $@
+$(BLD)/%.o: $(SRC)/wsm6/%.F | $(BLD)
+	$(FC) $(FFLAGS) -c $< -o $@
+$(BLD)/%.o: $(SRC)/unified_edmf/%.F90 | $(BLD)
+	$(FC) $(FFLAGS) -c $< -o $@
+
+# -----------------------------------------------------------------------------
+# Dependencias entre modulos (explicitas: garantem ordem correta e -j seguro)
+# -----------------------------------------------------------------------------
+$(BLD)/mpas_constants.o:          $(BLD)/mpas_stubs_offline.o
+$(BLD)/mpas_atmphys_constants.o:  $(BLD)/mpas_constants.o
+$(BLD)/mpas_atmphys_functions.o:  $(BLD)/mpas_stubs_offline.o
+$(BLD)/ccpp_kind_types.o:         $(BLD)/mpas_stubs_offline.o
+
+$(BLD)/module_mp_radar.o:         $(BLD)/ccpp_kind_types.o
+$(BLD)/module_mp_thompson.o:      $(BLD)/module_mp_radar.o $(BLD)/mpas_atmphys_functions.o \
+                                  $(BLD)/mpas_stubs_offline.o
+$(BLD)/module_libmassv.o:
+$(BLD)/mp_wsm6.o:                 $(BLD)/ccpp_kind_types.o $(BLD)/module_libmassv.o \
+                                  $(BLD)/module_mp_radar.o
+$(BLD)/mp_wsm6_effectRad.o:       $(BLD)/mp_wsm6.o
+$(BLD)/module_mp_wsm6.o:          $(BLD)/mp_wsm6.o $(BLD)/mp_wsm6_effectRad.o \
+                                  $(BLD)/mpas_stubs_offline.o
+
+$(BLD)/mynn_shared.o:             $(BLD)/ccpp_kind_types.o
+$(BLD)/bl_mynn_subroutines.o:     $(BLD)/mynn_shared.o $(BLD)/ccpp_kind_types.o
+$(BLD)/bl_mynn.o:                 $(BLD)/bl_mynn_subroutines.o
+$(BLD)/sf_mynn.o:                 $(BLD)/mynn_shared.o
+$(BLD)/mynn_offline_coupling.o:   $(BLD)/bl_mynn.o $(BLD)/sf_mynn.o
+
+$(BLD)/plume_microphysics_thompson.o: $(BLD)/module_mp_thompson.o
+
+$(BLD)/goamazon_bridge.o:         $(BLD)/mpas_stubs_offline.o
+$(BLD)/output_mp_netcdf.o:        $(BLD)/mpas_stubs_offline.o
+$(BLD)/output_ensemble_netcdf.o:  $(BLD)/mpas_stubs_offline.o
+$(BLD)/era5_bridge.o:             $(BLD)/mpas_atmphys_constants.o
+$(BLD)/saturation_perturbation.o: $(BLD)/mpas_atmphys_functions.o
+$(BLD)/updraft_forcing.o:         $(BLD)/mpas_stubs_offline.o
+
+$(BLD)/mp_offline_driver.o: $(O_INFRA) $(O_MP) $(O_MYNN) $(O_LGT) $(O_PLUME) $(O_IO_MP)
+$(BLD)/ensemble_driver.o:   $(O_INFRA) $(O_MP) $(O_LGT) $(O_IO_ENS)
+
+# -----------------------------------------------------------------------------
+# Testes do prototipo EDMF unificado (src/unified_edmf/) ? NAO fazem parte do
+# driver validado. Cada teste vira um executavel em build/tests/.
+# -----------------------------------------------------------------------------
+UE := $(SRC)/unified_edmf
+UE_MODS := entrainment_closure plume_condensation plume_precipitation \
+           plume_thermo plume_velocity prognostic_area
+UE_MOD_OBJS := $(addprefix $(BLD)/,$(addsuffix .o,$(UE_MODS)))
+
+# testes que so precisam do kind_types + modulos da pluma
+UE_TESTS_SIMPLE := test_entrainment_closure test_plume_condensation \
+                   test_plume_precipitation test_plume_thermo \
+                   test_plume_velocity test_prognostic_area test_coupled_plume
+# testes que usam o Thompson
+UE_TESTS_THOMPSON := test_plume_microphysics_thompson test_coupled_plume_thompson
+# testes que usam o MYNN
+UE_TESTS_MYNN := test_uedmf_thermo test_uedmf_entdet_map test_uedmf_entdet_moist
+
+TEST_DIR := $(BLD)/tests
+
+$(BLD)/plume_condensation.o $(BLD)/plume_precipitation.o $(BLD)/plume_thermo.o \
+$(BLD)/plume_velocity.o $(BLD)/prognostic_area.o $(BLD)/entrainment_closure.o: \
+    $(BLD)/mpas_stubs_offline.o
+$(BLD)/plume_microphysics_thompson.o: $(BLD)/mpas_stubs_offline.o
+
+$(TEST_DIR):
+	@mkdir -p $(TEST_DIR)
+
+$(BLD)/test_%.o: $(UE)/test_%.F90 | $(BLD)
+	$(FC) $(FFLAGS) -c $< -o $@
+
+$(addprefix $(BLD)/,$(addsuffix .o,$(UE_TESTS_SIMPLE))): $(UE_MOD_OBJS)
+$(addprefix $(BLD)/,$(addsuffix .o,$(UE_TESTS_THOMPSON))): $(UE_MOD_OBJS) \
+    $(BLD)/plume_microphysics_thompson.o
+$(addprefix $(BLD)/,$(addsuffix .o,$(UE_TESTS_MYNN))): $(O_INFRA) $(O_MYNN)
+
+$(addprefix $(TEST_DIR)/,$(UE_TESTS_SIMPLE)): $(TEST_DIR)/%: $(BLD)/%.o \
+    $(BLD)/mpas_stubs_offline.o $(UE_MOD_OBJS) | $(TEST_DIR)
+	$(FC) $(FFLAGS) -o $@ $^ $(LDFLAGS)
+
+$(addprefix $(TEST_DIR)/,$(UE_TESTS_THOMPSON)): $(TEST_DIR)/%: $(BLD)/%.o \
+    $(UE_MOD_OBJS) $(BLD)/plume_microphysics_thompson.o \
+    $(O_INFRA) $(BLD)/module_mp_radar.o $(BLD)/module_mp_thompson.o | $(TEST_DIR)
+	$(FC) $(FFLAGS) -o $@ $^ $(LDFLAGS)
+
+$(addprefix $(TEST_DIR)/,$(UE_TESTS_MYNN)): $(TEST_DIR)/%: $(BLD)/%.o \
+    $(O_INFRA) $(O_MYNN) | $(TEST_DIR)
+	$(FC) $(FFLAGS) -o $@ $^ $(LDFLAGS)
+
+tests: $(addprefix $(TEST_DIR)/,$(UE_TESTS_SIMPLE) $(UE_TESTS_THOMPSON) $(UE_TESTS_MYNN))
+
+# -----------------------------------------------------------------------------
+clean:
+	rm -rf $(BLD) mp_offline_driver ensemble_driver
+
+distclean: clean
+	rm -f *.mod
