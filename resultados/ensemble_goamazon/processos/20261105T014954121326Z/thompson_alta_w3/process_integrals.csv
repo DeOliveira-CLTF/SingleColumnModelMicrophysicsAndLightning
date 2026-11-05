@@ -1,0 +1,379 @@
+experiment,process,category,species,net_mm,positive_mm,negative_mm
+thompson_alta_w3,final_clipping,Ajustes/limiares,qv,0,0,0
+thompson_alta_w3,final_clipping,Ajustes/limiares,qc,-2.9551186318905284e-11,1.3999733018384935e-18,-2.9551187718878583e-11
+thompson_alta_w3,final_clipping,Ajustes/limiares,qr,-2.430022079738225e-10,1.7273027111906229e-21,-2.430022079755498e-10
+thompson_alta_w3,final_clipping,Ajustes/limiares,qi,-1.9036842175004918e-08,2.3993907512672875e-12,-1.9039241565756185e-08
+thompson_alta_w3,final_clipping,Ajustes/limiares,qs,-3.593457613710561e-09,2.2738271060193248e-12,-3.59573144081658e-09
+thompson_alta_w3,final_clipping,Ajustes/limiares,qg,-7.6104287695212409e-10,1.5909001965793527e-25,-7.610428769521243e-10
+thompson_alta_w3,positivity_clipping,Ajustes/limiares,qv,0,0,0
+thompson_alta_w3,positivity_clipping,Ajustes/limiares,qc,0,0,0
+thompson_alta_w3,positivity_clipping,Ajustes/limiares,qr,0,0,0
+thompson_alta_w3,positivity_clipping,Ajustes/limiares,qi,0,0,0
+thompson_alta_w3,positivity_clipping,Ajustes/limiares,qs,0,0,0
+thompson_alta_w3,positivity_clipping,Ajustes/limiares,qg,0,0,0
+thompson_alta_w3,sedimentation,Sedimentação,qv,0,0,0
+thompson_alta_w3,sedimentation,Sedimentação,qc,-6.3341997111730926e-07,0.001545440828571827,-0.0015460742485429442
+thompson_alta_w3,sedimentation,Sedimentação,qr,-0.23927571632059119,0.86400679714457518,-1.1032825134651663
+thompson_alta_w3,sedimentation,Sedimentação,qi,-7.2109220340371009e-08,7.0241218234179162e-05,-7.031332745451953e-05
+thompson_alta_w3,sedimentation,Sedimentação,qs,0.0015657819636452431,3.8702749936642142,-3.8687092117005686
+thompson_alta_w3,sedimentation,Sedimentação,qg,7.944001657607684e-05,0.030127782985495087,-0.03004834296891901
+thompson_alta_w3,tendency_adjustments,Ajustes/limiares,qv,4.844402880872659e-18,1.9311518796795377e-16,-1.8827078508708113e-16
+thompson_alta_w3,tendency_adjustments,Ajustes/limiares,qc,3.5152703190873437e-18,4.4561415807058405e-17,-4.1046145487971058e-17
+thompson_alta_w3,tendency_adjustments,Ajustes/limiares,qr,-3.0164089954957579e-10,5.9784838067548516e-17,-3.0164095933441387e-10
+thompson_alta_w3,tendency_adjustments,Ajustes/limiares,qi,3.0938518104614943e-21,8.4571010204498087e-21,-5.3632492099883125e-21
+thompson_alta_w3,tendency_adjustments,Ajustes/limiares,qs,2.8451904348952825e-17,1.7659246933661312e-16,-1.4814056498766032e-16
+thompson_alta_w3,tendency_adjustments,Ajustes/limiares,qg,-3.3446879833150125e-19,4.6317843411655064e-19,-7.9764723244805184e-19
+thompson_alta_w3,th_collection_rcg,Coleta chuva–gelo,qv,0,0,0
+thompson_alta_w3,th_collection_rcg,Coleta chuva–gelo,qc,0,0,0
+thompson_alta_w3,th_collection_rcg,Coleta chuva–gelo,qr,0,0,0
+thompson_alta_w3,th_collection_rcg,Coleta chuva–gelo,qi,0,0,0
+thompson_alta_w3,th_collection_rcg,Coleta chuva–gelo,qs,0,0,0
+thompson_alta_w3,th_collection_rcg,Coleta chuva–gelo,qg,0,0,0
+thompson_alta_w3,th_collection_rci,Coleta chuva–gelo,qv,0,0,0
+thompson_alta_w3,th_collection_rci,Coleta chuva–gelo,qc,0,0,0
+thompson_alta_w3,th_collection_rci,Coleta chuva–gelo,qr,-0.015712870636694468,0,-0.015712870636694468
+thompson_alta_w3,th_collection_rci,Coleta chuva–gelo,qi,-4.7692091892070219e-08,0,-4.7692091892070219e-08
+thompson_alta_w3,th_collection_rci,Coleta chuva–gelo,qs,0,0,0
+thompson_alta_w3,th_collection_rci,Coleta chuva–gelo,qg,0.015712918328786362,0.015712918328786362,0
+thompson_alta_w3,th_collection_rcs,Coleta chuva–gelo,qv,0,0,0
+thompson_alta_w3,th_collection_rcs,Coleta chuva–gelo,qc,0,0,0
+thompson_alta_w3,th_collection_rcs,Coleta chuva–gelo,qr,0,0,0
+thompson_alta_w3,th_collection_rcs,Coleta chuva–gelo,qi,0,0,0
+thompson_alta_w3,th_collection_rcs,Coleta chuva–gelo,qs,0,0,0
+thompson_alta_w3,th_collection_rcs,Coleta chuva–gelo,qg,0,0,0
+thompson_alta_w3,th_homogeneous_freezing,Congelamento,qv,0,0,0
+thompson_alta_w3,th_homogeneous_freezing,Congelamento,qc,0,0,0
+thompson_alta_w3,th_homogeneous_freezing,Congelamento,qr,0,0,0
+thompson_alta_w3,th_homogeneous_freezing,Congelamento,qi,0,0,0
+thompson_alta_w3,th_homogeneous_freezing,Congelamento,qs,0,0,0
+thompson_alta_w3,th_homogeneous_freezing,Congelamento,qg,0,0,0
+thompson_alta_w3,th_instant_melting,Fusão,qv,0,0,0
+thompson_alta_w3,th_instant_melting,Fusão,qc,0,0,0
+thompson_alta_w3,th_instant_melting,Fusão,qr,0,0,0
+thompson_alta_w3,th_instant_melting,Fusão,qi,0,0,0
+thompson_alta_w3,th_instant_melting,Fusão,qs,0,0,0
+thompson_alta_w3,th_instant_melting,Fusão,qg,0,0,0
+thompson_alta_w3,th_prg_gcw,Riming (água de nuvem),qv,0,0,0
+thompson_alta_w3,th_prg_gcw,Riming (água de nuvem),qc,0,0,0
+thompson_alta_w3,th_prg_gcw,Riming (água de nuvem),qr,0,0,0
+thompson_alta_w3,th_prg_gcw,Riming (água de nuvem),qi,0,0,0
+thompson_alta_w3,th_prg_gcw,Riming (água de nuvem),qs,0,0,0
+thompson_alta_w3,th_prg_gcw,Riming (água de nuvem),qg,0,0,0
+thompson_alta_w3,th_prg_gde,Deposição/sublimação,qv,0.0093198657296561047,0.0093198657296561047,0
+thompson_alta_w3,th_prg_gde,Deposição/sublimação,qc,0,0,0
+thompson_alta_w3,th_prg_gde,Deposição/sublimação,qr,0,0,0
+thompson_alta_w3,th_prg_gde,Deposição/sublimação,qi,0,0,0
+thompson_alta_w3,th_prg_gde,Deposição/sublimação,qs,0,0,0
+thompson_alta_w3,th_prg_gde,Deposição/sublimação,qg,-0.0093198657296561047,0,-0.0093198657296561047
+thompson_alta_w3,th_prg_ihm,Gelo secundário,qv,0,0,0
+thompson_alta_w3,th_prg_ihm,Gelo secundário,qc,0,0,0
+thompson_alta_w3,th_prg_ihm,Gelo secundário,qr,0,0,0
+thompson_alta_w3,th_prg_ihm,Gelo secundário,qi,0,0,0
+thompson_alta_w3,th_prg_ihm,Gelo secundário,qs,0,0,0
+thompson_alta_w3,th_prg_ihm,Gelo secundário,qg,0,0,0
+thompson_alta_w3,th_prg_rfz,Congelamento,qv,0,0,0
+thompson_alta_w3,th_prg_rfz,Congelamento,qc,0,0,0
+thompson_alta_w3,th_prg_rfz,Congelamento,qr,0,0,0
+thompson_alta_w3,th_prg_rfz,Congelamento,qi,0,0,0
+thompson_alta_w3,th_prg_rfz,Congelamento,qs,0,0,0
+thompson_alta_w3,th_prg_rfz,Congelamento,qg,0,0,0
+thompson_alta_w3,th_prg_scw,Riming (água de nuvem),qv,0,0,0
+thompson_alta_w3,th_prg_scw,Riming (água de nuvem),qc,0,0,0
+thompson_alta_w3,th_prg_scw,Riming (água de nuvem),qr,0,0,0
+thompson_alta_w3,th_prg_scw,Riming (água de nuvem),qi,0,0,0
+thompson_alta_w3,th_prg_scw,Riming (água de nuvem),qs,0,0,0
+thompson_alta_w3,th_prg_scw,Riming (água de nuvem),qg,0,0,0
+thompson_alta_w3,th_pri_ide,Deposição/sublimação,qv,0.00029339719358549511,0.00029339719358549511,0
+thompson_alta_w3,th_pri_ide,Deposição/sublimação,qc,0,0,0
+thompson_alta_w3,th_pri_ide,Deposição/sublimação,qr,0,0,0
+thompson_alta_w3,th_pri_ide,Deposição/sublimação,qi,-0.00029339719358549511,0,-0.00029339719358549511
+thompson_alta_w3,th_pri_ide,Deposição/sublimação,qs,0,0,0
+thompson_alta_w3,th_pri_ide,Deposição/sublimação,qg,0,0,0
+thompson_alta_w3,th_pri_iha,Nucleação de gelo,qv,0,0,0
+thompson_alta_w3,th_pri_iha,Nucleação de gelo,qc,0,0,0
+thompson_alta_w3,th_pri_iha,Nucleação de gelo,qr,0,0,0
+thompson_alta_w3,th_pri_iha,Nucleação de gelo,qi,0,0,0
+thompson_alta_w3,th_pri_iha,Nucleação de gelo,qs,0,0,0
+thompson_alta_w3,th_pri_iha,Nucleação de gelo,qg,0,0,0
+thompson_alta_w3,th_pri_inu,Nucleação de gelo,qv,-0.00032310422533318034,0,-0.00032310422533318034
+thompson_alta_w3,th_pri_inu,Nucleação de gelo,qc,0,0,0
+thompson_alta_w3,th_pri_inu,Nucleação de gelo,qr,0,0,0
+thompson_alta_w3,th_pri_inu,Nucleação de gelo,qi,0.00032310422533318034,0.00032310422533318034,0
+thompson_alta_w3,th_pri_inu,Nucleação de gelo,qs,0,0,0
+thompson_alta_w3,th_pri_inu,Nucleação de gelo,qg,0,0,0
+thompson_alta_w3,th_pri_rfz,Congelamento,qv,0,0,0
+thompson_alta_w3,th_pri_rfz,Congelamento,qc,0,0,0
+thompson_alta_w3,th_pri_rfz,Congelamento,qr,0,0,0
+thompson_alta_w3,th_pri_rfz,Congelamento,qi,0,0,0
+thompson_alta_w3,th_pri_rfz,Congelamento,qs,0,0,0
+thompson_alta_w3,th_pri_rfz,Congelamento,qg,0,0,0
+thompson_alta_w3,th_pri_wfz,Congelamento,qv,0,0,0
+thompson_alta_w3,th_pri_wfz,Congelamento,qc,0,0,0
+thompson_alta_w3,th_pri_wfz,Congelamento,qr,0,0,0
+thompson_alta_w3,th_pri_wfz,Congelamento,qi,0,0,0
+thompson_alta_w3,th_pri_wfz,Congelamento,qs,0,0,0
+thompson_alta_w3,th_pri_wfz,Congelamento,qg,0,0,0
+thompson_alta_w3,th_prr_gml,Fusão,qv,0,0,0
+thompson_alta_w3,th_prr_gml,Fusão,qc,0,0,0
+thompson_alta_w3,th_prr_gml,Fusão,qr,0.0038762865093657831,0.0038762865093657831,0
+thompson_alta_w3,th_prr_gml,Fusão,qi,0,0,0
+thompson_alta_w3,th_prr_gml,Fusão,qs,0,0,0
+thompson_alta_w3,th_prr_gml,Fusão,qg,-0.0038762865093657831,0,-0.0038762865093657831
+thompson_alta_w3,th_prr_rcw,Coleta quente,qv,0,0,0
+thompson_alta_w3,th_prr_rcw,Coleta quente,qc,0,0,0
+thompson_alta_w3,th_prr_rcw,Coleta quente,qr,0,0,0
+thompson_alta_w3,th_prr_rcw,Coleta quente,qi,0,0,0
+thompson_alta_w3,th_prr_rcw,Coleta quente,qs,0,0,0
+thompson_alta_w3,th_prr_rcw,Coleta quente,qg,0,0,0
+thompson_alta_w3,th_prr_sml,Fusão,qv,0,0,0
+thompson_alta_w3,th_prr_sml,Fusão,qc,0,0,0
+thompson_alta_w3,th_prr_sml,Fusão,qr,1.2081370925463066,1.2081370925463066,0
+thompson_alta_w3,th_prr_sml,Fusão,qi,0,0,0
+thompson_alta_w3,th_prr_sml,Fusão,qs,-1.2081370925463066,0,-1.2081370925463066
+thompson_alta_w3,th_prr_sml,Fusão,qg,0,0,0
+thompson_alta_w3,th_prr_wau,Autoconversão/agregação,qv,0,0,0
+thompson_alta_w3,th_prr_wau,Autoconversão/agregação,qc,-0.026885645897840874,0,-0.026885645897840874
+thompson_alta_w3,th_prr_wau,Autoconversão/agregação,qr,0.026885645897840874,0.026885645897840874,0
+thompson_alta_w3,th_prr_wau,Autoconversão/agregação,qi,0,0,0
+thompson_alta_w3,th_prr_wau,Autoconversão/agregação,qs,0,0,0
+thompson_alta_w3,th_prr_wau,Autoconversão/agregação,qg,0,0,0
+thompson_alta_w3,th_prs_iau,Autoconversão/agregação,qv,0,0,0
+thompson_alta_w3,th_prs_iau,Autoconversão/agregação,qc,0,0,0
+thompson_alta_w3,th_prs_iau,Autoconversão/agregação,qr,0,0,0
+thompson_alta_w3,th_prs_iau,Autoconversão/agregação,qi,0,0,0
+thompson_alta_w3,th_prs_iau,Autoconversão/agregação,qs,0,0,0
+thompson_alta_w3,th_prs_iau,Autoconversão/agregação,qg,0,0,0
+thompson_alta_w3,th_prs_ide,Deposição/sublimação,qv,-0.076225407696804803,0,-0.076225407696804803
+thompson_alta_w3,th_prs_ide,Deposição/sublimação,qc,0,0,0
+thompson_alta_w3,th_prs_ide,Deposição/sublimação,qr,0,0,0
+thompson_alta_w3,th_prs_ide,Deposição/sublimação,qi,0,0,0
+thompson_alta_w3,th_prs_ide,Deposição/sublimação,qs,0.076225407696804803,0.076225407696804803,0
+thompson_alta_w3,th_prs_ide,Deposição/sublimação,qg,0,0,0
+thompson_alta_w3,th_prs_ihm,Gelo secundário,qv,0,0,0
+thompson_alta_w3,th_prs_ihm,Gelo secundário,qc,0,0,0
+thompson_alta_w3,th_prs_ihm,Gelo secundário,qr,0,0,0
+thompson_alta_w3,th_prs_ihm,Gelo secundário,qi,0,0,0
+thompson_alta_w3,th_prs_ihm,Gelo secundário,qs,0,0,0
+thompson_alta_w3,th_prs_ihm,Gelo secundário,qg,0,0,0
+thompson_alta_w3,th_prs_sci,Coleta gelo–gelo,qv,0,0,0
+thompson_alta_w3,th_prs_sci,Coleta gelo–gelo,qc,0,0,0
+thompson_alta_w3,th_prs_sci,Coleta gelo–gelo,qr,0,0,0
+thompson_alta_w3,th_prs_sci,Coleta gelo–gelo,qi,-2.9567875076468546e-05,0,-2.9567875076468546e-05
+thompson_alta_w3,th_prs_sci,Coleta gelo–gelo,qs,2.9567875076468546e-05,2.9567875076468546e-05,0
+thompson_alta_w3,th_prs_sci,Coleta gelo–gelo,qg,0,0,0
+thompson_alta_w3,th_prs_scw,Riming (água de nuvem),qv,0,0,0
+thompson_alta_w3,th_prs_scw,Riming (água de nuvem),qc,0,0,0
+thompson_alta_w3,th_prs_scw,Riming (água de nuvem),qr,0,0,0
+thompson_alta_w3,th_prs_scw,Riming (água de nuvem),qi,0,0,0
+thompson_alta_w3,th_prs_scw,Riming (água de nuvem),qs,0,0,0
+thompson_alta_w3,th_prs_scw,Riming (água de nuvem),qg,0,0,0
+thompson_alta_w3,th_prs_sde,Deposição/sublimação,qv,-1.8144971579842277,0.51452410670277982,-2.3290212646870079
+thompson_alta_w3,th_prs_sde,Deposição/sublimação,qc,0,0,0
+thompson_alta_w3,th_prs_sde,Deposição/sublimação,qr,0,0,0
+thompson_alta_w3,th_prs_sde,Deposição/sublimação,qi,0,0,0
+thompson_alta_w3,th_prs_sde,Deposição/sublimação,qs,1.8144971579842277,2.3290212646870079,-0.51452410670277982
+thompson_alta_w3,th_prs_sde,Deposição/sublimação,qg,0,0,0
+thompson_alta_w3,th_prv_rev,Evaporação precipitação,qv,0.65341224718328994,0.65341224718328994,0
+thompson_alta_w3,th_prv_rev,Evaporação precipitação,qc,0,0,0
+thompson_alta_w3,th_prv_rev,Evaporação precipitação,qr,-0.65341224718328994,0,-0.65341224718328994
+thompson_alta_w3,th_prv_rev,Evaporação precipitação,qi,0,0,0
+thompson_alta_w3,th_prv_rev,Evaporação precipitação,qs,0,0,0
+thompson_alta_w3,th_prv_rev,Evaporação precipitação,qg,0,0,0
+thompson_alta_w3,th_prw_vcd,Condensação/evap. de nuvem,qv,-0.046299285039522284,1.9269217557025526,-1.9732210407420756
+thompson_alta_w3,th_prw_vcd,Condensação/evap. de nuvem,qc,0.046299285039522284,1.9732210407420756,-1.9269217557025526
+thompson_alta_w3,th_prw_vcd,Condensação/evap. de nuvem,qr,0,0,0
+thompson_alta_w3,th_prw_vcd,Condensação/evap. de nuvem,qi,0,0,0
+thompson_alta_w3,th_prw_vcd,Condensação/evap. de nuvem,qs,0,0,0
+thompson_alta_w3,th_prw_vcd,Condensação/evap. de nuvem,qg,0,0,0
+thompson_alta_w3,unattributed_residual,Resíduo não atribuído,qv,-3.5089345189636458e-15,3.4166293768808833e-13,-3.4517187220705203e-13
+thompson_alta_w3,unattributed_residual,Resíduo não atribuído,qc,1.1780846481328357e-16,3.3436000336244101e-15,-3.2257915688111263e-15
+thompson_alta_w3,unattributed_residual,Resíduo não atribuído,qr,-4.1372220220230467e-17,5.9232227862954046e-16,-6.3369449884977091e-16
+thompson_alta_w3,unattributed_residual,Resíduo não atribuído,qi,1.4346317852915391e-19,1.2392710438497066e-18,-1.0958078653205526e-18
+thompson_alta_w3,unattributed_residual,Resíduo não atribuído,qs,-2.9784172069461935e-16,7.9220883887974324e-15,-8.2199301094920527e-15
+thompson_alta_w3,unattributed_residual,Resíduo não atribuído,qg,-1.1450355338943765e-18,4.7708317868986986e-17,-4.8853353402881358e-17
+thompson_alta_w3,ws_paacw_graupel,Riming (água de nuvem),qv,0,0,0
+thompson_alta_w3,ws_paacw_graupel,Riming (água de nuvem),qc,0,0,0
+thompson_alta_w3,ws_paacw_graupel,Riming (água de nuvem),qr,0,0,0
+thompson_alta_w3,ws_paacw_graupel,Riming (água de nuvem),qi,0,0,0
+thompson_alta_w3,ws_paacw_graupel,Riming (água de nuvem),qs,0,0,0
+thompson_alta_w3,ws_paacw_graupel,Riming (água de nuvem),qg,0,0,0
+thompson_alta_w3,ws_paacw_snow,Riming (água de nuvem),qv,0,0,0
+thompson_alta_w3,ws_paacw_snow,Riming (água de nuvem),qc,0,0,0
+thompson_alta_w3,ws_paacw_snow,Riming (água de nuvem),qr,0,0,0
+thompson_alta_w3,ws_paacw_snow,Riming (água de nuvem),qi,0,0,0
+thompson_alta_w3,ws_paacw_snow,Riming (água de nuvem),qs,0,0,0
+thompson_alta_w3,ws_paacw_snow,Riming (água de nuvem),qg,0,0,0
+thompson_alta_w3,ws_paacw_warm,Coleta quente,qv,0,0,0
+thompson_alta_w3,ws_paacw_warm,Coleta quente,qc,0,0,0
+thompson_alta_w3,ws_paacw_warm,Coleta quente,qr,0,0,0
+thompson_alta_w3,ws_paacw_warm,Coleta quente,qi,0,0,0
+thompson_alta_w3,ws_paacw_warm,Coleta quente,qs,0,0,0
+thompson_alta_w3,ws_paacw_warm,Coleta quente,qg,0,0,0
+thompson_alta_w3,ws_pcond,Condensação/evap. de nuvem,qv,0,0,0
+thompson_alta_w3,ws_pcond,Condensação/evap. de nuvem,qc,0,0,0
+thompson_alta_w3,ws_pcond,Condensação/evap. de nuvem,qr,0,0,0
+thompson_alta_w3,ws_pcond,Condensação/evap. de nuvem,qi,0,0,0
+thompson_alta_w3,ws_pcond,Condensação/evap. de nuvem,qs,0,0,0
+thompson_alta_w3,ws_pcond,Condensação/evap. de nuvem,qg,0,0,0
+thompson_alta_w3,ws_pfrzdtc,Congelamento,qv,0,0,0
+thompson_alta_w3,ws_pfrzdtc,Congelamento,qc,0,0,0
+thompson_alta_w3,ws_pfrzdtc,Congelamento,qr,0,0,0
+thompson_alta_w3,ws_pfrzdtc,Congelamento,qi,0,0,0
+thompson_alta_w3,ws_pfrzdtc,Congelamento,qs,0,0,0
+thompson_alta_w3,ws_pfrzdtc,Congelamento,qg,0,0,0
+thompson_alta_w3,ws_pfrzdtr,Congelamento,qv,0,0,0
+thompson_alta_w3,ws_pfrzdtr,Congelamento,qc,0,0,0
+thompson_alta_w3,ws_pfrzdtr,Congelamento,qr,0,0,0
+thompson_alta_w3,ws_pfrzdtr,Congelamento,qi,0,0,0
+thompson_alta_w3,ws_pfrzdtr,Congelamento,qs,0,0,0
+thompson_alta_w3,ws_pfrzdtr,Congelamento,qg,0,0,0
+thompson_alta_w3,ws_pgaci,Coleta gelo–gelo,qv,0,0,0
+thompson_alta_w3,ws_pgaci,Coleta gelo–gelo,qc,0,0,0
+thompson_alta_w3,ws_pgaci,Coleta gelo–gelo,qr,0,0,0
+thompson_alta_w3,ws_pgaci,Coleta gelo–gelo,qi,0,0,0
+thompson_alta_w3,ws_pgaci,Coleta gelo–gelo,qs,0,0,0
+thompson_alta_w3,ws_pgaci,Coleta gelo–gelo,qg,0,0,0
+thompson_alta_w3,ws_pgacr,Coleta chuva–gelo,qv,0,0,0
+thompson_alta_w3,ws_pgacr,Coleta chuva–gelo,qc,0,0,0
+thompson_alta_w3,ws_pgacr,Coleta chuva–gelo,qr,0,0,0
+thompson_alta_w3,ws_pgacr,Coleta chuva–gelo,qi,0,0,0
+thompson_alta_w3,ws_pgacr,Coleta chuva–gelo,qs,0,0,0
+thompson_alta_w3,ws_pgacr,Coleta chuva–gelo,qg,0,0,0
+thompson_alta_w3,ws_pgacs,Coleta gelo–gelo,qv,0,0,0
+thompson_alta_w3,ws_pgacs,Coleta gelo–gelo,qc,0,0,0
+thompson_alta_w3,ws_pgacs,Coleta gelo–gelo,qr,0,0,0
+thompson_alta_w3,ws_pgacs,Coleta gelo–gelo,qi,0,0,0
+thompson_alta_w3,ws_pgacs,Coleta gelo–gelo,qs,0,0,0
+thompson_alta_w3,ws_pgacs,Coleta gelo–gelo,qg,0,0,0
+thompson_alta_w3,ws_pgaut,Autoconversão/agregação,qv,0,0,0
+thompson_alta_w3,ws_pgaut,Autoconversão/agregação,qc,0,0,0
+thompson_alta_w3,ws_pgaut,Autoconversão/agregação,qr,0,0,0
+thompson_alta_w3,ws_pgaut,Autoconversão/agregação,qi,0,0,0
+thompson_alta_w3,ws_pgaut,Autoconversão/agregação,qs,0,0,0
+thompson_alta_w3,ws_pgaut,Autoconversão/agregação,qg,0,0,0
+thompson_alta_w3,ws_pgdep,Deposição/sublimação,qv,0,0,0
+thompson_alta_w3,ws_pgdep,Deposição/sublimação,qc,0,0,0
+thompson_alta_w3,ws_pgdep,Deposição/sublimação,qr,0,0,0
+thompson_alta_w3,ws_pgdep,Deposição/sublimação,qi,0,0,0
+thompson_alta_w3,ws_pgdep,Deposição/sublimação,qs,0,0,0
+thompson_alta_w3,ws_pgdep,Deposição/sublimação,qg,0,0,0
+thompson_alta_w3,ws_pgeml,Fusão,qv,0,0,0
+thompson_alta_w3,ws_pgeml,Fusão,qc,0,0,0
+thompson_alta_w3,ws_pgeml,Fusão,qr,0,0,0
+thompson_alta_w3,ws_pgeml,Fusão,qi,0,0,0
+thompson_alta_w3,ws_pgeml,Fusão,qs,0,0,0
+thompson_alta_w3,ws_pgeml,Fusão,qg,0,0,0
+thompson_alta_w3,ws_pgevp,Evaporação precipitação,qv,0,0,0
+thompson_alta_w3,ws_pgevp,Evaporação precipitação,qc,0,0,0
+thompson_alta_w3,ws_pgevp,Evaporação precipitação,qr,0,0,0
+thompson_alta_w3,ws_pgevp,Evaporação precipitação,qi,0,0,0
+thompson_alta_w3,ws_pgevp,Evaporação precipitação,qs,0,0,0
+thompson_alta_w3,ws_pgevp,Evaporação precipitação,qg,0,0,0
+thompson_alta_w3,ws_pgmlt,Fusão,qv,0,0,0
+thompson_alta_w3,ws_pgmlt,Fusão,qc,0,0,0
+thompson_alta_w3,ws_pgmlt,Fusão,qr,0,0,0
+thompson_alta_w3,ws_pgmlt,Fusão,qi,0,0,0
+thompson_alta_w3,ws_pgmlt,Fusão,qs,0,0,0
+thompson_alta_w3,ws_pgmlt,Fusão,qg,0,0,0
+thompson_alta_w3,ws_piacr,Coleta chuva–gelo,qv,0,0,0
+thompson_alta_w3,ws_piacr,Coleta chuva–gelo,qc,0,0,0
+thompson_alta_w3,ws_piacr,Coleta chuva–gelo,qr,0,0,0
+thompson_alta_w3,ws_piacr,Coleta chuva–gelo,qi,0,0,0
+thompson_alta_w3,ws_piacr,Coleta chuva–gelo,qs,0,0,0
+thompson_alta_w3,ws_piacr,Coleta chuva–gelo,qg,0,0,0
+thompson_alta_w3,ws_pidep,Deposição/sublimação,qv,0,0,0
+thompson_alta_w3,ws_pidep,Deposição/sublimação,qc,0,0,0
+thompson_alta_w3,ws_pidep,Deposição/sublimação,qr,0,0,0
+thompson_alta_w3,ws_pidep,Deposição/sublimação,qi,0,0,0
+thompson_alta_w3,ws_pidep,Deposição/sublimação,qs,0,0,0
+thompson_alta_w3,ws_pidep,Deposição/sublimação,qg,0,0,0
+thompson_alta_w3,ws_pigen,Nucleação de gelo,qv,0,0,0
+thompson_alta_w3,ws_pigen,Nucleação de gelo,qc,0,0,0
+thompson_alta_w3,ws_pigen,Nucleação de gelo,qr,0,0,0
+thompson_alta_w3,ws_pigen,Nucleação de gelo,qi,0,0,0
+thompson_alta_w3,ws_pigen,Nucleação de gelo,qs,0,0,0
+thompson_alta_w3,ws_pigen,Nucleação de gelo,qg,0,0,0
+thompson_alta_w3,ws_pihmf,Congelamento,qv,0,0,0
+thompson_alta_w3,ws_pihmf,Congelamento,qc,0,0,0
+thompson_alta_w3,ws_pihmf,Congelamento,qr,0,0,0
+thompson_alta_w3,ws_pihmf,Congelamento,qi,0,0,0
+thompson_alta_w3,ws_pihmf,Congelamento,qs,0,0,0
+thompson_alta_w3,ws_pihmf,Congelamento,qg,0,0,0
+thompson_alta_w3,ws_pimlt,Fusão,qv,0,0,0
+thompson_alta_w3,ws_pimlt,Fusão,qc,0,0,0
+thompson_alta_w3,ws_pimlt,Fusão,qr,0,0,0
+thompson_alta_w3,ws_pimlt,Fusão,qi,0,0,0
+thompson_alta_w3,ws_pimlt,Fusão,qs,0,0,0
+thompson_alta_w3,ws_pimlt,Fusão,qg,0,0,0
+thompson_alta_w3,ws_praci,Coleta chuva–gelo,qv,0,0,0
+thompson_alta_w3,ws_praci,Coleta chuva–gelo,qc,0,0,0
+thompson_alta_w3,ws_praci,Coleta chuva–gelo,qr,0,0,0
+thompson_alta_w3,ws_praci,Coleta chuva–gelo,qi,0,0,0
+thompson_alta_w3,ws_praci,Coleta chuva–gelo,qs,0,0,0
+thompson_alta_w3,ws_praci,Coleta chuva–gelo,qg,0,0,0
+thompson_alta_w3,ws_pracs,Coleta chuva–gelo,qv,0,0,0
+thompson_alta_w3,ws_pracs,Coleta chuva–gelo,qc,0,0,0
+thompson_alta_w3,ws_pracs,Coleta chuva–gelo,qr,0,0,0
+thompson_alta_w3,ws_pracs,Coleta chuva–gelo,qi,0,0,0
+thompson_alta_w3,ws_pracs,Coleta chuva–gelo,qs,0,0,0
+thompson_alta_w3,ws_pracs,Coleta chuva–gelo,qg,0,0,0
+thompson_alta_w3,ws_pracw,Coleta quente,qv,0,0,0
+thompson_alta_w3,ws_pracw,Coleta quente,qc,0,0,0
+thompson_alta_w3,ws_pracw,Coleta quente,qr,0,0,0
+thompson_alta_w3,ws_pracw,Coleta quente,qi,0,0,0
+thompson_alta_w3,ws_pracw,Coleta quente,qs,0,0,0
+thompson_alta_w3,ws_pracw,Coleta quente,qg,0,0,0
+thompson_alta_w3,ws_praut,Autoconversão/agregação,qv,0,0,0
+thompson_alta_w3,ws_praut,Autoconversão/agregação,qc,0,0,0
+thompson_alta_w3,ws_praut,Autoconversão/agregação,qr,0,0,0
+thompson_alta_w3,ws_praut,Autoconversão/agregação,qi,0,0,0
+thompson_alta_w3,ws_praut,Autoconversão/agregação,qs,0,0,0
+thompson_alta_w3,ws_praut,Autoconversão/agregação,qg,0,0,0
+thompson_alta_w3,ws_prevp,Evaporação precipitação,qv,0,0,0
+thompson_alta_w3,ws_prevp,Evaporação precipitação,qc,0,0,0
+thompson_alta_w3,ws_prevp,Evaporação precipitação,qr,0,0,0
+thompson_alta_w3,ws_prevp,Evaporação precipitação,qi,0,0,0
+thompson_alta_w3,ws_prevp,Evaporação precipitação,qs,0,0,0
+thompson_alta_w3,ws_prevp,Evaporação precipitação,qg,0,0,0
+thompson_alta_w3,ws_psaci,Coleta gelo–gelo,qv,0,0,0
+thompson_alta_w3,ws_psaci,Coleta gelo–gelo,qc,0,0,0
+thompson_alta_w3,ws_psaci,Coleta gelo–gelo,qr,0,0,0
+thompson_alta_w3,ws_psaci,Coleta gelo–gelo,qi,0,0,0
+thompson_alta_w3,ws_psaci,Coleta gelo–gelo,qs,0,0,0
+thompson_alta_w3,ws_psaci,Coleta gelo–gelo,qg,0,0,0
+thompson_alta_w3,ws_psacr,Coleta chuva–gelo,qv,0,0,0
+thompson_alta_w3,ws_psacr,Coleta chuva–gelo,qc,0,0,0
+thompson_alta_w3,ws_psacr,Coleta chuva–gelo,qr,0,0,0
+thompson_alta_w3,ws_psacr,Coleta chuva–gelo,qi,0,0,0
+thompson_alta_w3,ws_psacr,Coleta chuva–gelo,qs,0,0,0
+thompson_alta_w3,ws_psacr,Coleta chuva–gelo,qg,0,0,0
+thompson_alta_w3,ws_psaut,Autoconversão/agregação,qv,0,0,0
+thompson_alta_w3,ws_psaut,Autoconversão/agregação,qc,0,0,0
+thompson_alta_w3,ws_psaut,Autoconversão/agregação,qr,0,0,0
+thompson_alta_w3,ws_psaut,Autoconversão/agregação,qi,0,0,0
+thompson_alta_w3,ws_psaut,Autoconversão/agregação,qs,0,0,0
+thompson_alta_w3,ws_psaut,Autoconversão/agregação,qg,0,0,0
+thompson_alta_w3,ws_psdep,Deposição/sublimação,qv,0,0,0
+thompson_alta_w3,ws_psdep,Deposição/sublimação,qc,0,0,0
+thompson_alta_w3,ws_psdep,Deposição/sublimação,qr,0,0,0
+thompson_alta_w3,ws_psdep,Deposição/sublimação,qi,0,0,0
+thompson_alta_w3,ws_psdep,Deposição/sublimação,qs,0,0,0
+thompson_alta_w3,ws_psdep,Deposição/sublimação,qg,0,0,0
+thompson_alta_w3,ws_pseml,Fusão,qv,0,0,0
+thompson_alta_w3,ws_pseml,Fusão,qc,0,0,0
+thompson_alta_w3,ws_pseml,Fusão,qr,0,0,0
+thompson_alta_w3,ws_pseml,Fusão,qi,0,0,0
+thompson_alta_w3,ws_pseml,Fusão,qs,0,0,0
+thompson_alta_w3,ws_pseml,Fusão,qg,0,0,0
+thompson_alta_w3,ws_psevp,Evaporação precipitação,qv,0,0,0
+thompson_alta_w3,ws_psevp,Evaporação precipitação,qc,0,0,0
+thompson_alta_w3,ws_psevp,Evaporação precipitação,qr,0,0,0
+thompson_alta_w3,ws_psevp,Evaporação precipitação,qi,0,0,0
+thompson_alta_w3,ws_psevp,Evaporação precipitação,qs,0,0,0
+thompson_alta_w3,ws_psevp,Evaporação precipitação,qg,0,0,0
+thompson_alta_w3,ws_psmlt,Fusão,qv,0,0,0
+thompson_alta_w3,ws_psmlt,Fusão,qc,0,0,0
+thompson_alta_w3,ws_psmlt,Fusão,qr,0,0,0
+thompson_alta_w3,ws_psmlt,Fusão,qi,0,0,0
+thompson_alta_w3,ws_psmlt,Fusão,qs,0,0,0
+thompson_alta_w3,ws_psmlt,Fusão,qg,0,0,0

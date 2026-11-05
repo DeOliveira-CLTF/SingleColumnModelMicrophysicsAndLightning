@@ -1,0 +1,11 @@
+At line 157 of file src/mp_offline_driver.F90
+Fortran runtime error: Cannot match namelist object name .0
+
+Error termination. Backtrace:
+#0  0x7f58e645fe59 in ???
+#1  0x7f58e6460a71 in ???
+#2  0x7f58e66f19d9 in ???
+#3  0x7f58e66fb565 in ???
+#4  0x7f58e66fb8f5 in ???
+#5  0x55d52b7c3813 in MAIN__
+#6  0x55d52b75b42e in main

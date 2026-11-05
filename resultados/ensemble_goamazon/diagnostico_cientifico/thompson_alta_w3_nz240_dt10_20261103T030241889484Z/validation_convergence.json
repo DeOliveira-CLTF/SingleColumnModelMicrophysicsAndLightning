@@ -1,0 +1,47 @@
+{
+  "valid": true,
+  "errors": [],
+  "warnings": [
+    "RH quente initial >101% (diagnóstico Bolton)",
+    "Camada superior artificial do GOAMAZON; ensemble idealizado, sem validação observacional"
+  ],
+  "details": {
+    "dz_min_max_m": [
+      12.5,
+      266.85686838626134
+    ],
+    "rh_warm_initial_max_percent": 101.13122992617656,
+    "rh_warm_initial_above101_count": 4,
+    "rh_warm_evolution_max_percent": 100.08087559382064,
+    "rh_warm_evolution_above101_count": 0,
+    "temperature_min_max_K": [
+      157.8302944842495,
+      298.97950087736956
+    ],
+    "temperature_above16500m_min_K": 157.8302944842495,
+    "samples": 721,
+    "last_time_s": 7200.0
+  },
+  "initial_perturbation_checked": true,
+  "input_sha256": "aacf5e194d19f9bb15bc036f48bef94f99bcb0c96f9ff1928751af7c268e9161",
+  "actual_saturated_centers_m": [
+    7531.1732235874615,
+    7640.748769213906,
+    7751.736725040355,
+    7864.155296794754,
+    7978.022924873794,
+    8093.3582873677515,
+    8210.180303124318,
+    8328.508134851925,
+    8448.361192263066,
+    8569.759135258133,
+    8692.721877150307,
+    8817.26958793199,
+    8943.422697583374,
+    9071.201899423624,
+    9200.628153505286,
+    9331.722690052422,
+    9464.507012943082
+  ],
+  "water_added_initial_kg_m2": 0.6721522897269717
+}

@@ -49,6 +49,7 @@ FFLAGS := -cpp -Dmpas -ffree-form -ffree-line-length-none -fdefault-real-8 -fdef
 
 # ---- object files, in dependency order (see the comment block at the end for why) ----
 COMMON_OBJS := \
+  $(BUILD)/process_diagnostics.o \
   $(BUILD)/mpas_stubs_offline.o \
   $(BUILD)/mpas_constants.o \
   $(BUILD)/mpas_atmphys_constants.o \
@@ -76,6 +77,7 @@ MP_DRIVER_OBJS := $(COMMON_OBJS) $(MYNN_OBJS) \
   $(BUILD)/mp_offline_driver.o
 
 ENSEMBLE_DRIVER_OBJS := $(COMMON_OBJS) \
+  $(BUILD)/goamazon_bridge.o \
   $(BUILD)/era5_bridge.o \
   $(BUILD)/saturation_perturbation.o \
   $(BUILD)/updraft_forcing.o \
@@ -116,11 +118,13 @@ $(BUILD)/%.o: $(UEDMF)/%.F90 | $(BUILD)
 # ---- explicit dependency edges (Fortran `use` statements) so a from-scratch
 #      `make -j` builds every file only after the modules it uses exist ----
 $(BUILD)/mpas_constants.o: $(BUILD)/mpas_stubs_offline.o
-$(BUILD)/mpas_atmphys_constants.o: $(BUILD)/mpas_stubs_offline.o
+$(BUILD)/ccpp_kind_types.o: $(BUILD)/mpas_stubs_offline.o
+$(BUILD)/mpas_atmphys_constants.o: $(BUILD)/mpas_stubs_offline.o $(BUILD)/mpas_constants.o
 $(BUILD)/mpas_atmphys_functions.o: $(BUILD)/mpas_stubs_offline.o
 $(BUILD)/module_mp_radar.o: $(BUILD)/ccpp_kind_types.o
-$(BUILD)/module_mp_thompson.o: $(BUILD)/mpas_stubs_offline.o $(BUILD)/mpas_atmphys_functions.o $(BUILD)/module_mp_radar.o
-$(BUILD)/mp_wsm6.o: $(BUILD)/ccpp_kind_types.o $(BUILD)/module_libmassv.o $(BUILD)/module_mp_radar.o
+$(BUILD)/process_diagnostics.o: $(BUILD)/mpas_stubs_offline.o
+$(BUILD)/module_mp_thompson.o: $(BUILD)/mpas_stubs_offline.o $(BUILD)/mpas_atmphys_functions.o $(BUILD)/module_mp_radar.o $(BUILD)/process_diagnostics.o
+$(BUILD)/mp_wsm6.o: $(BUILD)/ccpp_kind_types.o $(BUILD)/module_libmassv.o $(BUILD)/module_mp_radar.o $(BUILD)/process_diagnostics.o
 $(BUILD)/mp_wsm6_effectRad.o: $(BUILD)/ccpp_kind_types.o $(BUILD)/mp_wsm6.o
 $(BUILD)/module_mp_wsm6.o: $(BUILD)/mpas_stubs_offline.o $(BUILD)/mp_wsm6.o $(BUILD)/mp_wsm6_effectRad.o
 $(BUILD)/mpas_atmphys_lightning.o: $(BUILD)/mpas_stubs_offline.o

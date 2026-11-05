@@ -1,0 +1,6 @@
+# Versions used for this analysis; Python 3.11+ recommended.
+numpy==1.26.4
+pandas==3.0.3
+xarray==2025.6.1
+matplotlib==3.11.0
+netCDF4==1.7.2

@@ -1,5 +1,5 @@
 &MP_OFFLINE
- PATH_INPUT="data/GOAMAZON_SINGLE_SCM_driver.nc                                                                                                                                                                                                                              ",
+ PATH_INPUT="data_goamazon/GOAMAZON_SINGLE_SCM_driver.nc                                                                                                                                                                                                                              ",
  PATH_OUTPUT="output_mp_offline.nc                                                                                                                                                                                                                                            ",
  NZ=60         ,
  ZTOP=  20000.000000000000     ,

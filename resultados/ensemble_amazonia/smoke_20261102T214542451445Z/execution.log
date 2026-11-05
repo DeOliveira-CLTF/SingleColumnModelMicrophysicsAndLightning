@@ -1,0 +1,2 @@
+era5_bridge: pressure_level was stored surface-to-TOA in this file -- reversing to TOA-to-surface order internally (see era5_bridge.F90).
+member 1 (amazonia_8S_63W/baixa) done

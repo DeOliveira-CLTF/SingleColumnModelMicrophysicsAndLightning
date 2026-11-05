@@ -1,0 +1,12 @@
+{
+  "directory": "resultados\\ensemble_goamazon\\controle_inicial\\20261105T011417462998Z",
+  "input_sha256": "aacf5e194d19f9bb15bc036f48bef94f99bcb0c96f9ff1928751af7c268e9161",
+  "binary_sha256": "9e12e693e8e8289fe33ca3327892041173c5cbb4bbbf9b47e4d47961749e9a00",
+  "source_sha256": "8389fc876bf1869f7088a29f55e1d92f62094e9a4ad61bef1c928cfd3a45623f",
+  "legacy_regression_bit_identical": true,
+  "initializations_verified": 9,
+  "scientific_runs_controlled": 0,
+  "energy_treatment": "Fixed temperature, externally supplied vapor; latent source Lv*dM declared, not energy-conserving adjustment",
+  "method": "Native 10m piecewise-linear dry-density weighted positive saturation deficit, integrated over exact physical overlap; model-cell mean increments",
+  "pending": "Transport/mass-continuity methodological choice before repeating resolution or process attribution"
+}

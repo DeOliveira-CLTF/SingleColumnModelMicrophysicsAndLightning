@@ -43,11 +43,13 @@ program ensemble_driver
   use module_mp_wsm6, only : wsm6
   use mp_wsm6, only : mp_wsm6_init
   use era5_bridge
+  use goamazon_bridge, only : goamazon_file_type, goamazon_open, goamazon_close, goamazon_get_initial_profile
   use saturation_perturbation, only : saturate_layer
   use updraft_forcing, only : combined_w
   use output_mp_netcdf
   use output_ensemble_netcdf
   use mpas_atmphys_lightning, only : driver_lightning
+  use process_diagnostics, only: pd_open,pd_begin,pd_finish,pd_close
 
   implicit none
 
@@ -56,6 +58,11 @@ program ensemble_driver
 
   ! ---- ensemble member definitions (namelist) ----
   integer :: npoints = 0, nsatconfigs = 0
+  character(len=32) :: input_source = 'era5'
+  character(len=256) :: path_goamazon = ''
+  ! Optional cell-integrated, resolution-controlled vapor perturbation.
+  ! Empty preserves the historical saturate_layer initialization exactly.
+  character(len=256) :: path_initial_perturbation = ''
   character(len=256) :: path_pl(NPOINTS_MAX) = ''
   character(len=256) :: path_sl(NPOINTS_MAX) = ''
   character(len=64)  :: point_label(NPOINTS_MAX) = ''
@@ -78,14 +85,19 @@ program ensemble_driver
   character(len=256) :: path_summary = 'ensemble_summary.nc'
   character(len=256) :: path_profile_prefix = 'member'
   logical :: write_profiles = .false.
+  logical :: write_water_budget = .false.
+  logical :: write_process_diagnostics = .false.
+  integer :: budget_unit
+  real(kind=RKIND), allocatable :: budget_mass(:), budget_before(:), budget_adv(:), budget_native(:)
+  real(kind=RKIND) :: budget_storage_before, budget_storage_after, budget_rain_before
   character(len=32) :: microp_scheme = 'thompson'  ! 'thompson' or 'wsm6'
 
-  namelist /ensemble/ npoints, nsatconfigs, path_pl, path_sl, point_label, &
+  namelist /ensemble/ input_source, path_goamazon, path_initial_perturbation, npoints, nsatconfigs, path_pl, path_sl, point_label, &
        &              target_lat, target_lon, itime_pick, &
        &              sat_z_lo, sat_z_hi, sat_rh_target, satconfig_label, &
        &              nz, ztop, dz0, dt_microp, run_duration_s, &
        &              pulse_sigma_z, pulse_duration_s, pulse_w_max, &
-       &              path_summary, path_profile_prefix, write_profiles, microp_scheme
+       &              path_summary, path_profile_prefix, write_profiles, microp_scheme, write_water_budget, write_process_diagnostics
 
   real(kind=RKIND), allocatable :: z(:), dz(:)
   real(kind=RKIND), allocatable :: th(:,:,:), qv(:,:,:), qc(:,:,:), qr(:,:,:), &
@@ -107,6 +119,7 @@ program ensemble_driver
 
   type(era5_file_type) :: efile
   type(era5_column_type) :: col
+  type(goamazon_file_type) :: gfile
 
   integer :: ip, is, iu, k, k_lo, k_hi, itimestep, member_count
   real(kind=RKIND) :: t_sec
@@ -126,6 +139,8 @@ program ensemble_driver
 
   if (npoints < 1 .or. npoints > NPOINTS_MAX) stop 'ensemble_driver: npoints out of range'
   if (nsatconfigs < 1 .or. nsatconfigs > NSATCONFIGS_MAX) stop 'ensemble_driver: nsatconfigs out of range'
+  if (trim(input_source)/='era5' .and. trim(input_source)/='goamazon') error stop 'Unknown input_source'
+  if (trim(input_source)=='goamazon' .and. npoints/=1) error stop 'GOAMAZON requires npoints=1'
 
   allocate(z(nz), dz(nz))
   call build_vertical_grid(nz, dz0, ztop, z, dz)
@@ -135,6 +150,7 @@ program ensemble_driver
   allocate(pres(1,nz,1), pii(1,nz,1), w3(1,nz,1))
   allocate(re_cloud(1,nz,1), re_ice(1,nz,1), re_snow(1,nz,1))
   allocate(w_era5(nz))
+  allocate(budget_mass(nz),budget_before(nz),budget_adv(nz),budget_native(nz))
 
   ids=1; ide=2; jds=1; jde=2; kds=1; kde=nz   ! ide/jde=2: mp_gt_driver loops i=its..MIN(ite,ide-1); ide=1 made it a no-op
   ims=1; ime=1; jms=1; jme=1; kms=1; kme=nz
@@ -156,10 +172,15 @@ program ensemble_driver
   member_count = 0
   do ip = 1, npoints
 
+    if (trim(input_source)=='goamazon') then
+      call goamazon_open(trim(path_goamazon), gfile)
+      if (minval(z)<minval(gfile%lev) .or. maxval(z)>maxval(gfile%lev)) error stop 'GOAMAZON height coverage'
+    else
     call era5_open(trim(path_pl(ip)), trim(path_sl(ip)), efile)
     call nearest_index(efile%lon, size(efile%lon), target_lon(ip), ilon)
     call nearest_index(efile%lat, size(efile%lat), target_lat(ip), ilat)
     call era5_read_column(efile, ilon, ilat, itime_pick(ip), col)
+    end if
 
     do is = 1, nsatconfigs
 
@@ -167,15 +188,35 @@ program ensemble_driver
 
       ! regrid the ERA5 column (TOA-to-surface order, see era5_bridge.F90)
       ! onto our own driver grid, surface-up
+      if (trim(input_source)=='goamazon') then
+        ! Same idealized experiment as ERA5: initial thermodynamic profile,
+        ! initial wa held fixed; no horizontal/time-varying forcing or MYNN.
+        ! rv/rl/ri are already mixing ratios; lev is height above ground.
+        block
+          real(kind=RKIND) :: u0(nz), v0(nz), ps0
+          call goamazon_get_initial_profile(gfile,nz,z,pres(1,:,1),th(1,:,1),qv(1,:,1), &
+               qc(1,:,1),qi(1,:,1),u0,v0,ps0)
+          call interp1(gfile%nlev,gfile%lev,gfile%wa(:,1),nz,z,w_era5)
+        end block
+      else
       call regrid_era5_to_driver(col, nz, z, pres(1,:,1), th(1,:,1), qv(1,:,1), &
            &                      qc(1,:,1), qi(1,:,1), w_era5)
+      end if
       qr = 0.0_RKIND; qs = 0.0_RKIND; qg = 0.0_RKIND; ni = 0.0_RKIND; nr = 0.0_RKIND
       pii = (pres/p0)**rcp
+      if (write_water_budget) budget_mass=pres(1,:,1)/(th(1,:,1)*pii(1,:,1)* &
+           (R_d+R_v*qv(1,:,1)))*dz
 
       ! locate the driver-grid layers spanning [sat_z_lo,sat_z_hi] and saturate them
-      call bracket_layers(nz, z, sat_z_lo(is), sat_z_hi(is), k_lo, k_hi)
-      call saturate_layer(nz, pres(1,:,1), th(1,:,1)*pii(1,:,1), k_lo, k_hi, sat_rh_target(is), &
-           &               qv(1,:,1), qc(1,:,1), qi(1,:,1))
+      if (len_trim(path_initial_perturbation)>0) then
+        if (trim(input_source)/='goamazon' .or. nsatconfigs/=1) error stop 'Controlled perturbation requires one GOAMAZON layer'
+        call apply_controlled_perturbation(trim(path_initial_perturbation),nz,z,dz,pres(1,:,1), &
+             th(1,:,1)*pii(1,:,1),qv(1,:,1))
+      else
+        call bracket_layers(nz, z, sat_z_lo(is), sat_z_hi(is), k_lo, k_hi)
+        call saturate_layer(nz, pres(1,:,1), th(1,:,1)*pii(1,:,1), k_lo, k_hi, sat_rh_target(is), &
+             &               qv(1,:,1), qc(1,:,1), qi(1,:,1))
+      end if
 
       ntc = 300.0e6_RKIND
       muc = min(15.0_RKIND, 1000.0e6_RKIND/ntc(1,1) + 2.0_RKIND)
@@ -196,14 +237,43 @@ program ensemble_driver
       end if
 
       t_sec = 0.0_RKIND
+      if(write_process_diagnostics) then
+        write(profile_path,'(A,A,I0,A)') trim(path_profile_prefix),'_processes_',member_count,'.csv'
+        call pd_open(trim(profile_path),nz)
+      end if
+      if (write_water_budget) then
+        write(profile_path,'(A,A,I0,A)') trim(path_profile_prefix),'_water_budget_',member_count,'.csv'
+        open(newunit=budget_unit,file=trim(profile_path),status='replace',action='write')
+        write(budget_unit,'(A)') 'time_s,storage_before_mm,storage_after_mm,transport_ref_mm,'// &
+          'micro_ref_mm,precip_mm,micro_native_mm,weight_conversion_mm,density_remap_mm'
+      end if
       itimestep = 0
       do while (t_sec < run_duration_s)
         w3(1,:,1) = combined_w(nz, z, w_era5, t_sec, 0.5_RKIND*(sat_z_lo(is)+sat_z_hi(is)), &
              &                 pulse_sigma_z, pulse_duration_s, pulse_w_max)
         pii = (pres/p0)**rcp
-        call apply_vertical_advection(nz, dz, dt_microp, w3(1,:,1), th(1,:,1), qv(1,:,1))
+        if (write_water_budget) then
+          budget_before=total_water()
+          budget_storage_before=eulerian_water()
+          budget_rain_before=rainnc(1,1)
+        end if
+        if (trim(input_source)=='goamazon') then
+          call advect_upwind(nz,z,dt_microp,w3(1,:,1),th(1,:,1),qv(1,:,1))
+        else
+          call apply_vertical_advection(nz, dz, dt_microp, w3(1,:,1), th(1,:,1), qv(1,:,1))
+        end if
 
+        if (write_water_budget) then
+          budget_adv=total_water()
+          if (trim(microp_scheme)=='wsm6') then
+            budget_native=pres(1,:,1)/(R_d*th(1,:,1)*pii(1,:,1)*(1._RKIND+0.61_RKIND*qv(1,:,1)))*dz
+          else
+            ! Thompson's own density convention, not the exact dry-air mass.
+            budget_native=0.622_RKIND*pres(1,:,1)/(287.04_RKIND*th(1,:,1)*pii(1,:,1)*(qv(1,:,1)+0.622_RKIND))*dz
+          end if
+        end if
         itimestep = itimestep + 1
+        if(write_process_diagnostics) call pd_begin(process_state())
         if (trim(microp_scheme) == 'wsm6') then
           block
             real(kind=RKIND) :: tt_col(nz), rho_col(nz)
@@ -247,6 +317,15 @@ program ensemble_driver
         end if
 
         t_sec = t_sec + dt_microp
+        if(write_process_diagnostics) call pd_finish(t_sec,process_state())
+        if (write_water_budget) then
+          budget_storage_after=eulerian_water()
+          write(budget_unit,'(*(ES25.16E3,:,","))') t_sec,budget_storage_before,budget_storage_after, &
+            sum(budget_mass*(budget_adv-budget_before)),sum(budget_mass*(total_water()-budget_adv)), &
+            rainnc(1,1)-budget_rain_before,sum(budget_native*(total_water()-budget_adv)), &
+            sum((budget_mass-budget_native)*(total_water()-budget_adv)), &
+            budget_storage_after-budget_storage_before-sum(budget_mass*(total_water()-budget_before))
+        end if
 
         block
           real(kind=RKIND) :: tt_lit(nz), rho_lit(nz)
@@ -280,6 +359,8 @@ program ensemble_driver
       end do
 
       if (write_profiles) call output_close()
+      if(write_process_diagnostics) call pd_close()
+      if (write_water_budget) close(budget_unit)
 
       block
         real(kind=RKIND), parameter :: snow_to_liquid_ratio = 10.0_RKIND  ! 10:1 by depth -- typical
@@ -304,13 +385,96 @@ program ensemble_driver
 
     end do
 
-    call era5_close(efile)
+    if (trim(input_source)=='goamazon') then
+      call goamazon_close(gfile)
+    else
+      call era5_close(efile)
+    end if
 
   end do
 
   call ensemble_summary_close()
 
 contains
+
+  function process_state() result(state)
+    real(RKIND) :: state(6,nz)
+    state(1,:)=qv(1,:,1); state(2,:)=qc(1,:,1); state(3,:)=qr(1,:,1)
+    state(4,:)=qi(1,:,1); state(5,:)=qs(1,:,1); state(6,:)=qg(1,:,1)
+  end function
+
+  function total_water() result(rt)
+    real(kind=RKIND) :: rt(nz)
+    rt=qv(1,:,1)+qc(1,:,1)+qr(1,:,1)+qi(1,:,1)+qs(1,:,1)+qg(1,:,1)
+  end function
+
+  function eulerian_water() result(water)
+    real(kind=RKIND) :: water
+    water=sum(pres(1,:,1)/(th(1,:,1)*pii(1,:,1)*(R_d+R_v*qv(1,:,1)))*dz*total_water())
+  end function
+
+  subroutine apply_controlled_perturbation(path,n,z,dz,p,t,rv)
+    use, intrinsic :: ieee_arithmetic, only: ieee_is_finite
+    character(len=*), intent(in) :: path
+    integer, intent(in) :: n
+    real(kind=RKIND), intent(in) :: z(n),dz(n),p(n),t(n)
+    real(kind=RKIND), intent(inout) :: rv(n)
+    integer :: unit,nn,k,ios
+    real(kind=RKIND) :: target,latent,zfile(n),delta(n),mass(n),fraction(n),expected(n),total
+    open(newunit=unit,file=path,status='old',action='read',iostat=ios)
+    if(ios/=0) error stop 'Cannot read controlled perturbation'
+    read(unit,*,iostat=ios) nn,target,latent
+    if(ios/=0.or.nn/=n) error stop 'Controlled perturbation header/grid mismatch'
+    do k=1,n
+      read(unit,*,iostat=ios) zfile(k),delta(k),mass(k),fraction(k)
+      if(ios/=0) error stop 'Controlled perturbation incomplete'
+    end do
+    close(unit)
+    if(.not.all(ieee_is_finite(zfile)).or..not.all(ieee_is_finite(delta)).or. &
+       .not.all(ieee_is_finite(mass)).or..not.all(ieee_is_finite(fraction))) error stop 'Nonfinite perturbation'
+    if(.not.ieee_is_finite(target).or..not.ieee_is_finite(latent)) error stop 'Nonfinite target'
+    if(any(delta<0._RKIND).or.any(mass<=0._RKIND).or.any(fraction<0._RKIND).or.any(fraction>1._RKIND)) &
+      error stop 'Invalid perturbation values'
+    if(any(abs(zfile-z)>1.e-7_RKIND)) error stop 'Controlled perturbation centers mismatch'
+    expected=p/(t*(R_d+R_v*rv))*dz
+    if(any(abs(mass-expected)>1.e-10_RKIND*max(1._RKIND,expected))) error stop 'Reference dry-air mass mismatch'
+    total=sum(mass*delta)
+    if(abs(total-target)>1.e-11_RKIND*max(1._RKIND,abs(target))) error stop 'Controlled water dose mismatch'
+    if(abs(latent-xlv*target)>1.e-9_RKIND*max(1._RKIND,abs(latent))) error stop 'Latent-energy declaration mismatch'
+    ! External moisture source at fixed T; no hidden latent-heat compensation.
+    rv=rv+delta
+  end subroutine apply_controlled_perturbation
+
+  subroutine advect_upwind(nz,z,dt,w,th,qv)
+    ! Monotone explicit transport of the SAME advective equations -w*d(phi)/dz.
+    ! Centered forward-Euler transport is unstable for the strong pulse.
+    ! Actual center distances, CFL<=0.8 substeps, zero-gradient inflow boundaries.
+    ! This changes numerical transport, not microphysics or pulse parameters.
+    integer, intent(in) :: nz
+    real(kind=RKIND), intent(in) :: z(nz),dt,w(nz)
+    real(kind=RKIND), intent(inout) :: th(nz),qv(nz)
+    real(kind=RKIND) :: oldth(nz),oldq(nz),ds,c,cmax
+    integer :: k,j,nsub,s
+    cmax=0.0_RKIND
+    do k=1,nz
+      j=k-1
+      if (w(k)<0.0_RKIND) j=k+1
+      if (j<1 .or. j>nz) cycle
+      cmax=max(cmax,abs(w(k))*dt/abs(z(k)-z(j)))
+    end do
+    nsub=max(1,ceiling(cmax/0.8_RKIND)); ds=dt/real(nsub,kind=RKIND)
+    do s=1,nsub
+      oldth=th; oldq=qv
+      do k=1,nz
+        j=k-1
+        if (w(k)<0.0_RKIND) j=k+1
+        if (j<1 .or. j>nz) cycle
+        c=abs(w(k))*ds/abs(z(k)-z(j))
+        th(k)=(1.0_RKIND-c)*oldth(k)+c*oldth(j)
+        qv(k)=(1.0_RKIND-c)*oldq(k)+c*oldq(j)
+      end do
+    end do
+  end subroutine advect_upwind
 
   !===================================================================
   subroutine nearest_index(arr, n, target, idx)

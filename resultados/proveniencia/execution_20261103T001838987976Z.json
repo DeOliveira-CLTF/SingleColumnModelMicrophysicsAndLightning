@@ -1,0 +1,451 @@
+{
+  "recorded_utc": "2026-11-03T00:18:39.123708+00:00",
+  "git_commit": "f4096d1b4526ffac9a2167fc852d5201120245fa",
+  "git_status": "M Makefile\n M build/bl_mynn.o\n M build/bl_mynn_subroutines.o\n M build/ccpp_kind_types.o\n M build/ensemble_driver\n M build/ensemble_driver.o\n M build/era5_bridge.o\n M build/goamazon_bridge.o\n M build/module_libmassv.o\n M build/module_mp_radar.o\n M build/module_mp_thompson.o\n M build/module_mp_wsm6.o\n M build/mp_offline_driver\n M build/mp_offline_driver.o\n M build/mp_wsm6.o\n M build/mp_wsm6_effectRad.o\n M build/mpas_atmphys_constants.o\n M build/mpas_atmphys_functions.o\n M build/mpas_atmphys_lightning.o\n M build/mpas_constants.o\n M build/mpas_stubs_offline.o\n M build/mynn_offline_coupling.o\n M build/mynn_shared.o\n M build/output_ensemble_netcdf.o\n M build/output_mp_netcdf.o\n M build/plume_microphysics_thompson.o\n M build/saturation_perturbation.o\n M build/sf_mynn.o\n M build/updraft_forcing.o\n m era5_forcing/DEPHY-SCM\n M namelist.mp_offline\n?? Projeto_artigo_microfisica_raios_Amazonia.docx\n?? README_ANALISE_ARTIGO.md\n?? build/exec_TH_CF.log\n?? build/namelist.mp_offline\n?? build/output_WS_CF.nc\n?? build/output_mp_offline.nc\n?? figuras_artigo/\n?? requirements-analysis.txt\n?? resultados/\n?? scripts/",
+  "git_diff_makefile": "diff --git a/Makefile b/Makefile\nindex efb1b74..91969bf 100644\n--- a/Makefile\n+++ b/Makefile\n@@ -116,7 +116,8 @@ $(BUILD)/%.o: $(UEDMF)/%.F90 | $(BUILD)\n # ---- explicit dependency edges (Fortran `use` statements) so a from-scratch\n #      `make -j` builds every file only after the modules it uses exist ----\n $(BUILD)/mpas_constants.o: $(BUILD)/mpas_stubs_offline.o\n-$(BUILD)/mpas_atmphys_constants.o: $(BUILD)/mpas_stubs_offline.o\n+$(BUILD)/ccpp_kind_types.o: $(BUILD)/mpas_stubs_offline.o\n+$(BUILD)/mpas_atmphys_constants.o: $(BUILD)/mpas_stubs_offline.o $(BUILD)/mpas_constants.o\n $(BUILD)/mpas_atmphys_functions.o: $(BUILD)/mpas_stubs_offline.o\n $(BUILD)/module_mp_radar.o: $(BUILD)/ccpp_kind_types.o\n $(BUILD)/module_mp_thompson.o: $(BUILD)/mpas_stubs_offline.o $(BUILD)/mpas_atmphys_functions.o $(BUILD)/module_mp_radar.o",
+  "input": "C:\\git_repos\\SingleColumnModelMicrophysicsAndLightning\\data\\GOAMAZON_SINGLE_SCM_driver.nc",
+  "input_sha256": "aacf5e194d19f9bb15bc036f48bef94f99bcb0c96f9ff1928751af7c268e9161",
+  "physics_sha256": {
+    "src\\ensemble_driver.F90": "3d7ba2528eec9e1da5ccd2aae48b46f61dbaf65c0294d53f4870b3419e0ff5e8",
+    "src\\era5_bridge.F90": "8f96ffafe659e9b9490495cb16a31eab8b646ab61dcb87a0982b907b12f36c06",
+    "src\\goamazon_bridge.F90": "cd8382d71a06a75343f13da74d58c40fa69d47524dfdb1bdbdbb33598ed554cb",
+    "src\\module_mp_radar.F90": "f349afc8f5068173320856f11e9b4b1f769761803ce282f2832340b96e6f90b3",
+    "src\\module_mp_thompson.F": "1ba1f30d486bc8e2a2e6295f8495877f963f7995a047558f8a68ff80012a70e5",
+    "src\\mp_offline_driver.F90": "2b728eadcc4192ef0b70ea51806c84f8f4c91769e793851700584610f102350d",
+    "src\\mpas_atmphys_constants.F": "497e7a5f230ecd102a32ab77e0ac41edba378f906d655944e0d7095903d93758",
+    "src\\mpas_atmphys_driver_microphysics_REFERENCE.F": "426697f683852a6005b74b842cfb3edfafb02c11e55691c783e8b983cc054a17",
+    "src\\mpas_atmphys_functions.F": "2cf3763c2781468ed59134acecfeb04a903859356ab30c18d48e595e5688e37e",
+    "src\\mpas_atmphys_lightning.F90": "0b812b97f7d014e3fff60a3bf75e096fa95d8b6cb1036bae1d0f58c271d231e8",
+    "src\\mpas_constants.F": "fa77a86b6d3e9041677ef1cdaf76fbcc172a50607874c80ace5085829ae7be31",
+    "src\\mpas_stubs_offline.F90": "dff1538245c93ac240d898b1ce8e6431a26c133e78cfcc715d120b168e384c45",
+    "src\\mynn\\bl_mynn.F90": "c46825fe4fcb4c5b05f8be9e48b2115d70f341886e1105cb3121603ea748bdde",
+    "src\\mynn\\bl_mynn_subroutines.F90": "cea24411ea5436d5c73e454e6d97ad95ba382047b47959a87c865bc05d62c1a5",
+    "src\\mynn\\ccpp_kind_types.F": "d4a02744daaaf042a26d8225dc6c40e6d06dcdf35fe1e64f3fc057fcfc241efa",
+    "src\\mynn\\mpas_atmphys_driver_pbl_REFERENCE.F": "31610fde6a68c13101acf845ff728251336b6507d80cb297487cc4dd0337a468",
+    "src\\mynn\\mpas_atmphys_driver_sfclayer_REFERENCE.F": "1e6299a50dddf0722e954e49a0f2ce5ee03af5b5287ea7b62c35380dd0230121",
+    "src\\mynn\\mynn_shared.F90": "be2e99063197aeb6962f4a7425cd338157f688b527d43f2d00a38a8e14aff2ab",
+    "src\\mynn\\sf_mynn.F90": "8ec19335b40cbf684f63c8dc3bb6843c2835ed5660ee0a17e088c78d4c0b23dd",
+    "src\\mynn_offline_coupling.F90": "044ca40f07c3d24863f2d7080e2e3bd6c0e16b1a79d110c4e46915e209feecda",
+    "src\\output_ensemble_netcdf.F90": "63aafe67aafc019cf91b2faa7a52b5e34f1b3d92f3f6d1b5a911c65dd52d2384",
+    "src\\output_mp_netcdf.F90": "8fc4d1a8ffc4a0b1fa7ca5e15a0f0d38442e48b864f5266d1d159d2e710f9f2d",
+    "src\\saturation_perturbation.F90": "8c4e61ad263267d53ce070f3bee4c77a78f1a2e8e384fd2c520bd0bc0316aaff",
+    "src\\unified_edmf\\entrainment_closure.F90": "495bf2c0645c2585005eb3836542429ca919649f1c888f908910b7ff5f310bb6",
+    "src\\unified_edmf\\plume_condensation.F90": "ba37641147566049873eb0cd22de5900630b0801be9913fa2e3fb8b4a7165ca0",
+    "src\\unified_edmf\\plume_microphysics_thompson.F90": "2a0c104a782b06ea386429ee508cd3858af577c220b03e561e74626a61b901f7",
+    "src\\unified_edmf\\plume_precipitation.F90": "d09d739d0572c9009c1ab49ebbe3eaf574badd7d27c154a9d10b8ef3f54e3a0c",
+    "src\\unified_edmf\\plume_thermo.F90": "ee42d93c07e7f67f5b97fe6028617757d6b966e9d4f0de741fba034b77326d4b",
+    "src\\unified_edmf\\plume_velocity.F90": "5033474681582c3fcb0117f61bc49a9850b71955127a0804918659d416c6c268",
+    "src\\unified_edmf\\prognostic_area.F90": "6337b5c6a9ef439c78fa1318edd4a178486e49784b3da1ed36d56418c98868d6",
+    "src\\unified_edmf\\test_coupled_plume.F90": "8d380a57fd3c480108919c58a1fbecaecf9e847cc514f4d39fdbfb4599ba14ef",
+    "src\\unified_edmf\\test_coupled_plume_thompson.F90": "51e9aa39cf42a8f96958eb9d1688737214ebf026493f6a4a9b7df3130440fc31",
+    "src\\unified_edmf\\test_entrainment_closure.F90": "3aa9ad34d75048b28bce77c1bf58f39ccc3a92d5a012d213d1c21341a664df08",
+    "src\\unified_edmf\\test_plume_condensation.F90": "7838032a89075f70ea650eb715e200aaa613ee15591904b1dd20e695586b4f40",
+    "src\\unified_edmf\\test_plume_microphysics_thompson.F90": "af01e7c00f1be574bd903b4f7058095373b52e36a59683ec4fa051635b5f2b2c",
+    "src\\unified_edmf\\test_plume_precipitation.F90": "74e5904c6b17ac875bfcabee8f7749f107452b1cc197aa75d333fce82b3acdd8",
+    "src\\unified_edmf\\test_plume_thermo.F90": "2cef301ebabf51dd7d9c83d6515d526d27ed2b6ddeba78c1c9d0b3567406fc3a",
+    "src\\unified_edmf\\test_plume_velocity.F90": "fbffdd6d9fe1fb7c3446500218b01608f6a17f19b9211297f4c06987837e59ab",
+    "src\\unified_edmf\\test_prognostic_area.F90": "8fe0c20683cadaf0bd13d9b8fec9b7fb0a03949a89a66167befc0912f98421df",
+    "src\\unified_edmf\\test_uedmf_entdet_map.F90": "6e02109b18f199893a6c67e66551b0ea2dd1efc1e7fcb194b670b1e4f857c8e6",
+    "src\\unified_edmf\\test_uedmf_entdet_moist.F90": "56b1eab52def5dc58f78f783a266517890770116f8d90019cfe23f5c7dadcde8",
+    "src\\unified_edmf\\test_uedmf_thermo.F90": "5bf71ecd37caead038345e805d619ba53ce80847584933e16f82eb417aaa8a42",
+    "src\\updraft_forcing.F90": "415ba0c9efe508404d8cfe65e649f64ec72a96561e09524f28503426d8a6132f",
+    "src\\wsm6\\module_libmassv.F90": "262630e14a9c70ba5074dac04c6f53ebe59c6f1cf27989d1b6c7c1850d7860f3",
+    "src\\wsm6\\module_mp_wsm6.F": "88065a388187a2380578059caac0414317cc40d6cd02e837f8b81671c8df5c25",
+    "src\\wsm6\\mp_wsm6.F90": "83012eedbe67a94e6cc0883b29c5658432d97fc99cad9eb326a1a5fd0f8146de",
+    "src\\wsm6\\mp_wsm6_effectRad.F90": "abaf69c2abbe8974d790ea1b650dbf14daf990617856c1ee49c255d534706842"
+  },
+  "executable_sha256": "dfd4d12461ea8efe90c6851726a04ec8eab6b1c54ef00dc96feebfda9167d507",
+  "python": "3.11.4 | packaged by Anaconda, Inc. | (main, Jul  5 2023, 13:38:37) [MSC v.1916 64 bit (AMD64)]",
+  "platform": "Windows-10-10.0.26300-SP0",
+  "compiler": "GNU Fortran (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0\nCopyright (C) 2023 Free Software Foundation, Inc.\nThis is free software; see the source for copying conditions.  There is NO\nwarranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.\n\n",
+  "netcdf": "\nThis netCDF-Fortran 4.5.4 has been built with the following features: \n\n  --cc        -> gcc\n  --cflags    -> -I/usr/include -Wdate-time -D_FORTIFY_SOURCE=3\n\n  --fc        -> gfortran\n  --fflags    -> -I/usr/include -I/usr/include\n  --flibs     -> -L/usr/lib/x86_64-linux-gnu -lnetcdff -Wl,-Bsymbolic-functions -flto=auto -ffat-lto-objects -Wl,-z,relro -Wl,-z,now -lnetcdf -lnetcdf -lm \n  --has-f90   -> \n  --has-f03   -> yes\n\n  --has-nc2   -> yes\n  --has-nc4   -> yes\n\n  --prefix    -> /usr\n  --includedir-> /usr/include\n  --version   -> netCDF-Fortran 4.5.4\n\n",
+  "build_log": "resultados/build_TH_CF.log (clean successful build from earlier session)",
+  "legacy_provenance_limit": "Original CF runs have namelists and data, but no contemporaneous hash manifest; hashes recorded now are not retrospective proof of their execution environment.",
+  "experiments": {
+    "TH_CF": {
+      "action": "reused",
+      "output_sha256": "a0a92e02edb5a76b94b109135db8b07739a6edb409063e7f0072f316b7c381e1",
+      "namelist": {
+        "path_input": "../data/GOAMAZON_SINGLE_SCM_driver.nc",
+        "path_output": "output_mp_offline.nc",
+        "nz": 60,
+        "ztop": 20000.0,
+        "dz0": 50.0,
+        "dt_microp": 30.0,
+        "apply_rt_adv": false,
+        "use_mynn": true,
+        "couple_mynn_condensate": true,
+        "mynn_condensate_local_only": false,
+        "mynn_edmf": 1,
+        "mynn_edmf_type": 0,
+        "mynn_uedmf_exc_mult": 1.0,
+        "mynn_uedmf_kfac_max": 3.0,
+        "mynn_uedmf_orig_gate": 0,
+        "mynn_uedmf_thermo": 0,
+        "mynn_uedmf_c0_auto": 0.0,
+        "mynn_uedmf_qc_crit": 0.0005,
+        "mynn_uedmf_e0_floor": 0.0001,
+        "mynn_uedmf_econv": 0,
+        "mynn_uedmf_econv_l": 300.0,
+        "mynn_uedmf_hmode": 0,
+        "mynn_uedmf_mp": 0,
+        "plume_channel_conserve": false,
+        "mynn_uedmf_c_eps": 0.13,
+        "mynn_uedmf_c_delta": 0.52,
+        "mynn_uedmf_c_lambda": 0.3,
+        "mynn_uedmf_beta": 2.0,
+        "mynn_uedmf_mu0": 0.0004,
+        "mynn_uedmf_chi": 0.25,
+        "mynn_uedmf_c_gamma": 0.075,
+        "microp_scheme": "thompson"
+      },
+      "namelist_sha256": "f902086b8d4bd01ee3362004b95affb2e4cc9a00487d00d72b836a4126b99853",
+      "quality": {
+        "valid": true,
+        "errors": [],
+        "warnings": [
+          "RH quente initial >101% (diagnóstico Bolton)",
+          "Camada superior artificial; extremos frios não equivalem a validação atmosférica"
+        ],
+        "details": {
+          "dz_min_max_m": [
+            50.0,
+            1054.8228363526723
+          ],
+          "rh_warm_initial_max_percent": 101.12654941252704,
+          "rh_warm_initial_above101_count": 1,
+          "rh_warm_evolution_max_percent": 100.144151400188,
+          "rh_warm_evolution_above101_count": 0,
+          "temperature_min_max_K": [
+            161.67582970228386,
+            302.5685774272276
+          ],
+          "temperature_above16500m_min_K": 161.67582970228386,
+          "samples": 4232,
+          "last_time_s": 126930.0
+        }
+      }
+    },
+    "WS_CF": {
+      "action": "reused",
+      "output_sha256": "8b69a18173710efd027b74c2c4eb1eee790f90bd9fca434a90a77641333d5aa3",
+      "namelist": {
+        "path_input": "../data/GOAMAZON_SINGLE_SCM_driver.nc",
+        "path_output": "output_WS_CF.nc",
+        "nz": 60,
+        "ztop": 20000.0,
+        "dz0": 50.0,
+        "dt_microp": 30.0,
+        "apply_rt_adv": false,
+        "use_mynn": true,
+        "couple_mynn_condensate": true,
+        "mynn_condensate_local_only": false,
+        "mynn_edmf": 1,
+        "mynn_edmf_type": 0,
+        "mynn_uedmf_exc_mult": 1.0,
+        "mynn_uedmf_kfac_max": 3.0,
+        "mynn_uedmf_orig_gate": 0,
+        "mynn_uedmf_thermo": 0,
+        "mynn_uedmf_c0_auto": 0.0,
+        "mynn_uedmf_qc_crit": 0.0005,
+        "mynn_uedmf_e0_floor": 0.0001,
+        "mynn_uedmf_econv": 0,
+        "mynn_uedmf_econv_l": 300.0,
+        "mynn_uedmf_hmode": 0,
+        "mynn_uedmf_mp": 0,
+        "plume_channel_conserve": false,
+        "mynn_uedmf_c_eps": 0.13,
+        "mynn_uedmf_c_delta": 0.52,
+        "mynn_uedmf_c_lambda": 0.3,
+        "mynn_uedmf_beta": 2.0,
+        "mynn_uedmf_mu0": 0.0004,
+        "mynn_uedmf_chi": 0.25,
+        "mynn_uedmf_c_gamma": 0.075,
+        "microp_scheme": "wsm6"
+      },
+      "namelist_sha256": "3853ce39d907ebe4ee570a6ed0d7a1c317515205441f4607cf80178773947b6c",
+      "quality": {
+        "valid": true,
+        "errors": [],
+        "warnings": [
+          "RH quente initial >101% (diagnóstico Bolton)",
+          "Camada superior artificial; extremos frios não equivalem a validação atmosférica"
+        ],
+        "details": {
+          "dz_min_max_m": [
+            50.0,
+            1054.8228363526723
+          ],
+          "rh_warm_initial_max_percent": 101.12654941252704,
+          "rh_warm_initial_above101_count": 1,
+          "rh_warm_evolution_max_percent": 99.8741262394879,
+          "rh_warm_evolution_above101_count": 0,
+          "temperature_min_max_K": [
+            161.67582970406266,
+            302.08044697902784
+          ],
+          "temperature_above16500m_min_K": 161.67582970406266,
+          "samples": 4232,
+          "last_time_s": 126930.0
+        }
+      }
+    },
+    "TH_C0": {
+      "action": "reused",
+      "output_sha256": "68e986bdc10d87aa0a899c2ce461441c1c6f716646cf6e256c67f25b7a9b0ecb",
+      "namelist": {
+        "path_input": "/mnt/c/git_repos/SingleColumnModelMicrophysicsAndLightning/data/GOAMAZON_SINGLE_SCM_driver.nc",
+        "path_output": "TH_C0.nc",
+        "nz": 60,
+        "ztop": 20000.0,
+        "dz0": 50.0,
+        "dt_microp": 30.0,
+        "apply_rt_adv": false,
+        "use_mynn": true,
+        "couple_mynn_condensate": false,
+        "mynn_condensate_local_only": false,
+        "mynn_edmf": 1,
+        "mynn_edmf_type": 0,
+        "mynn_uedmf_exc_mult": 1.0,
+        "mynn_uedmf_kfac_max": 3.0,
+        "mynn_uedmf_orig_gate": 0,
+        "mynn_uedmf_thermo": 0,
+        "mynn_uedmf_c0_auto": 0.0,
+        "mynn_uedmf_qc_crit": 0.0005,
+        "mynn_uedmf_e0_floor": 0.0001,
+        "mynn_uedmf_econv": 0,
+        "mynn_uedmf_econv_l": 300.0,
+        "mynn_uedmf_hmode": 0,
+        "mynn_uedmf_mp": 0,
+        "plume_channel_conserve": false,
+        "mynn_uedmf_c_eps": 0.13,
+        "mynn_uedmf_c_delta": 0.52,
+        "mynn_uedmf_c_lambda": 0.3,
+        "mynn_uedmf_beta": 2.0,
+        "mynn_uedmf_mu0": 0.0004,
+        "mynn_uedmf_chi": 0.25,
+        "mynn_uedmf_c_gamma": 0.075,
+        "microp_scheme": "thompson"
+      },
+      "namelist_sha256": "08e275668406e69b785bb06b8f680a213852e7ec73cbc669e9a6b78e260d5cc1",
+      "quality": {
+        "valid": true,
+        "errors": [],
+        "warnings": [
+          "RH quente initial >101% (diagnóstico Bolton)",
+          "Camada superior artificial; extremos frios não equivalem a validação atmosférica"
+        ],
+        "details": {
+          "dz_min_max_m": [
+            50.0,
+            1054.8228363526723
+          ],
+          "rh_warm_initial_max_percent": 101.12654941252704,
+          "rh_warm_initial_above101_count": 1,
+          "rh_warm_evolution_max_percent": 100.13715035110025,
+          "rh_warm_evolution_above101_count": 0,
+          "temperature_min_max_K": [
+            161.67582970228386,
+            302.6315051785705
+          ],
+          "temperature_above16500m_min_K": 161.67582970228386,
+          "samples": 4232,
+          "last_time_s": 126930.0
+        }
+      }
+    },
+    "TH_CL": {
+      "action": "reused",
+      "output_sha256": "cf031ab0313fc700051fc75217ce611914e7f43796d4bc7afe0f73543598fd59",
+      "namelist": {
+        "path_input": "/mnt/c/git_repos/SingleColumnModelMicrophysicsAndLightning/data/GOAMAZON_SINGLE_SCM_driver.nc",
+        "path_output": "TH_CL.nc",
+        "nz": 60,
+        "ztop": 20000.0,
+        "dz0": 50.0,
+        "dt_microp": 30.0,
+        "apply_rt_adv": false,
+        "use_mynn": true,
+        "couple_mynn_condensate": true,
+        "mynn_condensate_local_only": true,
+        "mynn_edmf": 1,
+        "mynn_edmf_type": 0,
+        "mynn_uedmf_exc_mult": 1.0,
+        "mynn_uedmf_kfac_max": 3.0,
+        "mynn_uedmf_orig_gate": 0,
+        "mynn_uedmf_thermo": 0,
+        "mynn_uedmf_c0_auto": 0.0,
+        "mynn_uedmf_qc_crit": 0.0005,
+        "mynn_uedmf_e0_floor": 0.0001,
+        "mynn_uedmf_econv": 0,
+        "mynn_uedmf_econv_l": 300.0,
+        "mynn_uedmf_hmode": 0,
+        "mynn_uedmf_mp": 0,
+        "plume_channel_conserve": false,
+        "mynn_uedmf_c_eps": 0.13,
+        "mynn_uedmf_c_delta": 0.52,
+        "mynn_uedmf_c_lambda": 0.3,
+        "mynn_uedmf_beta": 2.0,
+        "mynn_uedmf_mu0": 0.0004,
+        "mynn_uedmf_chi": 0.25,
+        "mynn_uedmf_c_gamma": 0.075,
+        "microp_scheme": "thompson"
+      },
+      "namelist_sha256": "7f8a9018bbd3e1e7ac3aa6b01977f75de2edbbce0779f91460e90959f2af7a09",
+      "quality": {
+        "valid": true,
+        "errors": [],
+        "warnings": [
+          "RH quente initial >101% (diagnóstico Bolton)",
+          "Camada superior artificial; extremos frios não equivalem a validação atmosférica"
+        ],
+        "details": {
+          "dz_min_max_m": [
+            50.0,
+            1054.8228363526723
+          ],
+          "rh_warm_initial_max_percent": 101.12654941252704,
+          "rh_warm_initial_above101_count": 1,
+          "rh_warm_evolution_max_percent": 100.1448345874542,
+          "rh_warm_evolution_above101_count": 0,
+          "temperature_min_max_K": [
+            161.67582970228386,
+            302.68832344295106
+          ],
+          "temperature_above16500m_min_K": 161.67582970228386,
+          "samples": 4232,
+          "last_time_s": 126930.0
+        }
+      }
+    },
+    "WS_C0": {
+      "action": "reused",
+      "output_sha256": "8432d28b567c7078bf9797c747fabeb2f56fd543d634e894b785746015fb5800",
+      "namelist": {
+        "path_input": "/mnt/c/git_repos/SingleColumnModelMicrophysicsAndLightning/data/GOAMAZON_SINGLE_SCM_driver.nc",
+        "path_output": "WS_C0.nc",
+        "nz": 60,
+        "ztop": 20000.0,
+        "dz0": 50.0,
+        "dt_microp": 30.0,
+        "apply_rt_adv": false,
+        "use_mynn": true,
+        "couple_mynn_condensate": false,
+        "mynn_condensate_local_only": false,
+        "mynn_edmf": 1,
+        "mynn_edmf_type": 0,
+        "mynn_uedmf_exc_mult": 1.0,
+        "mynn_uedmf_kfac_max": 3.0,
+        "mynn_uedmf_orig_gate": 0,
+        "mynn_uedmf_thermo": 0,
+        "mynn_uedmf_c0_auto": 0.0,
+        "mynn_uedmf_qc_crit": 0.0005,
+        "mynn_uedmf_e0_floor": 0.0001,
+        "mynn_uedmf_econv": 0,
+        "mynn_uedmf_econv_l": 300.0,
+        "mynn_uedmf_hmode": 0,
+        "mynn_uedmf_mp": 0,
+        "plume_channel_conserve": false,
+        "mynn_uedmf_c_eps": 0.13,
+        "mynn_uedmf_c_delta": 0.52,
+        "mynn_uedmf_c_lambda": 0.3,
+        "mynn_uedmf_beta": 2.0,
+        "mynn_uedmf_mu0": 0.0004,
+        "mynn_uedmf_chi": 0.25,
+        "mynn_uedmf_c_gamma": 0.075,
+        "microp_scheme": "wsm6"
+      },
+      "namelist_sha256": "4455ca2d2c2affeea66aef042c4e03226bcc42a6283dc09e10c1f33087ec8f60",
+      "quality": {
+        "valid": true,
+        "errors": [],
+        "warnings": [
+          "RH quente initial >101% (diagnóstico Bolton)",
+          "Camada superior artificial; extremos frios não equivalem a validação atmosférica"
+        ],
+        "details": {
+          "dz_min_max_m": [
+            50.0,
+            1054.8228363526723
+          ],
+          "rh_warm_initial_max_percent": 101.12654941252704,
+          "rh_warm_initial_above101_count": 1,
+          "rh_warm_evolution_max_percent": 99.87342298091755,
+          "rh_warm_evolution_above101_count": 0,
+          "temperature_min_max_K": [
+            161.67582970406266,
+            302.10510924310967
+          ],
+          "temperature_above16500m_min_K": 161.67582970406266,
+          "samples": 4232,
+          "last_time_s": 126930.0
+        }
+      }
+    },
+    "WS_CL": {
+      "action": "reused",
+      "output_sha256": "0464a42095a81e4b23949e1d7e2ca45715dc47dac99c729084d361d06f5fe189",
+      "namelist": {
+        "path_input": "/mnt/c/git_repos/SingleColumnModelMicrophysicsAndLightning/data/GOAMAZON_SINGLE_SCM_driver.nc",
+        "path_output": "WS_CL.nc",
+        "nz": 60,
+        "ztop": 20000.0,
+        "dz0": 50.0,
+        "dt_microp": 30.0,
+        "apply_rt_adv": false,
+        "use_mynn": true,
+        "couple_mynn_condensate": true,
+        "mynn_condensate_local_only": true,
+        "mynn_edmf": 1,
+        "mynn_edmf_type": 0,
+        "mynn_uedmf_exc_mult": 1.0,
+        "mynn_uedmf_kfac_max": 3.0,
+        "mynn_uedmf_orig_gate": 0,
+        "mynn_uedmf_thermo": 0,
+        "mynn_uedmf_c0_auto": 0.0,
+        "mynn_uedmf_qc_crit": 0.0005,
+        "mynn_uedmf_e0_floor": 0.0001,
+        "mynn_uedmf_econv": 0,
+        "mynn_uedmf_econv_l": 300.0,
+        "mynn_uedmf_hmode": 0,
+        "mynn_uedmf_mp": 0,
+        "plume_channel_conserve": false,
+        "mynn_uedmf_c_eps": 0.13,
+        "mynn_uedmf_c_delta": 0.52,
+        "mynn_uedmf_c_lambda": 0.3,
+        "mynn_uedmf_beta": 2.0,
+        "mynn_uedmf_mu0": 0.0004,
+        "mynn_uedmf_chi": 0.25,
+        "mynn_uedmf_c_gamma": 0.075,
+        "microp_scheme": "wsm6"
+      },
+      "namelist_sha256": "70b47a7c2528d4b0124f1abeb1d77b03357452d1f77262b0ff1de23f39f6c02a",
+      "quality": {
+        "valid": true,
+        "errors": [],
+        "warnings": [
+          "RH quente initial >101% (diagnóstico Bolton)",
+          "Camada superior artificial; extremos frios não equivalem a validação atmosférica"
+        ],
+        "details": {
+          "dz_min_max_m": [
+            50.0,
+            1054.8228363526723
+          ],
+          "rh_warm_initial_max_percent": 101.12654941252704,
+          "rh_warm_initial_above101_count": 1,
+          "rh_warm_evolution_max_percent": 99.87516008103572,
+          "rh_warm_evolution_above101_count": 0,
+          "temperature_min_max_K": [
+            161.67582970406266,
+            302.3540097883494
+          ],
+          "temperature_above16500m_min_K": 161.67582970406266,
+          "samples": 4232,
+          "last_time_s": 126930.0
+        }
+      }
+    }
+  },
+  "build_verified": true
+}

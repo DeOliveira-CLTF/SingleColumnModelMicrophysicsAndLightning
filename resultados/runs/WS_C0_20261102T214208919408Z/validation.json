@@ -1,0 +1,25 @@
+{
+  "valid": true,
+  "errors": [],
+  "warnings": [
+    "RH quente initial >101% (diagnóstico Bolton)",
+    "Camada superior artificial; extremos frios não equivalem a validação atmosférica"
+  ],
+  "details": {
+    "dz_min_max_m": [
+      50.0,
+      1054.8228363526723
+    ],
+    "rh_warm_initial_max_percent": 101.12654941252704,
+    "rh_warm_initial_above101_count": 1,
+    "rh_warm_evolution_max_percent": 99.87342298091755,
+    "rh_warm_evolution_above101_count": 0,
+    "temperature_min_max_K": [
+      161.67582970406266,
+      302.10510924310967
+    ],
+    "temperature_above16500m_min_K": 161.67582970406266,
+    "samples": 4232,
+    "last_time_s": 126930.0
+  }
+}

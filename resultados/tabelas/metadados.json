@@ -1,0 +1,16 @@
+{
+  "time": "hours since t0, not reconciled civil time; earliest occurrence for tied maxima",
+  "rain_rate": "rainncv[1:] * 3600 / diff(time); first rate absent",
+  "electrical_integral": "sum(flash_rate[1:] * diff(time)/60), nominal flashes, uncalibrated",
+  "activity": "strictly >0; duration sums positive-step intervals; censored if last rate >0",
+  "mixed_phase": "233.15 <= T <= 273.15 K; entire layer selected by center temperature",
+  "temperature": "theta*(pressure/100000)**(287/1004.5)",
+  "density": "pressure/(287*T*(1+0.61*qv)), same virtual-temperature approximation as driver; recomputed at saved state",
+  "interfaces": "zw[0]=0; zw[k+1]=2*lev[k]-zw[k]; exact inversion of driver centers; top checked to 1e-7 m",
+  "mass": "sum(rho*q*dz) in kg/m2; center-cell quadrature at phase boundaries, not an ice flux",
+  "correlation": "Pearson over full common window only for nonconstant series; no p-values; internal EP dependence, not independent validation",
+  "lag": "difference of maxima times, not cross-correlation optimization",
+  "missing": "empty CSV fields, never zero; absent experiments explicitly status=ausente",
+  "constants_source": "src/mpas_constants.F, src/mp_offline_driver.F90",
+  "source_attribute": "not used for scheme identification; legacy output attribute always mentions Thompson"
+}

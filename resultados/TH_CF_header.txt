@@ -1,0 +1,86 @@
+netcdf output_mp_offline {
+dimensions:
+	time = UNLIMITED ; // (4232 currently)
+	lev = 60 ;
+variables:
+	double time(time) ;
+		time:units = "seconds since t0" ;
+	double lev(lev) ;
+		lev:units = "m" ;
+		lev:long_name = "driver layer-center height" ;
+	double theta(time, lev) ;
+		theta:units = "K" ;
+		theta:long_name = "potential temperature" ;
+	double qv(time, lev) ;
+		qv:units = "kg kg-1" ;
+		qv:long_name = "water vapor mixing ratio" ;
+	double qc(time, lev) ;
+		qc:units = "kg kg-1" ;
+		qc:long_name = "cloud water mixing ratio" ;
+	double qr(time, lev) ;
+		qr:units = "kg kg-1" ;
+		qr:long_name = "rain mixing ratio" ;
+	double qi(time, lev) ;
+		qi:units = "kg kg-1" ;
+		qi:long_name = "cloud ice mixing ratio" ;
+	double qs(time, lev) ;
+		qs:units = "kg kg-1" ;
+		qs:long_name = "snow mixing ratio" ;
+	double qg(time, lev) ;
+		qg:units = "kg kg-1" ;
+		qg:long_name = "graupel mixing ratio" ;
+	double pressure(time, lev) ;
+		pressure:units = "Pa" ;
+		pressure:long_name = "pressure" ;
+	double rainncv(time) ;
+		rainncv:units = "mm" ;
+		rainncv:long_name = "incremental surface precip this timestep (mp_gt_driver RAINNCV)" ;
+	double rainnc(time) ;
+		rainnc:units = "mm" ;
+		rainnc:long_name = "accumulated surface precip since t0 (mp_gt_driver RAINNC)" ;
+	double flash_rate(time) ;
+		flash_rate:units = "flashes min-1" ;
+		flash_rate:long_name = "diagnostic total flash rate (mpas_atmphys_lightning, driver_lightning)" ;
+	double flash_rate_cg(time) ;
+		flash_rate_cg:units = "flashes min-1" ;
+	double flash_rate_ic(time) ;
+		flash_rate_ic:units = "flashes min-1" ;
+	double snownc(time) ;
+		snownc:units = "mm (liquid-water equivalent)" ;
+		snownc:long_name = "accumulated surface snow+cloud-ice fallout since t0, LIQUID-WATER EQUIVALENT (NOT physical snow depth -- see README.md for the depth conversion caveat)" ;
+	double snowncv(time) ;
+		snowncv:units = "mm (liquid-water equivalent)" ;
+	double tke(time, lev) ;
+		tke:units = "m2 s-2" ;
+		tke:long_name = "turbulent kinetic energy (MYNN, qke/2)" ;
+	double mixing_length(time, lev) ;
+		mixing_length:units = "m" ;
+		mixing_length:long_name = "MYNN master mixing length (el_pbl)" ;
+	double exch_h(time, lev) ;
+		exch_h:units = "m2 s-1" ;
+		exch_h:long_name = "eddy diffusivity, heat (MYNN)" ;
+	double exch_m(time, lev) ;
+		exch_m:units = "m2 s-1" ;
+		exch_m:long_name = "eddy diffusivity, momentum (MYNN)" ;
+	double cldfra_bl(time, lev) ;
+		cldfra_bl:units = "0-1" ;
+		cldfra_bl:long_name = "MYNN-diagnosed subgrid-scale (PBL) cloud fraction" ;
+	double qc_bl(time, lev) ;
+		qc_bl:units = "kg kg-1" ;
+		qc_bl:long_name = "MYNN-diagnosed subgrid-scale cloud water" ;
+	double qi_bl(time, lev) ;
+		qi_bl:units = "kg kg-1" ;
+		qi_bl:long_name = "MYNN-diagnosed subgrid-scale cloud ice" ;
+	double mf_a(time, lev) ;
+		mf_a:units = "0-1" ;
+		mf_a:long_name = "EDMF updraft area fraction (MYNN mass-flux scheme)" ;
+	double mf_w(time, lev) ;
+		mf_w:units = "m s-1" ;
+		mf_w:long_name = "EDMF updraft vertical velocity (MYNN mass-flux scheme)" ;
+	double pblh(time) ;
+		pblh:units = "m" ;
+		pblh:long_name = "MYNN-diagnosed boundary-layer height" ;
+
+// global attributes:
+		:source = "mp_offline_driver: MPAS Thompson microphysics (module_mp_thompson.F, unmodified) forced by DEPHY-SCM GOAMAZON/SINGLE" ;
+}

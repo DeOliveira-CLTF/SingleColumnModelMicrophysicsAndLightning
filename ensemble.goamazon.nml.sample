@@ -1,0 +1,25 @@
+! Run from repository root for this relative input path, or use an absolute path.
+! The Python runner generates isolated absolute-path namelists for all 12 cases.
+&ensemble
+ input_source = 'goamazon',
+ path_goamazon = 'data_goamazon/GOAMAZON_SINGLE_SCM_driver.nc',
+ npoints = 1,
+ nsatconfigs = 1,
+ point_label = 'GOAMAZON_original',
+ microp_scheme = 'thompson',
+ satconfig_label = 'baixa',
+ sat_z_lo = 500.,
+ sat_z_hi = 1500.,
+ sat_rh_target = 1.,
+ nz = 60,
+ ztop = 20000.,
+ dz0 = 50.,
+ dt_microp = 20.,
+ run_duration_s = 7200.,
+ pulse_sigma_z = 1000.,
+ pulse_duration_s = 1800.,
+ pulse_w_max = 3.,
+ write_profiles = .true.,
+ path_summary = 'summary.nc',
+ path_profile_prefix = 'profile',
+/

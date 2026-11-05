@@ -1,0 +1,541 @@
+experiment,target,category,production_kg_m2,loss_kg_m2,net_kg_m2
+thompson_alta_w0,agua_nuvem,Ajustes/limiares,0,2.6715339157930215e-11,-2.6715339157930215e-11
+thompson_alta_w0,agua_nuvem,Autoconversão/agregação,0,0,0
+thompson_alta_w0,agua_nuvem,Coleta chuva–gelo,0,0,0
+thompson_alta_w0,agua_nuvem,Coleta gelo–gelo,0,0,0
+thompson_alta_w0,agua_nuvem,Coleta quente,0,0,0
+thompson_alta_w0,agua_nuvem,Condensação/evap. de nuvem,0.012819769350079595,0.00069810503076816576,0.012121664319311429
+thompson_alta_w0,agua_nuvem,Congelamento,0,0,0
+thompson_alta_w0,agua_nuvem,Deposição/sublimação,0,0,0
+thompson_alta_w0,agua_nuvem,Evaporação precipitação,0,0,0
+thompson_alta_w0,agua_nuvem,Fusão,0,0,0
+thompson_alta_w0,agua_nuvem,Gelo secundário,0,0,0
+thompson_alta_w0,agua_nuvem,Nucleação de gelo,0,0,0
+thompson_alta_w0,agua_nuvem,Resíduo não atribuído,5.7847689771140077e-17,5.5811694251311508e-17,2.0359955198285647e-18
+thompson_alta_w0,agua_nuvem,Riming (água de nuvem),0,0,0
+thompson_alta_w0,agua_nuvem,Sedimentação,0.0015454406822322973,0.001546073789648608,-6.3310741631079135e-07
+thompson_alta_w0,gelo_total,Ajustes/limiares,0,0,0
+thompson_alta_w0,gelo_total,Autoconversão/agregação,0,0,0
+thompson_alta_w0,gelo_total,Coleta chuva–gelo,0,0,0
+thompson_alta_w0,gelo_total,Coleta gelo–gelo,0,0,0
+thompson_alta_w0,gelo_total,Coleta quente,0,0,0
+thompson_alta_w0,gelo_total,Condensação/evap. de nuvem,0,0,0
+thompson_alta_w0,gelo_total,Congelamento,0,0,0
+thompson_alta_w0,gelo_total,Deposição/sublimação,0,0,0
+thompson_alta_w0,gelo_total,Evaporação precipitação,0,0,0
+thompson_alta_w0,gelo_total,Fusão,0,0,0
+thompson_alta_w0,gelo_total,Gelo secundário,0,0,0
+thompson_alta_w0,gelo_total,Nucleação de gelo,0,0,0
+thompson_alta_w0,gelo_total,Resíduo não atribuído,0,0,0
+thompson_alta_w0,gelo_total,Riming (água de nuvem),0,0,0
+thompson_alta_w0,gelo_total,Sedimentação,0,0,0
+thompson_alta_w0,graupel,Ajustes/limiares,0,0,0
+thompson_alta_w0,graupel,Autoconversão/agregação,0,0,0
+thompson_alta_w0,graupel,Coleta chuva–gelo,0,0,0
+thompson_alta_w0,graupel,Coleta gelo–gelo,0,0,0
+thompson_alta_w0,graupel,Coleta quente,0,0,0
+thompson_alta_w0,graupel,Condensação/evap. de nuvem,0,0,0
+thompson_alta_w0,graupel,Congelamento,0,0,0
+thompson_alta_w0,graupel,Deposição/sublimação,0,0,0
+thompson_alta_w0,graupel,Evaporação precipitação,0,0,0
+thompson_alta_w0,graupel,Fusão,0,0,0
+thompson_alta_w0,graupel,Gelo secundário,0,0,0
+thompson_alta_w0,graupel,Nucleação de gelo,0,0,0
+thompson_alta_w0,graupel,Resíduo não atribuído,0,0,0
+thompson_alta_w0,graupel,Riming (água de nuvem),0,0,0
+thompson_alta_w0,graupel,Sedimentação,0,0,0
+thompson_alta_w3,agua_nuvem,Ajustes/limiares,4.5961389108896899e-17,2.9551228765024073e-11,-2.9551182803634963e-11
+thompson_alta_w3,agua_nuvem,Autoconversão/agregação,0,0.026885645897840874,-0.026885645897840874
+thompson_alta_w3,agua_nuvem,Coleta chuva–gelo,0,0,0
+thompson_alta_w3,agua_nuvem,Coleta gelo–gelo,0,0,0
+thompson_alta_w3,agua_nuvem,Coleta quente,0,0,0
+thompson_alta_w3,agua_nuvem,Condensação/evap. de nuvem,1.9732210407420756,1.9269217557025526,0.046299285039522284
+thompson_alta_w3,agua_nuvem,Congelamento,0,0,0
+thompson_alta_w3,agua_nuvem,Deposição/sublimação,0,0,0
+thompson_alta_w3,agua_nuvem,Evaporação precipitação,0,0,0
+thompson_alta_w3,agua_nuvem,Fusão,0,0,0
+thompson_alta_w3,agua_nuvem,Gelo secundário,0,0,0
+thompson_alta_w3,agua_nuvem,Nucleação de gelo,0,0,0
+thompson_alta_w3,agua_nuvem,Resíduo não atribuído,3.3436000336244101e-15,3.2257915688111263e-15,1.1780846481328357e-16
+thompson_alta_w3,agua_nuvem,Riming (água de nuvem),0,0,0
+thompson_alta_w3,agua_nuvem,Sedimentação,0.001545440828571827,0.0015460742485429442,-6.3341997111730926e-07
+thompson_alta_w3,gelo_total,Ajustes/limiares,4.6733946264596733e-12,2.3396016032173536e-08,-2.3391342637547072e-08
+thompson_alta_w3,gelo_total,Autoconversão/agregação,0,0,0
+thompson_alta_w3,gelo_total,Coleta chuva–gelo,0.015712870636694472,0,0.015712870636694472
+thompson_alta_w3,gelo_total,Coleta gelo–gelo,0,0,0
+thompson_alta_w3,gelo_total,Coleta quente,0,0,0
+thompson_alta_w3,gelo_total,Condensação/evap. de nuvem,0,0,0
+thompson_alta_w3,gelo_total,Congelamento,0,0,0
+thompson_alta_w3,gelo_total,Deposição/sublimação,2.4052466723838126,0.52413736962602142,1.881109302757791
+thompson_alta_w3,gelo_total,Evaporação precipitação,0,0,0
+thompson_alta_w3,gelo_total,Fusão,0,1.2120133790556724,-1.2120133790556724
+thompson_alta_w3,gelo_total,Gelo secundário,0,0,0
+thompson_alta_w3,gelo_total,Nucleação de gelo,0.00032310422533318034,0,0.00032310422533318034
+thompson_alta_w3,gelo_total,Resíduo não atribuído,7.9242637751892564e-15,8.2231070682392413e-15,-2.9884329304998459e-16
+thompson_alta_w3,gelo_total,Riming (água de nuvem),0,0,0
+thompson_alta_w3,gelo_total,Sedimentação,3.8796724656928259,3.8780273158218246,0.0016451498710009956
+thompson_alta_w3,graupel,Ajustes/limiares,4.6317859320657033e-19,7.6104287774977157e-10,-7.6104287728659292e-10
+thompson_alta_w3,graupel,Autoconversão/agregação,0,0,0
+thompson_alta_w3,graupel,Coleta chuva–gelo,0.015712918328786362,0,0.015712918328786362
+thompson_alta_w3,graupel,Coleta gelo–gelo,0,0,0
+thompson_alta_w3,graupel,Coleta quente,0,0,0
+thompson_alta_w3,graupel,Condensação/evap. de nuvem,0,0,0
+thompson_alta_w3,graupel,Congelamento,0,0,0
+thompson_alta_w3,graupel,Deposição/sublimação,0,0.0093198657296561047,-0.0093198657296561047
+thompson_alta_w3,graupel,Evaporação precipitação,0,0,0
+thompson_alta_w3,graupel,Fusão,0,0.0038762865093657831,-0.0038762865093657831
+thompson_alta_w3,graupel,Gelo secundário,0,0,0
+thompson_alta_w3,graupel,Nucleação de gelo,0,0,0
+thompson_alta_w3,graupel,Resíduo não atribuído,4.7708317868986986e-17,4.8853353402881358e-17,-1.1450355338943765e-18
+thompson_alta_w3,graupel,Riming (água de nuvem),0,0,0
+thompson_alta_w3,graupel,Sedimentação,0.030127782985495087,0.03004834296891901,7.944001657607684e-05
+thompson_baixa_w0,agua_nuvem,Ajustes/limiares,0,2.6721308656507511e-11,-2.6721308656507511e-11
+thompson_baixa_w0,agua_nuvem,Autoconversão/agregação,0,0,0
+thompson_baixa_w0,agua_nuvem,Coleta chuva–gelo,0,0,0
+thompson_baixa_w0,agua_nuvem,Coleta gelo–gelo,0,0,0
+thompson_baixa_w0,agua_nuvem,Coleta quente,0,0,0
+thompson_baixa_w0,agua_nuvem,Condensação/evap. de nuvem,0.10441349818665899,0.00086351999966974811,0.10354997818698924
+thompson_baixa_w0,agua_nuvem,Congelamento,0,0,0
+thompson_baixa_w0,agua_nuvem,Deposição/sublimação,0,0,0
+thompson_baixa_w0,agua_nuvem,Evaporação precipitação,0,0,0
+thompson_baixa_w0,agua_nuvem,Fusão,0,0,0
+thompson_baixa_w0,agua_nuvem,Gelo secundário,0,0,0
+thompson_baixa_w0,agua_nuvem,Nucleação de gelo,0,0,0
+thompson_baixa_w0,agua_nuvem,Resíduo não atribuído,3.7021609945598273e-16,3.8351581743978204e-16,-1.3299717983799374e-17
+thompson_baixa_w0,agua_nuvem,Riming (água de nuvem),0,0,0
+thompson_baixa_w0,agua_nuvem,Sedimentação,0.001712161210464217,0.0017128458239743449,-6.8461351012780442e-07
+thompson_baixa_w0,gelo_total,Ajustes/limiares,0,0,0
+thompson_baixa_w0,gelo_total,Autoconversão/agregação,0,0,0
+thompson_baixa_w0,gelo_total,Coleta chuva–gelo,0,0,0
+thompson_baixa_w0,gelo_total,Coleta gelo–gelo,0,0,0
+thompson_baixa_w0,gelo_total,Coleta quente,0,0,0
+thompson_baixa_w0,gelo_total,Condensação/evap. de nuvem,0,0,0
+thompson_baixa_w0,gelo_total,Congelamento,0,0,0
+thompson_baixa_w0,gelo_total,Deposição/sublimação,0,0,0
+thompson_baixa_w0,gelo_total,Evaporação precipitação,0,0,0
+thompson_baixa_w0,gelo_total,Fusão,0,0,0
+thompson_baixa_w0,gelo_total,Gelo secundário,0,0,0
+thompson_baixa_w0,gelo_total,Nucleação de gelo,0,0,0
+thompson_baixa_w0,gelo_total,Resíduo não atribuído,0,0,0
+thompson_baixa_w0,gelo_total,Riming (água de nuvem),0,0,0
+thompson_baixa_w0,gelo_total,Sedimentação,0,0,0
+thompson_baixa_w0,graupel,Ajustes/limiares,0,0,0
+thompson_baixa_w0,graupel,Autoconversão/agregação,0,0,0
+thompson_baixa_w0,graupel,Coleta chuva–gelo,0,0,0
+thompson_baixa_w0,graupel,Coleta gelo–gelo,0,0,0
+thompson_baixa_w0,graupel,Coleta quente,0,0,0
+thompson_baixa_w0,graupel,Condensação/evap. de nuvem,0,0,0
+thompson_baixa_w0,graupel,Congelamento,0,0,0
+thompson_baixa_w0,graupel,Deposição/sublimação,0,0,0
+thompson_baixa_w0,graupel,Evaporação precipitação,0,0,0
+thompson_baixa_w0,graupel,Fusão,0,0,0
+thompson_baixa_w0,graupel,Gelo secundário,0,0,0
+thompson_baixa_w0,graupel,Nucleação de gelo,0,0,0
+thompson_baixa_w0,graupel,Resíduo não atribuído,0,0,0
+thompson_baixa_w0,graupel,Riming (água de nuvem),0,0,0
+thompson_baixa_w0,graupel,Sedimentação,0,0,0
+thompson_baixa_w3,agua_nuvem,Ajustes/limiares,4.5174237340401772e-16,3.3797845907029281e-16,1.1376391433372498e-16
+thompson_baixa_w3,agua_nuvem,Autoconversão/agregação,0,8.5012032783104843,-8.5012032783104843
+thompson_baixa_w3,agua_nuvem,Coleta chuva–gelo,0,0,0
+thompson_baixa_w3,agua_nuvem,Coleta gelo–gelo,0,0,0
+thompson_baixa_w3,agua_nuvem,Coleta quente,0,0,0
+thompson_baixa_w3,agua_nuvem,Condensação/evap. de nuvem,12.429624153163466,0.0016063642163813676,12.428017788947088
+thompson_baixa_w3,agua_nuvem,Congelamento,0,0,0
+thompson_baixa_w3,agua_nuvem,Deposição/sublimação,0,0,0
+thompson_baixa_w3,agua_nuvem,Evaporação precipitação,0,0,0
+thompson_baixa_w3,agua_nuvem,Fusão,0,0,0
+thompson_baixa_w3,agua_nuvem,Gelo secundário,0,0,0
+thompson_baixa_w3,agua_nuvem,Nucleação de gelo,0,0,0
+thompson_baixa_w3,agua_nuvem,Resíduo não atribuído,3.1574819703149081e-14,3.016727450491538e-14,1.4075451982337099e-15
+thompson_baixa_w3,agua_nuvem,Riming (água de nuvem),0,0,0
+thompson_baixa_w3,agua_nuvem,Sedimentação,0.17877767727090857,0.31405813870294802,-0.13528046143203942
+thompson_baixa_w3,gelo_total,Ajustes/limiares,0,0,0
+thompson_baixa_w3,gelo_total,Autoconversão/agregação,0,0,0
+thompson_baixa_w3,gelo_total,Coleta chuva–gelo,0,0,0
+thompson_baixa_w3,gelo_total,Coleta gelo–gelo,0,0,0
+thompson_baixa_w3,gelo_total,Coleta quente,0,0,0
+thompson_baixa_w3,gelo_total,Condensação/evap. de nuvem,0,0,0
+thompson_baixa_w3,gelo_total,Congelamento,0,0,0
+thompson_baixa_w3,gelo_total,Deposição/sublimação,0,0,0
+thompson_baixa_w3,gelo_total,Evaporação precipitação,0,0,0
+thompson_baixa_w3,gelo_total,Fusão,0,0,0
+thompson_baixa_w3,gelo_total,Gelo secundário,0,0,0
+thompson_baixa_w3,gelo_total,Nucleação de gelo,0,0,0
+thompson_baixa_w3,gelo_total,Resíduo não atribuído,0,0,0
+thompson_baixa_w3,gelo_total,Riming (água de nuvem),0,0,0
+thompson_baixa_w3,gelo_total,Sedimentação,0,0,0
+thompson_baixa_w3,graupel,Ajustes/limiares,0,0,0
+thompson_baixa_w3,graupel,Autoconversão/agregação,0,0,0
+thompson_baixa_w3,graupel,Coleta chuva–gelo,0,0,0
+thompson_baixa_w3,graupel,Coleta gelo–gelo,0,0,0
+thompson_baixa_w3,graupel,Coleta quente,0,0,0
+thompson_baixa_w3,graupel,Condensação/evap. de nuvem,0,0,0
+thompson_baixa_w3,graupel,Congelamento,0,0,0
+thompson_baixa_w3,graupel,Deposição/sublimação,0,0,0
+thompson_baixa_w3,graupel,Evaporação precipitação,0,0,0
+thompson_baixa_w3,graupel,Fusão,0,0,0
+thompson_baixa_w3,graupel,Gelo secundário,0,0,0
+thompson_baixa_w3,graupel,Nucleação de gelo,0,0,0
+thompson_baixa_w3,graupel,Resíduo não atribuído,0,0,0
+thompson_baixa_w3,graupel,Riming (água de nuvem),0,0,0
+thompson_baixa_w3,graupel,Sedimentação,0,0,0
+thompson_media_w0,agua_nuvem,Ajustes/limiares,0,2.6715339157930215e-11,-2.6715339157930215e-11
+thompson_media_w0,agua_nuvem,Autoconversão/agregação,0,0,0
+thompson_media_w0,agua_nuvem,Coleta chuva–gelo,0,0,0
+thompson_media_w0,agua_nuvem,Coleta gelo–gelo,0,0,0
+thompson_media_w0,agua_nuvem,Coleta quente,0,0,0
+thompson_media_w0,agua_nuvem,Condensação/evap. de nuvem,0.16087959971836746,0.00069810503076816576,0.16018149468759929
+thompson_media_w0,agua_nuvem,Congelamento,0,0,0
+thompson_media_w0,agua_nuvem,Deposição/sublimação,0,0,0
+thompson_media_w0,agua_nuvem,Evaporação precipitação,0,0,0
+thompson_media_w0,agua_nuvem,Fusão,0,0,0
+thompson_media_w0,agua_nuvem,Gelo secundário,0,0,0
+thompson_media_w0,agua_nuvem,Nucleação de gelo,0,0,0
+thompson_media_w0,agua_nuvem,Resíduo não atribuído,6.0752088210131404e-16,5.6586634007807162e-16,4.1654542023242444e-17
+thompson_media_w0,agua_nuvem,Riming (água de nuvem),0,0,0
+thompson_media_w0,agua_nuvem,Sedimentação,0.0015454406822322973,0.001546073789648608,-6.3310741631079135e-07
+thompson_media_w0,gelo_total,Ajustes/limiares,0,0,0
+thompson_media_w0,gelo_total,Autoconversão/agregação,0,0,0
+thompson_media_w0,gelo_total,Coleta chuva–gelo,0,0,0
+thompson_media_w0,gelo_total,Coleta gelo–gelo,0,0,0
+thompson_media_w0,gelo_total,Coleta quente,0,0,0
+thompson_media_w0,gelo_total,Condensação/evap. de nuvem,0,0,0
+thompson_media_w0,gelo_total,Congelamento,0,0,0
+thompson_media_w0,gelo_total,Deposição/sublimação,0,0,0
+thompson_media_w0,gelo_total,Evaporação precipitação,0,0,0
+thompson_media_w0,gelo_total,Fusão,0,0,0
+thompson_media_w0,gelo_total,Gelo secundário,0,0,0
+thompson_media_w0,gelo_total,Nucleação de gelo,0,0,0
+thompson_media_w0,gelo_total,Resíduo não atribuído,0,0,0
+thompson_media_w0,gelo_total,Riming (água de nuvem),0,0,0
+thompson_media_w0,gelo_total,Sedimentação,0,0,0
+thompson_media_w0,graupel,Ajustes/limiares,0,0,0
+thompson_media_w0,graupel,Autoconversão/agregação,0,0,0
+thompson_media_w0,graupel,Coleta chuva–gelo,0,0,0
+thompson_media_w0,graupel,Coleta gelo–gelo,0,0,0
+thompson_media_w0,graupel,Coleta quente,0,0,0
+thompson_media_w0,graupel,Condensação/evap. de nuvem,0,0,0
+thompson_media_w0,graupel,Congelamento,0,0,0
+thompson_media_w0,graupel,Deposição/sublimação,0,0,0
+thompson_media_w0,graupel,Evaporação precipitação,0,0,0
+thompson_media_w0,graupel,Fusão,0,0,0
+thompson_media_w0,graupel,Gelo secundário,0,0,0
+thompson_media_w0,graupel,Nucleação de gelo,0,0,0
+thompson_media_w0,graupel,Resíduo não atribuído,0,0,0
+thompson_media_w0,graupel,Riming (água de nuvem),0,0,0
+thompson_media_w0,graupel,Sedimentação,0,0,0
+thompson_media_w3,agua_nuvem,Ajustes/limiares,1.9946904446699478e-16,2.8397716163858644e-11,-2.8397516694814177e-11
+thompson_media_w3,agua_nuvem,Autoconversão/agregação,0,3.2496480141757647,-3.2496480141757647
+thompson_media_w3,agua_nuvem,Coleta chuva–gelo,0,0,0
+thompson_media_w3,agua_nuvem,Coleta gelo–gelo,0,0,0
+thompson_media_w3,agua_nuvem,Coleta quente,0,0,0
+thompson_media_w3,agua_nuvem,Condensação/evap. de nuvem,7.5252234310412893,0.0006210302604813154,7.5246024007808057
+thompson_media_w3,agua_nuvem,Congelamento,0,0,0
+thompson_media_w3,agua_nuvem,Deposição/sublimação,0,0,0
+thompson_media_w3,agua_nuvem,Evaporação precipitação,0,0,0
+thompson_media_w3,agua_nuvem,Fusão,0,0,0
+thompson_media_w3,agua_nuvem,Gelo secundário,0,0,0
+thompson_media_w3,agua_nuvem,Nucleação de gelo,0,0,0
+thompson_media_w3,agua_nuvem,Resíduo não atribuído,3.1805680416277817e-14,3.1701299544050242e-14,1.0438087222757909e-16
+thompson_media_w3,agua_nuvem,Riming (água de nuvem),0,0,0
+thompson_media_w3,agua_nuvem,Sedimentação,0.0015792979609065996,0.0015799594405916072,-6.6147968500738553e-07
+thompson_media_w3,gelo_total,Ajustes/limiares,0,0,0
+thompson_media_w3,gelo_total,Autoconversão/agregação,0,0,0
+thompson_media_w3,gelo_total,Coleta chuva–gelo,0,0,0
+thompson_media_w3,gelo_total,Coleta gelo–gelo,0,0,0
+thompson_media_w3,gelo_total,Coleta quente,0,0,0
+thompson_media_w3,gelo_total,Condensação/evap. de nuvem,0,0,0
+thompson_media_w3,gelo_total,Congelamento,0,0,0
+thompson_media_w3,gelo_total,Deposição/sublimação,0,0,0
+thompson_media_w3,gelo_total,Evaporação precipitação,0,0,0
+thompson_media_w3,gelo_total,Fusão,0,0,0
+thompson_media_w3,gelo_total,Gelo secundário,0,0,0
+thompson_media_w3,gelo_total,Nucleação de gelo,0,0,0
+thompson_media_w3,gelo_total,Resíduo não atribuído,0,0,0
+thompson_media_w3,gelo_total,Riming (água de nuvem),0,0,0
+thompson_media_w3,gelo_total,Sedimentação,0,0,0
+thompson_media_w3,graupel,Ajustes/limiares,0,0,0
+thompson_media_w3,graupel,Autoconversão/agregação,0,0,0
+thompson_media_w3,graupel,Coleta chuva–gelo,0,0,0
+thompson_media_w3,graupel,Coleta gelo–gelo,0,0,0
+thompson_media_w3,graupel,Coleta quente,0,0,0
+thompson_media_w3,graupel,Condensação/evap. de nuvem,0,0,0
+thompson_media_w3,graupel,Congelamento,0,0,0
+thompson_media_w3,graupel,Deposição/sublimação,0,0,0
+thompson_media_w3,graupel,Evaporação precipitação,0,0,0
+thompson_media_w3,graupel,Fusão,0,0,0
+thompson_media_w3,graupel,Gelo secundário,0,0,0
+thompson_media_w3,graupel,Nucleação de gelo,0,0,0
+thompson_media_w3,graupel,Resíduo não atribuído,0,0,0
+thompson_media_w3,graupel,Riming (água de nuvem),0,0,0
+thompson_media_w3,graupel,Sedimentação,0,0,0
+wsm6_alta_w0,agua_nuvem,Ajustes/limiares,0,0,0
+wsm6_alta_w0,agua_nuvem,Autoconversão/agregação,0,0,0
+wsm6_alta_w0,agua_nuvem,Coleta chuva–gelo,0,0,0
+wsm6_alta_w0,agua_nuvem,Coleta gelo–gelo,0,0,0
+wsm6_alta_w0,agua_nuvem,Coleta quente,0,0,0
+wsm6_alta_w0,agua_nuvem,Condensação/evap. de nuvem,0.01718038875868912,0.00020484084417139855,0.016975547914517723
+wsm6_alta_w0,agua_nuvem,Congelamento,0,0,0
+wsm6_alta_w0,agua_nuvem,Deposição/sublimação,0,0,0
+wsm6_alta_w0,agua_nuvem,Evaporação precipitação,0,0,0
+wsm6_alta_w0,agua_nuvem,Fusão,0,0,0
+wsm6_alta_w0,agua_nuvem,Gelo secundário,0,0,0
+wsm6_alta_w0,agua_nuvem,Nucleação de gelo,0,0,0
+wsm6_alta_w0,agua_nuvem,Resíduo não atribuído,9.5395078162710059e-17,1.0118124625101766e-16,-5.786168088307603e-18
+wsm6_alta_w0,agua_nuvem,Riming (água de nuvem),0,0,0
+wsm6_alta_w0,agua_nuvem,Sedimentação,0,0,0
+wsm6_alta_w0,gelo_total,Ajustes/limiares,1.265242584899312e-16,1.1575775627181224e-16,1.0766502218119015e-17
+wsm6_alta_w0,gelo_total,Autoconversão/agregação,0,0,0
+wsm6_alta_w0,gelo_total,Coleta chuva–gelo,0,0,0
+wsm6_alta_w0,gelo_total,Coleta gelo–gelo,0,0,0
+wsm6_alta_w0,gelo_total,Coleta quente,0,0,0
+wsm6_alta_w0,gelo_total,Condensação/evap. de nuvem,0,0,0
+wsm6_alta_w0,gelo_total,Congelamento,0,0,0
+wsm6_alta_w0,gelo_total,Deposição/sublimação,0.11136008943001599,0.12543142117570388,-0.014071331745687889
+wsm6_alta_w0,gelo_total,Evaporação precipitação,0,0,0
+wsm6_alta_w0,gelo_total,Fusão,0,0,0
+wsm6_alta_w0,gelo_total,Gelo secundário,0,0,0
+wsm6_alta_w0,gelo_total,Nucleação de gelo,0.015751532590812828,0,0.015751532590812828
+wsm6_alta_w0,gelo_total,Resíduo não atribuído,2.611227655987433e-18,2.6514224476482504e-18,-4.0194791660817452e-20
+wsm6_alta_w0,gelo_total,Riming (água de nuvem),0,0,0
+wsm6_alta_w0,gelo_total,Sedimentação,0.11959513137652146,0.12093396176018366,-0.0013388303836622134
+wsm6_alta_w0,graupel,Ajustes/limiares,0,0,0
+wsm6_alta_w0,graupel,Autoconversão/agregação,0,0,0
+wsm6_alta_w0,graupel,Coleta chuva–gelo,0,0,0
+wsm6_alta_w0,graupel,Coleta gelo–gelo,0,0,0
+wsm6_alta_w0,graupel,Coleta quente,0,0,0
+wsm6_alta_w0,graupel,Condensação/evap. de nuvem,0,0,0
+wsm6_alta_w0,graupel,Congelamento,0,0,0
+wsm6_alta_w0,graupel,Deposição/sublimação,0,0,0
+wsm6_alta_w0,graupel,Evaporação precipitação,0,0,0
+wsm6_alta_w0,graupel,Fusão,0,0,0
+wsm6_alta_w0,graupel,Gelo secundário,0,0,0
+wsm6_alta_w0,graupel,Nucleação de gelo,0,0,0
+wsm6_alta_w0,graupel,Resíduo não atribuído,0,0,0
+wsm6_alta_w0,graupel,Riming (água de nuvem),0,0,0
+wsm6_alta_w0,graupel,Sedimentação,0,0,0
+wsm6_alta_w3,agua_nuvem,Ajustes/limiares,4.7441616312342783e-17,5.4153463874301763e-17,-6.7118475619589835e-18
+wsm6_alta_w3,agua_nuvem,Autoconversão/agregação,0,0,0
+wsm6_alta_w3,agua_nuvem,Coleta chuva–gelo,0,0,0
+wsm6_alta_w3,agua_nuvem,Coleta gelo–gelo,0,0,0
+wsm6_alta_w3,agua_nuvem,Coleta quente,0,0.031584373359430977,-0.031584373359430977
+wsm6_alta_w3,agua_nuvem,Condensação/evap. de nuvem,0.09383379867471027,0.010358356825914645,0.083475441848795615
+wsm6_alta_w3,agua_nuvem,Congelamento,0,6.2337583656485085e-07,-6.2337583656485085e-07
+wsm6_alta_w3,agua_nuvem,Deposição/sublimação,0,0,0
+wsm6_alta_w3,agua_nuvem,Evaporação precipitação,0,0,0
+wsm6_alta_w3,agua_nuvem,Fusão,0.00015370702175836025,0,0.00015370702175836025
+wsm6_alta_w3,agua_nuvem,Gelo secundário,0,0,0
+wsm6_alta_w3,agua_nuvem,Nucleação de gelo,0,0,0
+wsm6_alta_w3,agua_nuvem,Resíduo não atribuído,1.0612941458801503e-16,1.0263475223702334e-16,3.4946623509916871e-18
+wsm6_alta_w3,agua_nuvem,Riming (água de nuvem),0,0.034279640287189446,-0.034279640287189446
+wsm6_alta_w3,agua_nuvem,Sedimentação,0,0,0
+wsm6_alta_w3,gelo_total,Ajustes/limiares,6.0847753329837744e-15,5.8085455551520451e-15,2.7622977783172848e-16
+wsm6_alta_w3,gelo_total,Autoconversão/agregação,0,0,0
+wsm6_alta_w3,gelo_total,Coleta chuva–gelo,3.2357527829661633e-05,0,3.2357527829661633e-05
+wsm6_alta_w3,gelo_total,Coleta gelo–gelo,0,0,0
+wsm6_alta_w3,gelo_total,Coleta quente,0,0,0
+wsm6_alta_w3,gelo_total,Condensação/evap. de nuvem,0,0,0
+wsm6_alta_w3,gelo_total,Congelamento,6.2337619485594392e-07,0,6.2337619485594392e-07
+wsm6_alta_w3,gelo_total,Deposição/sublimação,2.4279596159899208,0.35594468633331411,2.0720149296566066
+wsm6_alta_w3,gelo_total,Evaporação precipitação,0,0.067567826501217759,-0.067567826501217759
+wsm6_alta_w3,gelo_total,Fusão,0,2.0465518460796281,-2.0465518460796281
+wsm6_alta_w3,gelo_total,Gelo secundário,0,0,0
+wsm6_alta_w3,gelo_total,Nucleação de gelo,0.091439325738515653,0,0.091439325738515653
+wsm6_alta_w3,gelo_total,Resíduo não atribuído,4.1706711620753682e-16,4.1874891573375148e-16,-1.6817995262146537e-18
+wsm6_alta_w3,gelo_total,Riming (água de nuvem),0.034279640287189446,0,0.034279640287189446
+wsm6_alta_w3,gelo_total,Sedimentação,5.1651168886587611,5.1746971507173978,-0.0095802620586376112
+wsm6_alta_w3,graupel,Ajustes/limiares,7.4675848790607809e-16,6.9619844894047878e-16,5.0560038965599335e-17
+wsm6_alta_w3,graupel,Autoconversão/agregação,0.46181425599460224,0,0.46181425599460224
+wsm6_alta_w3,graupel,Coleta chuva–gelo,3.210422172081869e-05,0,3.210422172081869e-05
+wsm6_alta_w3,graupel,Coleta gelo–gelo,0.024456683848879817,0,0.024456683848879817
+wsm6_alta_w3,graupel,Coleta quente,0,0,0
+wsm6_alta_w3,graupel,Condensação/evap. de nuvem,0,0,0
+wsm6_alta_w3,graupel,Congelamento,3.5829109302675365e-13,0,3.5829109302675365e-13
+wsm6_alta_w3,graupel,Deposição/sublimação,0.022713834040298746,0.055084233982819863,-0.032370399942521118
+wsm6_alta_w3,graupel,Evaporação precipitação,0,0.024888955667592198,-0.024888955667592198
+wsm6_alta_w3,graupel,Fusão,0,0.44409892017097691,-0.44409892017097691
+wsm6_alta_w3,graupel,Gelo secundário,0,0,0
+wsm6_alta_w3,graupel,Nucleação de gelo,0,0,0
+wsm6_alta_w3,graupel,Resíduo não atribuído,1.0629377804537895e-16,9.3413428565176629e-17,1.2880349480202314e-17
+wsm6_alta_w3,graupel,Riming (água de nuvem),0.017139820143594723,0,0.017139820143594723
+wsm6_alta_w3,graupel,Sedimentação,0.9317368743975919,0.93212973741075333,-0.00039286301316117156
+wsm6_baixa_w0,agua_nuvem,Ajustes/limiares,0,0,0
+wsm6_baixa_w0,agua_nuvem,Autoconversão/agregação,0,0,0
+wsm6_baixa_w0,agua_nuvem,Coleta chuva–gelo,0,0,0
+wsm6_baixa_w0,agua_nuvem,Coleta gelo–gelo,0,0,0
+wsm6_baixa_w0,agua_nuvem,Coleta quente,0,0,0
+wsm6_baixa_w0,agua_nuvem,Condensação/evap. de nuvem,0.12532449450024902,0.00032448130705212857,0.1250000131931969
+wsm6_baixa_w0,agua_nuvem,Congelamento,0,0,0
+wsm6_baixa_w0,agua_nuvem,Deposição/sublimação,0,0,0
+wsm6_baixa_w0,agua_nuvem,Evaporação precipitação,0,0,0
+wsm6_baixa_w0,agua_nuvem,Fusão,0,0,0
+wsm6_baixa_w0,agua_nuvem,Gelo secundário,0,0,0
+wsm6_baixa_w0,agua_nuvem,Nucleação de gelo,0,0,0
+wsm6_baixa_w0,agua_nuvem,Resíduo não atribuído,5.4987123120830158e-16,5.3871641333710168e-16,1.1154817871199912e-17
+wsm6_baixa_w0,agua_nuvem,Riming (água de nuvem),0,0,0
+wsm6_baixa_w0,agua_nuvem,Sedimentação,0,0,0
+wsm6_baixa_w0,gelo_total,Ajustes/limiares,5.3484997117165628e-18,4.8479080776639364e-18,5.0059163405262609e-19
+wsm6_baixa_w0,gelo_total,Autoconversão/agregação,0,0,0
+wsm6_baixa_w0,gelo_total,Coleta chuva–gelo,0,0,0
+wsm6_baixa_w0,gelo_total,Coleta gelo–gelo,0,0,0
+wsm6_baixa_w0,gelo_total,Coleta quente,0,0,0
+wsm6_baixa_w0,gelo_total,Condensação/evap. de nuvem,0,0,0
+wsm6_baixa_w0,gelo_total,Congelamento,0,0,0
+wsm6_baixa_w0,gelo_total,Deposição/sublimação,0,0.0020150256919773796,-0.0020150256919773796
+wsm6_baixa_w0,gelo_total,Evaporação precipitação,0,0,0
+wsm6_baixa_w0,gelo_total,Fusão,0,0,0
+wsm6_baixa_w0,gelo_total,Gelo secundário,0,0,0
+wsm6_baixa_w0,gelo_total,Nucleação de gelo,0.0030241958907632014,0,0.0030241958907632014
+wsm6_baixa_w0,gelo_total,Resíduo não atribuído,1.6166623224587196e-21,1.0069018893618854e-21,6.0976043309683442e-22
+wsm6_baixa_w0,gelo_total,Riming (água de nuvem),0,0,0
+wsm6_baixa_w0,gelo_total,Sedimentação,0.001262247375503034,0.0019300471128261285,-0.00066779973732309468
+wsm6_baixa_w0,graupel,Ajustes/limiares,0,0,0
+wsm6_baixa_w0,graupel,Autoconversão/agregação,0,0,0
+wsm6_baixa_w0,graupel,Coleta chuva–gelo,0,0,0
+wsm6_baixa_w0,graupel,Coleta gelo–gelo,0,0,0
+wsm6_baixa_w0,graupel,Coleta quente,0,0,0
+wsm6_baixa_w0,graupel,Condensação/evap. de nuvem,0,0,0
+wsm6_baixa_w0,graupel,Congelamento,0,0,0
+wsm6_baixa_w0,graupel,Deposição/sublimação,0,0,0
+wsm6_baixa_w0,graupel,Evaporação precipitação,0,0,0
+wsm6_baixa_w0,graupel,Fusão,0,0,0
+wsm6_baixa_w0,graupel,Gelo secundário,0,0,0
+wsm6_baixa_w0,graupel,Nucleação de gelo,0,0,0
+wsm6_baixa_w0,graupel,Resíduo não atribuído,0,0,0
+wsm6_baixa_w0,graupel,Riming (água de nuvem),0,0,0
+wsm6_baixa_w0,graupel,Sedimentação,0,0,0
+wsm6_baixa_w3,agua_nuvem,Ajustes/limiares,7.1731564799073505e-15,7.4761179983455126e-15,-3.0296151843816232e-16
+wsm6_baixa_w3,agua_nuvem,Autoconversão/agregação,0,3.1008957491728277,-3.1008957491728277
+wsm6_baixa_w3,agua_nuvem,Coleta chuva–gelo,0,0,0
+wsm6_baixa_w3,agua_nuvem,Coleta gelo–gelo,0,0,0
+wsm6_baixa_w3,agua_nuvem,Coleta quente,0,8.5359107006402866,-8.5359107006402866
+wsm6_baixa_w3,agua_nuvem,Condensação/evap. de nuvem,12.403916744016199,0.00020698450063004817,12.40370975951557
+wsm6_baixa_w3,agua_nuvem,Congelamento,0,0,0
+wsm6_baixa_w3,agua_nuvem,Deposição/sublimação,0,0,0
+wsm6_baixa_w3,agua_nuvem,Evaporação precipitação,0,0,0
+wsm6_baixa_w3,agua_nuvem,Fusão,0,0,0
+wsm6_baixa_w3,agua_nuvem,Gelo secundário,0,0,0
+wsm6_baixa_w3,agua_nuvem,Nucleação de gelo,0,0,0
+wsm6_baixa_w3,agua_nuvem,Resíduo não atribuído,8.015320742078595e-15,7.8970438962463745e-15,1.1827684583221897e-16
+wsm6_baixa_w3,agua_nuvem,Riming (água de nuvem),0,0,0
+wsm6_baixa_w3,agua_nuvem,Sedimentação,0,0,0
+wsm6_baixa_w3,gelo_total,Ajustes/limiares,5.368286900563081e-18,4.5957115266088475e-18,7.7257537395423393e-19
+wsm6_baixa_w3,gelo_total,Autoconversão/agregação,0,0,0
+wsm6_baixa_w3,gelo_total,Coleta chuva–gelo,0,0,0
+wsm6_baixa_w3,gelo_total,Coleta gelo–gelo,0,0,0
+wsm6_baixa_w3,gelo_total,Coleta quente,0,0,0
+wsm6_baixa_w3,gelo_total,Condensação/evap. de nuvem,0,0,0
+wsm6_baixa_w3,gelo_total,Congelamento,0,0,0
+wsm6_baixa_w3,gelo_total,Deposição/sublimação,0,0.0020150256919773762,-0.0020150256919773762
+wsm6_baixa_w3,gelo_total,Evaporação precipitação,0,0,0
+wsm6_baixa_w3,gelo_total,Fusão,0,0,0
+wsm6_baixa_w3,gelo_total,Gelo secundário,0,0,0
+wsm6_baixa_w3,gelo_total,Nucleação de gelo,0.0030241958907632014,0,0.0030241958907632014
+wsm6_baixa_w3,gelo_total,Resíduo não atribuído,1.6166623224587196e-21,1.0069018893618854e-21,6.0976043309683442e-22
+wsm6_baixa_w3,gelo_total,Riming (água de nuvem),0,0,0
+wsm6_baixa_w3,gelo_total,Sedimentação,0.0012622473755032556,0.0019300471128263536,-0.00066779973732309825
+wsm6_baixa_w3,graupel,Ajustes/limiares,0,0,0
+wsm6_baixa_w3,graupel,Autoconversão/agregação,0,0,0
+wsm6_baixa_w3,graupel,Coleta chuva–gelo,0,0,0
+wsm6_baixa_w3,graupel,Coleta gelo–gelo,0,0,0
+wsm6_baixa_w3,graupel,Coleta quente,0,0,0
+wsm6_baixa_w3,graupel,Condensação/evap. de nuvem,0,0,0
+wsm6_baixa_w3,graupel,Congelamento,0,0,0
+wsm6_baixa_w3,graupel,Deposição/sublimação,0,0,0
+wsm6_baixa_w3,graupel,Evaporação precipitação,0,0,0
+wsm6_baixa_w3,graupel,Fusão,0,0,0
+wsm6_baixa_w3,graupel,Gelo secundário,0,0,0
+wsm6_baixa_w3,graupel,Nucleação de gelo,0,0,0
+wsm6_baixa_w3,graupel,Resíduo não atribuído,0,0,0
+wsm6_baixa_w3,graupel,Riming (água de nuvem),0,0,0
+wsm6_baixa_w3,graupel,Sedimentação,0,0,0
+wsm6_media_w0,agua_nuvem,Ajustes/limiares,0,0,0
+wsm6_media_w0,agua_nuvem,Autoconversão/agregação,0,0,0
+wsm6_media_w0,agua_nuvem,Coleta chuva–gelo,0,0,0
+wsm6_media_w0,agua_nuvem,Coleta gelo–gelo,0,0,0
+wsm6_media_w0,agua_nuvem,Coleta quente,0,0,0
+wsm6_media_w0,agua_nuvem,Condensação/evap. de nuvem,0.13398739498522999,0.0052926609906349207,0.12869473399459508
+wsm6_media_w0,agua_nuvem,Congelamento,0,2.4208230119879685e-14,-2.4208230119879685e-14
+wsm6_media_w0,agua_nuvem,Deposição/sublimação,0,0,0
+wsm6_media_w0,agua_nuvem,Evaporação precipitação,0,0,0
+wsm6_media_w0,agua_nuvem,Fusão,0.051318163438206089,0,0.051318163438206089
+wsm6_media_w0,agua_nuvem,Gelo secundário,0,0,0
+wsm6_media_w0,agua_nuvem,Nucleação de gelo,0,0,0
+wsm6_media_w0,agua_nuvem,Resíduo não atribuído,8.1190911082976864e-16,7.7510277471234129e-16,3.6806336117427359e-17
+wsm6_media_w0,agua_nuvem,Riming (água de nuvem),0,0,0
+wsm6_media_w0,agua_nuvem,Sedimentação,0,0,0
+wsm6_media_w0,gelo_total,Ajustes/limiares,6.2574969420952878e-17,7.1046495018001614e-17,-8.4715255970487476e-18
+wsm6_media_w0,gelo_total,Autoconversão/agregação,0,0,0
+wsm6_media_w0,gelo_total,Coleta chuva–gelo,0,0,0
+wsm6_media_w0,gelo_total,Coleta gelo–gelo,0,0,0
+wsm6_media_w0,gelo_total,Coleta quente,0,0,0
+wsm6_media_w0,gelo_total,Condensação/evap. de nuvem,0,0,0
+wsm6_media_w0,gelo_total,Congelamento,2.4208230119879685e-14,0,2.4208230119879685e-14
+wsm6_media_w0,gelo_total,Deposição/sublimação,0.058546914735322093,0.0020150256919773796,0.056531889043344712
+wsm6_media_w0,gelo_total,Evaporação precipitação,0,0,0
+wsm6_media_w0,gelo_total,Fusão,0,0.051318163438206089,-0.051318163438206089
+wsm6_media_w0,gelo_total,Gelo secundário,0,0,0
+wsm6_media_w0,gelo_total,Nucleação de gelo,0.0034428425984650633,0,0.0034428425984650633
+wsm6_media_w0,gelo_total,Resíduo não atribuído,5.2954611444242314e-18,6.2389038292815942e-18,-9.4344268485736121e-19
+wsm6_media_w0,gelo_total,Riming (água de nuvem),0,0,0
+wsm6_media_w0,gelo_total,Sedimentação,0.053228533454585371,0.053964819251450608,-0.00073628579686523508
+wsm6_media_w0,graupel,Ajustes/limiares,0,0,0
+wsm6_media_w0,graupel,Autoconversão/agregação,0,0,0
+wsm6_media_w0,graupel,Coleta chuva–gelo,0,0,0
+wsm6_media_w0,graupel,Coleta gelo–gelo,0,0,0
+wsm6_media_w0,graupel,Coleta quente,0,0,0
+wsm6_media_w0,graupel,Condensação/evap. de nuvem,0,0,0
+wsm6_media_w0,graupel,Congelamento,0,0,0
+wsm6_media_w0,graupel,Deposição/sublimação,0,0,0
+wsm6_media_w0,graupel,Evaporação precipitação,0,0,0
+wsm6_media_w0,graupel,Fusão,0,0,0
+wsm6_media_w0,graupel,Gelo secundário,0,0,0
+wsm6_media_w0,graupel,Nucleação de gelo,0,0,0
+wsm6_media_w0,graupel,Resíduo não atribuído,0,0,0
+wsm6_media_w0,graupel,Riming (água de nuvem),0,0,0
+wsm6_media_w0,graupel,Sedimentação,0,0,0
+wsm6_media_w3,agua_nuvem,Ajustes/limiares,3.160723227697657e-15,3.2444806651891208e-15,-8.3757437491463105e-17
+wsm6_media_w3,agua_nuvem,Autoconversão/agregação,0,1.9310734590687164,-1.9310734590687164
+wsm6_media_w3,agua_nuvem,Coleta chuva–gelo,0,0,0
+wsm6_media_w3,agua_nuvem,Coleta gelo–gelo,0,0,0
+wsm6_media_w3,agua_nuvem,Coleta quente,0,3.9541570631150633,-3.9541570631150633
+wsm6_media_w3,agua_nuvem,Condensação/evap. de nuvem,7.2629098603625497,0.41951621740925749,6.8433936429532922
+wsm6_media_w3,agua_nuvem,Congelamento,0,8.1892565133011805e-09,-8.1892565133011805e-09
+wsm6_media_w3,agua_nuvem,Deposição/sublimação,0,0,0
+wsm6_media_w3,agua_nuvem,Evaporação precipitação,0,0,0
+wsm6_media_w3,agua_nuvem,Fusão,0.0662157532328327,0,0.0662157532328327
+wsm6_media_w3,agua_nuvem,Gelo secundário,0,0,0
+wsm6_media_w3,agua_nuvem,Nucleação de gelo,0,0,0
+wsm6_media_w3,agua_nuvem,Resíduo não atribuído,4.2602344890720252e-15,4.3906294051009981e-15,-1.3039491602897277e-16
+wsm6_media_w3,agua_nuvem,Riming (água de nuvem),0,0.76588881046429547,-0.76588881046429547
+wsm6_media_w3,agua_nuvem,Sedimentação,0,0,0
+wsm6_media_w3,gelo_total,Ajustes/limiares,1.5280367238537582e-15,1.3817096946030641e-15,1.4632702925069413e-16
+wsm6_media_w3,gelo_total,Autoconversão/agregação,0,0,0
+wsm6_media_w3,gelo_total,Coleta chuva–gelo,0.89990967039251457,0,0.89990967039251457
+wsm6_media_w3,gelo_total,Coleta gelo–gelo,0,0,0
+wsm6_media_w3,gelo_total,Coleta quente,0,0,0
+wsm6_media_w3,gelo_total,Condensação/evap. de nuvem,0,0,0
+wsm6_media_w3,gelo_total,Congelamento,3.4819209936157969e-05,0,3.4819209936157969e-05
+wsm6_media_w3,gelo_total,Deposição/sublimação,0.8507615340790019,0.002061313214653312,0.84870022086434849
+wsm6_media_w3,gelo_total,Evaporação precipitação,0,0,0
+wsm6_media_w3,gelo_total,Fusão,0,2.4860378616414263,-2.4860378616414263
+wsm6_media_w3,gelo_total,Gelo secundário,0,0,0
+wsm6_media_w3,gelo_total,Nucleação de gelo,0.0081190653862505228,0,0.0081190653862505228
+wsm6_media_w3,gelo_total,Resíduo não atribuído,8.1951080829583506e-16,6.7265830531237075e-16,1.4685250298346438e-16
+wsm6_media_w3,gelo_total,Riming (água de nuvem),0.76588881046429547,0,0.76588881046429547
+wsm6_media_w3,gelo_total,Sedimentação,2.788214918942916,2.7956873118765033,-0.0074723929335866581
+wsm6_media_w3,graupel,Ajustes/limiares,5.1897721356263115e-16,4.9717597195750475e-16,2.1801241605126536e-17
+wsm6_media_w3,graupel,Autoconversão/agregação,0.024021133850382622,0,0.024021133850382622
+wsm6_media_w3,graupel,Coleta chuva–gelo,0.60163519593523018,0,0.60163519593523018
+wsm6_media_w3,graupel,Coleta gelo–gelo,0.06192948600893778,0,0.06192948600893778
+wsm6_media_w3,graupel,Coleta quente,0,0,0
+wsm6_media_w3,graupel,Condensação/evap. de nuvem,0,0,0
+wsm6_media_w3,graupel,Congelamento,3.4811020679644665e-05,0,3.4811020679644665e-05
+wsm6_media_w3,graupel,Deposição/sublimação,0.03386721213166749,0,0.03386721213166749
+wsm6_media_w3,graupel,Evaporação precipitação,0,0,0
+wsm6_media_w3,graupel,Fusão,0,1.1035335686265006,-1.1035335686265006
+wsm6_media_w3,graupel,Gelo secundário,0,0,0
+wsm6_media_w3,graupel,Nucleação de gelo,0,0,0
+wsm6_media_w3,graupel,Resíduo não atribuído,4.6250532917034468e-16,4.3233082022457442e-16,3.0174508945770274e-17
+wsm6_media_w3,graupel,Riming (água de nuvem),0.38294440523214773,0,0.38294440523214773
+wsm6_media_w3,graupel,Sedimentação,1.2072822357654696,1.2077776707955461,-0.00049543503007667077

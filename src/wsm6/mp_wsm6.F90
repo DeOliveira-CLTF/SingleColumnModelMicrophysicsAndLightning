@@ -1,5 +1,8 @@
 !=================================================================================================================
  module mp_wsm6
+! PROCESS_DIAGNOSTICS_BEGIN
+ use process_diagnostics
+! PROCESS_DIAGNOSTICS_END
  use ccpp_kind_types,only: kind_phys
  use module_libmassv,only: vrec,vsqrt
 
@@ -632,6 +635,14 @@
        if(qr(i,k).le.0.0) workr(i,k) = 0.0
      enddo
    enddo
+! PROCESS_DIAGNOSTICS_BEGIN
+   if(pd_enabled) then
+     do k=kts,kte
+       i=its
+       call pd_mark(k,[q(i,k),qc(i,k),qr(i,k),qi(i,k),qs(i,k),qg(i,k)])
+     enddo
+   endif
+! PROCESS_DIAGNOSTICS_END
    call nislfv_rain_plm(idim,kdim,den_tmp,denfac,t,delz_tmp,workr,denqrs1,  &
                         delqrs1,dtcld,1,1)
    call nislfv_rain_plm6(idim,kdim,den_tmp,denfac,t,delz_tmp,worka,         &
@@ -646,6 +657,14 @@
        fall(i,k,3) = denqrs3(i,k)*worka(i,k)/delz(i,k)
      enddo
    enddo
+! PROCESS_DIAGNOSTICS_BEGIN
+   if(pd_enabled) then
+     do k=kts,kte
+       i=its
+       call pd_difference(k,'sedimentation',[q(i,k),qc(i,k),qr(i,k),qi(i,k),qs(i,k),qg(i,k)])
+     enddo
+   endif
+! PROCESS_DIAGNOSTICS_END
    do i = its, ite
      fall(i,1,1) = delqrs1(i)/delz(i,1)/dtcld
      fall(i,1,2) = delqrs2(i)/delz(i,1)/dtcld
@@ -679,6 +698,9 @@
                       +precs2*work2(i,k)*coeres)/den(i,k)
            psmlt(i,k) = min(max(psmlt(i,k)*dtcld/mstep(i),                  &
                       -qs(i,k)/mstep(i)),0.)
+! PROCESS_DIAGNOSTICS_BEGIN
+         if(pd_enabled) call pd_transfer(k,'ws_psmlt',5,3,-psmlt(i,k))
+! PROCESS_DIAGNOSTICS_END
            qs(i,k) = qs(i,k) + psmlt(i,k)
            qr(i,k) = qr(i,k) - psmlt(i,k)
            t(i,k) = t(i,k) + xlf/cpm(i,k)*psmlt(i,k)
@@ -694,6 +716,9 @@
                       +precg2*work2(i,k)*coeres)/den(i,k)
            pgmlt(i,k) = min(max(pgmlt(i,k)*dtcld/mstep(i),                  &
                      -qg(i,k)/mstep(i)),0.)
+! PROCESS_DIAGNOSTICS_BEGIN
+         if(pd_enabled) call pd_transfer(k,'ws_pgmlt',6,3,-pgmlt(i,k))
+! PROCESS_DIAGNOSTICS_END
            qg(i,k) = qg(i,k) + pgmlt(i,k)
            qr(i,k) = qr(i,k) - pgmlt(i,k)
            t(i,k) = t(i,k) + xlf/cpm(i,k)*pgmlt(i,k)
@@ -723,6 +748,14 @@
        denqci(i,k) = den(i,k)*qi(i,k)
      enddo
    enddo
+! PROCESS_DIAGNOSTICS_BEGIN
+   if(pd_enabled) then
+     do k=kts,kte
+       i=its
+       call pd_mark(k,[q(i,k),qc(i,k),qr(i,k),qi(i,k),qs(i,k),qg(i,k)])
+     enddo
+   endif
+! PROCESS_DIAGNOSTICS_END
    call nislfv_rain_plm(idim,kdim,den_tmp,denfac,t,delz_tmp,work1c,denqci,  &
                         delqi,dtcld,1,0)
    do k = kts, kte
@@ -730,6 +763,14 @@
        qi(i,k) = max(denqci(i,k)/den(i,k),0.)
      enddo
    enddo
+! PROCESS_DIAGNOSTICS_BEGIN
+   if(pd_enabled) then
+     do k=kts,kte
+       i=its
+       call pd_difference(k,'sedimentation',[q(i,k),qc(i,k),qr(i,k),qi(i,k),qs(i,k),qg(i,k)])
+     enddo
+   endif
+! PROCESS_DIAGNOSTICS_END
    do i = its, ite
      fallc(i,1) = delqi(i)/delz(i,1)/dtcld
    enddo
@@ -780,6 +821,9 @@
        xlf = xls-xl(i,k)
        if(supcol.lt.0.) xlf = xlf0
        if(supcol.lt.0.and.qi(i,k).gt.0.) then
+! PROCESS_DIAGNOSTICS_BEGIN
+         if(pd_enabled) call pd_transfer(k,'ws_pimlt',4,2,qi(i,k))
+! PROCESS_DIAGNOSTICS_END
          qc(i,k) = qc(i,k) + qi(i,k)
          t(i,k) = t(i,k) - xlf/cpm(i,k)*qi(i,k)
          qi(i,k) = 0.
@@ -789,6 +833,9 @@
 !        (T<-40C: C->I)
 !---------------------------------------------------------------
        if(supcol.gt.40..and.qc(i,k).gt.0.) then
+! PROCESS_DIAGNOSTICS_BEGIN
+         if(pd_enabled) call pd_transfer(k,'ws_pihmf',2,4,qc(i,k))
+! PROCESS_DIAGNOSTICS_END
          qi(i,k) = qi(i,k) + qc(i,k)
          t(i,k) = t(i,k) + xlf/cpm(i,k)*qc(i,k)
          qc(i,k) = 0.
@@ -803,6 +850,9 @@
          supcolt=min(supcol,50.)
          pfrzdtc = min(pfrz1*(exp(pfrz2*supcolt)-1.)                        &
                  * den(i,k)/denr/xncr*qc(i,k)*qc(i,k)*dtcld,qc(i,k))
+! PROCESS_DIAGNOSTICS_BEGIN
+         if(pd_enabled) call pd_transfer(k,'ws_pfrzdtc',2,4,pfrzdtc)
+! PROCESS_DIAGNOSTICS_END
          qi(i,k) = qi(i,k) + pfrzdtc
          t(i,k) = t(i,k) + xlf/cpm(i,k)*pfrzdtc
          qc(i,k) = qc(i,k)-pfrzdtc
@@ -821,6 +871,9 @@
          pfrzdtr = min(20.*(pi*pi)*pfrz1*n0r*denr/den(i,k)                  &
                  *(exp(pfrz2*supcolt)-1.)*temp*dtcld,                       &
                    qr(i,k))
+! PROCESS_DIAGNOSTICS_BEGIN
+         if(pd_enabled) call pd_transfer(k,'ws_pfrzdtr',3,6,pfrzdtr)
+! PROCESS_DIAGNOSTICS_END
          qg(i,k) = qg(i,k) + pfrzdtr
          t(i,k) = t(i,k) + xlf/cpm(i,k)*pfrzdtr
          qr(i,k) = qr(i,k)-pfrzdtr
@@ -1290,6 +1343,33 @@
            pgacs(i,k) = pgacs(i,k)*factor
          endif
 !
+! PROCESS_DIAGNOSTICS_BEGIN
+         if(pd_enabled) then
+          call pd_mark(k,[q(i,k),qc(i,k),qr(i,k),qi(i,k),qs(i,k),qg(i,k)])
+          call pd_transfer(k,'ws_praut',2,3,praut(i,k)*dtcld)
+          call pd_transfer(k,'ws_pracw',2,3,pracw(i,k)*dtcld)
+          call pd_transfer(k,'ws_prevp',1,3,prevp(i,k)*dtcld)
+          call pd_transfer(k,'ws_pigen',1,4,pigen(i,k)*dtcld)
+          call pd_transfer(k,'ws_pidep',1,4,pidep(i,k)*dtcld)
+          call pd_transfer(k,'ws_psdep',1,5,psdep(i,k)*dtcld)
+          call pd_transfer(k,'ws_pgdep',1,6,pgdep(i,k)*dtcld)
+          call pd_transfer(k,'ws_psaut',4,5,psaut(i,k)*dtcld)
+          call pd_transfer(k,'ws_pgaut',5,6,pgaut(i,k)*dtcld)
+          call pd_transfer(k,'ws_psaci',4,5,psaci(i,k)*dtcld)
+          call pd_transfer(k,'ws_pgaci',4,6,pgaci(i,k)*dtcld)
+          call pd_transfer(k,'ws_pgacr',3,6,pgacr(i,k)*dtcld)
+          call pd_transfer(k,'ws_pgacs',5,6,pgacs(i,k)*dtcld)
+          call pd_transfer(k,'ws_paacw_snow',2,5,paacw(i,k)*dtcld)
+          call pd_transfer(k,'ws_paacw_graupel',2,6,paacw(i,k)*dtcld)
+          call pd_transfer(k,'ws_piacr',3,5,piacr(i,k)*delta3*dtcld)
+          call pd_transfer(k,'ws_piacr',3,6,piacr(i,k)*(1.-delta3)*dtcld)
+          call pd_transfer(k,'ws_praci',4,5,praci(i,k)*delta3*dtcld)
+          call pd_transfer(k,'ws_praci',4,6,praci(i,k)*(1.-delta3)*dtcld)
+          call pd_transfer(k,'ws_psacr',3,5,psacr(i,k)*delta2*dtcld)
+          call pd_transfer(k,'ws_psacr',3,6,psacr(i,k)*(1.-delta2)*dtcld)
+          call pd_transfer(k,'ws_pracs',5,6,pracs(i,k)*(1.-delta2)*dtcld)
+         endif
+! PROCESS_DIAGNOSTICS_END
          work2(i,k)=-(prevp(i,k)+psdep(i,k)+pgdep(i,k)+pigen(i,k)+pidep(i,k))
 ! update
          q(i,k) = q(i,k)+work2(i,k)*dtcld
@@ -1311,6 +1391,9 @@
                  + praci(i,k)*(1.-delta3)+psacr(i,k)*(1.-delta2)            &
                  + pracs(i,k)*(1.-delta2)+pgaci(i,k)+paacw(i,k)             &
                  + pgacr(i,k)+pgacs(i,k))*dtcld,0.)
+! PROCESS_DIAGNOSTICS_BEGIN
+         if(pd_enabled) call pd_adjust(k,'positivity_clipping',[q(i,k),qc(i,k),qr(i,k),qi(i,k),qs(i,k),qg(i,k)])
+! PROCESS_DIAGNOSTICS_END
          xlf = xls-xl(i,k)
          xlwork2 = -xls*(psdep(i,k)+pgdep(i,k)+pidep(i,k)+pigen(i,k))       &
                    -xl(i,k)*prevp(i,k)-xlf*(piacr(i,k)+paacw(i,k)           &
@@ -1366,6 +1449,20 @@
            pgeml(i,k) = pgeml(i,k)*factor
          endif
 !
+! PROCESS_DIAGNOSTICS_BEGIN
+         if(pd_enabled) then
+          call pd_mark(k,[q(i,k),qc(i,k),qr(i,k),qi(i,k),qs(i,k),qg(i,k)])
+          call pd_transfer(k,'ws_praut',2,3,praut(i,k)*dtcld)
+          call pd_transfer(k,'ws_pracw',2,3,pracw(i,k)*dtcld)
+          call pd_transfer(k,'ws_prevp',1,3,prevp(i,k)*dtcld)
+          call pd_transfer(k,'ws_psevp',1,5,psevp(i,k)*dtcld)
+          call pd_transfer(k,'ws_pgevp',1,6,pgevp(i,k)*dtcld)
+          call pd_transfer(k,'ws_pseml',3,5,pseml(i,k)*dtcld)
+          call pd_transfer(k,'ws_pgeml',3,6,pgeml(i,k)*dtcld)
+          call pd_transfer(k,'ws_pgacs',5,6,pgacs(i,k)*dtcld)
+          call pd_transfer(k,'ws_paacw_warm',2,3,2.*paacw(i,k)*dtcld)
+         endif
+! PROCESS_DIAGNOSTICS_END
          work2(i,k)=-(prevp(i,k)+psevp(i,k)+pgevp(i,k))
 ! update
          q(i,k) = q(i,k)+work2(i,k)*dtcld
@@ -1378,6 +1475,9 @@
                  + pseml(i,k))*dtcld,0.)
          qg(i,k) = max(qg(i,k)+(pgacs(i,k)+pgevp(i,k)                       &
                  + pgeml(i,k))*dtcld,0.)
+! PROCESS_DIAGNOSTICS_BEGIN
+         if(pd_enabled) call pd_adjust(k,'positivity_clipping',[q(i,k),qc(i,k),qr(i,k),qi(i,k),qs(i,k),qg(i,k)])
+! PROCESS_DIAGNOSTICS_END
          xlf = xls-xl(i,k)
          xlwork2 = -xl(i,k)*(prevp(i,k)+psevp(i,k)+pgevp(i,k))              &
                    -xlf*(pseml(i,k)+pgeml(i,k))
@@ -1430,6 +1530,9 @@
        pcond(i,k) = min(max(work1(i,k,1)/dtcld,0.),max(q(i,k),0.)/dtcld)
        if(qc(i,k).gt.0..and.work1(i,k,1).lt.0.)                          &
          pcond(i,k) = max(work1(i,k,1),-qc(i,k))/dtcld
+! PROCESS_DIAGNOSTICS_BEGIN
+         if(pd_enabled) call pd_transfer(k,'ws_pcond',1,2,pcond(i,k)*dtcld)
+! PROCESS_DIAGNOSTICS_END
          q(i,k) = q(i,k)-pcond(i,k)*dtcld
          qc(i,k) = max(qc(i,k)+pcond(i,k)*dtcld,0.)
          t(i,k) = t(i,k)+pcond(i,k)*xl(i,k)/cpm(i,k)*dtcld
@@ -1442,8 +1545,14 @@
 !
    do k = kts, kte
      do i = its, ite
+! PROCESS_DIAGNOSTICS_BEGIN
+       if(pd_enabled) call pd_mark(k,[q(i,k),qc(i,k),qr(i,k),qi(i,k),qs(i,k),qg(i,k)])
+! PROCESS_DIAGNOSTICS_END
        if(qc(i,k).le.qmin) qc(i,k) = 0.0
        if(qi(i,k).le.qmin) qi(i,k) = 0.0
+! PROCESS_DIAGNOSTICS_BEGIN
+       if(pd_enabled) call pd_difference(k,'final_clipping',[q(i,k),qc(i,k),qr(i,k),qi(i,k),qs(i,k),qg(i,k)])
+! PROCESS_DIAGNOSTICS_END
      enddo
    enddo
  enddo                  ! big loops

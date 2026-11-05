@@ -1,0 +1,49 @@
+{
+  "status": "pendente_validacao_semantica",
+  "smoke_path": "resultados\\ensemble_amazonia\\smoke_20261102T214542451445Z",
+  "quality": {
+    "valid": false,
+    "errors": [
+      "Pressão inválida/não decrescente"
+    ],
+    "warnings": [
+      "Camada superior artificial; extremos frios não equivalem a validação atmosférica"
+    ],
+    "details": {
+      "dz_min_max_m": [
+        50.0,
+        1054.8228363526723
+      ],
+      "rh_warm_initial_max_percent": 100.10617677515293,
+      "rh_warm_initial_above101_count": 0,
+      "rh_warm_evolution_max_percent": 100.08964529497946,
+      "rh_warm_evolution_above101_count": 0,
+      "temperature_min_max_K": [
+        192.59267817393678,
+        300.63800048828125
+      ],
+      "temperature_above16500m_min_K": 192.59267817393678,
+      "samples": 361,
+      "last_time_s": 7200.0
+    }
+  },
+  "specific_humidity_input_kg_kg": 0.01735273376107216,
+  "mixing_ratio_required_kg_kg": 0.01765916869044304,
+  "qv_output_initial_kg_kg": 0.01735273376107216,
+  "relative_deficit_percent": -1.7352738101240273,
+  "humidity_semantics_failed": true,
+  "point": [
+    -8.0,
+    -63.0
+  ],
+  "time_index_1based": 16,
+  "time_epoch_seconds": 1412521200.0,
+  "pl_sha256": "fe7e555f871603944e1ea4d0354bb77bc5829d3011e8001be2b79df06ee98f01",
+  "sl_sha256": "3156959060f28526e08a68a18b8f165ef4a5b4a250030bd599bee940a0c8432d",
+  "driver_sha256": "c7fad2e67a1a344701b0e4820a706665507451e6b4efa257bae9f3d2a4d5647a",
+  "source_evidence": [
+    "src/era5_bridge.F90: col%qv=max(buf,1e-12) after reading q",
+    "src/ensemble_driver.F90: regrid qvcol=col%qv without conversion"
+  ],
+  "decision": "Não publicar Tabela4/Figura6: umidade específica é entregue como razão de mistura; correção exige revisão do caminho Fortran, fora do escopo. 12 namelists preparados, não executados como resultados científicos."
+}

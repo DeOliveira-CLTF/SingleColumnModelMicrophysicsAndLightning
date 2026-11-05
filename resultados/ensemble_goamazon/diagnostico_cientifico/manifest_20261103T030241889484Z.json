@@ -1,0 +1,2662 @@
+{
+  "baseline_manifest_sha256": "165ed27c48478b1ee5cb1f63cb3b59c45625107a871bfcf21113fe5a14a9086e",
+  "binary_sha256": "43dd6620fc9c7911f00388a96881cbad54ada97c8101a7898b5f8284bd117498",
+  "input_sha256": "aacf5e194d19f9bb15bc036f48bef94f99bcb0c96f9ff1928751af7c268e9161",
+  "sources": {
+    "src\\ensemble_driver.F90": "c71d6b67ffd022470901ef29ffa38f7b4af23697fbc69626c05d81d39618f6f2",
+    "src\\era5_bridge.F90": "8f96ffafe659e9b9490495cb16a31eab8b646ab61dcb87a0982b907b12f36c06",
+    "src\\goamazon_bridge.F90": "cd8382d71a06a75343f13da74d58c40fa69d47524dfdb1bdbdbb33598ed554cb",
+    "src\\module_mp_radar.F90": "f349afc8f5068173320856f11e9b4b1f769761803ce282f2832340b96e6f90b3",
+    "src\\module_mp_thompson.F": "1ba1f30d486bc8e2a2e6295f8495877f963f7995a047558f8a68ff80012a70e5",
+    "src\\mpas_atmphys_constants.F": "497e7a5f230ecd102a32ab77e0ac41edba378f906d655944e0d7095903d93758",
+    "src\\mpas_atmphys_driver_microphysics_REFERENCE.F": "426697f683852a6005b74b842cfb3edfafb02c11e55691c783e8b983cc054a17",
+    "src\\mpas_atmphys_functions.F": "2cf3763c2781468ed59134acecfeb04a903859356ab30c18d48e595e5688e37e",
+    "src\\mpas_atmphys_lightning.F90": "0b812b97f7d014e3fff60a3bf75e096fa95d8b6cb1036bae1d0f58c271d231e8",
+    "src\\mpas_constants.F": "fa77a86b6d3e9041677ef1cdaf76fbcc172a50607874c80ace5085829ae7be31",
+    "src\\mpas_stubs_offline.F90": "dff1538245c93ac240d898b1ce8e6431a26c133e78cfcc715d120b168e384c45",
+    "src\\mp_offline_driver.F90": "2b728eadcc4192ef0b70ea51806c84f8f4c91769e793851700584610f102350d",
+    "src\\mynn_offline_coupling.F90": "044ca40f07c3d24863f2d7080e2e3bd6c0e16b1a79d110c4e46915e209feecda",
+    "src\\output_ensemble_netcdf.F90": "63aafe67aafc019cf91b2faa7a52b5e34f1b3d92f3f6d1b5a911c65dd52d2384",
+    "src\\output_mp_netcdf.F90": "8fc4d1a8ffc4a0b1fa7ca5e15a0f0d38442e48b864f5266d1d159d2e710f9f2d",
+    "src\\saturation_perturbation.F90": "8c4e61ad263267d53ce070f3bee4c77a78f1a2e8e384fd2c520bd0bc0316aaff",
+    "src\\updraft_forcing.F90": "415ba0c9efe508404d8cfe65e649f64ec72a96561e09524f28503426d8a6132f",
+    "src\\mynn\\bl_mynn.F90": "c46825fe4fcb4c5b05f8be9e48b2115d70f341886e1105cb3121603ea748bdde",
+    "src\\mynn\\bl_mynn_subroutines.F90": "cea24411ea5436d5c73e454e6d97ad95ba382047b47959a87c865bc05d62c1a5",
+    "src\\mynn\\ccpp_kind_types.F": "d4a02744daaaf042a26d8225dc6c40e6d06dcdf35fe1e64f3fc057fcfc241efa",
+    "src\\mynn\\mpas_atmphys_driver_pbl_REFERENCE.F": "31610fde6a68c13101acf845ff728251336b6507d80cb297487cc4dd0337a468",
+    "src\\mynn\\mpas_atmphys_driver_sfclayer_REFERENCE.F": "1e6299a50dddf0722e954e49a0f2ce5ee03af5b5287ea7b62c35380dd0230121",
+    "src\\mynn\\mynn_shared.F90": "be2e99063197aeb6962f4a7425cd338157f688b527d43f2d00a38a8e14aff2ab",
+    "src\\mynn\\sf_mynn.F90": "8ec19335b40cbf684f63c8dc3bb6843c2835ed5660ee0a17e088c78d4c0b23dd",
+    "src\\unified_edmf\\entrainment_closure.F90": "495bf2c0645c2585005eb3836542429ca919649f1c888f908910b7ff5f310bb6",
+    "src\\unified_edmf\\plume_condensation.F90": "ba37641147566049873eb0cd22de5900630b0801be9913fa2e3fb8b4a7165ca0",
+    "src\\unified_edmf\\plume_microphysics_thompson.F90": "2a0c104a782b06ea386429ee508cd3858af577c220b03e561e74626a61b901f7",
+    "src\\unified_edmf\\plume_precipitation.F90": "d09d739d0572c9009c1ab49ebbe3eaf574badd7d27c154a9d10b8ef3f54e3a0c",
+    "src\\unified_edmf\\plume_thermo.F90": "ee42d93c07e7f67f5b97fe6028617757d6b966e9d4f0de741fba034b77326d4b",
+    "src\\unified_edmf\\plume_velocity.F90": "5033474681582c3fcb0117f61bc49a9850b71955127a0804918659d416c6c268",
+    "src\\unified_edmf\\prognostic_area.F90": "6337b5c6a9ef439c78fa1318edd4a178486e49784b3da1ed36d56418c98868d6",
+    "src\\unified_edmf\\test_coupled_plume.F90": "8d380a57fd3c480108919c58a1fbecaecf9e847cc514f4d39fdbfb4599ba14ef",
+    "src\\unified_edmf\\test_coupled_plume_thompson.F90": "51e9aa39cf42a8f96958eb9d1688737214ebf026493f6a4a9b7df3130440fc31",
+    "src\\unified_edmf\\test_entrainment_closure.F90": "3aa9ad34d75048b28bce77c1bf58f39ccc3a92d5a012d213d1c21341a664df08",
+    "src\\unified_edmf\\test_plume_condensation.F90": "7838032a89075f70ea650eb715e200aaa613ee15591904b1dd20e695586b4f40",
+    "src\\unified_edmf\\test_plume_microphysics_thompson.F90": "af01e7c00f1be574bd903b4f7058095373b52e36a59683ec4fa051635b5f2b2c",
+    "src\\unified_edmf\\test_plume_precipitation.F90": "74e5904c6b17ac875bfcabee8f7749f107452b1cc197aa75d333fce82b3acdd8",
+    "src\\unified_edmf\\test_plume_thermo.F90": "2cef301ebabf51dd7d9c83d6515d526d27ed2b6ddeba78c1c9d0b3567406fc3a",
+    "src\\unified_edmf\\test_plume_velocity.F90": "fbffdd6d9fe1fb7c3446500218b01608f6a17f19b9211297f4c06987837e59ab",
+    "src\\unified_edmf\\test_prognostic_area.F90": "8fe0c20683cadaf0bd13d9b8fec9b7fb0a03949a89a66167befc0912f98421df",
+    "src\\unified_edmf\\test_uedmf_entdet_map.F90": "6e02109b18f199893a6c67e66551b0ea2dd1efc1e7fcb194b670b1e4f857c8e6",
+    "src\\unified_edmf\\test_uedmf_entdet_moist.F90": "56b1eab52def5dc58f78f783a266517890770116f8d90019cfe23f5c7dadcde8",
+    "src\\unified_edmf\\test_uedmf_thermo.F90": "5bf71ecd37caead038345e805d619ba53ce80847584933e16f82eb417aaa8a42",
+    "src\\wsm6\\module_libmassv.F90": "262630e14a9c70ba5074dac04c6f53ebe59c6f1cf27989d1b6c7c1850d7860f3",
+    "src\\wsm6\\module_mp_wsm6.F": "88065a388187a2380578059caac0414317cc40d6cd02e837f8b81671c8df5c25",
+    "src\\wsm6\\mp_wsm6.F90": "83012eedbe67a94e6cc0883b29c5658432d97fc99cad9eb326a1a5fd0f8146de",
+    "src\\wsm6\\mp_wsm6_effectRad.F90": "abaf69c2abbe8974d790ea1b650dbf14daf990617856c1ee49c255d534706842"
+  },
+  "created_utc": "20261103T030241889484Z",
+  "runs": {
+    "wsm6_media_w3_nz60_dt20": {
+      "directory": "resultados\\ensemble_goamazon\\wsm6_media_w3_20261103T024633710569Z",
+      "action": "baseline_reused",
+      "config": {
+        "input_source": "goamazon",
+        "path_goamazon": "/mnt/c/git_repos/SingleColumnModelMicrophysicsAndLightning/data_goamazon/GOAMAZON_SINGLE_SCM_driver.nc",
+        "npoints": 1,
+        "nsatconfigs": 1,
+        "point_label": "GOAMAZON_original",
+        "microp_scheme": "wsm6",
+        "satconfig_label": "media",
+        "sat_z_lo": 3500.0,
+        "sat_z_hi": 5500.0,
+        "sat_rh_target": 1.0,
+        "nz": 60,
+        "ztop": 20000.0,
+        "dz0": 50.0,
+        "dt_microp": 20.0,
+        "run_duration_s": 7200.0,
+        "pulse_sigma_z": 1000.0,
+        "pulse_duration_s": 1800.0,
+        "pulse_w_max": 3.0,
+        "write_profiles": true,
+        "path_summary": "summary.nc",
+        "path_profile_prefix": "profile"
+      },
+      "output_sha256": "323596add93633d5ca9498feaf8cca00771a4b71e141ac9076163ffa88e8ee50",
+      "namelist_sha256": "c0a9d8b0dd1dc0664361c7aae6080ee2c55a974f31b1ddb4523e449858e136ae",
+      "quality": {
+        "valid": true,
+        "errors": [],
+        "warnings": [
+          "RH quente initial >101% (diagnóstico Bolton)",
+          "Camada superior artificial do GOAMAZON; ensemble idealizado, sem validação observacional"
+        ],
+        "details": {
+          "dz_min_max_m": [
+            50.0,
+            1054.8228363526723
+          ],
+          "rh_warm_initial_max_percent": 101.12654941252704,
+          "rh_warm_initial_above101_count": 1,
+          "rh_warm_evolution_max_percent": 99.86536824693935,
+          "rh_warm_evolution_above101_count": 0,
+          "temperature_min_max_K": [
+            161.67582970406266,
+            298.7986881681443
+          ],
+          "temperature_above16500m_min_K": 161.67582970406266,
+          "samples": 361,
+          "last_time_s": 7200.0
+        },
+        "initial_perturbation_checked": true,
+        "input_sha256": "aacf5e194d19f9bb15bc036f48bef94f99bcb0c96f9ff1928751af7c268e9161",
+        "actual_saturated_centers_m": [
+          3618.4249319638475,
+          3860.3405826784574,
+          4115.087064596672,
+          4383.344905120869,
+          4665.830725772197,
+          4963.299156566698,
+          5276.544851926971
+        ],
+        "water_added_initial_kg_m2": 2.0920976636595467
+      }
+    },
+    "wsm6_media_w3_nz60_dt10": {
+      "directory": "resultados\\ensemble_goamazon\\diagnostico_cientifico\\wsm6_media_w3_nz60_dt10_20261103T030241889484Z",
+      "action": "executed",
+      "config": {
+        "input_source": "goamazon",
+        "path_goamazon": "/mnt/c/git_repos/SingleColumnModelMicrophysicsAndLightning/data_goamazon/GOAMAZON_SINGLE_SCM_driver.nc",
+        "npoints": 1,
+        "nsatconfigs": 1,
+        "point_label": "GOAMAZON_original",
+        "microp_scheme": "wsm6",
+        "satconfig_label": "media",
+        "sat_z_lo": 3500.0,
+        "sat_z_hi": 5500.0,
+        "sat_rh_target": 1.0,
+        "nz": 60,
+        "ztop": 20000.0,
+        "dz0": 50.0,
+        "dt_microp": 10.0,
+        "run_duration_s": 7200.0,
+        "pulse_sigma_z": 1000.0,
+        "pulse_duration_s": 1800.0,
+        "pulse_w_max": 3.0,
+        "write_profiles": true,
+        "path_summary": "summary.nc",
+        "path_profile_prefix": "profile"
+      },
+      "output_sha256": "e42f6463d213b607324aa2a2e4c2f186e716da8f4ba439137bdb531e634179cf",
+      "namelist_sha256": "69f7cb95e14095f9359a4ea561c164ff5ff7f6df4069110b58073fa51431d676",
+      "quality": {
+        "valid": true,
+        "errors": [],
+        "warnings": [
+          "RH quente initial >101% (diagnóstico Bolton)",
+          "Camada superior artificial do GOAMAZON; ensemble idealizado, sem validação observacional"
+        ],
+        "details": {
+          "dz_min_max_m": [
+            50.0,
+            1054.8228363526723
+          ],
+          "rh_warm_initial_max_percent": 101.12654941252704,
+          "rh_warm_initial_above101_count": 1,
+          "rh_warm_evolution_max_percent": 99.86501021427965,
+          "rh_warm_evolution_above101_count": 0,
+          "temperature_min_max_K": [
+            161.67582970406266,
+            298.7986881681443
+          ],
+          "temperature_above16500m_min_K": 161.67582970406266,
+          "samples": 721,
+          "last_time_s": 7200.0
+        },
+        "initial_perturbation_checked": true,
+        "input_sha256": "aacf5e194d19f9bb15bc036f48bef94f99bcb0c96f9ff1928751af7c268e9161",
+        "actual_saturated_centers_m": [
+          3618.4249319638475,
+          3860.3405826784574,
+          4115.087064596672,
+          4383.344905120869,
+          4665.830725772197,
+          4963.299156566698,
+          5276.544851926971
+        ],
+        "water_added_initial_kg_m2": 2.0920976636595467
+      }
+    },
+    "wsm6_media_w3_nz60_dt5": {
+      "directory": "resultados\\ensemble_goamazon\\diagnostico_cientifico\\wsm6_media_w3_nz60_dt5_20261103T030241889484Z",
+      "action": "executed",
+      "config": {
+        "input_source": "goamazon",
+        "path_goamazon": "/mnt/c/git_repos/SingleColumnModelMicrophysicsAndLightning/data_goamazon/GOAMAZON_SINGLE_SCM_driver.nc",
+        "npoints": 1,
+        "nsatconfigs": 1,
+        "point_label": "GOAMAZON_original",
+        "microp_scheme": "wsm6",
+        "satconfig_label": "media",
+        "sat_z_lo": 3500.0,
+        "sat_z_hi": 5500.0,
+        "sat_rh_target": 1.0,
+        "nz": 60,
+        "ztop": 20000.0,
+        "dz0": 50.0,
+        "dt_microp": 5.0,
+        "run_duration_s": 7200.0,
+        "pulse_sigma_z": 1000.0,
+        "pulse_duration_s": 1800.0,
+        "pulse_w_max": 3.0,
+        "write_profiles": true,
+        "path_summary": "summary.nc",
+        "path_profile_prefix": "profile"
+      },
+      "output_sha256": "d85d421d5c94616c902caa66855a54528f8504323472f13ce95a84c35c270e8f",
+      "namelist_sha256": "011ceb95f32f5b74171f8ec5ba6079d346a730e82d0dd0b16270142d7969cd21",
+      "quality": {
+        "valid": true,
+        "errors": [],
+        "warnings": [
+          "RH quente initial >101% (diagnóstico Bolton)",
+          "Camada superior artificial do GOAMAZON; ensemble idealizado, sem validação observacional"
+        ],
+        "details": {
+          "dz_min_max_m": [
+            50.0,
+            1054.8228363526723
+          ],
+          "rh_warm_initial_max_percent": 101.12654941252704,
+          "rh_warm_initial_above101_count": 1,
+          "rh_warm_evolution_max_percent": 99.86487061237597,
+          "rh_warm_evolution_above101_count": 0,
+          "temperature_min_max_K": [
+            161.67582970406266,
+            298.7986881681443
+          ],
+          "temperature_above16500m_min_K": 161.67582970406266,
+          "samples": 1441,
+          "last_time_s": 7200.0
+        },
+        "initial_perturbation_checked": true,
+        "input_sha256": "aacf5e194d19f9bb15bc036f48bef94f99bcb0c96f9ff1928751af7c268e9161",
+        "actual_saturated_centers_m": [
+          3618.4249319638475,
+          3860.3405826784574,
+          4115.087064596672,
+          4383.344905120869,
+          4665.830725772197,
+          4963.299156566698,
+          5276.544851926971
+        ],
+        "water_added_initial_kg_m2": 2.0920976636595467
+      }
+    },
+    "wsm6_media_w3_nz120_dt20": {
+      "directory": "resultados\\ensemble_goamazon\\diagnostico_cientifico\\wsm6_media_w3_nz120_dt20_20261103T030241889484Z",
+      "action": "executed",
+      "config": {
+        "input_source": "goamazon",
+        "path_goamazon": "/mnt/c/git_repos/SingleColumnModelMicrophysicsAndLightning/data_goamazon/GOAMAZON_SINGLE_SCM_driver.nc",
+        "npoints": 1,
+        "nsatconfigs": 1,
+        "point_label": "GOAMAZON_original",
+        "microp_scheme": "wsm6",
+        "satconfig_label": "media",
+        "sat_z_lo": 3500.0,
+        "sat_z_hi": 5500.0,
+        "sat_rh_target": 1.0,
+        "nz": 120,
+        "ztop": 20000.0,
+        "dz0": 25.0,
+        "dt_microp": 20.0,
+        "run_duration_s": 7200.0,
+        "pulse_sigma_z": 1000.0,
+        "pulse_duration_s": 1800.0,
+        "pulse_w_max": 3.0,
+        "write_profiles": true,
+        "path_summary": "summary.nc",
+        "path_profile_prefix": "profile"
+      },
+      "output_sha256": "727b854a7e161852fc30b9b938d606e22efa81310a971c741f5fd529f8586010",
+      "namelist_sha256": "c15be87241390179d36922dca2744533bd3a48d11a74c76e102fb777b81d9021",
+      "quality": {
+        "valid": true,
+        "errors": [],
+        "warnings": [
+          "RH quente initial >101% (diagnóstico Bolton)",
+          "Camada superior artificial do GOAMAZON; ensemble idealizado, sem validação observacional"
+        ],
+        "details": {
+          "dz_min_max_m": [
+            25.0,
+            531.6099146991692
+          ],
+          "rh_warm_initial_max_percent": 101.1300912372146,
+          "rh_warm_initial_above101_count": 2,
+          "rh_warm_evolution_max_percent": 99.8699001924075,
+          "rh_warm_evolution_above101_count": 0,
+          "temperature_min_max_K": [
+            159.12237770561157,
+            298.9192282434196
+          ],
+          "temperature_above16500m_min_K": 159.12237770561157,
+          "samples": 361,
+          "last_time_s": 7200.0
+        },
+        "initial_perturbation_checked": true,
+        "input_sha256": "aacf5e194d19f9bb15bc036f48bef94f99bcb0c96f9ff1928751af7c268e9161",
+        "actual_saturated_centers_m": [
+          3585.134882893951,
+          3703.4279014357953,
+          3824.7991619776412,
+          3949.3287670811396,
+          4077.0989037510685,
+          4208.193897677085,
+          4342.7002688869625,
+          4480.70678884805,
+          4622.30453905463,
+          4767.586971139859,
+          4916.649968551934,
+          5069.591909835219,
+          5226.513733558087,
+          5387.519004930316
+        ],
+        "water_added_initial_kg_m2": 2.0490103698869593
+      }
+    },
+    "wsm6_media_w3_nz120_dt10": {
+      "directory": "resultados\\ensemble_goamazon\\diagnostico_cientifico\\wsm6_media_w3_nz120_dt10_20261103T030241889484Z",
+      "action": "executed",
+      "config": {
+        "input_source": "goamazon",
+        "path_goamazon": "/mnt/c/git_repos/SingleColumnModelMicrophysicsAndLightning/data_goamazon/GOAMAZON_SINGLE_SCM_driver.nc",
+        "npoints": 1,
+        "nsatconfigs": 1,
+        "point_label": "GOAMAZON_original",
+        "microp_scheme": "wsm6",
+        "satconfig_label": "media",
+        "sat_z_lo": 3500.0,
+        "sat_z_hi": 5500.0,
+        "sat_rh_target": 1.0,
+        "nz": 120,
+        "ztop": 20000.0,
+        "dz0": 25.0,
+        "dt_microp": 10.0,
+        "run_duration_s": 7200.0,
+        "pulse_sigma_z": 1000.0,
+        "pulse_duration_s": 1800.0,
+        "pulse_w_max": 3.0,
+        "write_profiles": true,
+        "path_summary": "summary.nc",
+        "path_profile_prefix": "profile"
+      },
+      "output_sha256": "12d5ed95824a56d363fe5d5817d3006c7fee6e76081643fb4bf5ab724dc98dec",
+      "namelist_sha256": "2681a5ddbf2f1c577b0d25e99306b8def9947cf0bebc451cfe1061fbe5eaeaec",
+      "quality": {
+        "valid": true,
+        "errors": [],
+        "warnings": [
+          "RH quente initial >101% (diagnóstico Bolton)",
+          "Camada superior artificial do GOAMAZON; ensemble idealizado, sem validação observacional"
+        ],
+        "details": {
+          "dz_min_max_m": [
+            25.0,
+            531.6099146991692
+          ],
+          "rh_warm_initial_max_percent": 101.1300912372146,
+          "rh_warm_initial_above101_count": 2,
+          "rh_warm_evolution_max_percent": 99.86730941003485,
+          "rh_warm_evolution_above101_count": 0,
+          "temperature_min_max_K": [
+            159.12237770561157,
+            298.9192282434196
+          ],
+          "temperature_above16500m_min_K": 159.12237770561157,
+          "samples": 721,
+          "last_time_s": 7200.0
+        },
+        "initial_perturbation_checked": true,
+        "input_sha256": "aacf5e194d19f9bb15bc036f48bef94f99bcb0c96f9ff1928751af7c268e9161",
+        "actual_saturated_centers_m": [
+          3585.134882893951,
+          3703.4279014357953,
+          3824.7991619776412,
+          3949.3287670811396,
+          4077.0989037510685,
+          4208.193897677085,
+          4342.7002688869625,
+          4480.70678884805,
+          4622.30453905463,
+          4767.586971139859,
+          4916.649968551934,
+          5069.591909835219,
+          5226.513733558087,
+          5387.519004930316
+        ],
+        "water_added_initial_kg_m2": 2.0490103698869593
+      }
+    },
+    "wsm6_media_w3_nz120_dt5": {
+      "directory": "resultados\\ensemble_goamazon\\diagnostico_cientifico\\wsm6_media_w3_nz120_dt5_20261103T030241889484Z",
+      "action": "executed",
+      "config": {
+        "input_source": "goamazon",
+        "path_goamazon": "/mnt/c/git_repos/SingleColumnModelMicrophysicsAndLightning/data_goamazon/GOAMAZON_SINGLE_SCM_driver.nc",
+        "npoints": 1,
+        "nsatconfigs": 1,
+        "point_label": "GOAMAZON_original",
+        "microp_scheme": "wsm6",
+        "satconfig_label": "media",
+        "sat_z_lo": 3500.0,
+        "sat_z_hi": 5500.0,
+        "sat_rh_target": 1.0,
+        "nz": 120,
+        "ztop": 20000.0,
+        "dz0": 25.0,
+        "dt_microp": 5.0,
+        "run_duration_s": 7200.0,
+        "pulse_sigma_z": 1000.0,
+        "pulse_duration_s": 1800.0,
+        "pulse_w_max": 3.0,
+        "write_profiles": true,
+        "path_summary": "summary.nc",
+        "path_profile_prefix": "profile"
+      },
+      "output_sha256": "bc4fdd54964999c18213aaf0c0282decfce000293129b0ffdafe88c6c70a2f89",
+      "namelist_sha256": "b8334d53b37459fea68d067c603d56c8efb0a342aa0036b3a30031c019b80b27",
+      "quality": {
+        "valid": true,
+        "errors": [],
+        "warnings": [
+          "RH quente initial >101% (diagnóstico Bolton)",
+          "Camada superior artificial do GOAMAZON; ensemble idealizado, sem validação observacional"
+        ],
+        "details": {
+          "dz_min_max_m": [
+            25.0,
+            531.6099146991692
+          ],
+          "rh_warm_initial_max_percent": 101.1300912372146,
+          "rh_warm_initial_above101_count": 2,
+          "rh_warm_evolution_max_percent": 99.8661620130462,
+          "rh_warm_evolution_above101_count": 0,
+          "temperature_min_max_K": [
+            159.12237770561157,
+            298.9192282434196
+          ],
+          "temperature_above16500m_min_K": 159.12237770561157,
+          "samples": 1441,
+          "last_time_s": 7200.0
+        },
+        "initial_perturbation_checked": true,
+        "input_sha256": "aacf5e194d19f9bb15bc036f48bef94f99bcb0c96f9ff1928751af7c268e9161",
+        "actual_saturated_centers_m": [
+          3585.134882893951,
+          3703.4279014357953,
+          3824.7991619776412,
+          3949.3287670811396,
+          4077.0989037510685,
+          4208.193897677085,
+          4342.7002688869625,
+          4480.70678884805,
+          4622.30453905463,
+          4767.586971139859,
+          4916.649968551934,
+          5069.591909835219,
+          5226.513733558087,
+          5387.519004930316
+        ],
+        "water_added_initial_kg_m2": 2.0490103698869593
+      }
+    },
+    "wsm6_media_w3_nz240_dt20": {
+      "directory": "resultados\\ensemble_goamazon\\diagnostico_cientifico\\wsm6_media_w3_nz240_dt20_20261103T030241889484Z",
+      "action": "executed",
+      "config": {
+        "input_source": "goamazon",
+        "path_goamazon": "/mnt/c/git_repos/SingleColumnModelMicrophysicsAndLightning/data_goamazon/GOAMAZON_SINGLE_SCM_driver.nc",
+        "npoints": 1,
+        "nsatconfigs": 1,
+        "point_label": "GOAMAZON_original",
+        "microp_scheme": "wsm6",
+        "satconfig_label": "media",
+        "sat_z_lo": 3500.0,
+        "sat_z_hi": 5500.0,
+        "sat_rh_target": 1.0,
+        "nz": 240,
+        "ztop": 20000.0,
+        "dz0": 12.5,
+        "dt_microp": 20.0,
+        "run_duration_s": 7200.0,
+        "pulse_sigma_z": 1000.0,
+        "pulse_duration_s": 1800.0,
+        "pulse_w_max": 3.0,
+        "write_profiles": true,
+        "path_summary": "summary.nc",
+        "path_profile_prefix": "profile"
+      },
+      "output_sha256": "a2a2d969cfc0378f697b5471e3a5b2577ad68fda949f3f7493c5c460a871ac46",
+      "namelist_sha256": "bf1cdd22adb72dd7ddc0ba11eedd0c245002ac1c1d45db17f20a167ad389b4f4",
+      "quality": {
+        "valid": true,
+        "errors": [],
+        "warnings": [
+          "RH quente initial >101% (diagnóstico Bolton)",
+          "Camada superior artificial do GOAMAZON; ensemble idealizado, sem validação observacional"
+        ],
+        "details": {
+          "dz_min_max_m": [
+            12.5,
+            266.85686838626134
+          ],
+          "rh_warm_initial_max_percent": 101.13122992617656,
+          "rh_warm_initial_above101_count": 4,
+          "rh_warm_evolution_max_percent": 99.87459081817212,
+          "rh_warm_evolution_above101_count": 0,
+          "temperature_min_max_K": [
+            157.8302944842495,
+            298.97950087736956
+          ],
+          "temperature_above16500m_min_K": 157.8302944842495,
+          "samples": 361,
+          "last_time_s": 7200.0
+        },
+        "initial_perturbation_checked": true,
+        "input_sha256": "aacf5e194d19f9bb15bc036f48bef94f99bcb0c96f9ff1928751af7c268e9161",
+        "actual_saturated_centers_m": [
+          3511.0467690185797,
+          3568.803566426313,
+          3627.3048391575494,
+          3686.5601833729525,
+          3746.579318926069,
+          3807.3720909577087,
+          3868.9484715108774,
+          3931.318561166525,
+          3994.492590700374,
+          4058.480922761114,
+          4123.294053570218,
+          4188.942614643673,
+          4255.437374535903,
+          4322.789240606174,
+          4391.009260807763,
+          4460.108625500192,
+          4530.098669284816,
+          4600.990872864085,
+          4672.79686492475,
+          4745.528424045366,
+          4819.197480628366,
+          4893.81611885705,
+          4969.39657867779,
+          5045.951257807788,
+          5123.492713768723,
+          5202.033665946594,
+          5281.586997678134,
+          5362.165758364095,
+          5443.783165609799
+        ],
+        "water_added_initial_kg_m2": 2.1673249381984525
+      }
+    },
+    "wsm6_media_w3_nz240_dt10": {
+      "directory": "resultados\\ensemble_goamazon\\diagnostico_cientifico\\wsm6_media_w3_nz240_dt10_20261103T030241889484Z",
+      "action": "executed",
+      "config": {
+        "input_source": "goamazon",
+        "path_goamazon": "/mnt/c/git_repos/SingleColumnModelMicrophysicsAndLightning/data_goamazon/GOAMAZON_SINGLE_SCM_driver.nc",
+        "npoints": 1,
+        "nsatconfigs": 1,
+        "point_label": "GOAMAZON_original",
+        "microp_scheme": "wsm6",
+        "satconfig_label": "media",
+        "sat_z_lo": 3500.0,
+        "sat_z_hi": 5500.0,
+        "sat_rh_target": 1.0,
+        "nz": 240,
+        "ztop": 20000.0,
+        "dz0": 12.5,
+        "dt_microp": 10.0,
+        "run_duration_s": 7200.0,
+        "pulse_sigma_z": 1000.0,
+        "pulse_duration_s": 1800.0,
+        "pulse_w_max": 3.0,
+        "write_profiles": true,
+        "path_summary": "summary.nc",
+        "path_profile_prefix": "profile"
+      },
+      "output_sha256": "24682b70e12c5e0138f90e78c0190c3fa5712a853667d7f2d15ad1950b4fcc19",
+      "namelist_sha256": "407e073a92f8a436977febef430ee30278fe9b2fd3f6765852f48787e9d3892c",
+      "quality": {
+        "valid": true,
+        "errors": [],
+        "warnings": [
+          "RH quente initial >101% (diagnóstico Bolton)",
+          "Camada superior artificial do GOAMAZON; ensemble idealizado, sem validação observacional"
+        ],
+        "details": {
+          "dz_min_max_m": [
+            12.5,
+            266.85686838626134
+          ],
+          "rh_warm_initial_max_percent": 101.13122992617656,
+          "rh_warm_initial_above101_count": 4,
+          "rh_warm_evolution_max_percent": 99.87288125772412,
+          "rh_warm_evolution_above101_count": 0,
+          "temperature_min_max_K": [
+            157.8302944842495,
+            298.97950087736956
+          ],
+          "temperature_above16500m_min_K": 157.8302944842495,
+          "samples": 721,
+          "last_time_s": 7200.0
+        },
+        "initial_perturbation_checked": true,
+        "input_sha256": "aacf5e194d19f9bb15bc036f48bef94f99bcb0c96f9ff1928751af7c268e9161",
+        "actual_saturated_centers_m": [
+          3511.0467690185797,
+          3568.803566426313,
+          3627.3048391575494,
+          3686.5601833729525,
+          3746.579318926069,
+          3807.3720909577087,
+          3868.9484715108774,
+          3931.318561166525,
+          3994.492590700374,
+          4058.480922761114,
+          4123.294053570218,
+          4188.942614643673,
+          4255.437374535903,
+          4322.789240606174,
+          4391.009260807763,
+          4460.108625500192,
+          4530.098669284816,
+          4600.990872864085,
+          4672.79686492475,
+          4745.528424045366,
+          4819.197480628366,
+          4893.81611885705,
+          4969.39657867779,
+          5045.951257807788,
+          5123.492713768723,
+          5202.033665946594,
+          5281.586997678134,
+          5362.165758364095,
+          5443.783165609799
+        ],
+        "water_added_initial_kg_m2": 2.1673249381984525
+      }
+    },
+    "wsm6_media_w3_nz240_dt5": {
+      "directory": "resultados\\ensemble_goamazon\\diagnostico_cientifico\\wsm6_media_w3_nz240_dt5_20261103T030241889484Z",
+      "action": "executed",
+      "config": {
+        "input_source": "goamazon",
+        "path_goamazon": "/mnt/c/git_repos/SingleColumnModelMicrophysicsAndLightning/data_goamazon/GOAMAZON_SINGLE_SCM_driver.nc",
+        "npoints": 1,
+        "nsatconfigs": 1,
+        "point_label": "GOAMAZON_original",
+        "microp_scheme": "wsm6",
+        "satconfig_label": "media",
+        "sat_z_lo": 3500.0,
+        "sat_z_hi": 5500.0,
+        "sat_rh_target": 1.0,
+        "nz": 240,
+        "ztop": 20000.0,
+        "dz0": 12.5,
+        "dt_microp": 5.0,
+        "run_duration_s": 7200.0,
+        "pulse_sigma_z": 1000.0,
+        "pulse_duration_s": 1800.0,
+        "pulse_w_max": 3.0,
+        "write_profiles": true,
+        "path_summary": "summary.nc",
+        "path_profile_prefix": "profile"
+      },
+      "output_sha256": "4d3174e964e8aae27955f7e3999a3981b4dbebf97324bfe91f3dc720c351dfbe",
+      "namelist_sha256": "35cfcf3c1c6b8df1249462597dd336b55dcab6ef9e50e281b0c8e0962cfce3de",
+      "quality": {
+        "valid": true,
+        "errors": [],
+        "warnings": [
+          "RH quente initial >101% (diagnóstico Bolton)",
+          "Camada superior artificial do GOAMAZON; ensemble idealizado, sem validação observacional"
+        ],
+        "details": {
+          "dz_min_max_m": [
+            12.5,
+            266.85686838626134
+          ],
+          "rh_warm_initial_max_percent": 101.13122992617656,
+          "rh_warm_initial_above101_count": 4,
+          "rh_warm_evolution_max_percent": 99.87011873203069,
+          "rh_warm_evolution_above101_count": 0,
+          "temperature_min_max_K": [
+            157.8302944842495,
+            298.97950087736956
+          ],
+          "temperature_above16500m_min_K": 157.8302944842495,
+          "samples": 1441,
+          "last_time_s": 7200.0
+        },
+        "initial_perturbation_checked": true,
+        "input_sha256": "aacf5e194d19f9bb15bc036f48bef94f99bcb0c96f9ff1928751af7c268e9161",
+        "actual_saturated_centers_m": [
+          3511.0467690185797,
+          3568.803566426313,
+          3627.3048391575494,
+          3686.5601833729525,
+          3746.579318926069,
+          3807.3720909577087,
+          3868.9484715108774,
+          3931.318561166525,
+          3994.492590700374,
+          4058.480922761114,
+          4123.294053570218,
+          4188.942614643673,
+          4255.437374535903,
+          4322.789240606174,
+          4391.009260807763,
+          4460.108625500192,
+          4530.098669284816,
+          4600.990872864085,
+          4672.79686492475,
+          4745.528424045366,
+          4819.197480628366,
+          4893.81611885705,
+          4969.39657867779,
+          5045.951257807788,
+          5123.492713768723,
+          5202.033665946594,
+          5281.586997678134,
+          5362.165758364095,
+          5443.783165609799
+        ],
+        "water_added_initial_kg_m2": 2.1673249381984525
+      }
+    },
+    "thompson_media_w3_nz60_dt20": {
+      "directory": "resultados\\ensemble_goamazon\\thompson_media_w3_20261103T024633710569Z",
+      "action": "baseline_reused",
+      "config": {
+        "input_source": "goamazon",
+        "path_goamazon": "/mnt/c/git_repos/SingleColumnModelMicrophysicsAndLightning/data_goamazon/GOAMAZON_SINGLE_SCM_driver.nc",
+        "npoints": 1,
+        "nsatconfigs": 1,
+        "point_label": "GOAMAZON_original",
+        "microp_scheme": "thompson",
+        "satconfig_label": "media",
+        "sat_z_lo": 3500.0,
+        "sat_z_hi": 5500.0,
+        "sat_rh_target": 1.0,
+        "nz": 60,
+        "ztop": 20000.0,
+        "dz0": 50.0,
+        "dt_microp": 20.0,
+        "run_duration_s": 7200.0,
+        "pulse_sigma_z": 1000.0,
+        "pulse_duration_s": 1800.0,
+        "pulse_w_max": 3.0,
+        "write_profiles": true,
+        "path_summary": "summary.nc",
+        "path_profile_prefix": "profile"
+      },
+      "output_sha256": "e4d069e5bd130b6419cdabcd978820a2d60b05bd618f1469286e32df9b1d5de6",
+      "namelist_sha256": "c51bf33ce77103d3a5df84da57cb91c7d4576fc0167c8d884e825613f448be0f",
+      "quality": {
+        "valid": true,
+        "errors": [],
+        "warnings": [
+          "RH quente initial >101% (diagnóstico Bolton)",
+          "Camada superior artificial do GOAMAZON; ensemble idealizado, sem validação observacional"
+        ],
+        "details": {
+          "dz_min_max_m": [
+            50.0,
+            1054.8228363526723
+          ],
+          "rh_warm_initial_max_percent": 101.12654941252704,
+          "rh_warm_initial_above101_count": 1,
+          "rh_warm_evolution_max_percent": 100.12653336719093,
+          "rh_warm_evolution_above101_count": 0,
+          "temperature_min_max_K": [
+            161.67582970406266,
+            298.7986881681443
+          ],
+          "temperature_above16500m_min_K": 161.67582970406266,
+          "samples": 361,
+          "last_time_s": 7200.0
+        },
+        "initial_perturbation_checked": true,
+        "input_sha256": "aacf5e194d19f9bb15bc036f48bef94f99bcb0c96f9ff1928751af7c268e9161",
+        "actual_saturated_centers_m": [
+          3618.4249319638475,
+          3860.3405826784574,
+          4115.087064596672,
+          4383.344905120869,
+          4665.830725772197,
+          4963.299156566698,
+          5276.544851926971
+        ],
+        "water_added_initial_kg_m2": 2.0920976636595467
+      }
+    },
+    "thompson_media_w3_nz60_dt10": {
+      "directory": "resultados\\ensemble_goamazon\\diagnostico_cientifico\\thompson_media_w3_nz60_dt10_20261103T030241889484Z",
+      "action": "executed",
+      "config": {
+        "input_source": "goamazon",
+        "path_goamazon": "/mnt/c/git_repos/SingleColumnModelMicrophysicsAndLightning/data_goamazon/GOAMAZON_SINGLE_SCM_driver.nc",
+        "npoints": 1,
+        "nsatconfigs": 1,
+        "point_label": "GOAMAZON_original",
+        "microp_scheme": "thompson",
+        "satconfig_label": "media",
+        "sat_z_lo": 3500.0,
+        "sat_z_hi": 5500.0,
+        "sat_rh_target": 1.0,
+        "nz": 60,
+        "ztop": 20000.0,
+        "dz0": 50.0,
+        "dt_microp": 10.0,
+        "run_duration_s": 7200.0,
+        "pulse_sigma_z": 1000.0,
+        "pulse_duration_s": 1800.0,
+        "pulse_w_max": 3.0,
+        "write_profiles": true,
+        "path_summary": "summary.nc",
+        "path_profile_prefix": "profile"
+      },
+      "output_sha256": "fe460891ceb59e7b9e4d2ebd1d67d6b05aa20d9169f6f4c8f29c1480381bfdc0",
+      "namelist_sha256": "0286510c74be516979f1ff6c4cfa46bb83b4c0a6fdad6a6d2bdb6343ec7bf677",
+      "quality": {
+        "valid": true,
+        "errors": [],
+        "warnings": [
+          "RH quente initial >101% (diagnóstico Bolton)",
+          "Camada superior artificial do GOAMAZON; ensemble idealizado, sem validação observacional"
+        ],
+        "details": {
+          "dz_min_max_m": [
+            50.0,
+            1054.8228363526723
+          ],
+          "rh_warm_initial_max_percent": 101.12654941252704,
+          "rh_warm_initial_above101_count": 1,
+          "rh_warm_evolution_max_percent": 100.12657503899598,
+          "rh_warm_evolution_above101_count": 0,
+          "temperature_min_max_K": [
+            161.67582970406266,
+            298.7986881681443
+          ],
+          "temperature_above16500m_min_K": 161.67582970406266,
+          "samples": 721,
+          "last_time_s": 7200.0
+        },
+        "initial_perturbation_checked": true,
+        "input_sha256": "aacf5e194d19f9bb15bc036f48bef94f99bcb0c96f9ff1928751af7c268e9161",
+        "actual_saturated_centers_m": [
+          3618.4249319638475,
+          3860.3405826784574,
+          4115.087064596672,
+          4383.344905120869,
+          4665.830725772197,
+          4963.299156566698,
+          5276.544851926971
+        ],
+        "water_added_initial_kg_m2": 2.0920976636595467
+      }
+    },
+    "thompson_media_w3_nz60_dt5": {
+      "directory": "resultados\\ensemble_goamazon\\diagnostico_cientifico\\thompson_media_w3_nz60_dt5_20261103T030241889484Z",
+      "action": "executed",
+      "config": {
+        "input_source": "goamazon",
+        "path_goamazon": "/mnt/c/git_repos/SingleColumnModelMicrophysicsAndLightning/data_goamazon/GOAMAZON_SINGLE_SCM_driver.nc",
+        "npoints": 1,
+        "nsatconfigs": 1,
+        "point_label": "GOAMAZON_original",
+        "microp_scheme": "thompson",
+        "satconfig_label": "media",
+        "sat_z_lo": 3500.0,
+        "sat_z_hi": 5500.0,
+        "sat_rh_target": 1.0,
+        "nz": 60,
+        "ztop": 20000.0,
+        "dz0": 50.0,
+        "dt_microp": 5.0,
+        "run_duration_s": 7200.0,
+        "pulse_sigma_z": 1000.0,
+        "pulse_duration_s": 1800.0,
+        "pulse_w_max": 3.0,
+        "write_profiles": true,
+        "path_summary": "summary.nc",
+        "path_profile_prefix": "profile"
+      },
+      "output_sha256": "189d229ad9778d3384403c5a5ab4449ddca88695d52a19006870b40b167082cb",
+      "namelist_sha256": "3166d4f9e5ef1f2b731b5e33f54146a59550daccec0f81e223a5c3625cef11d2",
+      "quality": {
+        "valid": true,
+        "errors": [],
+        "warnings": [
+          "RH quente initial >101% (diagnóstico Bolton)",
+          "Camada superior artificial do GOAMAZON; ensemble idealizado, sem validação observacional"
+        ],
+        "details": {
+          "dz_min_max_m": [
+            50.0,
+            1054.8228363526723
+          ],
+          "rh_warm_initial_max_percent": 101.12654941252704,
+          "rh_warm_initial_above101_count": 1,
+          "rh_warm_evolution_max_percent": 100.12662413297643,
+          "rh_warm_evolution_above101_count": 0,
+          "temperature_min_max_K": [
+            161.67582970406266,
+            298.7986881681443
+          ],
+          "temperature_above16500m_min_K": 161.67582970406266,
+          "samples": 1441,
+          "last_time_s": 7200.0
+        },
+        "initial_perturbation_checked": true,
+        "input_sha256": "aacf5e194d19f9bb15bc036f48bef94f99bcb0c96f9ff1928751af7c268e9161",
+        "actual_saturated_centers_m": [
+          3618.4249319638475,
+          3860.3405826784574,
+          4115.087064596672,
+          4383.344905120869,
+          4665.830725772197,
+          4963.299156566698,
+          5276.544851926971
+        ],
+        "water_added_initial_kg_m2": 2.0920976636595467
+      }
+    },
+    "thompson_media_w3_nz120_dt20": {
+      "directory": "resultados\\ensemble_goamazon\\diagnostico_cientifico\\thompson_media_w3_nz120_dt20_20261103T030241889484Z",
+      "action": "executed",
+      "config": {
+        "input_source": "goamazon",
+        "path_goamazon": "/mnt/c/git_repos/SingleColumnModelMicrophysicsAndLightning/data_goamazon/GOAMAZON_SINGLE_SCM_driver.nc",
+        "npoints": 1,
+        "nsatconfigs": 1,
+        "point_label": "GOAMAZON_original",
+        "microp_scheme": "thompson",
+        "satconfig_label": "media",
+        "sat_z_lo": 3500.0,
+        "sat_z_hi": 5500.0,
+        "sat_rh_target": 1.0,
+        "nz": 120,
+        "ztop": 20000.0,
+        "dz0": 25.0,
+        "dt_microp": 20.0,
+        "run_duration_s": 7200.0,
+        "pulse_sigma_z": 1000.0,
+        "pulse_duration_s": 1800.0,
+        "pulse_w_max": 3.0,
+        "write_profiles": true,
+        "path_summary": "summary.nc",
+        "path_profile_prefix": "profile"
+      },
+      "output_sha256": "e0704e84f7ffef8d53a71d70e73c7b20986e8f964b95fcd1652fac9e01f9a920",
+      "namelist_sha256": "a273d71bdb6fab9a322c2532f42d4d4e63ddbe75e7ae38d5a7c170453086e215",
+      "quality": {
+        "valid": true,
+        "errors": [],
+        "warnings": [
+          "RH quente initial >101% (diagnóstico Bolton)",
+          "Camada superior artificial do GOAMAZON; ensemble idealizado, sem validação observacional"
+        ],
+        "details": {
+          "dz_min_max_m": [
+            25.0,
+            531.6099146991692
+          ],
+          "rh_warm_initial_max_percent": 101.1300912372146,
+          "rh_warm_initial_above101_count": 2,
+          "rh_warm_evolution_max_percent": 100.12660962367019,
+          "rh_warm_evolution_above101_count": 0,
+          "temperature_min_max_K": [
+            159.12237770561157,
+            298.9192282434196
+          ],
+          "temperature_above16500m_min_K": 159.12237770561157,
+          "samples": 361,
+          "last_time_s": 7200.0
+        },
+        "initial_perturbation_checked": true,
+        "input_sha256": "aacf5e194d19f9bb15bc036f48bef94f99bcb0c96f9ff1928751af7c268e9161",
+        "actual_saturated_centers_m": [
+          3585.134882893951,
+          3703.4279014357953,
+          3824.7991619776412,
+          3949.3287670811396,
+          4077.0989037510685,
+          4208.193897677085,
+          4342.7002688869625,
+          4480.70678884805,
+          4622.30453905463,
+          4767.586971139859,
+          4916.649968551934,
+          5069.591909835219,
+          5226.513733558087,
+          5387.519004930316
+        ],
+        "water_added_initial_kg_m2": 2.0490103698869593
+      }
+    },
+    "thompson_media_w3_nz120_dt10": {
+      "directory": "resultados\\ensemble_goamazon\\diagnostico_cientifico\\thompson_media_w3_nz120_dt10_20261103T030241889484Z",
+      "action": "executed",
+      "config": {
+        "input_source": "goamazon",
+        "path_goamazon": "/mnt/c/git_repos/SingleColumnModelMicrophysicsAndLightning/data_goamazon/GOAMAZON_SINGLE_SCM_driver.nc",
+        "npoints": 1,
+        "nsatconfigs": 1,
+        "point_label": "GOAMAZON_original",
+        "microp_scheme": "thompson",
+        "satconfig_label": "media",
+        "sat_z_lo": 3500.0,
+        "sat_z_hi": 5500.0,
+        "sat_rh_target": 1.0,
+        "nz": 120,
+        "ztop": 20000.0,
+        "dz0": 25.0,
+        "dt_microp": 10.0,
+        "run_duration_s": 7200.0,
+        "pulse_sigma_z": 1000.0,
+        "pulse_duration_s": 1800.0,
+        "pulse_w_max": 3.0,
+        "write_profiles": true,
+        "path_summary": "summary.nc",
+        "path_profile_prefix": "profile"
+      },
+      "output_sha256": "326affa9ab7c26fb0d7e098f55fb2160faa8fe5bf2e042b5bd733238f0940ea9",
+      "namelist_sha256": "d4b6733004c6ed2caff87710896ce1f2d1f868d158968dd55246d885d92c36d0",
+      "quality": {
+        "valid": true,
+        "errors": [],
+        "warnings": [
+          "RH quente initial >101% (diagnóstico Bolton)",
+          "Camada superior artificial do GOAMAZON; ensemble idealizado, sem validação observacional"
+        ],
+        "details": {
+          "dz_min_max_m": [
+            25.0,
+            531.6099146991692
+          ],
+          "rh_warm_initial_max_percent": 101.1300912372146,
+          "rh_warm_initial_above101_count": 2,
+          "rh_warm_evolution_max_percent": 100.12663906391647,
+          "rh_warm_evolution_above101_count": 0,
+          "temperature_min_max_K": [
+            159.12237770561157,
+            298.9192282434196
+          ],
+          "temperature_above16500m_min_K": 159.12237770561157,
+          "samples": 721,
+          "last_time_s": 7200.0
+        },
+        "initial_perturbation_checked": true,
+        "input_sha256": "aacf5e194d19f9bb15bc036f48bef94f99bcb0c96f9ff1928751af7c268e9161",
+        "actual_saturated_centers_m": [
+          3585.134882893951,
+          3703.4279014357953,
+          3824.7991619776412,
+          3949.3287670811396,
+          4077.0989037510685,
+          4208.193897677085,
+          4342.7002688869625,
+          4480.70678884805,
+          4622.30453905463,
+          4767.586971139859,
+          4916.649968551934,
+          5069.591909835219,
+          5226.513733558087,
+          5387.519004930316
+        ],
+        "water_added_initial_kg_m2": 2.0490103698869593
+      }
+    },
+    "thompson_media_w3_nz120_dt5": {
+      "directory": "resultados\\ensemble_goamazon\\diagnostico_cientifico\\thompson_media_w3_nz120_dt5_20261103T030241889484Z",
+      "action": "executed",
+      "config": {
+        "input_source": "goamazon",
+        "path_goamazon": "/mnt/c/git_repos/SingleColumnModelMicrophysicsAndLightning/data_goamazon/GOAMAZON_SINGLE_SCM_driver.nc",
+        "npoints": 1,
+        "nsatconfigs": 1,
+        "point_label": "GOAMAZON_original",
+        "microp_scheme": "thompson",
+        "satconfig_label": "media",
+        "sat_z_lo": 3500.0,
+        "sat_z_hi": 5500.0,
+        "sat_rh_target": 1.0,
+        "nz": 120,
+        "ztop": 20000.0,
+        "dz0": 25.0,
+        "dt_microp": 5.0,
+        "run_duration_s": 7200.0,
+        "pulse_sigma_z": 1000.0,
+        "pulse_duration_s": 1800.0,
+        "pulse_w_max": 3.0,
+        "write_profiles": true,
+        "path_summary": "summary.nc",
+        "path_profile_prefix": "profile"
+      },
+      "output_sha256": "72a1dc751fffa4bcb8e6dfb555079a357c12ff9ad57d999ff425ba79854dcb3d",
+      "namelist_sha256": "288c8b957338b255d097006ccb723744fd71c64100050a322cc74ab633e16d82",
+      "quality": {
+        "valid": true,
+        "errors": [],
+        "warnings": [
+          "RH quente initial >101% (diagnóstico Bolton)",
+          "Camada superior artificial do GOAMAZON; ensemble idealizado, sem validação observacional"
+        ],
+        "details": {
+          "dz_min_max_m": [
+            25.0,
+            531.6099146991692
+          ],
+          "rh_warm_initial_max_percent": 101.1300912372146,
+          "rh_warm_initial_above101_count": 2,
+          "rh_warm_evolution_max_percent": 100.12662958955048,
+          "rh_warm_evolution_above101_count": 0,
+          "temperature_min_max_K": [
+            159.12237770561157,
+            298.9192282434196
+          ],
+          "temperature_above16500m_min_K": 159.12237770561157,
+          "samples": 1441,
+          "last_time_s": 7200.0
+        },
+        "initial_perturbation_checked": true,
+        "input_sha256": "aacf5e194d19f9bb15bc036f48bef94f99bcb0c96f9ff1928751af7c268e9161",
+        "actual_saturated_centers_m": [
+          3585.134882893951,
+          3703.4279014357953,
+          3824.7991619776412,
+          3949.3287670811396,
+          4077.0989037510685,
+          4208.193897677085,
+          4342.7002688869625,
+          4480.70678884805,
+          4622.30453905463,
+          4767.586971139859,
+          4916.649968551934,
+          5069.591909835219,
+          5226.513733558087,
+          5387.519004930316
+        ],
+        "water_added_initial_kg_m2": 2.0490103698869593
+      }
+    },
+    "thompson_media_w3_nz240_dt20": {
+      "directory": "resultados\\ensemble_goamazon\\diagnostico_cientifico\\thompson_media_w3_nz240_dt20_20261103T030241889484Z",
+      "action": "executed",
+      "config": {
+        "input_source": "goamazon",
+        "path_goamazon": "/mnt/c/git_repos/SingleColumnModelMicrophysicsAndLightning/data_goamazon/GOAMAZON_SINGLE_SCM_driver.nc",
+        "npoints": 1,
+        "nsatconfigs": 1,
+        "point_label": "GOAMAZON_original",
+        "microp_scheme": "thompson",
+        "satconfig_label": "media",
+        "sat_z_lo": 3500.0,
+        "sat_z_hi": 5500.0,
+        "sat_rh_target": 1.0,
+        "nz": 240,
+        "ztop": 20000.0,
+        "dz0": 12.5,
+        "dt_microp": 20.0,
+        "run_duration_s": 7200.0,
+        "pulse_sigma_z": 1000.0,
+        "pulse_duration_s": 1800.0,
+        "pulse_w_max": 3.0,
+        "write_profiles": true,
+        "path_summary": "summary.nc",
+        "path_profile_prefix": "profile"
+      },
+      "output_sha256": "60525132b4f3eea8ba3588836f48d9410eb22cd0f87a94dc9f51c21b5123fae7",
+      "namelist_sha256": "f6fca1745009aa6aa4d0cf70976b17d2119cb6dd462ac4575286082542300f52",
+      "quality": {
+        "valid": true,
+        "errors": [],
+        "warnings": [
+          "RH quente initial >101% (diagnóstico Bolton)",
+          "Camada superior artificial do GOAMAZON; ensemble idealizado, sem validação observacional"
+        ],
+        "details": {
+          "dz_min_max_m": [
+            12.5,
+            266.85686838626134
+          ],
+          "rh_warm_initial_max_percent": 101.13122992617656,
+          "rh_warm_initial_above101_count": 4,
+          "rh_warm_evolution_max_percent": 100.12661724841695,
+          "rh_warm_evolution_above101_count": 0,
+          "temperature_min_max_K": [
+            157.8302944842495,
+            298.97950087736956
+          ],
+          "temperature_above16500m_min_K": 157.8302944842495,
+          "samples": 361,
+          "last_time_s": 7200.0
+        },
+        "initial_perturbation_checked": true,
+        "input_sha256": "aacf5e194d19f9bb15bc036f48bef94f99bcb0c96f9ff1928751af7c268e9161",
+        "actual_saturated_centers_m": [
+          3511.0467690185797,
+          3568.803566426313,
+          3627.3048391575494,
+          3686.5601833729525,
+          3746.579318926069,
+          3807.3720909577087,
+          3868.9484715108774,
+          3931.318561166525,
+          3994.492590700374,
+          4058.480922761114,
+          4123.294053570218,
+          4188.942614643673,
+          4255.437374535903,
+          4322.789240606174,
+          4391.009260807763,
+          4460.108625500192,
+          4530.098669284816,
+          4600.990872864085,
+          4672.79686492475,
+          4745.528424045366,
+          4819.197480628366,
+          4893.81611885705,
+          4969.39657867779,
+          5045.951257807788,
+          5123.492713768723,
+          5202.033665946594,
+          5281.586997678134,
+          5362.165758364095,
+          5443.783165609799
+        ],
+        "water_added_initial_kg_m2": 2.1673249381984525
+      }
+    },
+    "thompson_media_w3_nz240_dt10": {
+      "directory": "resultados\\ensemble_goamazon\\diagnostico_cientifico\\thompson_media_w3_nz240_dt10_20261103T030241889484Z",
+      "action": "executed",
+      "config": {
+        "input_source": "goamazon",
+        "path_goamazon": "/mnt/c/git_repos/SingleColumnModelMicrophysicsAndLightning/data_goamazon/GOAMAZON_SINGLE_SCM_driver.nc",
+        "npoints": 1,
+        "nsatconfigs": 1,
+        "point_label": "GOAMAZON_original",
+        "microp_scheme": "thompson",
+        "satconfig_label": "media",
+        "sat_z_lo": 3500.0,
+        "sat_z_hi": 5500.0,
+        "sat_rh_target": 1.0,
+        "nz": 240,
+        "ztop": 20000.0,
+        "dz0": 12.5,
+        "dt_microp": 10.0,
+        "run_duration_s": 7200.0,
+        "pulse_sigma_z": 1000.0,
+        "pulse_duration_s": 1800.0,
+        "pulse_w_max": 3.0,
+        "write_profiles": true,
+        "path_summary": "summary.nc",
+        "path_profile_prefix": "profile"
+      },
+      "output_sha256": "8fa1eb0178628451c2075ccb95b451606b1b7d9eeaafe3da21de2197385f8e12",
+      "namelist_sha256": "8ba480a227e5d2cb0eda5c4dda2f6494714ba23ef2ab72258137bfededb5d1a8",
+      "quality": {
+        "valid": true,
+        "errors": [],
+        "warnings": [
+          "RH quente initial >101% (diagnóstico Bolton)",
+          "Camada superior artificial do GOAMAZON; ensemble idealizado, sem validação observacional"
+        ],
+        "details": {
+          "dz_min_max_m": [
+            12.5,
+            266.85686838626134
+          ],
+          "rh_warm_initial_max_percent": 101.13122992617656,
+          "rh_warm_initial_above101_count": 4,
+          "rh_warm_evolution_max_percent": 100.12663319887369,
+          "rh_warm_evolution_above101_count": 0,
+          "temperature_min_max_K": [
+            157.8302944842495,
+            298.97950087736956
+          ],
+          "temperature_above16500m_min_K": 157.8302944842495,
+          "samples": 721,
+          "last_time_s": 7200.0
+        },
+        "initial_perturbation_checked": true,
+        "input_sha256": "aacf5e194d19f9bb15bc036f48bef94f99bcb0c96f9ff1928751af7c268e9161",
+        "actual_saturated_centers_m": [
+          3511.0467690185797,
+          3568.803566426313,
+          3627.3048391575494,
+          3686.5601833729525,
+          3746.579318926069,
+          3807.3720909577087,
+          3868.9484715108774,
+          3931.318561166525,
+          3994.492590700374,
+          4058.480922761114,
+          4123.294053570218,
+          4188.942614643673,
+          4255.437374535903,
+          4322.789240606174,
+          4391.009260807763,
+          4460.108625500192,
+          4530.098669284816,
+          4600.990872864085,
+          4672.79686492475,
+          4745.528424045366,
+          4819.197480628366,
+          4893.81611885705,
+          4969.39657867779,
+          5045.951257807788,
+          5123.492713768723,
+          5202.033665946594,
+          5281.586997678134,
+          5362.165758364095,
+          5443.783165609799
+        ],
+        "water_added_initial_kg_m2": 2.1673249381984525
+      }
+    },
+    "thompson_media_w3_nz240_dt5": {
+      "directory": "resultados\\ensemble_goamazon\\diagnostico_cientifico\\thompson_media_w3_nz240_dt5_20261103T030241889484Z",
+      "action": "executed",
+      "config": {
+        "input_source": "goamazon",
+        "path_goamazon": "/mnt/c/git_repos/SingleColumnModelMicrophysicsAndLightning/data_goamazon/GOAMAZON_SINGLE_SCM_driver.nc",
+        "npoints": 1,
+        "nsatconfigs": 1,
+        "point_label": "GOAMAZON_original",
+        "microp_scheme": "thompson",
+        "satconfig_label": "media",
+        "sat_z_lo": 3500.0,
+        "sat_z_hi": 5500.0,
+        "sat_rh_target": 1.0,
+        "nz": 240,
+        "ztop": 20000.0,
+        "dz0": 12.5,
+        "dt_microp": 5.0,
+        "run_duration_s": 7200.0,
+        "pulse_sigma_z": 1000.0,
+        "pulse_duration_s": 1800.0,
+        "pulse_w_max": 3.0,
+        "write_profiles": true,
+        "path_summary": "summary.nc",
+        "path_profile_prefix": "profile"
+      },
+      "output_sha256": "2ebd60676051d6974a1ee513531abefbf0055f7b779f4b19f6696d96774cdca9",
+      "namelist_sha256": "019a50e71ef6759384711cb029f824e91a4f947db130e74c05c94aab9b27cb67",
+      "quality": {
+        "valid": true,
+        "errors": [],
+        "warnings": [
+          "RH quente initial >101% (diagnóstico Bolton)",
+          "Camada superior artificial do GOAMAZON; ensemble idealizado, sem validação observacional"
+        ],
+        "details": {
+          "dz_min_max_m": [
+            12.5,
+            266.85686838626134
+          ],
+          "rh_warm_initial_max_percent": 101.13122992617656,
+          "rh_warm_initial_above101_count": 4,
+          "rh_warm_evolution_max_percent": 100.12664424013383,
+          "rh_warm_evolution_above101_count": 0,
+          "temperature_min_max_K": [
+            157.8302944842495,
+            298.97950087736956
+          ],
+          "temperature_above16500m_min_K": 157.8302944842495,
+          "samples": 1441,
+          "last_time_s": 7200.0
+        },
+        "initial_perturbation_checked": true,
+        "input_sha256": "aacf5e194d19f9bb15bc036f48bef94f99bcb0c96f9ff1928751af7c268e9161",
+        "actual_saturated_centers_m": [
+          3511.0467690185797,
+          3568.803566426313,
+          3627.3048391575494,
+          3686.5601833729525,
+          3746.579318926069,
+          3807.3720909577087,
+          3868.9484715108774,
+          3931.318561166525,
+          3994.492590700374,
+          4058.480922761114,
+          4123.294053570218,
+          4188.942614643673,
+          4255.437374535903,
+          4322.789240606174,
+          4391.009260807763,
+          4460.108625500192,
+          4530.098669284816,
+          4600.990872864085,
+          4672.79686492475,
+          4745.528424045366,
+          4819.197480628366,
+          4893.81611885705,
+          4969.39657867779,
+          5045.951257807788,
+          5123.492713768723,
+          5202.033665946594,
+          5281.586997678134,
+          5362.165758364095,
+          5443.783165609799
+        ],
+        "water_added_initial_kg_m2": 2.1673249381984525
+      }
+    },
+    "thompson_alta_w3_nz60_dt20": {
+      "directory": "resultados\\ensemble_goamazon\\thompson_alta_w3_20261103T024633710569Z",
+      "action": "baseline_reused",
+      "config": {
+        "input_source": "goamazon",
+        "path_goamazon": "/mnt/c/git_repos/SingleColumnModelMicrophysicsAndLightning/data_goamazon/GOAMAZON_SINGLE_SCM_driver.nc",
+        "npoints": 1,
+        "nsatconfigs": 1,
+        "point_label": "GOAMAZON_original",
+        "microp_scheme": "thompson",
+        "satconfig_label": "alta",
+        "sat_z_lo": 7500.0,
+        "sat_z_hi": 9500.0,
+        "sat_rh_target": 1.0,
+        "nz": 60,
+        "ztop": 20000.0,
+        "dz0": 50.0,
+        "dt_microp": 20.0,
+        "run_duration_s": 7200.0,
+        "pulse_sigma_z": 1000.0,
+        "pulse_duration_s": 1800.0,
+        "pulse_w_max": 3.0,
+        "write_profiles": true,
+        "path_summary": "summary.nc",
+        "path_profile_prefix": "profile"
+      },
+      "output_sha256": "8e3e1af8b7c53b35253bc6f48cd893a8cc1129145a975320d1f179094718274f",
+      "namelist_sha256": "f7b24f7a34dedcb298e5083f013dd450eb53935561dd04618ecb3c0aaac6f8ec",
+      "quality": {
+        "valid": true,
+        "errors": [],
+        "warnings": [
+          "RH quente initial >101% (diagnóstico Bolton)",
+          "Camada superior artificial do GOAMAZON; ensemble idealizado, sem validação observacional"
+        ],
+        "details": {
+          "dz_min_max_m": [
+            50.0,
+            1054.8228363526723
+          ],
+          "rh_warm_initial_max_percent": 101.12654941252704,
+          "rh_warm_initial_above101_count": 1,
+          "rh_warm_evolution_max_percent": 100.07874958855153,
+          "rh_warm_evolution_above101_count": 0,
+          "temperature_min_max_K": [
+            161.67582970406266,
+            298.7986881681443
+          ],
+          "temperature_above16500m_min_K": 161.67582970406266,
+          "samples": 361,
+          "last_time_s": 7200.0
+        },
+        "initial_perturbation_checked": true,
+        "input_sha256": "aacf5e194d19f9bb15bc036f48bef94f99bcb0c96f9ff1928751af7c268e9161",
+        "actual_saturated_centers_m": [
+          7537.4446319419885,
+          7987.219014018058,
+          8460.84873227877,
+          8959.599036785403,
+          9484.80228450165
+        ],
+        "water_added_initial_kg_m2": 0.820362487669044
+      }
+    },
+    "thompson_alta_w3_nz60_dt10": {
+      "directory": "resultados\\ensemble_goamazon\\diagnostico_cientifico\\thompson_alta_w3_nz60_dt10_20261103T030241889484Z",
+      "action": "executed",
+      "config": {
+        "input_source": "goamazon",
+        "path_goamazon": "/mnt/c/git_repos/SingleColumnModelMicrophysicsAndLightning/data_goamazon/GOAMAZON_SINGLE_SCM_driver.nc",
+        "npoints": 1,
+        "nsatconfigs": 1,
+        "point_label": "GOAMAZON_original",
+        "microp_scheme": "thompson",
+        "satconfig_label": "alta",
+        "sat_z_lo": 7500.0,
+        "sat_z_hi": 9500.0,
+        "sat_rh_target": 1.0,
+        "nz": 60,
+        "ztop": 20000.0,
+        "dz0": 50.0,
+        "dt_microp": 10.0,
+        "run_duration_s": 7200.0,
+        "pulse_sigma_z": 1000.0,
+        "pulse_duration_s": 1800.0,
+        "pulse_w_max": 3.0,
+        "write_profiles": true,
+        "path_summary": "summary.nc",
+        "path_profile_prefix": "profile"
+      },
+      "output_sha256": "fa4fcb0ace558b2e01b11bcfe66f6ec6b6930a91e64ed63592269b56c4143e7b",
+      "namelist_sha256": "0256a6a88ca43b89f7520890fbc7c5663f7f6b20536531ba4c62eb816528b383",
+      "quality": {
+        "valid": true,
+        "errors": [],
+        "warnings": [
+          "RH quente initial >101% (diagnóstico Bolton)",
+          "Camada superior artificial do GOAMAZON; ensemble idealizado, sem validação observacional"
+        ],
+        "details": {
+          "dz_min_max_m": [
+            50.0,
+            1054.8228363526723
+          ],
+          "rh_warm_initial_max_percent": 101.12654941252704,
+          "rh_warm_initial_above101_count": 1,
+          "rh_warm_evolution_max_percent": 100.07875565089996,
+          "rh_warm_evolution_above101_count": 0,
+          "temperature_min_max_K": [
+            161.67582970406266,
+            298.7986881681443
+          ],
+          "temperature_above16500m_min_K": 161.67582970406266,
+          "samples": 721,
+          "last_time_s": 7200.0
+        },
+        "initial_perturbation_checked": true,
+        "input_sha256": "aacf5e194d19f9bb15bc036f48bef94f99bcb0c96f9ff1928751af7c268e9161",
+        "actual_saturated_centers_m": [
+          7537.4446319419885,
+          7987.219014018058,
+          8460.84873227877,
+          8959.599036785403,
+          9484.80228450165
+        ],
+        "water_added_initial_kg_m2": 0.820362487669044
+      }
+    },
+    "thompson_alta_w3_nz60_dt5": {
+      "directory": "resultados\\ensemble_goamazon\\diagnostico_cientifico\\thompson_alta_w3_nz60_dt5_20261103T030241889484Z",
+      "action": "executed",
+      "config": {
+        "input_source": "goamazon",
+        "path_goamazon": "/mnt/c/git_repos/SingleColumnModelMicrophysicsAndLightning/data_goamazon/GOAMAZON_SINGLE_SCM_driver.nc",
+        "npoints": 1,
+        "nsatconfigs": 1,
+        "point_label": "GOAMAZON_original",
+        "microp_scheme": "thompson",
+        "satconfig_label": "alta",
+        "sat_z_lo": 7500.0,
+        "sat_z_hi": 9500.0,
+        "sat_rh_target": 1.0,
+        "nz": 60,
+        "ztop": 20000.0,
+        "dz0": 50.0,
+        "dt_microp": 5.0,
+        "run_duration_s": 7200.0,
+        "pulse_sigma_z": 1000.0,
+        "pulse_duration_s": 1800.0,
+        "pulse_w_max": 3.0,
+        "write_profiles": true,
+        "path_summary": "summary.nc",
+        "path_profile_prefix": "profile"
+      },
+      "output_sha256": "c147e8089af28df217d5be8d4734ebc9f87377aa8e9c6b117fcc75b535892a0f",
+      "namelist_sha256": "8bbf4531abf1e18a104fd6b27c413ede34bafaa32ad3acfd07ecb5eb0e5ea364",
+      "quality": {
+        "valid": true,
+        "errors": [],
+        "warnings": [
+          "RH quente initial >101% (diagnóstico Bolton)",
+          "Camada superior artificial do GOAMAZON; ensemble idealizado, sem validação observacional"
+        ],
+        "details": {
+          "dz_min_max_m": [
+            50.0,
+            1054.8228363526723
+          ],
+          "rh_warm_initial_max_percent": 101.12654941252704,
+          "rh_warm_initial_above101_count": 1,
+          "rh_warm_evolution_max_percent": 100.07875868069375,
+          "rh_warm_evolution_above101_count": 0,
+          "temperature_min_max_K": [
+            161.67582970406266,
+            298.7986881681443
+          ],
+          "temperature_above16500m_min_K": 161.67582970406266,
+          "samples": 1441,
+          "last_time_s": 7200.0
+        },
+        "initial_perturbation_checked": true,
+        "input_sha256": "aacf5e194d19f9bb15bc036f48bef94f99bcb0c96f9ff1928751af7c268e9161",
+        "actual_saturated_centers_m": [
+          7537.4446319419885,
+          7987.219014018058,
+          8460.84873227877,
+          8959.599036785403,
+          9484.80228450165
+        ],
+        "water_added_initial_kg_m2": 0.820362487669044
+      }
+    },
+    "thompson_alta_w3_nz120_dt20": {
+      "directory": "resultados\\ensemble_goamazon\\diagnostico_cientifico\\thompson_alta_w3_nz120_dt20_20261103T030241889484Z",
+      "action": "executed",
+      "config": {
+        "input_source": "goamazon",
+        "path_goamazon": "/mnt/c/git_repos/SingleColumnModelMicrophysicsAndLightning/data_goamazon/GOAMAZON_SINGLE_SCM_driver.nc",
+        "npoints": 1,
+        "nsatconfigs": 1,
+        "point_label": "GOAMAZON_original",
+        "microp_scheme": "thompson",
+        "satconfig_label": "alta",
+        "sat_z_lo": 7500.0,
+        "sat_z_hi": 9500.0,
+        "sat_rh_target": 1.0,
+        "nz": 120,
+        "ztop": 20000.0,
+        "dz0": 25.0,
+        "dt_microp": 20.0,
+        "run_duration_s": 7200.0,
+        "pulse_sigma_z": 1000.0,
+        "pulse_duration_s": 1800.0,
+        "pulse_w_max": 3.0,
+        "write_profiles": true,
+        "path_summary": "summary.nc",
+        "path_profile_prefix": "profile"
+      },
+      "output_sha256": "6b0d313e39e554c25e2a0efa2228edfdbf2d47fadda11852b1868c40f1248187",
+      "namelist_sha256": "98e714809d3a550aa5beb63e7e7b472ea9f3c4e9ab8b0e07a05217e6298d707a",
+      "quality": {
+        "valid": true,
+        "errors": [],
+        "warnings": [
+          "RH quente initial >101% (diagnóstico Bolton)",
+          "Camada superior artificial do GOAMAZON; ensemble idealizado, sem validação observacional"
+        ],
+        "details": {
+          "dz_min_max_m": [
+            25.0,
+            531.6099146991692
+          ],
+          "rh_warm_initial_max_percent": 101.1300912372146,
+          "rh_warm_initial_above101_count": 2,
+          "rh_warm_evolution_max_percent": 100.08008604411802,
+          "rh_warm_evolution_above101_count": 0,
+          "temperature_min_max_K": [
+            159.12237770561157,
+            298.9192282434196
+          ],
+          "temperature_above16500m_min_K": 159.12237770561157,
+          "samples": 361,
+          "last_time_s": 7200.0
+        },
+        "initial_perturbation_checked": true,
+        "input_sha256": "aacf5e194d19f9bb15bc036f48bef94f99bcb0c96f9ff1928751af7c268e9161",
+        "actual_saturated_centers_m": [
+          7679.687625496702,
+          7904.529824868208,
+          8135.222908002846,
+          8371.919127640114,
+          8614.774698467423,
+          8863.9499002186,
+          9119.609183455264,
+          9381.921278100835
+        ],
+        "water_added_initial_kg_m2": 0.6134928876327284
+      }
+    },
+    "thompson_alta_w3_nz120_dt10": {
+      "directory": "resultados\\ensemble_goamazon\\diagnostico_cientifico\\thompson_alta_w3_nz120_dt10_20261103T030241889484Z",
+      "action": "executed",
+      "config": {
+        "input_source": "goamazon",
+        "path_goamazon": "/mnt/c/git_repos/SingleColumnModelMicrophysicsAndLightning/data_goamazon/GOAMAZON_SINGLE_SCM_driver.nc",
+        "npoints": 1,
+        "nsatconfigs": 1,
+        "point_label": "GOAMAZON_original",
+        "microp_scheme": "thompson",
+        "satconfig_label": "alta",
+        "sat_z_lo": 7500.0,
+        "sat_z_hi": 9500.0,
+        "sat_rh_target": 1.0,
+        "nz": 120,
+        "ztop": 20000.0,
+        "dz0": 25.0,
+        "dt_microp": 10.0,
+        "run_duration_s": 7200.0,
+        "pulse_sigma_z": 1000.0,
+        "pulse_duration_s": 1800.0,
+        "pulse_w_max": 3.0,
+        "write_profiles": true,
+        "path_summary": "summary.nc",
+        "path_profile_prefix": "profile"
+      },
+      "output_sha256": "a9c28028de462eee1608cafde71b8565d21d4f79e59691b93ec0efa1a96e9520",
+      "namelist_sha256": "12f7f378c824e45ba00e3286791ce2180af2f925d66e726a733bd2cb161b45c8",
+      "quality": {
+        "valid": true,
+        "errors": [],
+        "warnings": [
+          "RH quente initial >101% (diagnóstico Bolton)",
+          "Camada superior artificial do GOAMAZON; ensemble idealizado, sem validação observacional"
+        ],
+        "details": {
+          "dz_min_max_m": [
+            25.0,
+            531.6099146991692
+          ],
+          "rh_warm_initial_max_percent": 101.1300912372146,
+          "rh_warm_initial_above101_count": 2,
+          "rh_warm_evolution_max_percent": 100.08009072263711,
+          "rh_warm_evolution_above101_count": 0,
+          "temperature_min_max_K": [
+            159.12237770561157,
+            298.9192282434196
+          ],
+          "temperature_above16500m_min_K": 159.12237770561157,
+          "samples": 721,
+          "last_time_s": 7200.0
+        },
+        "initial_perturbation_checked": true,
+        "input_sha256": "aacf5e194d19f9bb15bc036f48bef94f99bcb0c96f9ff1928751af7c268e9161",
+        "actual_saturated_centers_m": [
+          7679.687625496702,
+          7904.529824868208,
+          8135.222908002846,
+          8371.919127640114,
+          8614.774698467423,
+          8863.9499002186,
+          9119.609183455264,
+          9381.921278100835
+        ],
+        "water_added_initial_kg_m2": 0.6134928876327284
+      }
+    },
+    "thompson_alta_w3_nz120_dt5": {
+      "directory": "resultados\\ensemble_goamazon\\diagnostico_cientifico\\thompson_alta_w3_nz120_dt5_20261103T030241889484Z",
+      "action": "executed",
+      "config": {
+        "input_source": "goamazon",
+        "path_goamazon": "/mnt/c/git_repos/SingleColumnModelMicrophysicsAndLightning/data_goamazon/GOAMAZON_SINGLE_SCM_driver.nc",
+        "npoints": 1,
+        "nsatconfigs": 1,
+        "point_label": "GOAMAZON_original",
+        "microp_scheme": "thompson",
+        "satconfig_label": "alta",
+        "sat_z_lo": 7500.0,
+        "sat_z_hi": 9500.0,
+        "sat_rh_target": 1.0,
+        "nz": 120,
+        "ztop": 20000.0,
+        "dz0": 25.0,
+        "dt_microp": 5.0,
+        "run_duration_s": 7200.0,
+        "pulse_sigma_z": 1000.0,
+        "pulse_duration_s": 1800.0,
+        "pulse_w_max": 3.0,
+        "write_profiles": true,
+        "path_summary": "summary.nc",
+        "path_profile_prefix": "profile"
+      },
+      "output_sha256": "d585af1f47130582217575237ee91b635973e35a1374301a09e1678bc0d345c5",
+      "namelist_sha256": "d349656791cc7fe11935bc89539d1cb03b9d629ae306269edb1ae1ba59519efc",
+      "quality": {
+        "valid": true,
+        "errors": [],
+        "warnings": [
+          "RH quente initial >101% (diagnóstico Bolton)",
+          "Camada superior artificial do GOAMAZON; ensemble idealizado, sem validação observacional"
+        ],
+        "details": {
+          "dz_min_max_m": [
+            25.0,
+            531.6099146991692
+          ],
+          "rh_warm_initial_max_percent": 101.1300912372146,
+          "rh_warm_initial_above101_count": 2,
+          "rh_warm_evolution_max_percent": 100.08010298231223,
+          "rh_warm_evolution_above101_count": 0,
+          "temperature_min_max_K": [
+            159.12237770561157,
+            298.9192282434196
+          ],
+          "temperature_above16500m_min_K": 159.12237770561157,
+          "samples": 1441,
+          "last_time_s": 7200.0
+        },
+        "initial_perturbation_checked": true,
+        "input_sha256": "aacf5e194d19f9bb15bc036f48bef94f99bcb0c96f9ff1928751af7c268e9161",
+        "actual_saturated_centers_m": [
+          7679.687625496702,
+          7904.529824868208,
+          8135.222908002846,
+          8371.919127640114,
+          8614.774698467423,
+          8863.9499002186,
+          9119.609183455264,
+          9381.921278100835
+        ],
+        "water_added_initial_kg_m2": 0.6134928876327284
+      }
+    },
+    "thompson_alta_w3_nz240_dt20": {
+      "directory": "resultados\\ensemble_goamazon\\diagnostico_cientifico\\thompson_alta_w3_nz240_dt20_20261103T030241889484Z",
+      "action": "executed",
+      "config": {
+        "input_source": "goamazon",
+        "path_goamazon": "/mnt/c/git_repos/SingleColumnModelMicrophysicsAndLightning/data_goamazon/GOAMAZON_SINGLE_SCM_driver.nc",
+        "npoints": 1,
+        "nsatconfigs": 1,
+        "point_label": "GOAMAZON_original",
+        "microp_scheme": "thompson",
+        "satconfig_label": "alta",
+        "sat_z_lo": 7500.0,
+        "sat_z_hi": 9500.0,
+        "sat_rh_target": 1.0,
+        "nz": 240,
+        "ztop": 20000.0,
+        "dz0": 12.5,
+        "dt_microp": 20.0,
+        "run_duration_s": 7200.0,
+        "pulse_sigma_z": 1000.0,
+        "pulse_duration_s": 1800.0,
+        "pulse_w_max": 3.0,
+        "write_profiles": true,
+        "path_summary": "summary.nc",
+        "path_profile_prefix": "profile"
+      },
+      "output_sha256": "953af208d8ef09a4aa963d224e160ae24eedf28e79f6c934351bbb934e161920",
+      "namelist_sha256": "48f9f9747c72bb909d448157d730293873f69467a852775d823dbee57213bf3f",
+      "quality": {
+        "valid": true,
+        "errors": [],
+        "warnings": [
+          "RH quente initial >101% (diagnóstico Bolton)",
+          "Camada superior artificial do GOAMAZON; ensemble idealizado, sem validação observacional"
+        ],
+        "details": {
+          "dz_min_max_m": [
+            12.5,
+            266.85686838626134
+          ],
+          "rh_warm_initial_max_percent": 101.13122992617656,
+          "rh_warm_initial_above101_count": 4,
+          "rh_warm_evolution_max_percent": 100.08087091030258,
+          "rh_warm_evolution_above101_count": 0,
+          "temperature_min_max_K": [
+            157.8302944842495,
+            298.97950087736956
+          ],
+          "temperature_above16500m_min_K": 157.8302944842495,
+          "samples": 361,
+          "last_time_s": 7200.0
+        },
+        "initial_perturbation_checked": true,
+        "input_sha256": "aacf5e194d19f9bb15bc036f48bef94f99bcb0c96f9ff1928751af7c268e9161",
+        "actual_saturated_centers_m": [
+          7531.1732235874615,
+          7640.748769213906,
+          7751.736725040355,
+          7864.155296794754,
+          7978.022924873794,
+          8093.3582873677515,
+          8210.180303124318,
+          8328.508134851925,
+          8448.361192263066,
+          8569.759135258133,
+          8692.721877150307,
+          8817.26958793199,
+          8943.422697583374,
+          9071.201899423624,
+          9200.628153505286,
+          9331.722690052422,
+          9464.507012943082
+        ],
+        "water_added_initial_kg_m2": 0.6721522897269717
+      }
+    },
+    "thompson_alta_w3_nz240_dt10": {
+      "directory": "resultados\\ensemble_goamazon\\diagnostico_cientifico\\thompson_alta_w3_nz240_dt10_20261103T030241889484Z",
+      "action": "executed",
+      "config": {
+        "input_source": "goamazon",
+        "path_goamazon": "/mnt/c/git_repos/SingleColumnModelMicrophysicsAndLightning/data_goamazon/GOAMAZON_SINGLE_SCM_driver.nc",
+        "npoints": 1,
+        "nsatconfigs": 1,
+        "point_label": "GOAMAZON_original",
+        "microp_scheme": "thompson",
+        "satconfig_label": "alta",
+        "sat_z_lo": 7500.0,
+        "sat_z_hi": 9500.0,
+        "sat_rh_target": 1.0,
+        "nz": 240,
+        "ztop": 20000.0,
+        "dz0": 12.5,
+        "dt_microp": 10.0,
+        "run_duration_s": 7200.0,
+        "pulse_sigma_z": 1000.0,
+        "pulse_duration_s": 1800.0,
+        "pulse_w_max": 3.0,
+        "write_profiles": true,
+        "path_summary": "summary.nc",
+        "path_profile_prefix": "profile"
+      },
+      "output_sha256": "13f4b2a45903f2d83a41a8969bbb1bac64627f218c57223c6ac4972749d338d0",
+      "namelist_sha256": "612cd6cdf7844fe023672971d16c817d3cf14b5f802770d11d358af69c526579",
+      "quality": {
+        "valid": true,
+        "errors": [],
+        "warnings": [
+          "RH quente initial >101% (diagnóstico Bolton)",
+          "Camada superior artificial do GOAMAZON; ensemble idealizado, sem validação observacional"
+        ],
+        "details": {
+          "dz_min_max_m": [
+            12.5,
+            266.85686838626134
+          ],
+          "rh_warm_initial_max_percent": 101.13122992617656,
+          "rh_warm_initial_above101_count": 4,
+          "rh_warm_evolution_max_percent": 100.08087559382064,
+          "rh_warm_evolution_above101_count": 0,
+          "temperature_min_max_K": [
+            157.8302944842495,
+            298.97950087736956
+          ],
+          "temperature_above16500m_min_K": 157.8302944842495,
+          "samples": 721,
+          "last_time_s": 7200.0
+        },
+        "initial_perturbation_checked": true,
+        "input_sha256": "aacf5e194d19f9bb15bc036f48bef94f99bcb0c96f9ff1928751af7c268e9161",
+        "actual_saturated_centers_m": [
+          7531.1732235874615,
+          7640.748769213906,
+          7751.736725040355,
+          7864.155296794754,
+          7978.022924873794,
+          8093.3582873677515,
+          8210.180303124318,
+          8328.508134851925,
+          8448.361192263066,
+          8569.759135258133,
+          8692.721877150307,
+          8817.26958793199,
+          8943.422697583374,
+          9071.201899423624,
+          9200.628153505286,
+          9331.722690052422,
+          9464.507012943082
+        ],
+        "water_added_initial_kg_m2": 0.6721522897269717
+      }
+    },
+    "thompson_alta_w3_nz240_dt5": {
+      "directory": "resultados\\ensemble_goamazon\\diagnostico_cientifico\\thompson_alta_w3_nz240_dt5_20261103T030241889484Z",
+      "action": "executed",
+      "config": {
+        "input_source": "goamazon",
+        "path_goamazon": "/mnt/c/git_repos/SingleColumnModelMicrophysicsAndLightning/data_goamazon/GOAMAZON_SINGLE_SCM_driver.nc",
+        "npoints": 1,
+        "nsatconfigs": 1,
+        "point_label": "GOAMAZON_original",
+        "microp_scheme": "thompson",
+        "satconfig_label": "alta",
+        "sat_z_lo": 7500.0,
+        "sat_z_hi": 9500.0,
+        "sat_rh_target": 1.0,
+        "nz": 240,
+        "ztop": 20000.0,
+        "dz0": 12.5,
+        "dt_microp": 5.0,
+        "run_duration_s": 7200.0,
+        "pulse_sigma_z": 1000.0,
+        "pulse_duration_s": 1800.0,
+        "pulse_w_max": 3.0,
+        "write_profiles": true,
+        "path_summary": "summary.nc",
+        "path_profile_prefix": "profile"
+      },
+      "output_sha256": "8cc2317c222a460ae1d1b024bcde9e8aff277f5ba5a4bdd100841608d29b735f",
+      "namelist_sha256": "bfca7bdc4b7cb474d56195d9e27b70a7333a307f0c266c3144f1264c32661496",
+      "quality": {
+        "valid": true,
+        "errors": [],
+        "warnings": [
+          "RH quente initial >101% (diagnóstico Bolton)",
+          "Camada superior artificial do GOAMAZON; ensemble idealizado, sem validação observacional"
+        ],
+        "details": {
+          "dz_min_max_m": [
+            12.5,
+            266.85686838626134
+          ],
+          "rh_warm_initial_max_percent": 101.13122992617656,
+          "rh_warm_initial_above101_count": 4,
+          "rh_warm_evolution_max_percent": 100.08088802574814,
+          "rh_warm_evolution_above101_count": 0,
+          "temperature_min_max_K": [
+            157.8302944842495,
+            298.97950087736956
+          ],
+          "temperature_above16500m_min_K": 157.8302944842495,
+          "samples": 1441,
+          "last_time_s": 7200.0
+        },
+        "initial_perturbation_checked": true,
+        "input_sha256": "aacf5e194d19f9bb15bc036f48bef94f99bcb0c96f9ff1928751af7c268e9161",
+        "actual_saturated_centers_m": [
+          7531.1732235874615,
+          7640.748769213906,
+          7751.736725040355,
+          7864.155296794754,
+          7978.022924873794,
+          8093.3582873677515,
+          8210.180303124318,
+          8328.508134851925,
+          8448.361192263066,
+          8569.759135258133,
+          8692.721877150307,
+          8817.26958793199,
+          8943.422697583374,
+          9071.201899423624,
+          9200.628153505286,
+          9331.722690052422,
+          9464.507012943082
+        ],
+        "water_added_initial_kg_m2": 0.6721522897269717
+      }
+    },
+    "wsm6_alta_w3_nz60_dt20": {
+      "directory": "resultados\\ensemble_goamazon\\wsm6_alta_w3_20261103T024633710569Z",
+      "action": "baseline_reused",
+      "config": {
+        "input_source": "goamazon",
+        "path_goamazon": "/mnt/c/git_repos/SingleColumnModelMicrophysicsAndLightning/data_goamazon/GOAMAZON_SINGLE_SCM_driver.nc",
+        "npoints": 1,
+        "nsatconfigs": 1,
+        "point_label": "GOAMAZON_original",
+        "microp_scheme": "wsm6",
+        "satconfig_label": "alta",
+        "sat_z_lo": 7500.0,
+        "sat_z_hi": 9500.0,
+        "sat_rh_target": 1.0,
+        "nz": 60,
+        "ztop": 20000.0,
+        "dz0": 50.0,
+        "dt_microp": 20.0,
+        "run_duration_s": 7200.0,
+        "pulse_sigma_z": 1000.0,
+        "pulse_duration_s": 1800.0,
+        "pulse_w_max": 3.0,
+        "write_profiles": true,
+        "path_summary": "summary.nc",
+        "path_profile_prefix": "profile"
+      },
+      "output_sha256": "2160f91bcf5048f0d9613a469a1c46defd6beb0a5074b9d9a7ba5bab46abc8b3",
+      "namelist_sha256": "3ddd6acb3c61f8ea448fa29c782b5fe7856eb6ebf44797b959f01e480698e29c",
+      "quality": {
+        "valid": true,
+        "errors": [],
+        "warnings": [
+          "RH quente initial >101% (diagnóstico Bolton)",
+          "Camada superior artificial do GOAMAZON; ensemble idealizado, sem validação observacional"
+        ],
+        "details": {
+          "dz_min_max_m": [
+            50.0,
+            1054.8228363526723
+          ],
+          "rh_warm_initial_max_percent": 101.12654941252704,
+          "rh_warm_initial_above101_count": 1,
+          "rh_warm_evolution_max_percent": 99.85979847664723,
+          "rh_warm_evolution_above101_count": 0,
+          "temperature_min_max_K": [
+            161.67582970406266,
+            298.7986881681443
+          ],
+          "temperature_above16500m_min_K": 161.67582970406266,
+          "samples": 361,
+          "last_time_s": 7200.0
+        },
+        "initial_perturbation_checked": true,
+        "input_sha256": "aacf5e194d19f9bb15bc036f48bef94f99bcb0c96f9ff1928751af7c268e9161",
+        "actual_saturated_centers_m": [
+          7537.4446319419885,
+          7987.219014018058,
+          8460.84873227877,
+          8959.599036785403,
+          9484.80228450165
+        ],
+        "water_added_initial_kg_m2": 0.820362487669044
+      }
+    },
+    "wsm6_alta_w3_nz60_dt10": {
+      "directory": "resultados\\ensemble_goamazon\\diagnostico_cientifico\\wsm6_alta_w3_nz60_dt10_20261103T030241889484Z",
+      "action": "executed",
+      "config": {
+        "input_source": "goamazon",
+        "path_goamazon": "/mnt/c/git_repos/SingleColumnModelMicrophysicsAndLightning/data_goamazon/GOAMAZON_SINGLE_SCM_driver.nc",
+        "npoints": 1,
+        "nsatconfigs": 1,
+        "point_label": "GOAMAZON_original",
+        "microp_scheme": "wsm6",
+        "satconfig_label": "alta",
+        "sat_z_lo": 7500.0,
+        "sat_z_hi": 9500.0,
+        "sat_rh_target": 1.0,
+        "nz": 60,
+        "ztop": 20000.0,
+        "dz0": 50.0,
+        "dt_microp": 10.0,
+        "run_duration_s": 7200.0,
+        "pulse_sigma_z": 1000.0,
+        "pulse_duration_s": 1800.0,
+        "pulse_w_max": 3.0,
+        "write_profiles": true,
+        "path_summary": "summary.nc",
+        "path_profile_prefix": "profile"
+      },
+      "output_sha256": "1436229fe4797d1d926e83b4eafaec8de491b1fbf16402fb54640d392a4de7f7",
+      "namelist_sha256": "a48e5d603a4f743a3447ed8d9c794d07203909d576bdaf96f164ca8f1e9ac8be",
+      "quality": {
+        "valid": true,
+        "errors": [],
+        "warnings": [
+          "RH quente initial >101% (diagnóstico Bolton)",
+          "Camada superior artificial do GOAMAZON; ensemble idealizado, sem validação observacional"
+        ],
+        "details": {
+          "dz_min_max_m": [
+            50.0,
+            1054.8228363526723
+          ],
+          "rh_warm_initial_max_percent": 101.12654941252704,
+          "rh_warm_initial_above101_count": 1,
+          "rh_warm_evolution_max_percent": 99.8599351478737,
+          "rh_warm_evolution_above101_count": 0,
+          "temperature_min_max_K": [
+            161.67582970406266,
+            298.7986881681443
+          ],
+          "temperature_above16500m_min_K": 161.67582970406266,
+          "samples": 721,
+          "last_time_s": 7200.0
+        },
+        "initial_perturbation_checked": true,
+        "input_sha256": "aacf5e194d19f9bb15bc036f48bef94f99bcb0c96f9ff1928751af7c268e9161",
+        "actual_saturated_centers_m": [
+          7537.4446319419885,
+          7987.219014018058,
+          8460.84873227877,
+          8959.599036785403,
+          9484.80228450165
+        ],
+        "water_added_initial_kg_m2": 0.820362487669044
+      }
+    },
+    "wsm6_alta_w3_nz60_dt5": {
+      "directory": "resultados\\ensemble_goamazon\\diagnostico_cientifico\\wsm6_alta_w3_nz60_dt5_20261103T030241889484Z",
+      "action": "executed",
+      "config": {
+        "input_source": "goamazon",
+        "path_goamazon": "/mnt/c/git_repos/SingleColumnModelMicrophysicsAndLightning/data_goamazon/GOAMAZON_SINGLE_SCM_driver.nc",
+        "npoints": 1,
+        "nsatconfigs": 1,
+        "point_label": "GOAMAZON_original",
+        "microp_scheme": "wsm6",
+        "satconfig_label": "alta",
+        "sat_z_lo": 7500.0,
+        "sat_z_hi": 9500.0,
+        "sat_rh_target": 1.0,
+        "nz": 60,
+        "ztop": 20000.0,
+        "dz0": 50.0,
+        "dt_microp": 5.0,
+        "run_duration_s": 7200.0,
+        "pulse_sigma_z": 1000.0,
+        "pulse_duration_s": 1800.0,
+        "pulse_w_max": 3.0,
+        "write_profiles": true,
+        "path_summary": "summary.nc",
+        "path_profile_prefix": "profile"
+      },
+      "output_sha256": "788f9e7d1b62bc2a173c0dc9d0c1be675c8b3a71169463f7f2613b735a7e547d",
+      "namelist_sha256": "c2c79371756ef7c6b55beb9aae11419751dd2208a9dd76bea8cd6b6ea71f852e",
+      "quality": {
+        "valid": true,
+        "errors": [],
+        "warnings": [
+          "RH quente initial >101% (diagnóstico Bolton)",
+          "Camada superior artificial do GOAMAZON; ensemble idealizado, sem validação observacional"
+        ],
+        "details": {
+          "dz_min_max_m": [
+            50.0,
+            1054.8228363526723
+          ],
+          "rh_warm_initial_max_percent": 101.12654941252704,
+          "rh_warm_initial_above101_count": 1,
+          "rh_warm_evolution_max_percent": 99.8599789827329,
+          "rh_warm_evolution_above101_count": 0,
+          "temperature_min_max_K": [
+            161.67582970406266,
+            298.7986881681443
+          ],
+          "temperature_above16500m_min_K": 161.67582970406266,
+          "samples": 1441,
+          "last_time_s": 7200.0
+        },
+        "initial_perturbation_checked": true,
+        "input_sha256": "aacf5e194d19f9bb15bc036f48bef94f99bcb0c96f9ff1928751af7c268e9161",
+        "actual_saturated_centers_m": [
+          7537.4446319419885,
+          7987.219014018058,
+          8460.84873227877,
+          8959.599036785403,
+          9484.80228450165
+        ],
+        "water_added_initial_kg_m2": 0.820362487669044
+      }
+    },
+    "wsm6_alta_w3_nz120_dt20": {
+      "directory": "resultados\\ensemble_goamazon\\diagnostico_cientifico\\wsm6_alta_w3_nz120_dt20_20261103T030241889484Z",
+      "action": "executed",
+      "config": {
+        "input_source": "goamazon",
+        "path_goamazon": "/mnt/c/git_repos/SingleColumnModelMicrophysicsAndLightning/data_goamazon/GOAMAZON_SINGLE_SCM_driver.nc",
+        "npoints": 1,
+        "nsatconfigs": 1,
+        "point_label": "GOAMAZON_original",
+        "microp_scheme": "wsm6",
+        "satconfig_label": "alta",
+        "sat_z_lo": 7500.0,
+        "sat_z_hi": 9500.0,
+        "sat_rh_target": 1.0,
+        "nz": 120,
+        "ztop": 20000.0,
+        "dz0": 25.0,
+        "dt_microp": 20.0,
+        "run_duration_s": 7200.0,
+        "pulse_sigma_z": 1000.0,
+        "pulse_duration_s": 1800.0,
+        "pulse_w_max": 3.0,
+        "write_profiles": true,
+        "path_summary": "summary.nc",
+        "path_profile_prefix": "profile"
+      },
+      "output_sha256": "4b47203a541576d1b700e066523358b5bda36bc939514aad7767838eb86d906c",
+      "namelist_sha256": "1617ddcf4cf5cb471191c0d408176b2cf6d0d7933199e692ea8c884a2560f7bb",
+      "quality": {
+        "valid": true,
+        "errors": [],
+        "warnings": [
+          "RH quente initial >101% (diagnóstico Bolton)",
+          "Camada superior artificial do GOAMAZON; ensemble idealizado, sem validação observacional"
+        ],
+        "details": {
+          "dz_min_max_m": [
+            25.0,
+            531.6099146991692
+          ],
+          "rh_warm_initial_max_percent": 101.1300912372146,
+          "rh_warm_initial_above101_count": 2,
+          "rh_warm_evolution_max_percent": 99.86013107068631,
+          "rh_warm_evolution_above101_count": 0,
+          "temperature_min_max_K": [
+            159.12237770561157,
+            298.9192282434196
+          ],
+          "temperature_above16500m_min_K": 159.12237770561157,
+          "samples": 361,
+          "last_time_s": 7200.0
+        },
+        "initial_perturbation_checked": true,
+        "input_sha256": "aacf5e194d19f9bb15bc036f48bef94f99bcb0c96f9ff1928751af7c268e9161",
+        "actual_saturated_centers_m": [
+          7679.687625496702,
+          7904.529824868208,
+          8135.222908002846,
+          8371.919127640114,
+          8614.774698467423,
+          8863.9499002186,
+          9119.609183455264,
+          9381.921278100835
+        ],
+        "water_added_initial_kg_m2": 0.6134928876327284
+      }
+    },
+    "wsm6_alta_w3_nz120_dt10": {
+      "directory": "resultados\\ensemble_goamazon\\diagnostico_cientifico\\wsm6_alta_w3_nz120_dt10_20261103T030241889484Z",
+      "action": "executed",
+      "config": {
+        "input_source": "goamazon",
+        "path_goamazon": "/mnt/c/git_repos/SingleColumnModelMicrophysicsAndLightning/data_goamazon/GOAMAZON_SINGLE_SCM_driver.nc",
+        "npoints": 1,
+        "nsatconfigs": 1,
+        "point_label": "GOAMAZON_original",
+        "microp_scheme": "wsm6",
+        "satconfig_label": "alta",
+        "sat_z_lo": 7500.0,
+        "sat_z_hi": 9500.0,
+        "sat_rh_target": 1.0,
+        "nz": 120,
+        "ztop": 20000.0,
+        "dz0": 25.0,
+        "dt_microp": 10.0,
+        "run_duration_s": 7200.0,
+        "pulse_sigma_z": 1000.0,
+        "pulse_duration_s": 1800.0,
+        "pulse_w_max": 3.0,
+        "write_profiles": true,
+        "path_summary": "summary.nc",
+        "path_profile_prefix": "profile"
+      },
+      "output_sha256": "b518582a3dbceed034b242ef891d112267f66661e146b0b17c3fc4007bf2b639",
+      "namelist_sha256": "69d0eaf9c60e6f4c987e4c422648a4ca217e7dfa80c47a7935798ff4d92da218",
+      "quality": {
+        "valid": true,
+        "errors": [],
+        "warnings": [
+          "RH quente initial >101% (diagnóstico Bolton)",
+          "Camada superior artificial do GOAMAZON; ensemble idealizado, sem validação observacional"
+        ],
+        "details": {
+          "dz_min_max_m": [
+            25.0,
+            531.6099146991692
+          ],
+          "rh_warm_initial_max_percent": 101.1300912372146,
+          "rh_warm_initial_above101_count": 2,
+          "rh_warm_evolution_max_percent": 99.86029299019957,
+          "rh_warm_evolution_above101_count": 0,
+          "temperature_min_max_K": [
+            159.12237770561157,
+            298.9192282434196
+          ],
+          "temperature_above16500m_min_K": 159.12237770561157,
+          "samples": 721,
+          "last_time_s": 7200.0
+        },
+        "initial_perturbation_checked": true,
+        "input_sha256": "aacf5e194d19f9bb15bc036f48bef94f99bcb0c96f9ff1928751af7c268e9161",
+        "actual_saturated_centers_m": [
+          7679.687625496702,
+          7904.529824868208,
+          8135.222908002846,
+          8371.919127640114,
+          8614.774698467423,
+          8863.9499002186,
+          9119.609183455264,
+          9381.921278100835
+        ],
+        "water_added_initial_kg_m2": 0.6134928876327284
+      }
+    },
+    "wsm6_alta_w3_nz120_dt5": {
+      "directory": "resultados\\ensemble_goamazon\\diagnostico_cientifico\\wsm6_alta_w3_nz120_dt5_20261103T030241889484Z",
+      "action": "executed",
+      "config": {
+        "input_source": "goamazon",
+        "path_goamazon": "/mnt/c/git_repos/SingleColumnModelMicrophysicsAndLightning/data_goamazon/GOAMAZON_SINGLE_SCM_driver.nc",
+        "npoints": 1,
+        "nsatconfigs": 1,
+        "point_label": "GOAMAZON_original",
+        "microp_scheme": "wsm6",
+        "satconfig_label": "alta",
+        "sat_z_lo": 7500.0,
+        "sat_z_hi": 9500.0,
+        "sat_rh_target": 1.0,
+        "nz": 120,
+        "ztop": 20000.0,
+        "dz0": 25.0,
+        "dt_microp": 5.0,
+        "run_duration_s": 7200.0,
+        "pulse_sigma_z": 1000.0,
+        "pulse_duration_s": 1800.0,
+        "pulse_w_max": 3.0,
+        "write_profiles": true,
+        "path_summary": "summary.nc",
+        "path_profile_prefix": "profile"
+      },
+      "output_sha256": "bee3345c4fe4b023ae5534968bea84069aed85357d4654cc2a84bc8a222e0978",
+      "namelist_sha256": "5f1abed6171dc677ba5a163cc13a2574d4acd2369f61faec69ed9d8d25f4b87f",
+      "quality": {
+        "valid": true,
+        "errors": [],
+        "warnings": [
+          "RH quente initial >101% (diagnóstico Bolton)",
+          "Camada superior artificial do GOAMAZON; ensemble idealizado, sem validação observacional"
+        ],
+        "details": {
+          "dz_min_max_m": [
+            25.0,
+            531.6099146991692
+          ],
+          "rh_warm_initial_max_percent": 101.1300912372146,
+          "rh_warm_initial_above101_count": 2,
+          "rh_warm_evolution_max_percent": 99.86031741100882,
+          "rh_warm_evolution_above101_count": 0,
+          "temperature_min_max_K": [
+            159.12237770561157,
+            298.9192282434196
+          ],
+          "temperature_above16500m_min_K": 159.12237770561157,
+          "samples": 1441,
+          "last_time_s": 7200.0
+        },
+        "initial_perturbation_checked": true,
+        "input_sha256": "aacf5e194d19f9bb15bc036f48bef94f99bcb0c96f9ff1928751af7c268e9161",
+        "actual_saturated_centers_m": [
+          7679.687625496702,
+          7904.529824868208,
+          8135.222908002846,
+          8371.919127640114,
+          8614.774698467423,
+          8863.9499002186,
+          9119.609183455264,
+          9381.921278100835
+        ],
+        "water_added_initial_kg_m2": 0.6134928876327284
+      }
+    },
+    "wsm6_alta_w3_nz240_dt20": {
+      "directory": "resultados\\ensemble_goamazon\\diagnostico_cientifico\\wsm6_alta_w3_nz240_dt20_20261103T030241889484Z",
+      "action": "executed",
+      "config": {
+        "input_source": "goamazon",
+        "path_goamazon": "/mnt/c/git_repos/SingleColumnModelMicrophysicsAndLightning/data_goamazon/GOAMAZON_SINGLE_SCM_driver.nc",
+        "npoints": 1,
+        "nsatconfigs": 1,
+        "point_label": "GOAMAZON_original",
+        "microp_scheme": "wsm6",
+        "satconfig_label": "alta",
+        "sat_z_lo": 7500.0,
+        "sat_z_hi": 9500.0,
+        "sat_rh_target": 1.0,
+        "nz": 240,
+        "ztop": 20000.0,
+        "dz0": 12.5,
+        "dt_microp": 20.0,
+        "run_duration_s": 7200.0,
+        "pulse_sigma_z": 1000.0,
+        "pulse_duration_s": 1800.0,
+        "pulse_w_max": 3.0,
+        "write_profiles": true,
+        "path_summary": "summary.nc",
+        "path_profile_prefix": "profile"
+      },
+      "output_sha256": "db08f5cddc5ab0f555407cb5ce1a6804ae7b329418b6b12e1ca95fb360284804",
+      "namelist_sha256": "6ec0d00dc46c605c09236fc8feca63a67eaa1ee32fbfdd33cc9ee29ddd4d9897",
+      "quality": {
+        "valid": true,
+        "errors": [],
+        "warnings": [
+          "RH quente initial >101% (diagnóstico Bolton)",
+          "Camada superior artificial do GOAMAZON; ensemble idealizado, sem validação observacional"
+        ],
+        "details": {
+          "dz_min_max_m": [
+            12.5,
+            266.85686838626134
+          ],
+          "rh_warm_initial_max_percent": 101.13122992617656,
+          "rh_warm_initial_above101_count": 4,
+          "rh_warm_evolution_max_percent": 99.86085809135503,
+          "rh_warm_evolution_above101_count": 0,
+          "temperature_min_max_K": [
+            157.8302944842495,
+            298.97950087736956
+          ],
+          "temperature_above16500m_min_K": 157.8302944842495,
+          "samples": 361,
+          "last_time_s": 7200.0
+        },
+        "initial_perturbation_checked": true,
+        "input_sha256": "aacf5e194d19f9bb15bc036f48bef94f99bcb0c96f9ff1928751af7c268e9161",
+        "actual_saturated_centers_m": [
+          7531.1732235874615,
+          7640.748769213906,
+          7751.736725040355,
+          7864.155296794754,
+          7978.022924873794,
+          8093.3582873677515,
+          8210.180303124318,
+          8328.508134851925,
+          8448.361192263066,
+          8569.759135258133,
+          8692.721877150307,
+          8817.26958793199,
+          8943.422697583374,
+          9071.201899423624,
+          9200.628153505286,
+          9331.722690052422,
+          9464.507012943082
+        ],
+        "water_added_initial_kg_m2": 0.6721522897269717
+      }
+    },
+    "wsm6_alta_w3_nz240_dt10": {
+      "directory": "resultados\\ensemble_goamazon\\diagnostico_cientifico\\wsm6_alta_w3_nz240_dt10_20261103T030241889484Z",
+      "action": "executed",
+      "config": {
+        "input_source": "goamazon",
+        "path_goamazon": "/mnt/c/git_repos/SingleColumnModelMicrophysicsAndLightning/data_goamazon/GOAMAZON_SINGLE_SCM_driver.nc",
+        "npoints": 1,
+        "nsatconfigs": 1,
+        "point_label": "GOAMAZON_original",
+        "microp_scheme": "wsm6",
+        "satconfig_label": "alta",
+        "sat_z_lo": 7500.0,
+        "sat_z_hi": 9500.0,
+        "sat_rh_target": 1.0,
+        "nz": 240,
+        "ztop": 20000.0,
+        "dz0": 12.5,
+        "dt_microp": 10.0,
+        "run_duration_s": 7200.0,
+        "pulse_sigma_z": 1000.0,
+        "pulse_duration_s": 1800.0,
+        "pulse_w_max": 3.0,
+        "write_profiles": true,
+        "path_summary": "summary.nc",
+        "path_profile_prefix": "profile"
+      },
+      "output_sha256": "ac51cf43a3996e6468fa21053a54e80c6c75b4c6c18ed3025d33089f4d982fca",
+      "namelist_sha256": "d9588ee940f4b6df3977e37d464224b945512147c335ce3fd033b804a2e81d75",
+      "quality": {
+        "valid": true,
+        "errors": [],
+        "warnings": [
+          "RH quente initial >101% (diagnóstico Bolton)",
+          "Camada superior artificial do GOAMAZON; ensemble idealizado, sem validação observacional"
+        ],
+        "details": {
+          "dz_min_max_m": [
+            12.5,
+            266.85686838626134
+          ],
+          "rh_warm_initial_max_percent": 101.13122992617656,
+          "rh_warm_initial_above101_count": 4,
+          "rh_warm_evolution_max_percent": 99.86086780720859,
+          "rh_warm_evolution_above101_count": 0,
+          "temperature_min_max_K": [
+            157.8302944842495,
+            298.97950087736956
+          ],
+          "temperature_above16500m_min_K": 157.8302944842495,
+          "samples": 721,
+          "last_time_s": 7200.0
+        },
+        "initial_perturbation_checked": true,
+        "input_sha256": "aacf5e194d19f9bb15bc036f48bef94f99bcb0c96f9ff1928751af7c268e9161",
+        "actual_saturated_centers_m": [
+          7531.1732235874615,
+          7640.748769213906,
+          7751.736725040355,
+          7864.155296794754,
+          7978.022924873794,
+          8093.3582873677515,
+          8210.180303124318,
+          8328.508134851925,
+          8448.361192263066,
+          8569.759135258133,
+          8692.721877150307,
+          8817.26958793199,
+          8943.422697583374,
+          9071.201899423624,
+          9200.628153505286,
+          9331.722690052422,
+          9464.507012943082
+        ],
+        "water_added_initial_kg_m2": 0.6721522897269717
+      }
+    },
+    "wsm6_alta_w3_nz240_dt5": {
+      "directory": "resultados\\ensemble_goamazon\\diagnostico_cientifico\\wsm6_alta_w3_nz240_dt5_20261103T030241889484Z",
+      "action": "executed",
+      "config": {
+        "input_source": "goamazon",
+        "path_goamazon": "/mnt/c/git_repos/SingleColumnModelMicrophysicsAndLightning/data_goamazon/GOAMAZON_SINGLE_SCM_driver.nc",
+        "npoints": 1,
+        "nsatconfigs": 1,
+        "point_label": "GOAMAZON_original",
+        "microp_scheme": "wsm6",
+        "satconfig_label": "alta",
+        "sat_z_lo": 7500.0,
+        "sat_z_hi": 9500.0,
+        "sat_rh_target": 1.0,
+        "nz": 240,
+        "ztop": 20000.0,
+        "dz0": 12.5,
+        "dt_microp": 5.0,
+        "run_duration_s": 7200.0,
+        "pulse_sigma_z": 1000.0,
+        "pulse_duration_s": 1800.0,
+        "pulse_w_max": 3.0,
+        "write_profiles": true,
+        "path_summary": "summary.nc",
+        "path_profile_prefix": "profile"
+      },
+      "output_sha256": "d555a1f4692e45a7436fb605b41f2183accb3b5c2b543340ea158e6fe4ffe636",
+      "namelist_sha256": "593142a82e2979f1da25fe4fac1c5c67978e2e0b1ab8a2ae827960fc72bc0cc6",
+      "quality": {
+        "valid": true,
+        "errors": [],
+        "warnings": [
+          "RH quente initial >101% (diagnóstico Bolton)",
+          "Camada superior artificial do GOAMAZON; ensemble idealizado, sem validação observacional"
+        ],
+        "details": {
+          "dz_min_max_m": [
+            12.5,
+            266.85686838626134
+          ],
+          "rh_warm_initial_max_percent": 101.13122992617656,
+          "rh_warm_initial_above101_count": 4,
+          "rh_warm_evolution_max_percent": 99.86088572983677,
+          "rh_warm_evolution_above101_count": 0,
+          "temperature_min_max_K": [
+            157.8302944842495,
+            298.97950087736956
+          ],
+          "temperature_above16500m_min_K": 157.8302944842495,
+          "samples": 1441,
+          "last_time_s": 7200.0
+        },
+        "initial_perturbation_checked": true,
+        "input_sha256": "aacf5e194d19f9bb15bc036f48bef94f99bcb0c96f9ff1928751af7c268e9161",
+        "actual_saturated_centers_m": [
+          7531.1732235874615,
+          7640.748769213906,
+          7751.736725040355,
+          7864.155296794754,
+          7978.022924873794,
+          8093.3582873677515,
+          8210.180303124318,
+          8328.508134851925,
+          8448.361192263066,
+          8569.759135258133,
+          8692.721877150307,
+          8817.26958793199,
+          8943.422697583374,
+          9071.201899423624,
+          9200.628153505286,
+          9331.722690052422,
+          9464.507012943082
+        ],
+        "water_added_initial_kg_m2": 0.6721522897269717
+      }
+    }
+  },
+  "design": "4 cases x nz60/120/240 x dt20/10/5; dz0=3000/nz, fixed top 20000; no new physics"
+}

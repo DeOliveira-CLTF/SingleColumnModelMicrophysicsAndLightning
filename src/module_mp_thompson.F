@@ -74,6 +74,9 @@
 !
       MODULE module_mp_thompson
 
+! PROCESS_DIAGNOSTICS_BEGIN
+      use process_diagnostics
+! PROCESS_DIAGNOSTICS_END
       use mpas_log
       use mpas_kind_types
       use mpas_atmphys_functions, only: gammp,wgamma,rslf,rsif
@@ -2688,6 +2691,33 @@
             endif
          endif
 
+! PROCESS_DIAGNOSTICS_BEGIN
+         if(pd_enabled) then
+          call pd_transfer(k,'th_pri_inu',1,4,pri_inu(k)*orho*DT)
+          call pd_transfer(k,'th_pri_iha',1,4,pri_iha(k)*orho*DT)
+          call pd_transfer(k,'th_pri_ide',1,4,pri_ide(k)*orho*DT)
+          call pd_transfer(k,'th_prs_ide',1,5,prs_ide(k)*orho*DT)
+          call pd_transfer(k,'th_prs_sde',1,5,prs_sde(k)*orho*DT)
+          call pd_transfer(k,'th_prg_gde',1,6,prg_gde(k)*orho*DT)
+          call pd_transfer(k,'th_prr_wau',2,3,prr_wau(k)*orho*DT)
+          call pd_transfer(k,'th_pri_wfz',2,4,pri_wfz(k)*orho*DT)
+          call pd_transfer(k,'th_prr_rcw',2,3,prr_rcw(k)*orho*DT)
+          call pd_transfer(k,'th_prs_scw',2,5,prs_scw(k)*orho*DT)
+          call pd_transfer(k,'th_prg_scw',2,6,prg_scw(k)*orho*DT)
+          call pd_transfer(k,'th_prg_gcw',2,6,prg_gcw(k)*orho*DT)
+          call pd_transfer(k,'th_prs_ihm',5,4,prs_ihm(k)*orho*DT)
+          call pd_transfer(k,'th_prg_ihm',6,4,prg_ihm(k)*orho*DT)
+          call pd_transfer(k,'th_pri_rfz',3,4,pri_rfz(k)*orho*DT)
+          call pd_transfer(k,'th_prg_rfz',3,6,prg_rfz(k)*orho*DT)
+          call pd_transfer(k,'th_prs_iau',4,5,prs_iau(k)*orho*DT)
+          call pd_transfer(k,'th_prs_sci',4,5,prs_sci(k)*orho*DT)
+          call pd_transfer(k,'th_prr_sml',5,3,prr_sml(k)*orho*DT)
+          call pd_transfer(k,'th_prr_gml',6,3,prr_gml(k)*orho*DT)
+          call pd_add(k,'th_collection_rci',DT*orho*[0.,0.,-prr_rci(k),-pri_rci(k),0.,prg_rci(k)])
+          call pd_add(k,'th_collection_rcs',DT*orho*[0.,0.,prr_rcs(k),0.,prs_rcs(k),prg_rcs(k)])
+          call pd_add(k,'th_collection_rcg',DT*orho*[0.,0.,prr_rcg(k),0.,0.,prg_rcg(k)])
+         endif
+! PROCESS_DIAGNOSTICS_END
 !..Water vapor tendency
          qvten(k) = qvten(k) + (-pri_inu(k) - pri_iha(k) - pri_ide(k)   &
                       - prs_ide(k) - prs_sde(k) - prg_gde(k)) &
@@ -3113,6 +3143,9 @@
 
 !+---+-----------------------------------------------------------------+
 
+! PROCESS_DIAGNOSTICS_BEGIN
+          if(pd_enabled) call pd_transfer(k,'th_prw_vcd',1,2,prw_vcd(k)*DT)
+! PROCESS_DIAGNOSTICS_END
           qvten(k) = qvten(k) - prw_vcd(k)
           qcten(k) = qcten(k) + prw_vcd(k)
           ncten(k) = ncten(k) + pnc_wcd(k)
@@ -3196,6 +3229,9 @@
           pnr_rev(k) = MIN(DBLE(nr(k)*0.99*orho*odts),                  &   ! RAIN2M
                        prv_rev(k) * nr(k)/rr(k))
 
+! PROCESS_DIAGNOSTICS_BEGIN
+          if(pd_enabled) call pd_transfer(k,'th_prv_rev',3,1,prv_rev(k)*DT)
+! PROCESS_DIAGNOSTICS_END
           qrten(k) = qrten(k) - prv_rev(k)
           qvten(k) = qvten(k) + prv_rev(k)
           nrten(k) = nrten(k) - pnr_rev(k)
@@ -3226,6 +3262,14 @@
 !.. New in v3.0+ is computing separate for rain, ice, snow, and
 !.. graupel species thus making code faster with credit to J. Schmidt.
 !+---+-----------------------------------------------------------------+
+! PROCESS_DIAGNOSTICS_BEGIN
+      if(pd_enabled) then
+        do k=kts,kte
+          call pd_reconcile_tendency(k,DT*[qvten(k),qcten(k),qrten(k),qiten(k),qsten(k),qgten(k)])
+          call pd_mark(k,DT*[qvten(k),qcten(k),qrten(k),qiten(k),qsten(k),qgten(k)])
+        enddo
+      endif
+! PROCESS_DIAGNOSTICS_END
       nstep = 0
       onstep(:) = 1.0
       ksed1(:) = 1
@@ -3544,6 +3588,13 @@
       endif
 
 !+---+-----------------------------------------------------------------+
+! PROCESS_DIAGNOSTICS_BEGIN
+      if(pd_enabled) then
+        do k=kts,kte
+          call pd_difference(k,'sedimentation',DT*[qvten(k),qcten(k),qrten(k),qiten(k),qsten(k),qgten(k)])
+        enddo
+      endif
+! PROCESS_DIAGNOSTICS_END
 !.. Instantly melt any cloud ice into cloud water if above 0C and
 !.. instantly freeze any cloud water found below HGFR.
 !+---+-----------------------------------------------------------------+
@@ -3551,6 +3602,9 @@
       do k = kts, kte
          xri = MAX(0.0, qi1d(k) + qiten(k)*DT)
          if ( (temp(k).gt. T_0) .and. (xri.gt. 0.0) ) then
+! PROCESS_DIAGNOSTICS_BEGIN
+          if(pd_enabled) call pd_transfer(k,'th_instant_melting',4,2,xri)
+! PROCESS_DIAGNOSTICS_END
           qcten(k) = qcten(k) + xri*odt
           ncten(k) = ncten(k) + ni1d(k)*odt
           qiten(k) = qiten(k) - xri*odt
@@ -3562,6 +3616,9 @@
          if ( (temp(k).lt. HGFR) .and. (xrc.gt. 0.0) ) then
           lfus2 = lsub - lvap(k)
           xnc = nc1d(k) + ncten(k)*DT
+! PROCESS_DIAGNOSTICS_BEGIN
+          if(pd_enabled) call pd_transfer(k,'th_homogeneous_freezing',2,4,xrc)
+! PROCESS_DIAGNOSTICS_END
           qiten(k) = qiten(k) + xrc*odt
           niten(k) = niten(k) + xnc*odt
           qcten(k) = qcten(k) - xrc*odt
@@ -3575,6 +3632,9 @@
 !.. All tendencies computed, apply and pass back final values to parent.
 !+---+-----------------------------------------------------------------+
       do k = kts, kte
+! PROCESS_DIAGNOSTICS_BEGIN
+         if(pd_enabled) call pd_mark(k,[qv1d(k)+qvten(k)*DT,qc1d(k)+qcten(k)*DT,qr1d(k)+qrten(k)*DT,qi1d(k)+qiten(k)*DT,qs1d(k)+qsten(k)*DT,qg1d(k)+qgten(k)*DT])
+! PROCESS_DIAGNOSTICS_END
          t1d(k)  = t1d(k) + tten(k)*DT
          qv1d(k) = MAX(1.E-10, qv1d(k) + qvten(k)*DT)
          qc1d(k) = qc1d(k) + qcten(k)*DT
@@ -3637,6 +3697,9 @@
          if (qs1d(k) .le. R1) qs1d(k) = 0.0
          qg1d(k) = qg1d(k) + qgten(k)*DT
          if (qg1d(k) .le. R1) qg1d(k) = 0.0
+! PROCESS_DIAGNOSTICS_BEGIN
+         if(pd_enabled) call pd_difference(k,'final_clipping',[qv1d(k),qc1d(k),qr1d(k),qi1d(k),qs1d(k),qg1d(k)])
+! PROCESS_DIAGNOSTICS_END
       enddo
 
       end subroutine mp_thompson

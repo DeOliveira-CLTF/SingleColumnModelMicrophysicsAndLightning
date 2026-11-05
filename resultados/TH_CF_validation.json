@@ -1,0 +1,182 @@
+{
+  "variables": {
+    "time": {
+      "min": 0.0,
+      "max": 126930.0,
+      "nonfinite": 0,
+      "masked": 0
+    },
+    "lev": {
+      "min": 25.0,
+      "max": 19472.588581823795,
+      "nonfinite": 0,
+      "masked": 0
+    },
+    "theta": {
+      "min": 297.41158109680464,
+      "max": 367.8731650304071,
+      "nonfinite": 0,
+      "masked": 0
+    },
+    "qv": {
+      "min": 2.151844215641851e-06,
+      "max": 0.02212391496842043,
+      "nonfinite": 0,
+      "masked": 0
+    },
+    "qc": {
+      "min": 0.0,
+      "max": 0.001886986698208979,
+      "nonfinite": 0,
+      "masked": 0
+    },
+    "qr": {
+      "min": 0.0,
+      "max": 5.5632323860242035e-05,
+      "nonfinite": 0,
+      "masked": 0
+    },
+    "qi": {
+      "min": 0.0,
+      "max": 9.638819143976297e-07,
+      "nonfinite": 0,
+      "masked": 0
+    },
+    "qs": {
+      "min": 0.0,
+      "max": 0.0001895858468505632,
+      "nonfinite": 0,
+      "masked": 0
+    },
+    "qg": {
+      "min": 0.0,
+      "max": 0.0,
+      "nonfinite": 0,
+      "masked": 0
+    },
+    "pressure": {
+      "min": 5637.780745433656,
+      "max": 100296.49218750001,
+      "nonfinite": 0,
+      "masked": 0
+    },
+    "rainncv": {
+      "min": 0.0,
+      "max": 0.0022999294933713165,
+      "nonfinite": 0,
+      "masked": 0
+    },
+    "rainnc": {
+      "min": 0.0,
+      "max": 0.9226172435634662,
+      "nonfinite": 0,
+      "masked": 0
+    },
+    "flash_rate": {
+      "min": 0.0,
+      "max": 0.0,
+      "nonfinite": 0,
+      "masked": 0
+    },
+    "flash_rate_cg": {
+      "min": 0.0,
+      "max": 0.0,
+      "nonfinite": 0,
+      "masked": 0
+    },
+    "flash_rate_ic": {
+      "min": 0.0,
+      "max": 0.0,
+      "nonfinite": 0,
+      "masked": 0
+    },
+    "snownc": {
+      "min": 0.0,
+      "max": 0.0,
+      "nonfinite": 0,
+      "masked": 0
+    },
+    "snowncv": {
+      "min": 0.0,
+      "max": 0.0,
+      "nonfinite": 0,
+      "masked": 0
+    },
+    "tke": {
+      "min": 0.0,
+      "max": 4.478890850018489,
+      "nonfinite": 0,
+      "masked": 0
+    },
+    "mixing_length": {
+      "min": 0.0,
+      "max": 574.4770037073832,
+      "nonfinite": 0,
+      "masked": 0
+    },
+    "exch_h": {
+      "min": 0.0,
+      "max": 563.8805096892993,
+      "nonfinite": 0,
+      "masked": 0
+    },
+    "exch_m": {
+      "min": 0.0,
+      "max": 372.90605107719784,
+      "nonfinite": 0,
+      "masked": 0
+    },
+    "cldfra_bl": {
+      "min": 0.0,
+      "max": 1.0,
+      "nonfinite": 0,
+      "masked": 0
+    },
+    "qc_bl": {
+      "min": 0.0,
+      "max": 0.0018798512820728478,
+      "nonfinite": 0,
+      "masked": 0
+    },
+    "qi_bl": {
+      "min": 0.0,
+      "max": 8.29340722105333e-05,
+      "nonfinite": 0,
+      "masked": 0
+    },
+    "mf_a": {
+      "min": 0.0,
+      "max": 0.08520757089039713,
+      "nonfinite": 0,
+      "masked": 0
+    },
+    "mf_w": {
+      "min": 0.0,
+      "max": 2.50210523343028,
+      "nonfinite": 0,
+      "masked": 0
+    },
+    "pblh": {
+      "min": 0.0,
+      "max": 1302.2645397033687,
+      "nonfinite": 0,
+      "masked": 0
+    }
+  },
+  "time_hours": [
+    0.0,
+    35.25833333333333
+  ],
+  "time_step_seconds": [
+    30.0
+  ],
+  "rain_final_mm": 0.9226172435634662,
+  "rain_increment_sum_mm": 0.9226172435634672,
+  "rain_monotonic": true,
+  "temperature_K": [
+    161.67582970228386,
+    302.5685774272276
+  ],
+  "warm_RH_max_percent": 101.08710479929236,
+  "pressure_decreases_with_height": true
+}

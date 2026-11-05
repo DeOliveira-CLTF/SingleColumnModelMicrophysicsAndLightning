@@ -1,0 +1,285 @@
+{
+  "git_commit": "f4096d1b4526ffac9a2167fc852d5201120245fa",
+  "input_sha256": "aacf5e194d19f9bb15bc036f48bef94f99bcb0c96f9ff1928751af7c268e9161",
+  "input_unchanged_since_execution": true,
+  "physics_unchanged_since_execution": true,
+  "authorized_driver_changes": [
+    "src/ensemble_driver.F90: GOAMAZON input and stable numerical transport for the idealized ensemble"
+  ],
+  "outputs_unchanged_since_execution": {
+    "TH_C0": true,
+    "TH_CL": true,
+    "TH_CF": true,
+    "WS_C0": true,
+    "WS_CL": true,
+    "WS_CF": true
+  },
+  "files": {
+    "data_goamazon\\GOAMAZON_SINGLE_SCM_driver.nc": {
+      "sha256": "aacf5e194d19f9bb15bc036f48bef94f99bcb0c96f9ff1928751af7c268e9161",
+      "dimensions": {
+        "t0": 1,
+        "time": 72,
+        "lev": 2001
+      },
+      "attributes": {
+        "case": "GOAMAZON/SINGLE",
+        "title": "Forcing and initial conditions for GOAMAZON/SINGLE case (shallow-to-deep transition) - SCM-enabled version",
+        "reference": "Y. Tian, Y. Zhang 2025. Factors Controlling Precipitation Onset and Maintenance: Inferences from Large Eddy Simulations of Two Afternoon Deep Convective Regimes over Amazon Geophysical Research Letters. DOI: 10.1029/2024GL113920",
+        "author": "F. Couvreux",
+        "version": "Created on Wed Jun 17 11:26:46 2026",
+        "format_version": "DEPHY SCM format version 1",
+        "modifications": "",
+        "script": "DEPHY-SCM/GOAMAZON/SINGLE/driver_SCM.py",
+        "comment": "",
+        "case_type": "standard",
+        "start_date": "2014-10-05 12:00:00",
+        "end_date": "2014-10-06 00:00:00",
+        "forcing_scale": "-1",
+        "ini_ta": "0",
+        "ini_theta": "1",
+        "ini_thetal": "0",
+        "ini_qv": "1",
+        "ini_qt": "0",
+        "ini_rv": "0",
+        "ini_rt": "0",
+        "ini_hur": "0",
+        "adv_ta": "1",
+        "adv_theta": "1",
+        "adv_thetal": "1",
+        "radiation": "on",
+        "adv_qv": "1",
+        "adv_qt": "1",
+        "adv_rv": "1",
+        "adv_rt": "1",
+        "adv_ua": "0",
+        "adv_va": "0",
+        "forc_zh": "1",
+        "forc_pa": "0",
+        "forc_wa": "1",
+        "forc_wap": "0",
+        "forc_geo": "0",
+        "nudging_ua": 3600.0,
+        "nudging_va": 3600.0,
+        "nudging_ta": "0",
+        "nudging_theta": "0",
+        "nudging_thetal": "0",
+        "nudging_qv": "0",
+        "nudging_qt": "0",
+        "nudging_rv": "0",
+        "nudging_rt": "0",
+        "pa_nudging_ua": 100580.0,
+        "pa_nudging_va": 100580.0,
+        "zh_nudging_ua": "0",
+        "zh_nudging_va": "0",
+        "surface_type": "land",
+        "surface_forcing_temp": "surface_flux",
+        "surface_forcing_moisture": "surface_flux",
+        "surface_forcing_wind": "z0"
+      },
+      "coordinate_ranges": {
+        "time": {
+          "min": 0.0,
+          "max": 126921.09375,
+          "units": "seconds since 2014-10-05 12:00:00"
+        },
+        "lat": {
+          "min": -8.0,
+          "max": -8.0,
+          "units": "degrees_north"
+        },
+        "lon": {
+          "min": -63.0,
+          "max": -63.0,
+          "units": "degrees_east"
+        }
+      }
+    },
+    "data_goamazon\\GOAMAZON_SINGLE_DEF_driver.nc": {
+      "sha256": "070987a280b5137931402538a78452046afb63f422a9c1308803981bb3ddc08a",
+      "dimensions": {
+        "t0": 1,
+        "time_lat": 2,
+        "time_lon": 2,
+        "time_tntheta_adv": 72,
+        "time_tnrv_adv": 72,
+        "time_wa": 72,
+        "time_ua_nud": 72,
+        "time_va_nud": 72,
+        "time_orog": 2,
+        "time_hfss": 72,
+        "time_hfls": 72,
+        "time_z0": 2,
+        "lev_ua": 181,
+        "lev_va": 181,
+        "lev_theta": 181,
+        "lev_qv": 181,
+        "lev_tntheta_adv": 40,
+        "lev_tnrv_adv": 40,
+        "lev_wa": 40,
+        "lev_ua_nud": 40,
+        "lev_va_nud": 40
+      },
+      "attributes": {
+        "case": "GOAMAZON/SINGLE",
+        "title": "Forcing and initial conditions for the single pulse case - Original definition",
+        "reference": "Y. Tian, Y. Zhang 2025. Factors Controlling Precipitation Onset and Maintenance: Inferences from Large Eddy Simulations of Two Afternoon Deep Convective Regimes over Amazon Geophysical Research Letters. DOI: 10.1029/2024GL113920",
+        "author": "F. Couvreux",
+        "version": "Created on Wed Jun 17 11:26:46 2026",
+        "format_version": "DEPHY SCM format version 1",
+        "modifications": "",
+        "script": "DEPHY-SCM/GOAMAZON/SINGLE/driver_DEF.py",
+        "comment": "",
+        "case_type": "standard",
+        "start_date": "2014-10-05 12:00:00",
+        "end_date": "2014-10-06 00:00:00",
+        "forcing_scale": "-1",
+        "ini_ta": "0",
+        "ini_theta": "1",
+        "ini_thetal": "0",
+        "ini_qv": "1",
+        "ini_qt": "0",
+        "ini_rv": "0",
+        "ini_rt": "0",
+        "ini_hur": "0",
+        "adv_ta": "0",
+        "adv_theta": "1",
+        "adv_thetal": "0",
+        "radiation": "on",
+        "adv_qv": "0",
+        "adv_qt": "0",
+        "adv_rv": "1",
+        "adv_rt": "0",
+        "adv_ua": "0",
+        "adv_va": "0",
+        "forc_zh": "1",
+        "forc_pa": "0",
+        "forc_wa": "1",
+        "forc_wap": "0",
+        "forc_geo": "0",
+        "nudging_ua": 3600.0,
+        "nudging_va": 3600.0,
+        "nudging_ta": "0",
+        "nudging_theta": "0",
+        "nudging_thetal": "0",
+        "nudging_qv": "0",
+        "nudging_qt": "0",
+        "nudging_rv": "0",
+        "nudging_rt": "0",
+        "zh_nudging_ua": "0",
+        "zh_nudging_va": "0",
+        "surface_type": "land",
+        "surface_forcing_temp": "surface_flux",
+        "surface_forcing_moisture": "surface_flux",
+        "surface_forcing_wind": "z0"
+      },
+      "coordinate_ranges": {
+        "time_lat": {
+          "min": 0.0,
+          "max": 43200.0,
+          "units": "seconds since 2014-10-05 12:00:00"
+        },
+        "time_lon": {
+          "min": 0.0,
+          "max": 43200.0,
+          "units": "seconds since 2014-10-05 12:00:00"
+        },
+        "time_tntheta_adv": {
+          "min": 0.0,
+          "max": 127800.02880000157,
+          "units": "seconds since 2014-10-05 12:00:00"
+        },
+        "time_tnrv_adv": {
+          "min": 0.0,
+          "max": 127800.02880000157,
+          "units": "seconds since 2014-10-05 12:00:00"
+        },
+        "time_wa": {
+          "min": 0.0,
+          "max": 127800.02880000157,
+          "units": "seconds since 2014-10-05 12:00:00"
+        },
+        "time_ua_nud": {
+          "min": 0.0,
+          "max": 127800.02880000157,
+          "units": "seconds since 2014-10-05 12:00:00"
+        },
+        "time_va_nud": {
+          "min": 0.0,
+          "max": 127800.02880000157,
+          "units": "seconds since 2014-10-05 12:00:00"
+        },
+        "time_orog": {
+          "min": 0.0,
+          "max": 43200.0,
+          "units": "seconds since 2014-10-05 12:00:00"
+        },
+        "time_hfss": {
+          "min": 0.0,
+          "max": 126921.09375,
+          "units": "seconds since 2014-10-05 12:00:00"
+        },
+        "time_hfls": {
+          "min": 0.0,
+          "max": 126921.09375,
+          "units": "seconds since 2014-10-05 12:00:00"
+        },
+        "time_z0": {
+          "min": 0.0,
+          "max": 43200.0,
+          "units": "seconds since 2014-10-05 12:00:00"
+        },
+        "lat": {
+          "min": -8.0,
+          "max": -8.0,
+          "units": "degrees_north"
+        },
+        "lon": {
+          "min": -63.0,
+          "max": -63.0,
+          "units": "degrees_east"
+        }
+      }
+    }
+  },
+  "git_diff_current": "diff --git a/namelist.mp_offline b/namelist.mp_offline\nindex af4f905..01177f3 100644\n--- a/namelist.mp_offline\n+++ b/namelist.mp_offline\n@@ -1,5 +1,5 @@\n &MP_OFFLINE\n- PATH_INPUT=\"data/GOAMAZON_SINGLE_SCM_driver.nc                                                                                                                                                                                                                              \",\n+ PATH_INPUT=\"data_goamazon/GOAMAZON_SINGLE_SCM_driver.nc                                                                                                                                                                                                                              \",\n  PATH_OUTPUT=\"output_mp_offline.nc                                                                                                                                                                                                                                            \",\n  NZ=60         ,\n  ZTOP=  20000.000000000000     ,\ndiff --git a/src/ensemble_driver.F90 b/src/ensemble_driver.F90\nindex 00b2b6c..42ecb63 100644\n--- a/src/ensemble_driver.F90\n+++ b/src/ensemble_driver.F90\n@@ -43,6 +43,7 @@ program ensemble_driver\n   use module_mp_wsm6, only : wsm6\n   use mp_wsm6, only : mp_wsm6_init\n   use era5_bridge\n+  use goamazon_bridge, only : goamazon_file_type, goamazon_open, goamazon_close, goamazon_get_initial_profile\n   use saturation_perturbation, only : saturate_layer\n   use updraft_forcing, only : combined_w\n   use output_mp_netcdf\n@@ -56,6 +57,8 @@ program ensemble_driver\n \n   ! ---- ensemble member definitions (namelist) ----\n   integer :: npoints = 0, nsatconfigs = 0\n+  character(len=32) :: input_source = 'era5'\n+  character(len=256) :: path_goamazon = ''\n   character(len=256) :: path_pl(NPOINTS_MAX) = ''\n   character(len=256) :: path_sl(NPOINTS_MAX) = ''\n   character(len=64)  :: point_label(NPOINTS_MAX) = ''\n@@ -80,7 +83,7 @@ program ensemble_driver\n   logical :: write_profiles = .false.\n   character(len=32) :: microp_scheme = 'thompson'  ! 'thompson' or 'wsm6'\n \n-  namelist /ensemble/ npoints, nsatconfigs, path_pl, path_sl, point_label, &\n+  namelist /ensemble/ input_source, path_goamazon, npoints, nsatconfigs, path_pl, path_sl, point_label, &\n        &              target_lat, target_lon, itime_pick, &\n        &              sat_z_lo, sat_z_hi, sat_rh_target, satconfig_label, &\n        &              nz, ztop, dz0, dt_microp, run_duration_s, &\n@@ -107,6 +110,7 @@ program ensemble_driver\n \n   type(era5_file_type) :: efile\n   type(era5_column_type) :: col\n+  type(goamazon_file_type) :: gfile\n \n   integer :: ip, is, iu, k, k_lo, k_hi, itimestep, member_count\n   real(kind=RKIND) :: t_sec\n@@ -126,6 +130,8 @@ program ensemble_driver\n \n   if (npoints < 1 .or. npoints > NPOINTS_MAX) stop 'ensemble_driver: npoints out of range'\n   if (nsatconfigs < 1 .or. nsatconfigs > NSATCONFIGS_MAX) stop 'ensemble_driver: nsatconfigs out of range'\n+  if (trim(input_source)/='era5' .and. trim(input_source)/='goamazon') error stop 'Unknown input_source'\n+  if (trim(input_source)=='goamazon' .and. npoints/=1) error stop 'GOAMAZON requires npoints=1'\n \n   allocate(z(nz), dz(nz))\n   call build_vertical_grid(nz, dz0, ztop, z, dz)\n@@ -156,10 +162,15 @@ program ensemble_driver\n   member_count = 0\n   do ip = 1, npoints\n \n+    if (trim(input_source)=='goamazon') then\n+      call goamazon_open(trim(path_goamazon), gfile)\n+      if (minval(z)<minval(gfile%lev) .or. maxval(z)>maxval(gfile%lev)) error stop 'GOAMAZON height coverage'\n+    else\n     call era5_open(trim(path_pl(ip)), trim(path_sl(ip)), efile)\n     call nearest_index(efile%lon, size(efile%lon), target_lon(ip), ilon)\n     call nearest_index(efile%lat, size(efile%lat), target_lat(ip), ilat)\n     call era5_read_column(efile, ilon, ilat, itime_pick(ip), col)\n+    end if\n \n     do is = 1, nsatconfigs\n \n@@ -167,8 +178,20 @@ program ensemble_driver\n \n       ! regrid the ERA5 column (TOA-to-surface order, see era5_bridge.F90)\n       ! onto our own driver grid, surface-up\n+      if (trim(input_source)=='goamazon') then\n+        ! Same idealized experiment as ERA5: initial thermodynamic profile,\n+        ! initial wa held fixed; no horizontal/time-varying forcing or MYNN.\n+        ! rv/rl/ri are already mixing ratios; lev is height above ground.\n+        block\n+          real(kind=RKIND) :: u0(nz), v0(nz), ps0\n+          call goamazon_get_initial_profile(gfile,nz,z,pres(1,:,1),th(1,:,1),qv(1,:,1), &\n+               qc(1,:,1),qi(1,:,1),u0,v0,ps0)\n+          call interp1(gfile%nlev,gfile%lev,gfile%wa(:,1),nz,z,w_era5)\n+        end block\n+      else\n       call regrid_era5_to_driver(col, nz, z, pres(1,:,1), th(1,:,1), qv(1,:,1), &\n            &                      qc(1,:,1), qi(1,:,1), w_era5)\n+      end if\n       qr = 0.0_RKIND; qs = 0.0_RKIND; qg = 0.0_RKIND; ni = 0.0_RKIND; nr = 0.0_RKIND\n       pii = (pres/p0)**rcp\n \n@@ -201,7 +224,11 @@ program ensemble_driver\n         w3(1,:,1) = combined_w(nz, z, w_era5, t_sec, 0.5_RKIND*(sat_z_lo(is)+sat_z_hi(is)), &\n              &                 pulse_sigma_z, pulse_duration_s, pulse_w_max)\n         pii = (pres/p0)**rcp\n-        call apply_vertical_advection(nz, dz, dt_microp, w3(1,:,1), th(1,:,1), qv(1,:,1))\n+        if (trim(input_source)=='goamazon') then\n+          call advect_upwind(nz,z,dt_microp,w3(1,:,1),th(1,:,1),qv(1,:,1))\n+        else\n+          call apply_vertical_advection(nz, dz, dt_microp, w3(1,:,1), th(1,:,1), qv(1,:,1))\n+        end if\n \n         itimestep = itimestep + 1\n         if (trim(microp_scheme) == 'wsm6') then\n@@ -304,7 +331,11 @@ program ensemble_driver\n \n     end do\n \n-    call era5_close(efile)\n+    if (trim(input_source)=='goamazon') then\n+      call goamazon_close(gfile)\n+    else\n+      call era5_close(efile)\n+    end if\n \n   end do\n \n@@ -312,6 +343,37 @@ program ensemble_driver\n \n contains\n \n+  subroutine advect_upwind(nz,z,dt,w,th,qv)\n+    ! Monotone explicit transport of the SAME advective equations -w*d(phi)/dz.\n+    ! Centered forward-Euler transport is unstable for the strong pulse.\n+    ! Actual center distances, CFL<=0.8 substeps, zero-gradient inflow boundaries.\n+    ! This changes numerical transport, not microphysics or pulse parameters.\n+    integer, intent(in) :: nz\n+    real(kind=RKIND), intent(in) :: z(nz),dt,w(nz)\n+    real(kind=RKIND), intent(inout) :: th(nz),qv(nz)\n+    real(kind=RKIND) :: oldth(nz),oldq(nz),ds,c,cmax\n+    integer :: k,j,nsub,s\n+    cmax=0.0_RKIND\n+    do k=1,nz\n+      j=k-1\n+      if (w(k)<0.0_RKIND) j=k+1\n+      if (j<1 .or. j>nz) cycle\n+      cmax=max(cmax,abs(w(k))*dt/abs(z(k)-z(j)))\n+    end do\n+    nsub=max(1,ceiling(cmax/0.8_RKIND)); ds=dt/real(nsub,kind=RKIND)\n+    do s=1,nsub\n+      oldth=th; oldq=qv\n+      do k=1,nz\n+        j=k-1\n+        if (w(k)<0.0_RKIND) j=k+1\n+        if (j<1 .or. j>nz) cycle\n+        c=abs(w(k))*ds/abs(z(k)-z(j))\n+        th(k)=(1.0_RKIND-c)*oldth(k)+c*oldth(j)\n+        qv(k)=(1.0_RKIND-c)*oldq(k)+c*oldq(j)\n+      end do\n+    end do\n+  end subroutine advect_upwind\n+\n   !===================================================================\n   subroutine nearest_index(arr, n, target, idx)\n   !===================================================================\n",
+  "scripts_sha256": {
+    "scripts\\analisar_experimentos.py": "96d2fc18bffbf06c95d869fb4d40536ba2f31a67ee9821aa0e1c858f59a6afeb",
+    "scripts\\avaliar_ensemble_amazonia.py": "6889dc797a930030df0f0acb1a452bb604d2dd40678b92af689d9902c49034c9",
+    "scripts\\diagnosticar_ensemble_goamazon.py": "65c93a75d1a72d8df26307a608c28b828e8970abf2047e3878134570168900b6",
+    "scripts\\executar_ensemble_goamazon.py": "3eed79ff2d3b96394390bedd0ea4c42e118e2bc25585d013b175a0fa97eda9cf",
+    "scripts\\executar_experimentos.py": "80d11e76897f7fb61daf24ac739b10c75a3e7d972133a943e00b2412cb470a34",
+    "scripts\\gerar_figuras_artigo.py": "00e141c22d23b5e0df05f5ee92cced0eee813aad977ccf9270d73008e4e84273",
+    "scripts\\gerar_relatorio_artigo.py": "6f1719bbf170251da574cdde7139fcad7e2b2600da3c863f840d61efcf0e2a50",
+    "scripts\\relatar_diagnostico_ensemble.py": "d53aabc1e909478f65d323bef73fbb65454a7ba13bf61b914e94e12e39cfa809",
+    "scripts\\scm_artigo.py": "bb66ac9d1d53e736152223de47886ea23de5aa9ea63c056282214cb125f88f31",
+    "scripts\\test_artigo.py": "81beb429e4f1c6add464ff0547e7fef230251845f018412ea85698db3c3b5b99",
+    "scripts\\test_diagnostico_ensemble.py": "008da83462553f22c8e76edfad2f2d6335cffb89d6f4a42526d7c626927d787a",
+    "scripts\\test_ensemble_goamazon.py": "7622c4f69786ef484a4fcac40c8676e23a6e27d8bea5eff840b16b80e39a9bd8",
+    "scripts\\validar_resultados.py": "4ed38f8f3a544aa61e61c30db82e5ecf74c36b53b893ac2f382599a413c0299d"
+  },
+  "derived_sha256": {
+    "resultados\\tabelas\\metadados.json": "d05b91b7420572126cb38dfddf0fe35b7c810a5b7543444ba38ad8cd80e99462",
+    "resultados\\tabelas\\Tabela1_configuracoes.csv": "5b968a39ae77296a118e7e4e356114c76bafddaaa2532d45aaf7aa8ec0e42528",
+    "resultados\\tabelas\\Tabela2_resultados.csv": "a28d14e5211fc0f1f6242378348f31898804b1b13b1f7b43e135893569923e57",
+    "resultados\\tabelas\\Tabela3_contrastes.csv": "56848c2e6a099a059dcadcb905c61318709be060cc8097f538b07964087bab6f",
+    "resultados\\tabelas\\Tabela4_ensemble_goamazon.csv": "2bd3940c6474c61eb5a88241a10134769fa1adf5f716733a4470648616cdfa04",
+    "figuras_artigo\\Figura1_caracterizacao.pdf": "e6f4ae2559b52a6a4b16c6c3b0a9e5fd3068b2c925c68004aa55e19852c754fe",
+    "figuras_artigo\\Figura1_caracterizacao.png": "99c86add15c25c4de540329a5895ce70b8466e79ed03ec620e496760f74e02ca",
+    "figuras_artigo\\Figura2_hidrometeoros.pdf": "7267eaa2a146b20c59f25e03e0643106bc18a239829cb93a3ddc3b42ed528f15",
+    "figuras_artigo\\Figura2_hidrometeoros.png": "d953a46b86d5df95377de278ed4f8f3338045a80649b25dc73b620439822b691",
+    "figuras_artigo\\Figura3_evolucao_temporal.pdf": "c1e4392bfb11756af24bd257a621164a616cf8d571d61172790519833b683b6c",
+    "figuras_artigo\\Figura3_evolucao_temporal.png": "db8ba4d1ef81d899001487c9741389e10d453542b92ff1c84cd5d096996c3b52",
+    "figuras_artigo\\Figura3_suplementar_seis_configuracoes.pdf": "3aa259b5a8c88a54ed1647f24a1f964bb9b13edf5c17032a00f8f2a24a3653b1",
+    "figuras_artigo\\Figura3_suplementar_seis_configuracoes.png": "6482edbab322161f4264e7341b5f1f2512f3146016fd8efa5f6c060569b48bea",
+    "figuras_artigo\\Figura4_comparacao_experimentos.pdf": "b892afea0f56a178a50c63f0417ff6f5212ccfb4dca6ea24b2190bc2e511d528",
+    "figuras_artigo\\Figura4_comparacao_experimentos.png": "21e6004d9381c273d2da7d4f3f499167abd837dec704b76a8395c9dd92fcf251",
+    "figuras_artigo\\Figura6_ensemble_goamazon.pdf": "0fe3f1a3f04d24ea7d04c09be66598d8b7a5d1a1605a245dd2733a64af9d1a61",
+    "figuras_artigo\\Figura6_ensemble_goamazon.png": "26dae2133a387e236c62e085b8ce40dbd5941bb660bdb3235bb60d28df38acf8"
+  },
+  "professor_report": {
+    "path": "C:\\Users\\teixe\\Downloads\\RPQ_driver_offline_microfisica_MONAN_MPAS.pdf",
+    "sha256": "7d9d8e68c9ed5181497262c28c5466a44ab5c2f418b3d596d8f7935980b76a84",
+    "reference": "seções 7.3–7.4 e tabela da seção 7.4.2"
+  }
+}

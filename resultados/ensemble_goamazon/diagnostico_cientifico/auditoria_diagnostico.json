@@ -1,0 +1,11 @@
+{
+  "input_sha256": "aacf5e194d19f9bb15bc036f48bef94f99bcb0c96f9ff1928751af7c268e9161",
+  "all_baseline_outputs_unchanged": true,
+  "all_sources_unchanged": true,
+  "valid_cases": 36,
+  "new_runs": 32,
+  "scripts_sha256": {
+    "diagnosticar_ensemble_goamazon.py": "65c93a75d1a72d8df26307a608c28b828e8970abf2047e3878134570168900b6",
+    "relatar_diagnostico_ensemble.py": "cbc24182eb6976d7452d50e0fb1251303c3ef8f7d296a7ae60d73414dcf1caed"
+  }
+}
