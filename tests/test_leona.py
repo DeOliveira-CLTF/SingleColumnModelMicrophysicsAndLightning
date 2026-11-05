@@ -30,9 +30,23 @@ def test_horizontal_advection_has_no_vertical_component():
     a=xr.DataArray(np.broadcast_to(np.arange(3.)[:,None],(3,3)),dims=['latitude','longitude'],coords={'latitude':[0.,1.,2.],'longitude':[0.,1.,2.]})
     np.testing.assert_allclose(horizontal_advection(a,0.,2.),-2*180/np.pi/6371000)
 
+def test_spherical_box_weights_include_partial_edge_cells():
+    from leona.spatial import box_weights
+    box=[-.75,-.75,.75,.75]
+    weights=box_weights([-1.,0.,1.],[-1.,0.,1.],box)
+    assert float(weights.sum())==pytest.approx(area_km2(box))
+    assert float(weights[1,0])<float(weights[1,1])
+
 def test_total_precipitation_not_snow_added():
     np.testing.assert_allclose(precipitation_rate([0,2,3],[0,2,4]),[1,.5])
     with pytest.raises(ValueError): precipitation_rate([2,1],[0,1])
+
+def test_fortran_three_digit_exponent_is_preserved(tmp_path):
+    from leona.io import numeric_csv
+    p=tmp_path/'fortran.csv';p.write_text('a,b\n1.2345678901234567-107,2.0E-003\n')
+    f=numeric_csv(p)
+    assert f.a.iloc[0]==pytest.approx(1.2345678901234567e-107,abs=0)
+    assert f.b.iloc[0]==.002
 
 def test_mass_concentration_integral():
     assert ice_product(np.array([2.,3.]),np.array([.1,.1]),np.array([.2,.2]),[10,20]) == pytest.approx(4.4)
@@ -123,6 +137,15 @@ def prediction_fixture():
 def test_fit_zero_is_unrecoverable():
     scale,status=fit_scale([0,0],[1,2]); assert np.isnan(scale) and status=='identically_zero_unrecoverable'
 
+def test_zero_forecast_distinct_from_missing_and_unidentified_nonzero():
+    p,o=prediction_fixture();p['predictor']=0.
+    c,h,m,*_=evaluate(p,o,'TH_C0','2018-12-13T01:00Z','2018-12-13T01:30Z')
+    assert set(c.status)=={'identically_zero_unrecoverable'}
+    assert (h.prediction_A==0).all() and (m.n>0).all()
+    p.loc[p.time>=pd.Timestamp('2018-12-13T01:30Z'),'predictor']=1.
+    _,h,*_=evaluate(p,o,'TH_C0','2018-12-13T01:00Z','2018-12-13T01:30Z')
+    assert h.prediction_A.isna().all()
+
 def test_holdout_no_leakage_fixed_reference_and_members():
     p,o=prediction_fixture()
     args=('TH_C0','2018-12-13T01:00Z','2018-12-13T01:30Z')
@@ -136,6 +159,10 @@ def test_holdout_no_leakage_fixed_reference_and_members():
     assert h.groupby(['time','configuration']).scale.nunique().max()==1
     assert (m[m.comparison=='A'].rmse==0).all()
     assert (physical[physical.configuration=='TH_CF'].physical_change>0).all()
+    p.loc[p.member==0,'predictor']*=100
+    _,_,_,_,physical=evaluate(p,o,*args)
+    ref=physical[physical.configuration=='TH_C0'].merge(o,on='time')
+    np.testing.assert_allclose(ref.reference_prediction,ref['count'])
 
 def test_joint_eda_covariance_paired_reproducibility():
     rng=np.random.default_rng(1); t=rng.normal(280,1,(10,4)); r=np.exp((t-280)*.1-5)
@@ -162,6 +189,21 @@ def test_native_bin_integral_and_unavailable_gap():
     f.loc[4,'value']=np.nan
     r=integrate_bins(f,t[0],t[-1])
     assert np.isnan(r.predictor.iloc[0]) and r.predictor.iloc[1]==1800
+
+def test_native_diagnostics_exact_mass_basis_and_read_only(tmp_path):
+    from leona.postprocess import native_diagnostics
+    from leona.provenance import sha256
+    p=np.array([[100000.,80000.]]*3);t=np.array([[300.,280.]]*3);rv=.01
+    ds=xr.Dataset(coords={'time':[0.,900.,1800.],'lev':[250.,750.]})
+    for name,value in {'theta':t/(p/1e5)**(2/7),'pressure':p,'qv':np.full((3,2),rv),
+        'qi':np.full((3,2),1e-4),'qg':np.full((3,2),2e-4),'mf_w':np.full((3,2),100.)}.items():
+        ds[name]=(('time','lev'),value)
+    path=tmp_path/'native.nc';ds.to_netcdf(path);before=sha256(path)
+    f=native_diagnostics(path,'2018-12-13T00:00Z',top=1000.)
+    rho=p[0]/(287*t[0]*(1+rv/(287/461.6)))
+    np.testing.assert_allclose(f[f.method=='IxG'].value,np.sum(rho**2*1e-4*2e-4*500))
+    assert f[f.method=='PW10'].value.isna().all()
+    assert sha256(path)==before
 
 def test_incomplete_member_support_rejected():
     p,o=prediction_fixture()

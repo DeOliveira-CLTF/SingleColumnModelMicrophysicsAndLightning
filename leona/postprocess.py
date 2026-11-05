@@ -6,7 +6,8 @@ import xarray as xr
 from .proxies import diagnose
 
 def native_diagnostics(path, origin, top=20000.):
-    with xr.open_dataset(path,decode_times=False) as source:
+    from .acquire import NETCDF_LOCK
+    with NETCDF_LOCK, xr.open_dataset(path,decode_times=False) as source:
         ds=source.load()
     z=ds.lev.values
     zw=np.zeros(len(z)+1)
@@ -18,12 +19,18 @@ def native_diagnostics(path, origin, top=20000.):
     t=ds.theta.values*(ds.pressure.values/1.e5)**(2./7.)
     rho_d=ds.pressure.values/(287.*t*(1+ds.qv.values/(287./461.6)))
     times=pd.Timestamp(origin)+pd.to_timedelta(ds.time.values,unit='s')
-    rows=[]
-    for i,stamp in enumerate(times):
-        fields={'rho_d':rho_d[i],'qi':ds.qi.values[i],'qg':ds.qg.values[i],'dz':dz}
-        for row in diagnose(fields,{'mass_basis':'dry_air'}):
-            rows.append({'time':stamp,**row})
-    return pd.DataFrame(rows)
+    fields={'rho_d':rho_d[0],'qi':ds.qi.values[0],'qg':ds.qg.values[0],'dz':dz}
+    templates=diagnose(fields,{'mass_basis':'dry_air'})
+    ixg=np.sum(rho_d**2*ds.qi.values*ds.qg.values*dz,axis=1)
+    frames=[]
+    for row in templates:
+        if row['method']=='IxG':
+            frames.append(pd.DataFrame({'time':times,'method':'IxG','value':ixg,
+                'status':np.where(np.isfinite(ixg),'available','unavailable'),
+                'reason':np.where(np.isfinite(ixg),'','Nonfinite mass-concentration input')}))
+        else:
+            frames.append(pd.DataFrame({'time':times,**row}))
+    return pd.concat(frames,ignore_index=True)
 
 def integrate_bins(native, start, end, minutes=15):
     """Integral of native linear snapshots, refusing gaps and missing endpoints.
@@ -40,6 +47,9 @@ def integrate_bins(native, start, end, minutes=15):
         if len(times)<2:raise ValueError('At least two native snapshots required')
         if np.any(np.diff(times)<=0):raise ValueError('Duplicate/nonmonotonic time')
         cadence=np.median(np.diff(times))
+        if not np.isfinite(values).any():
+            rows.extend({'time':a,'method':method,'predictor':np.nan,'status':'unavailable'} for a in edges[:-1])
+            continue
         for a,b in zip(edges[:-1],edges[1:]):
             left,right=np.searchsorted(times,[a.value,b.value])
             lo=max(0,left-1);hi=min(len(times),right+1)

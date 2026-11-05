@@ -1,0 +1,11 @@
+{
+  "statistic": "whole-case integral of each available raw lightning predictor, per perturbed member; no observations used",
+  "prefix_sizes": [5, 10, 15, 20],
+  "final_comparison": [15, 20],
+  "mean_change_limit": "2 * std20 * sqrt(1/15 - 1/20), nested-prefix Monte Carlo scale",
+  "std_change_relative_limit": 0.25,
+  "quantile_change_fraction_of_final_05_95_range": 0.20,
+  "degenerate_zero": "record separately; no coefficient or lightning activity is fabricated",
+  "decision": "increase paired synthetic members only if a nondegenerate available method/configuration fails the predeclared checks; retain existing realizations",
+  "scope": "numerical ensemble stability for initial-condition sampling only, not total uncertainty or observational skill"
+}

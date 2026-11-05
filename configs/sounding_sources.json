@@ -1,0 +1,23 @@
+{
+  "primary": {
+    "interface": "https://weather.uwyo.edu/upperair/sounding.shtml",
+    "inventory": "https://weather.uwyo.edu/cgi-bin/sounding_json",
+    "profile": "https://weather.uwyo.edu/wsgi/sounding",
+    "legacy_endpoint_allowed": false
+  },
+  "provided_profiles": {
+    "station": "87344",
+    "source_path_key": "sounding_source",
+    "nominal_profiles": ["2018121321", "2018121403", "2018121412"],
+    "policy": "Preserve per-level actual timestamps and trajectories where present. Do not fill missing actual time/trajectory from nominal launch. The 03 UTC file is partial near 10 km."
+  },
+  "alternative": {
+    "name": "NOAA NCEI IGRA 2.2",
+    "station_inventory": "https://www.ncei.noaa.gov/pub/data/igra/igra2-station-list.txt",
+    "inventory_verified_utc_date": "2026-11-05",
+    "station_ids": {"87344":"ARM00087344", "87244":"ARM00087244", "87576":"ARM00087576", "87623":"ARM00087623", "87155":"ARM00087155", "87418":"ARM00087418"},
+    "data_url_pattern": "https://www.ncei.noaa.gov/pub/data/igra/data/data-por/{station_id}-data.txt.zip",
+    "status": "station inventory verified; alternative profile acquisition/parser not implemented",
+    "policy": "No substitution for the same nominal time without source/version and availability checks; no automatic assumption of complete profile."
+  }
+}

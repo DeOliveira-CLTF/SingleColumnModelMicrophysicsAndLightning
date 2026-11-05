@@ -47,3 +47,12 @@ def test_official_dephy_roundtrip_and_full_time_forcing(tmp_path):
         np.testing.assert_allclose(changed.rv.values/control.rv.values,np.exp(.01))
         np.testing.assert_array_equal(changed.pa,control.pa)
         np.testing.assert_array_equal(changed.pa_forc,control.pa_forc)
+    from leona.ensemble import collocate
+    edapl=pl.expand_dims(number=np.arange(10)).copy()
+    edasl=sl.expand_dims(number=np.arange(10)).copy()
+    edapl['t']=edapl.t+xr.DataArray(np.arange(10)*.1,dims='number',coords={'number':np.arange(10)})
+    edapl.to_netcdf(tmp_path/'edapl.nc');edasl.to_netcdf(tmp_path/'edasl.nc')
+    collocate(c,output,tmp_path/'edapl.nc',tmp_path/'edasl.nc',tmp_path/'eda_profiles.npz')
+    eda=np.load(tmp_path/'eda_profiles.npz')
+    assert eda['temperature'].shape==(10,4)
+    np.testing.assert_allclose(eda['temperature'][1,1:]-eda['temperature'][0,1:],.1)

@@ -11,6 +11,7 @@ import pandas as pd
 import xarray as xr
 from .contracts import horizontal_advection, KAPPA
 from .provenance import ROOT,git,sha256,write_json
+from .spatial import subset
 
 def load_dephy():
     path = ROOT/'era5_forcing/DEPHY-SCM'
@@ -24,7 +25,15 @@ def normalize(ds):
     ds = ds.rename(ren).sortby('time').sortby('latitude').sortby('longitude')
     if 'expver' in ds.dims:
         raise ValueError('Resolve ERA5 expver explicitly before forcing conversion')
-    return ds
+    return indexed(ds)
+
+def indexed(obj):
+    # Arithmetic on coordinate-named ERA5 DataArrays can retain coordinate
+    # values while dropping an xarray index; restore it before label selection.
+    for dim in obj.dims:
+        if dim in obj.coords and obj[dim].dims==(dim,) and dim not in obj.xindexes:
+            obj=obj.set_xindex(dim)
+    return obj
 
 def common_grid(case,z):
     """Retain the single SCM height axis after official add_* calls."""
@@ -56,6 +65,9 @@ def common_grid(case,z):
         normalize_variable(variable,name in case.var_init_list)
 
 def build(config, pl_path, sl_path, output, zgrid):
+    output=Path(output)
+    if (output/'LEONA_DEF.nc').exists() or (output/'LEONA_SCM.nc').exists():
+        raise FileExistsError('Choose a fresh forcing output directory')
     if config['area'] is None or config['area_selection']['status'] != 'fixed_before_lightning_evaluation':
         raise ValueError('Meteorological area selection must be recorded before forcing/calibration')
     Case,version = load_dephy()
@@ -81,16 +93,18 @@ def build(config, pl_path, sl_path, output, zgrid):
     rho = rho_d*(1+rv)
     fields = xr.Dataset({'theta':theta,'rv':rv,'u':pl.u,'v':pl.v,
         'w':-pl.w/(rho*9.80665),'advth':advth,'advr':advr,'height':pl.z/9.80665,'pressure':p.broadcast_like(pl.t)})
-    fields = fields.sel(longitude=slice(w,e),latitude=slice(s,n)).interp(time=times)
-    surf = sl.sel(longitude=slice(w,e),latitude=slice(s,n)).interp(time=times)
+    fields,weights=subset(indexed(fields),config['area'])
+    fields=fields.interp(time=times)
+    surf,surface_weights=subset(sl,config['area'])
+    surf=surf.interp(time=times)
     ps = surf.sp
     above = (fields.pressure < ps) & (fields.height > surf.z/9.80665)
     # Same pressure levels must be above terrain in every selected grid cell/time.
     valid = above.all(('time','latitude','longitude'))
-    fields = fields.sel(level=fields.level[valid])
-    weights = np.cos(np.deg2rad(fields.latitude))
+    if valid.dims!=('level',):raise ValueError('Unexpected terrain mask dimensions')
+    fields = fields.isel(level=np.flatnonzero(valid.values))
     f = fields.weighted(weights).mean(('latitude','longitude'))
-    sf = surf.weighted(np.cos(np.deg2rad(surf.latitude))).mean(('latitude','longitude'))
+    sf = surf.weighted(surface_weights).mean(('latitude','longitude'))
     orog = float(sf.z.mean()/9.80665)
     z = np.asarray(zgrid,float)
     if np.any(np.diff(z)<=0) or z[0] != 0:
@@ -104,7 +118,8 @@ def build(config, pl_path, sl_path, output, zgrid):
     r_surface = (287.04/461.5)*es/(sl.sp-es)
     th_surface = sl.t2m*(1.e5/sl.sp)**KAPPA
     def surface_mean(x):
-        return x.sel(longitude=slice(w,e),latitude=slice(s,n)).interp(time=times).weighted(np.cos(np.deg2rad(surf.latitude))).mean(('latitude','longitude')).values
+        selected,aw=subset(indexed(x),config['area'])
+        return selected.interp(time=times).weighted(aw).mean(('latitude','longitude')).values
     base = {'theta':surface_mean(th_surface),'rv':surface_mean(r_surface),'u':sf.u10.values,'v':sf.v10.values,
         'pressure':sf.sp.values,'w':np.zeros(len(times)),
         'advth':surface_mean(horizontal_advection(th_surface,sl.u10,sl.v10)),
@@ -191,5 +206,6 @@ def build(config, pl_path, sl_path, output, zgrid):
         'configuration':config,'origin_utc':str(start),'surface_policy':'2m thermodynamics and 10m wind mapped to 0m AGL; w=0 at surface',
         'pressure_policy':'ERA5 prescribed pressure restored via Case API after convert2SCM hydrostatic completion; no exact hydrostatic claim','top_m':float(z[-1]),
         'advection':'horizontal regional gradients only; driver adds vertical transport',
+        'spatial_kernel':'spherical native cell intersection with fixed geographic box, partial edge cells included',
         'SCM_sha256':sha256(output/'LEONA_SCM.nc')})
     return output/'LEONA_SCM.nc'

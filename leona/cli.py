@@ -75,6 +75,8 @@ def main():
     forc=sub.add_parser('forcing');forc.add_argument('pl');forc.add_argument('sl');forc.add_argument('output')
     control=sub.add_parser('controls');control.add_argument('executable');control.add_argument('forcing');control.add_argument('output')
     ens=sub.add_parser('prepare-ensemble');ens.add_argument('forcing');ens.add_argument('eda_profiles');ens.add_argument('control_checks');ens.add_argument('output')
+    eda=sub.add_parser('collocate-eda');eda.add_argument('forcing');eda.add_argument('pl');eda.add_argument('sl');eda.add_argument('output')
+    run=sub.add_parser('run-ensemble');run.add_argument('executable');run.add_argument('manifest')
     post=sub.add_parser('postprocess');post.add_argument('simulation');post.add_argument('configuration');post.add_argument('member',type=int);post.add_argument('output')
     args=ap.parse_args(); config=json.loads(Path(args.config).read_text(encoding='utf-8'))
     if args.command=='audit': audit(ROOT/'products/leona/audit_current.json')
@@ -110,6 +112,12 @@ def main():
     elif args.command=='prepare-ensemble':
         from .ensemble import prepare
         prepare(config,args.forcing,args.eda_profiles,args.control_checks,args.output)
+    elif args.command=='collocate-eda':
+        from .ensemble import collocate
+        collocate(config,args.forcing,args.pl,args.sl,args.output)
+    elif args.command=='run-ensemble':
+        from .ensemble import run_prepared
+        run_prepared(args.executable,args.manifest)
     elif args.command=='postprocess':
         from .postprocess import native_diagnostics,integrate_bins
         native=native_diagnostics(args.simulation,config['start'])

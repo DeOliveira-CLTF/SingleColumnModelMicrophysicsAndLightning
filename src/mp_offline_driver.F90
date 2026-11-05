@@ -84,6 +84,10 @@ program mp_offline_driver
   logical :: legacy_temperature_tendency = .false. ! historical tnta-as-theta interface
   logical :: legacy_lightning = .false. ! retired EP and fixed IC/CG partition
   logical :: write_process_diagnostics = .false. ! observational hooks only
+  logical :: write_water_budget = .false. ! native microphysics water closure only
+  integer :: water_budget_unit
+  real(kind=RKIND), allocatable :: budget_before(:), budget_native_mass(:)
+  real(kind=RKIND) :: budget_rain_before, budget_delta, budget_rain_delta, budget_residual
   logical :: use_mynn = .true.               ! MYNN surface layer + PBL, see mynn_offline_coupling.F90
   logical :: mynn_condensate_local_only = .false. ! apply only the EDMF-OFF (local mixing) part of MYNN's qc/qi tendencies
   integer :: mynn_edmf_type = 0                ! 0 = MPAS DMP_mf plumes (default); 1 = unified plume core inside MYNN (uedmf_core)
@@ -111,7 +115,7 @@ program mp_offline_driver
        &                       mynn_uedmf_thermo, mynn_uedmf_c0_auto, mynn_uedmf_qc_crit, &
        &                       mynn_uedmf_e0_floor, mynn_uedmf_econv, mynn_uedmf_econv_l, mynn_uedmf_hmode, mynn_uedmf_mp, plume_channel_conserve, &
        &                       mynn_uedmf_c_eps, mynn_uedmf_c_delta, mynn_uedmf_c_lambda, mynn_uedmf_beta, mynn_uedmf_mu0, mynn_uedmf_chi, mynn_uedmf_c_gamma, &
-       &                microp_scheme, legacy_temperature_tendency, legacy_lightning, write_process_diagnostics
+       &                microp_scheme, legacy_temperature_tendency, legacy_lightning, write_process_diagnostics, write_water_budget
 
   ! ---- vertical grid (1-D, driver's own bookkeeping) ----
   real(kind=RKIND), allocatable :: z(:), dz(:)
@@ -181,6 +185,7 @@ program mp_offline_driver
   allocate(pres(1,nz,1), pii(1,nz,1), w3(1,nz,1))
   allocate(re_cloud(1,nz,1), re_ice(1,nz,1), re_snow(1,nz,1))
   allocate(ta_adv(nz), rv_adv(nz), rt_adv(nz))
+  if (write_water_budget) allocate(budget_before(nz), budget_native_mass(nz))
   allocate(ua0(nz), va0(nz))
   allocate(u_col(nz), v_col(nz), tt(nz), rho(nz), rthblten(nz), rqvblten(nz))
   allocate(rqcblten(nz), rqiblten(nz), rqcblten_loc(nz), rqiblten_loc(nz))
@@ -268,6 +273,10 @@ program mp_offline_driver
   snownc = 0.0_RKIND; snowncv = 0.0_RKIND; graupelnc = 0.0_RKIND; graupelncv = 0.0_RKIND
 
   call output_open(trim(path_output), nz, z)
+  if (write_water_budget) then
+    open(newunit=water_budget_unit, file=trim(path_output)//'.water_budget.csv', status='replace', action='write')
+    write(water_budget_unit,'(A)') 'time_s,water_change_native_kg_m2,precip_increment_kg_m2,residual_kg_m2,min_qv_before_mp'
+  end if
   if (write_process_diagnostics) call pd_open(trim(path_output)//'.processes.csv', nz)
 
   ! ------------------------------------------------------------------
@@ -361,6 +370,18 @@ program mp_offline_driver
     end if
 
     itimestep = itimestep + 1
+    if (write_water_budget) then
+      budget_before = qv(1,:,1)+qc(1,:,1)+qr(1,:,1)+qi(1,:,1)+qs(1,:,1)+qg(1,:,1)
+      budget_rain_before = rainnc(1,1)
+      if (trim(microp_scheme) == 'wsm6') then
+        budget_native_mass = rho*dz ! density passed to this WSM6 call
+      else
+        ! Thompson's native dry-density convention, evaluated at microphysics entry.
+        budget_native_mass = 0.622_RKIND*pres(1,:,1)/(287.04_RKIND*th(1,:,1)*pii(1,:,1)*(qv(1,:,1)+0.622_RKIND))*dz
+      end if
+      ! Save minimum entry vapor without changing any physical array.
+      budget_residual = minval(qv(1,:,1))
+    end if
     if (write_process_diagnostics) call pd_begin(process_state())
     if (trim(microp_scheme) == 'wsm6') then
       call wsm6( &
@@ -410,6 +431,12 @@ program mp_offline_driver
     ! cldtop_km below are therefore unused, passed only because the
     ! interface requires them.
     if (write_process_diagnostics) call pd_finish(t_sec + dt_microp, process_state())
+    if (write_water_budget) then
+      budget_delta = sum((qv(1,:,1)+qc(1,:,1)+qr(1,:,1)+qi(1,:,1)+qs(1,:,1)+qg(1,:,1)-budget_before)*budget_native_mass)
+      budget_rain_delta = rainnc(1,1)-budget_rain_before
+      write(water_budget_unit,'(ES24.16,4(",",ES24.16))') t_sec+dt_microp, budget_delta, budget_rain_delta, &
+           budget_delta+budget_rain_delta, budget_residual
+    end if
     flash_rate = ieee_value(0.0_RKIND, ieee_quiet_nan)
     flash_rate_cg = flash_rate
     flash_rate_ic = flash_rate
@@ -432,6 +459,7 @@ program mp_offline_driver
   end do
 
   call output_close()
+  if (write_water_budget) close(water_budget_unit)
   if (write_process_diagnostics) call pd_close()
   call goamazon_close(gfile)
 

@@ -52,16 +52,20 @@ apenas a parcela local; CF aplica a tendência completa. Todos usam o driver pri
 MYNN original (`mynn_edmf_type=0`) e forçantes temporais completas. Sem pulsos verticais,
 saturação artificial ou microfísica adicional de pluma.
 
-A área fica nula até haver seleção meteorológica documentada, anterior à avaliação dos
-raios. Anillaco é a estação óptica; o setor vermelho é o campo de visão, não a coluna.
+A área exige seleção meteorológica documentada, anterior à avaliação dos raios.
+O caso usa uma caixa de 1 grau selecionada pelo máximo da ascendência positiva média
+ERA5 em 500/700 hPa no período completo, dentro do setor visual de atividade.
+`products/leona/support/selection.json` registra critério, dados, hashes e instante da
+fixação anterior aos erros observacionais. Isso não garante representatividade convectiva
+da coluna. Anillaco é a estação óptica; o setor vermelho é seu campo de visão.
 Registrar `area=[west,south,east,north]`, justificar o suporte e fixar
 `area_selection.status=fixed_before_lightning_evaluation` somente depois dessa seleção.
 O recorte visual não é uma escolha automática. A área não participa do ajuste.
 
 `observation_coverage` é uma lista booleana por intervalo de 15 min. Presença de arquivo
 não certifica cobertura. Lacunas permanecem NaN e interrompem o acumulado conhecido.
-A convenção 1=IC/0=CG está configurada, mas sua confirmação documental da exportação
-fica separada em `flag_mapping_confirmed`. Totais podem ser agrupados antes dessa confirmação.
+A convenção 1=IC/0=CG e a cobertura completa dos dois dias foram confirmadas pelo usuário;
+essas confirmações ficam registradas separadamente no JSON.
 
 Agrupamento conjunto IC+CG, 700 ms e 10 km do primeiro evento detectado, limites
 inclusivos, sem encadeamento ilimitado. Desempate: primeiro grupo elegível por tempo do
@@ -87,16 +91,26 @@ histórica original (não regenerada pelo preparador corrigido).
 ## Execução do caso e produtos
 
 `leona.forcing.build` e o comando `forcing PL SL OUTPUT` reutilizam Case e convert2SCM.
-`leona.experiments.run_controls` executa seis controles, valida finitude/positividade/tempo
-e precipitação; o orçamento físico continua uma verificação separada, obrigatória antes
-do ensemble. `scripts/check_leona_driver.py` usa GOAMAZON para testes de software e
+`leona.experiments.run_controls` executa seis controles, valida finitude/positividade/tempo,
+temperatura/pressão, vapor à entrada da microfísica e precipitação. O balanço ponderado
+pela densidade nativa de entrada é registrado. Thompson recalcula densidade internamente;
+esse resíduo não é um contrato de fechamento exato. `configs/budget_contract.json` define
+o escopo e os limites. `scripts/check_leona_driver.py` usa GOAMAZON para testes de software e
 compara diagnósticos ligados/desligados; não certifica o caso LEONA.
 
-`leona.ensemble.prepare` exige controles físicos/numéricos válidos, seis configurações e
+`leona.ensemble.prepare` exige pré-teste físico e numérico válido, seis configurações e
 checksum da mesma forçante. Recebe dez perfis EDA colocalizados (T, r), gera 20 amostras
 sintéticas conjuntas de T/log(r), salva os sorteios e pesos realizados e usa o mesmo membro
 nas seis configurações. Nenhuma perturbação de vento é contada. `stability` registra média
 e dispersão por tamanho do conjunto; a dispersão é apenas de condição inicial.
+
+Sequência do caso: `assemble_leona_era5.py`, comando `forcing`, comando `controls`,
+`collocate-eda`, `prepare-ensemble` e `run-ensemble` (ver `python -m leona.cli --help`).
+`process_leona_ensemble.py` processa os membros concluídos; `--evaluate` exige o conjunto
+pareado completo. `check_leona_stability.py` usa critérios previamente registrados em
+`configs/ensemble_stability.json`, sem observações. `figures_leona.py` produz as quatro
+figuras principais. `process_leona_controls.py` usa os processos efetivamente aplicados,
+normalizados pela massa seca inicial, explicitamente distintos de fluxos instantâneos.
 
 `leona.postprocess` diagnostica saídas sem mutá-las e integra passos nativos em intervalos
 completos. `evaluate PREDICTORS OBSERVATIONS OUTPUT` exige a área e cobertura fixadas.
@@ -105,7 +119,9 @@ Observações CSV: time,count. Não misturar unidades de densidade, taxa e conta
 Coeficientes são ajustados na média dos membros perturbados, ou no controle se não houver
 ensemble; um único coeficiente por método/configuração, nunca por membro. O bloco reservado
 não entra no ajuste. Os cortes iniciais são pré-especificados no JSON, sem minutos aleatórios.
-Preditor nulo recebe estado irrecuperável, sem atividade artificial.
+Preditor nulo recebe estado irrecuperável, sem atividade artificial. Uma previsão cujo
+preditor continua nulo é zero para toda escala finita; preditor posterior não nulo com
+escala não identificável permanece indisponível. Dados ausentes permanecem NaN.
 
 Saídas: coefficients, heldout_predictions, metrics, fixed_scale_skill_contrasts,
 physical_trajectories e ensemble_statistics, todos em CSV, mais manifest de configuração e hashes.

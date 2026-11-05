@@ -16,7 +16,9 @@ def ice_flux(t,z,rho_d,ri,w_convective):
 
 def mccaul(t,z,rg,w_convective,vii):
     # McCaul et al.2009: qg in g/kg for F1; VII in kg/m2 for F2.
-    f1 = .042*max(0.,isotherm(t,z,258.15,np.asarray(w_convective)*rg*1000.))
+    flux=isotherm(t,z,258.15,np.asarray(w_convective)*rg*1000.)
+    if not np.isfinite(flux):return np.nan
+    f1 = .042*max(0.,flux)
     f2 = .20*vii
     if not np.isfinite(isotherm(t,z,258.15,w_convective)):
         return np.nan
@@ -29,6 +31,7 @@ def diagnose(fields, metadata):
     """
     rows=[]
     def add(name,value=np.nan,reason=''):
+        if not np.isfinite(value) and not reason:reason='Missing isotherm or nonfinite required input'
         rows.append({'method':name,'value':float(value),'status':'available' if np.isfinite(value) else 'unavailable','reason':reason})
     required = {'rho_d','qi','qg','dz'}
     if required <= fields.keys() and metadata.get('mass_basis') == 'dry_air':

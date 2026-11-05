@@ -62,13 +62,18 @@ def evaluate(predictors, observations, reference, development_end, evaluation_st
             'development_end':development_end,'evaluation_start':evaluation_start,'fit_member_statistic':'perturbed_mean_or_control',
             'n_development':int((d.predictor.notna()&d['count'].notna()).sum())})
     c = pd.DataFrame(coefficients)
-    a = p.merge(c[['method','configuration','scale']],on=['method','configuration'],validate='many_to_one')
-    ref = c[c.configuration == reference][['method','scale']].rename(columns={'scale':'reference_scale'})
+    a = p.merge(c[['method','configuration','scale','status']].rename(columns={'status':'fit_status'}),on=['method','configuration'],validate='many_to_one')
+    ref = c[c.configuration == reference][['method','scale','status']].rename(columns={'scale':'reference_scale','status':'reference_fit_status'})
     if len(ref) != p.method.nunique():
         raise ValueError('Reference configuration missing for a method')
     a = a.merge(ref,on='method',validate='many_to_one')
     a['prediction_A'] = a.predictor*a.scale
     a['prediction_B'] = a.predictor*a.reference_scale
+    # A known zero predictor is zero for every finite nonnegative scale, even
+    # when the development scale is unidentifiable. Nonzero held-out predictors
+    # remain unavailable with an unidentified scale; missing input never becomes 0.
+    a.loc[(a.predictor==0)&(a.fit_status=='identically_zero_unrecoverable'),'prediction_A']=0.
+    a.loc[(a.predictor==0)&(a.reference_fit_status=='identically_zero_unrecoverable'),'prediction_B']=0.
     held = a[a.split == 'evaluation'].copy()
     rows=[]
     for (method,configuration),f in held.groupby(['method','configuration']):
@@ -80,7 +85,8 @@ def evaluate(predictors, observations, reference, development_end, evaluation_st
     contrasts = m[m.comparison == 'B'].merge(m[(m.configuration == reference)&(m.comparison == 'B')][['method','rmse']].rename(columns={'rmse':'reference_rmse'}),on='method')
     contrasts['rmse_change'] = contrasts.rmse-contrasts.reference_rmse
     contrasts['rmse_improvement'] = -contrasts.rmse_change
-    fixed = held.groupby(['time','method','configuration'],as_index=False).prediction_B.mean()
+    physical_members=held[held.member!=0] if (held.member!=0).any() else held
+    fixed = physical_members.groupby(['time','method','configuration'],as_index=False).prediction_B.mean()
     baseline = fixed[fixed.configuration == reference][['time','method','prediction_B']].rename(columns={'prediction_B':'reference_prediction'})
     fixed = fixed.merge(baseline,on=['time','method'])
     fixed['physical_change'] = fixed.prediction_B-fixed.reference_prediction
