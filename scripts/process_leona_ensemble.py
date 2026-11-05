@@ -14,7 +14,7 @@ from leona.evaluate import evaluate,ensemble_statistics
 def main():
     ap=argparse.ArgumentParser();ap.add_argument('--evaluate',action='store_true');args=ap.parse_args()
     c=json.loads((ROOT/'configs/leona.json').read_text())
-    ensemble=ROOT/'work/leona/ensemble'
+    ensemble=ROOT/c['ensemble'].get('active_directory','work/leona/ensemble')
     plan=json.loads((ensemble/'manifest.json').read_text())
     for attempt in range(5):
         try:
@@ -28,7 +28,8 @@ def main():
         if not run.get('physical_preflight_passed',False):
             raise ValueError(f'Member fails physical preflight: {run["configuration"]}/{run["member"]}')
         folder=members/run['configuration']/f'{run["member"]:02}';folder.mkdir(parents=True,exist_ok=True)
-        source=Path(run['folder'])/'output.nc';target=folder/'predictors.csv';tag=folder/'manifest.json'
+        rawfolder=Path(run['folder']);rawfolder=rawfolder if rawfolder.is_absolute() else ROOT/rawfolder
+        source=rawfolder/'output.nc';target=folder/'predictors.csv';tag=folder/'manifest.json'
         if target.exists():
             if not tag.exists() or json.loads(tag.read_text())['simulation_sha256']!=run['sha256']:
                 raise ValueError('Existing member products use a different simulation')

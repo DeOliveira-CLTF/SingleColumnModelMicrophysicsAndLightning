@@ -86,7 +86,7 @@ def stability(statistic_by_member, sizes=(5,10,15,20)):
     a = np.asarray(statistic_by_member)
     return [{'members':n,'mean':float(a[:n].mean()),'std':float(a[:n].std(ddof=1))} for n in sizes if n<=len(a)]
 
-def prepare(config, control, eda_profiles, control_checks, output):
+def prepare(config, control, eda_profiles, control_checks, output, inherit=None):
     """Validated, collocated EDA NPZ must contain temperature,rv (10,z).
 
     Generate 20 paired inputs + the control shared across the six configurations.
@@ -112,24 +112,43 @@ def prepare(config, control, eda_profiles, control_checks, output):
             raise ValueError('EDA vertical grid differs from control')
     n,seed=config['ensemble']['perturbed_members'],config['ensemble']['seed']
     delta,weights=joint_perturbations(data['temperature'],data['rv'],n,seed)
+    prior=None;prior_runs={};prior_files={};accepted=[];old_n=0
+    if inherit is not None:
+        prior_path=Path(inherit);prior=json.loads(prior_path.read_text())
+        old_n=prior['synthetic_members']
+        if n<=old_n or prior['seed']!=seed:raise ValueError('Extension must increase members with same seed')
+        for key in ['area','start','end','reference_configuration','split']:
+            if prior['config'][key]!=config[key]:raise ValueError('Extension changes the fixed experiment design')
+        old_draws=np.load(prior_path.parent/'realized_perturbations.npz')
+        np.testing.assert_allclose(delta[:old_n],old_draws['delta'],rtol=1e-12,atol=1e-14)
+        np.testing.assert_array_equal(weights[:old_n],old_draws['weights'])
+        delta[:old_n]=old_draws['delta'] # exact saved prefix, independent of BLAS tiling
+        prior_runs={(r['configuration'],r['member']):r for r in prior['runs']}
+        prior_files={r['member']:Path(r['forcing']) for r in prior['runs']}
+        accepted=[sha256(prior_path),*prior.get('accepted_prior_manifest_sha256',[])]
     out=Path(output);out.mkdir(parents=True,exist_ok=False)
     np.savez_compressed(out/'realized_perturbations.npz',delta=delta,weights=weights,
         eda_temperature=data['temperature'],eda_rv=data['rv'],seed=seed)
     files=[Path(control).resolve()]
     for i in range(n):
+        if i+1<=old_n:
+            files.append(prior_files[i+1]);continue
         target=out/f'member_{i+1:02}.nc'
         perturb_scm(control,target,delta[i]);files.append(target.resolve())
     runs=[]
     for configuration in CONFIGURATIONS:
         for member,forcing in enumerate(files):
+            if (configuration,member) in prior_runs:
+                runs.append(prior_runs[(configuration,member)]);continue
             folder=out/configuration/f'{member:02}';folder.mkdir(parents=True)
             (folder/'namelist.mp_offline').write_text(namelist(configuration,forcing,folder/'output.nc'))
-            runs.append({'configuration':configuration,'member':member,'forcing':str(forcing),'forcing_sha256':sha256(forcing),'folder':str(folder)})
+            runs.append({'configuration':configuration,'member':member,'forcing':str(forcing),'forcing_sha256':sha256(forcing),'folder':str(folder.resolve())})
     write_json(out/'manifest.json',{'case':config['case'],'seed':seed,'distribution':'low-rank Gaussian joint T/log(rv) from sample EDA covariance',
         'synthetic_members':n,'reanalysis_members_used_for_covariance':10,'control_member':0,'paired_across_configurations':True,
         'pressure_balance':'prescribed pressure; no exact hydrostatic balance','wind_perturbations':False,
         'controls_sha256':sha256(control_checks),'config':config,'runs':runs,
         'control_executable_sha256':gate.get('executable_sha256'),
+        'accepted_prior_manifest_sha256':accepted,'inherited_members':old_n,
         'realized_perturbations_sha256':sha256(out/'realized_perturbations.npz')})
     return runs
 
@@ -150,6 +169,9 @@ def run_prepared(executable,manifest):
     records=[]
     def one(run):
         folder=Path(run['folder']);forcing=Path(run['forcing'])
+        if not folder.is_absolute():
+            from .provenance import ROOT
+            folder=ROOT/folder
         # Manifest paths are workspace-local. Inputs and namelists are immutable
         # over a resumed run, recorded before the first process launch.
         if sha256(forcing)!=run['forcing_sha256']:
@@ -157,7 +179,9 @@ def run_prepared(executable,manifest):
         output=folder/'output.nc';tag=folder/'run_identity.json'
         expected=dict(identity,forcing_sha256=run['forcing_sha256'],namelist_sha256=sha256(folder/'namelist.mp_offline'))
         if output.exists():
-            if not tag.exists() or json.loads(tag.read_text())!=expected:
+            recorded=json.loads(tag.read_text()) if tag.exists() else {}
+            accepted={identity['manifest_sha256'],*plan.get('accepted_prior_manifest_sha256',[])}
+            if recorded.get('manifest_sha256') not in accepted or any(recorded.get(k)!=v for k,v in expected.items() if k!='manifest_sha256'):
                 raise ValueError('Existing run has a different/unrecorded identity')
         else:
             write_json(tag,expected)

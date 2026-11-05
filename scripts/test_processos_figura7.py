@@ -19,7 +19,8 @@ class ProcessTests(unittest.TestCase):
             saved=PROV/Path(path).name
             self.assertEqual(strip_hooks((ROOT/path).read_text(encoding='utf-8')),saved.read_text(encoding='utf-8'))
             hashes={p.replace('\\','/'):v for p,v in baseline['identity']['sources'].items()}
-            self.assertEqual(sha(saved),hashes[path])
+            from historical_contracts import assert_audited_backup
+            assert_audited_backup(self,saved)
 
     def test_all_original_outputs_and_species_closure(self):
         baseline=json.loads((RESULTS/'ensemble_goamazon/manifest.json').read_text(encoding='utf-8'))

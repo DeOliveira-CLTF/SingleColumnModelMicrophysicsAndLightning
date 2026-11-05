@@ -170,6 +170,9 @@ def test_joint_eda_covariance_paired_reproducibility():
     np.testing.assert_array_equal(a,b)
     np.testing.assert_allclose(a[:,1],.1*a[:,0],atol=1e-14)
     assert a.shape==(20,2,4)
+    extended,extended_weights=joint_perturbations(t,r,members=40)
+    np.testing.assert_array_equal(w,extended_weights[:20])
+    np.testing.assert_allclose(a,extended[:20],rtol=1e-12,atol=1e-14)
 
 def test_registry_and_experiment_matrix():
     from leona.experiments import CONFIGURATIONS,namelist

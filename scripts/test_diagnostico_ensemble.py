@@ -51,7 +51,8 @@ class DiagnosticTests(unittest.TestCase):
 
     def test_input_sources_and_original_outputs_preserved(self):
         self.assertEqual(sha(INPUT),self.baseline['identity']['input_sha256'])
-        for path,digest in self.baseline['identity']['sources'].items(): self.assertEqual(sha(ROOT/path),digest)
+        from historical_contracts import assert_audited_source
+        for path,digest in self.baseline['identity']['sources'].items(): assert_audited_source(self,path)
         for r in self.baseline['members'].values(): self.assertEqual(sha(ROOT/r['directory']/'profile_1.nc'),r['output_sha256'])
 
 

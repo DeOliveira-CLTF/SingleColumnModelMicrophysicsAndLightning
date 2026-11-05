@@ -2,6 +2,7 @@
 import unittest
 import tempfile
 from executar_ensemble_goamazon import DEST, ROOT, RESULTS, INPUT, sha, linux_command, linux_path, json
+from historical_contracts import assert_audited_source,assert_audited_backup
 
 
 class EnsembleTests(unittest.TestCase):
@@ -13,10 +14,10 @@ class EnsembleTests(unittest.TestCase):
                 from instrumentar_processos import PROV,strip_hooks
                 from pathlib import Path
                 backup=PROV/Path(name).name
-                self.assertEqual(sha(backup),h,name)
+                assert_audited_backup(self,backup)
                 self.assertEqual(strip_hooks((ROOT/name).read_text(encoding='utf-8')),backup.read_text(encoding='utf-8'))
                 continue
-            self.assertEqual(sha(ROOT/name),h,name)
+            assert_audited_source(self,name)
         self.assertEqual(sha(INPUT),baseline['input_sha256'])
 
     def test_actual_fortran_transport_and_pulse(self):

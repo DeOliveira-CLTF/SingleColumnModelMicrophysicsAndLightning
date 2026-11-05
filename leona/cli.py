@@ -74,7 +74,7 @@ def main():
     ev=sub.add_parser('evaluate'); ev.add_argument('predictors');ev.add_argument('observations');ev.add_argument('output')
     forc=sub.add_parser('forcing');forc.add_argument('pl');forc.add_argument('sl');forc.add_argument('output')
     control=sub.add_parser('controls');control.add_argument('executable');control.add_argument('forcing');control.add_argument('output')
-    ens=sub.add_parser('prepare-ensemble');ens.add_argument('forcing');ens.add_argument('eda_profiles');ens.add_argument('control_checks');ens.add_argument('output')
+    ens=sub.add_parser('prepare-ensemble');ens.add_argument('forcing');ens.add_argument('eda_profiles');ens.add_argument('control_checks');ens.add_argument('output');ens.add_argument('--inherit')
     eda=sub.add_parser('collocate-eda');eda.add_argument('forcing');eda.add_argument('pl');eda.add_argument('sl');eda.add_argument('output')
     run=sub.add_parser('run-ensemble');run.add_argument('executable');run.add_argument('manifest')
     post=sub.add_parser('postprocess');post.add_argument('simulation');post.add_argument('configuration');post.add_argument('member',type=int);post.add_argument('output')
@@ -111,7 +111,7 @@ def main():
         run_controls(args.executable,args.forcing,args.output)
     elif args.command=='prepare-ensemble':
         from .ensemble import prepare
-        prepare(config,args.forcing,args.eda_profiles,args.control_checks,args.output)
+        prepare(config,args.forcing,args.eda_profiles,args.control_checks,args.output,args.inherit)
     elif args.command=='collocate-eda':
         from .ensemble import collocate
         collocate(config,args.forcing,args.pl,args.sl,args.output)

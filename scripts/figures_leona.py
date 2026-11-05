@@ -93,7 +93,10 @@ def evaluation(c):
     axes[0].barh(a.method+'/'+a.configuration,a.rmse);axes[0].set_xlabel('A: count RMSE')
     axes[1].barh(contrast.method+'/'+contrast.configuration,contrast.rmse_change);axes[1].axvline(0,color='black');axes[1].set_xlabel('B: RMSE change from TH_C0')
     axes[2].barh(['/'.join(k) for k in physical.index],physical.values);axes[2].axvline(0,color='black');axes[2].set_xlabel('B: accumulated count change from TH_C0')
-    for ax in axes:ax.grid(axis='x',alpha=.2);ax.tick_params(axis='y',labelsize=8)
+    from matplotlib.ticker import MaxNLocator
+    for ax in axes:
+        ax.grid(axis='x',alpha=.2);ax.tick_params(axis='y',labelsize=8)
+        ax.xaxis.set_major_locator(MaxNLocator(4));ax.ticklabel_format(axis='x',style='sci',scilimits=(0,0))
     fig.tight_layout();save(fig,'03_metrics_contrasts.png')
 
 def main():
