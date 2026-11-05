@@ -1,0 +1,7 @@
+# Private observations and reproducible local products (never redistribute).
+/data_private/
+/products/leona/
+/work/leona/
+__pycache__/
+.pytest_cache/
+*.pyc

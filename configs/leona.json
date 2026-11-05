@@ -1,0 +1,19 @@
+{
+  "case": "LEONA_20181213_14",
+  "start": "2018-12-13T00:00:00Z",
+  "end": "2018-12-15T00:00:00Z",
+  "area": null,
+  "area_selection": {"status": "pending_meteorological_sequence", "visual_reference_only": [-64, -37, -54, -30], "camera_is_column": false},
+  "reference_configuration": "TH_C0",
+  "interval_minutes": 15,
+  "grouping": "chronis2015_first_v1",
+  "flag_mapping": {"0": "CG", "1": "IC"},
+  "flag_mapping_confirmed": false,
+  "entln_source": "I:/Meu Drive/FADAS/LifeCycleOfTLE_producingStorms_MatLab/raw_data/lightning_brasilDat",
+  "sounding_source": "I:/Meu Drive/FADAS/LifeCycleOfTLE_producingStorms_MatLab/raw_data/radiosounding/SACO",
+  "ensemble": {"perturbed_members": 20, "seed": 20181213, "source": "ERA5_EDA_joint_T_logr", "pressure_balance": "prescribed_pressure_not_exact_hydrostatic"},
+  "split": {"development_end": "2018-12-14T00:00:00Z", "evaluation_start": "2018-12-14T01:00:00Z", "gap_minutes": 60},
+  "observation_coverage": null,
+  "dephy_expected_commit": "661b0328acd253f345715534986e65724c8919db",
+  "stations": ["87344", "87244", "87576", "87623", "87155", "87418"]
+}
