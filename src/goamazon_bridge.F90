@@ -106,9 +106,10 @@ contains
   end subroutine nc_check
 
   !=================================================================
-  subroutine goamazon_open(path, f)
+  subroutine goamazon_open(path, f, legacy_temperature_tendency)
   !=================================================================
     character(len=*), intent(in)  :: path
+    logical, intent(in), optional :: legacy_temperature_tendency
     type(goamazon_file_type), intent(out) :: f
 
     integer :: dimid, varid
@@ -150,7 +151,16 @@ contains
     ! forcing (dims time,lev in the file -> (nlev,ntime) in Fortran's
     ! reversed storage order, read directly with no transpose needed)
     call read_2d_timelev(f%ncid, 'pa_forc',   f%nlev, f%ntime, f%pa_forc)
-    call read_2d_timelev(f%ncid, 'tnta_adv',  f%nlev, f%ntime, f%tnta_adv)
+    ! Integrator advances theta, not T. Legacy mode reproduces old interface.
+    if (present(legacy_temperature_tendency)) then
+      if (legacy_temperature_tendency) then
+        call read_2d_timelev(f%ncid, 'tnta_adv', f%nlev, f%ntime, f%tnta_adv)
+      else
+        call read_2d_timelev(f%ncid, 'tntheta_adv', f%nlev, f%ntime, f%tnta_adv)
+      end if
+    else
+      call read_2d_timelev(f%ncid, 'tntheta_adv', f%nlev, f%ntime, f%tnta_adv)
+    end if
     call read_2d_timelev(f%ncid, 'tnrv_adv',  f%nlev, f%ntime, f%tnrv_adv)
     call read_2d_timelev(f%ncid, 'tnrt_adv',  f%nlev, f%ntime, f%tnrt_adv)
     call read_2d_timelev(f%ncid, 'wa',        f%nlev, f%ntime, f%wa)

@@ -61,6 +61,8 @@ program mp_offline_driver
        &                             uedmf_src, uedmf_src_th, uedmf_T_flux, uedmf_c_flux, uedmf_thl_flux, uedmf_diag_fo_pos, uedmf_diag_fo_neg, &
        &                             uedmf_c_eps, uedmf_c_delta, uedmf_c_lambda, uedmf_beta, uedmf_mu0, uedmf_chi, uedmf_c_gamma
   use mpas_atmphys_lightning, only : driver_lightning
+  use process_diagnostics, only : pd_open, pd_begin, pd_finish, pd_close
+  use, intrinsic :: ieee_arithmetic, only : ieee_value, ieee_quiet_nan
 
   implicit none
 
@@ -79,6 +81,9 @@ program mp_offline_driver
   real(kind=RKIND) :: dz0  = 50.0_RKIND      ! m, spacing of the lowest layer (stretched above)
   real(kind=RKIND) :: dt_microp = 30.0_RKIND ! s, microphysics timestep (sub-cycled between forcing times)
   logical :: apply_rt_adv = .false.          ! see header note above -- off by default in this first version
+  logical :: legacy_temperature_tendency = .false. ! historical tnta-as-theta interface
+  logical :: legacy_lightning = .false. ! retired EP and fixed IC/CG partition
+  logical :: write_process_diagnostics = .false. ! observational hooks only
   logical :: use_mynn = .true.               ! MYNN surface layer + PBL, see mynn_offline_coupling.F90
   logical :: mynn_condensate_local_only = .false. ! apply only the EDMF-OFF (local mixing) part of MYNN's qc/qi tendencies
   integer :: mynn_edmf_type = 0                ! 0 = MPAS DMP_mf plumes (default); 1 = unified plume core inside MYNN (uedmf_core)
@@ -106,7 +111,7 @@ program mp_offline_driver
        &                       mynn_uedmf_thermo, mynn_uedmf_c0_auto, mynn_uedmf_qc_crit, &
        &                       mynn_uedmf_e0_floor, mynn_uedmf_econv, mynn_uedmf_econv_l, mynn_uedmf_hmode, mynn_uedmf_mp, plume_channel_conserve, &
        &                       mynn_uedmf_c_eps, mynn_uedmf_c_delta, mynn_uedmf_c_lambda, mynn_uedmf_beta, mynn_uedmf_mu0, mynn_uedmf_chi, mynn_uedmf_c_gamma, &
-       &                microp_scheme
+       &                microp_scheme, legacy_temperature_tendency, legacy_lightning, write_process_diagnostics
 
   ! ---- vertical grid (1-D, driver's own bookkeeping) ----
   real(kind=RKIND), allocatable :: z(:), dz(:)
@@ -196,7 +201,7 @@ program mp_offline_driver
   ! passing them to goamazon_bridge's plain (nz) dummy arguments is a
   ! straight aliased copy, no transpose, no temporary.
   ! ------------------------------------------------------------------
-  call goamazon_open(trim(path_input), gfile)
+  call goamazon_open(trim(path_input), gfile, legacy_temperature_tendency)
   call goamazon_get_initial_profile(gfile, nz, z, pres(1,:,1), th(1,:,1), qv(1,:,1), &
        &                            qc(1,:,1), qi(1,:,1), ua0, va0, ps0)
   qr = 0.0_RKIND; qs = 0.0_RKIND; qg = 0.0_RKIND; ni = 0.0_RKIND; nr = 0.0_RKIND
@@ -263,6 +268,7 @@ program mp_offline_driver
   snownc = 0.0_RKIND; snowncv = 0.0_RKIND; graupelnc = 0.0_RKIND; graupelncv = 0.0_RKIND
 
   call output_open(trim(path_output), nz, z)
+  if (write_process_diagnostics) call pd_open(trim(path_output)//'.processes.csv', nz)
 
   ! ------------------------------------------------------------------
   ! time loop: sub-cycle at dt_microp between the file's own (coarser,
@@ -350,6 +356,7 @@ program mp_offline_driver
     end if
 
     itimestep = itimestep + 1
+    if (write_process_diagnostics) call pd_begin(process_state())
     if (trim(microp_scheme) == 'wsm6') then
       call wsm6( &
            th=th, q=qv, qc=qc, qr=qr, qi=qi, qs=qs, qg=qg, den=spread(spread(rho,1,1),3,1), &
@@ -397,10 +404,16 @@ program mp_offline_driver
     ! branch, never the Price-Rind/cloud-top-height branch -- dx_km and
     ! cldtop_km below are therefore unused, passed only because the
     ! interface requires them.
-    tt = th(1,:,1)*pii(1,:,1)
-    call driver_lightning(nz, z, tt-273.15_RKIND, rho, w3(1,:,1), qg(1,:,1), qs(1,:,1), qc(1,:,1), &
+    if (write_process_diagnostics) call pd_finish(t_sec + dt_microp, process_state())
+    flash_rate = ieee_value(0.0_RKIND, ieee_quiet_nan)
+    flash_rate_cg = flash_rate
+    flash_rate_ic = flash_rate
+    if (legacy_lightning) then
+      tt = th(1,:,1)*pii(1,:,1)
+      call driver_lightning(nz, z, tt-273.15_RKIND, rho, w3(1,:,1), qg(1,:,1), qs(1,:,1), qc(1,:,1), &
          &                 1.0_RKIND, .false., 0.0_RKIND, &
          &                 flash_rate, flash_rate_cg, flash_rate_ic)
+    end if
 
     t_sec = t_sec + dt_microp
 
@@ -414,6 +427,7 @@ program mp_offline_driver
   end do
 
   call output_close()
+  if (write_process_diagnostics) call pd_close()
   call goamazon_close(gfile)
 
   call system_clock(clk_end)
@@ -436,6 +450,16 @@ program mp_offline_driver
   end if
 
 contains
+
+  function process_state() result(state)
+    real(kind=RKIND) :: state(6,nz)
+    state(1,:) = qv(1,:,1)
+    state(2,:) = qc(1,:,1)
+    state(3,:) = qr(1,:,1)
+    state(4,:) = qi(1,:,1)
+    state(5,:) = qs(1,:,1)
+    state(6,:) = qg(1,:,1)
+  end function process_state
 
   subroutine apply_plume_balance(nz, dz, rho, pii, dt, th, qv, qc, qr, qi, qs, qg, bal)
     ! Grid-side half of the plume species channels (uedmf_mp_mode=3). The solver has already delivered, through

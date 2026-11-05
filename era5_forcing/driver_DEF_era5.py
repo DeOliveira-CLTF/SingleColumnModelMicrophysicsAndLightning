@@ -70,9 +70,10 @@ def hgrad(f):
 
 
 dthx, dthy = hgrad(theta)
-dqx, dqy = hgrad(pl.q)
+rv = pl.q / (1. - pl.q)  # specific humidity -> dry-air vapor mixing ratio
+drx, dry = hgrad(rv)
 adv_theta = -(pl.u * dthx + pl.v * dthy)              # K/s
-adv_q = -(pl.u * dqx + pl.v * dqy)                    # kg/kg/s
+adv_rv = -(pl.u * drx + pl.v * dry)                  # kg/kg(dry)/s
 
 rho = P / (Rd * pl.t * (1. + 0.608 * pl.q))
 w = -pl.w / (rho * g)                                 # omega (Pa/s) -> w (m/s)
@@ -83,7 +84,7 @@ zagl = (pl.z / g).mean(box) - zs                      # (time, level)
 
 # medias na caixa
 m = lambda f: f.mean(box)
-T_adv, q_adv, W = m(adv_theta), m(adv_q), m(w)
+T_adv, rv_adv, W = m(adv_theta), m(adv_rv), m(w)
 U, V = m(pl.u), m(pl.v)
 TH, Q = m(theta), m(pl.q)
 ps = float(m(sl.sp).isel(time=0))
@@ -119,7 +120,7 @@ case.add_init_qv(sel(Q, 0), lev=z, levtype='altitude')
 
 # forcantes (mesma altura para todos os tempos, como no original)
 case.add_theta_advection(sel(T_adv), include_rad=False, lev=z, levtype='altitude', time=tsec)
-case.add_rv_advection(sel(q_adv), lev=z, levtype='altitude', time=tsec)
+case.add_rv_advection(sel(rv_adv), lev=z, levtype='altitude', time=tsec)
 case.add_vertical_velocity(w=sel(W), lev=z, levtype='altitude', time=tsec)
 case.add_wind_nudging(unudg=sel(U), vnudg=sel(V), timescale=3600.,
                       time=tsec, lev=z, levtype='altitude')

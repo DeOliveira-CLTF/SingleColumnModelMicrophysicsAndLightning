@@ -105,7 +105,8 @@ contains
     call def_profile_var('qc_bl',        'kg kg-1', 'MYNN-diagnosed subgrid-scale cloud water', id_qc_bl)
     call def_profile_var('qi_bl',        'kg kg-1', 'MYNN-diagnosed subgrid-scale cloud ice', id_qi_bl)
     call def_profile_var('mf_a',         '0-1',      'EDMF updraft area fraction (MYNN mass-flux scheme)', id_mf_a)
-    call def_profile_var('mf_w',         'm s-1',   'EDMF updraft vertical velocity (MYNN mass-flux scheme)', id_mf_w)
+    call def_profile_var('mf_w', 'kg m-2 s-1', &
+         'MYNN sum(rho_interface*a_plume*w_plume)/sum(a_plume); not resolved convective velocity', id_mf_w)
 
     call nc_check(nf90_def_var(ncid, 'pblh', nf90_double, (/dimid_time/), id_pblh), 'def pblh')
     call nc_check(nf90_put_att(ncid, id_pblh, 'units', 'm'), 'att pblh units')
