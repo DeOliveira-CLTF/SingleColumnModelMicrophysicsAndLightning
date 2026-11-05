@@ -279,9 +279,14 @@ program mp_offline_driver
   t_end = gfile%time(gfile%ntime)
   itimestep = 0
 
+  flash_rate = 0.0_RKIND
+  if (.not.legacy_lightning) flash_rate = ieee_value(0.0_RKIND, ieee_quiet_nan)
+  flash_rate_cg = flash_rate
+  flash_rate_ic = flash_rate
+
   call output_write_timestep(t_sec, nz, th(1,:,1), qv(1,:,1), qc(1,:,1), qr(1,:,1), &
        &                      qi(1,:,1), qs(1,:,1), qg(1,:,1), pres(1,:,1), &
-       &                      rainncv(1,1), rainnc(1,1))
+       &                      rainncv(1,1), rainnc(1,1), flash_rate, flash_rate_cg, flash_rate_ic)
 
   do while (t_sec < t_end)
 

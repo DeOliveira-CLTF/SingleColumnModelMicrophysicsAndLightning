@@ -3,9 +3,11 @@ from pathlib import Path
 from io import StringIO
 import json
 import time
+import threading
 import pandas as pd
 import requests
 from .provenance import verified_copy, write_json, sha256
+NETCDF_LOCK=threading.RLock()
 
 def cached_get(url, params, target):
     target = Path(target)
@@ -129,7 +131,7 @@ def acquire_era5(config, cache, execute=False, selection=None):
                                 # Read archive members as bytes, never extract arbitrary paths.
                                 import tempfile
                                 import shutil
-                                with tempfile.TemporaryDirectory(dir=target.parent) as td, zipfile.ZipFile(tmp) as archive:
+                                with NETCDF_LOCK, tempfile.TemporaryDirectory(dir=target.parent) as td, zipfile.ZipFile(tmp) as archive:
                                     parts=[]
                                     for i,name in enumerate(archive.namelist()):
                                         if name.endswith('.nc'):
@@ -139,8 +141,12 @@ def acquire_era5(config, cache, execute=False, selection=None):
                                     xr.merge(parts,join='outer',compat='no_conflicts').to_netcdf(target)
                             else:
                                 tmp.replace(target)
-                        with xr.open_dataset(target) as ds:
+                        with NETCDF_LOCK, xr.open_dataset(target) as ds:
                             if not ds.sizes: raise ValueError('Empty ERA5 file')
+                            expected={'sp','skt','z','t2m','d2m','u10','v10'} if single else {'t','q','u','v','w','z'}
+                            if not expected<=set(ds.data_vars):raise ValueError('Incomplete ERA5 variables')
+                            if product=='ensemble_members' and ds.sizes.get('number')!=10:
+                                raise ValueError('Expected ten ERA5 EDA reanalysis members')
                         record={'path':str(target),'sha256':sha256(target),'status':'downloaded','dataset':dataset,'request':daily}
                         write_json(sidecar,record)
                         records.append(record)
