@@ -12,6 +12,7 @@ Fluxo principal: tempestade de 13–14/12/2018. Duas perguntas operacionais:
 - `tests/`: testes sintéticos de contratos e integração DEPHY; nunca representam observações.
 - `data_private/leona/`: originais copiados com SHA256, cache e sondagens processadas; ignorado pelo Git.
 - `products/leona/`: tabelas, figuras, manifests e resultados de testes locais; ignorado pelo Git.
+- `products/leona/simulations/`: saídas por configuração/membro; preferir `output_utc.nc`, com relógio CF/UTC e metadados do caso. `output.nc` preserva os bytes nativos originais.
 - `work/leona/`: build isolado, logs e execuções de verificação; ignorado pelo Git.
 - `src/`, `era5_forcing/DEPHY-SCM/`: física e biblioteca existente preservadas.
 - `docs/historical/README_pre_leona.md`, `scripts/`, `resultados/`, `figuras_artigo/`: reprodução histórica. Não são o fluxo LEONA.
@@ -114,6 +115,10 @@ pareado completo. `check_leona_stability.py` usa critérios previamente registra
 `configs/ensemble_stability.json`, sem observações. `figures_leona.py` produz as quatro
 figuras principais. `process_leona_controls.py` usa os processos efetivamente aplicados,
 normalizados pela massa seca inicial, explicitamente distintos de fluxos instantâneos.
+O encerramento usa `archive_leona_products.py`, `normalize_leona_native_time.py`,
+`check_leona_delivery.py`, `finalize_leona_execution.py` e `prepare_leona_products.py`.
+As cópias UTC têm metadados corrigidos e os mesmos valores físicos; arquivos nativos
+originais e produtos dos conjuntos menores são preservados.
 
 `leona.postprocess` diagnostica saídas sem mutá-las e integra passos nativos em intervalos
 completos. `evaluate PREDICTORS OBSERVATIONS OUTPUT` exige a área e cobertura fixadas.
