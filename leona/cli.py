@@ -127,11 +127,19 @@ def main():
         bins['configuration']=args.configuration;bins['member']=args.member
         bins.to_csv(out/'predictors.csv',index=False)
     elif args.command=='status':
+        active=ROOT/config['ensemble'].get('active_directory','work/leona/ensemble')
+        checks=json.loads((active/'run_checks.json').read_text()) if (active/'run_checks.json').exists() else []
+        stability=ROOT/'products/leona/ensemble_stability.json'
         status={'area':config['area_selection']['status'],'flag_convention_confirmed':config['flag_mapping_confirmed'],
             'coverage_provided':config['observation_coverage'] is not None,
             'era5_files':{p.name:p.stat().st_size for p in (ROOT/'data_private/leona/era5').glob('*.nc')},
             'private_input_manifest':(ROOT/'data_private/leona/manifest.json').exists(),
-            'ensemble_gate':'requires passed numerical AND physical controls, validated forcing and collocated EDA profiles'}
+            'ensemble_members':config['ensemble']['perturbed_members'],'completed_runs':len(checks),
+            'expected_runs':6*(config['ensemble']['perturbed_members']+1),
+            'all_finished_preflights_passed':all(r.get('physical_preflight_passed',False) for r in checks) if checks else False,
+            'ensemble_stability':json.loads(stability.read_text()).get('all_available_stable') if stability.exists() else None,
+            'heldout_evaluation_available':(ROOT/'products/leona/evaluation/manifest.json').exists(),
+            'pending_dependencies_file':'products/leona/pending_dependencies.json'}
         write_json(ROOT/'products/leona/status.json',status);print(json.dumps(status,indent=2))
 
 if __name__=='__main__': main()

@@ -23,8 +23,10 @@ def main():
         else:
             try:os.link(source,target);method='hardlink'
             except OSError:shutil.copy2(source,target);method='copy'
+        expected=digest or sha256(source)
+        if method=='copy' and sha256(target)!=expected:raise IOError('Native archive checksum mismatch')
         records.append({'source':str(source.relative_to(ROOT)),'product':str(target.relative_to(ROOT)),
-            'bytes':target.stat().st_size,'method':method,'sha256':digest or sha256(source)})
+            'bytes':target.stat().st_size,'method':method,'sha256':expected})
     for run in plan['runs']:
         folder=Path(run['folder']);folder=folder if folder.is_absolute() else ROOT/folder
         target=out/'simulations'/run['configuration']/f'{run["member"]:02}'

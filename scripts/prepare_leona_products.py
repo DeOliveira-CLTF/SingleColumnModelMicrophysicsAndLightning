@@ -39,6 +39,9 @@ def main():
     write_json(out/'tests/environment.json',{'python':sys.version,'packages':{n:importlib.metadata.version(n) for n in names},
         'head':git('rev-parse','HEAD'),'dephy_head':git('rev-parse','HEAD',cwd=ROOT/'era5_forcing/DEPHY-SCM')})
     files=[p for p in out.rglob('*') if p.is_file() and p.name!='product_manifest.json']
-    write_json(out/'product_manifest.json',[{'path':str(p.relative_to(ROOT)),'bytes':p.stat().st_size,'sha256':sha256(p),'redistribution':'local_only'} for p in files])
+    archive=out/'native_product_index.json'
+    known={r['product']:r['sha256'] for r in json.loads(archive.read_text())['files']} if archive.exists() else {}
+    write_json(out/'product_manifest.json',[{'path':str(p.relative_to(ROOT)),'bytes':p.stat().st_size,
+        'sha256':known.get(str(p.relative_to(ROOT))) or sha256(p),'redistribution':'local_only'} for p in files])
 
 if __name__=='__main__':main()
