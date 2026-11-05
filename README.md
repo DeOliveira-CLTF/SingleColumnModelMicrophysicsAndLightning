@@ -99,10 +99,13 @@ o escopo e os limites. `scripts/check_leona_driver.py` usa GOAMAZON para testes 
 compara diagnósticos ligados/desligados; não certifica o caso LEONA.
 
 `leona.ensemble.prepare` exige pré-teste físico e numérico válido, seis configurações e
-checksum da mesma forçante. Recebe dez perfis EDA colocalizados (T, r), gera 20 amostras
+checksum da mesma forçante. Recebe dez perfis EDA colocalizados (T, r), gera inicialmente 20 amostras
 sintéticas conjuntas de T/log(r), salva os sorteios e pesos realizados e usa o mesmo membro
 nas seis configurações. Nenhuma perturbação de vento é contada. `stability` registra média
 e dispersão por tamanho do conjunto; a dispersão é apenas de condição inicial.
+Uma extensão por `prepare-ensemble --inherit MANIFEST` preserva exatamente os sorteios,
+entradas e saídas anteriores. A extensão para 40 segue o teste de quantis previamente
+registrado; os produtos de 20 membros permanecem em `evaluation_20` e nos manifestos originais.
 
 Sequência do caso: `assemble_leona_era5.py`, comando `forcing`, comando `controls`,
 `collocate-eda`, `prepare-ensemble` e `run-ensemble` (ver `python -m leona.cli --help`).
@@ -132,3 +135,9 @@ nem gráficos de previsão quando faltam as entradas do caso.
 
 Não há relatórios de interpretação científica no novo fluxo. Observações e seus derivados
 permanecem locais, ignorados pelo Git e sujeitos às restrições do fornecedor.
+
+Os testes históricos agora verificam preservação de fontes em relação ao commit auditado
+`5c1655c`, com normalização exclusiva de finais de linha. Os três adaptadores corrigidos
+têm contratos novos e reprodução histórica explícita. Manifestos anteriores permanecem
+imutáveis; seus hashes binários de entradas/saídas continuam sendo conferidos. Os logs
+de tentativas e a discrepância de hashes anteriores à auditoria são preservados localmente.

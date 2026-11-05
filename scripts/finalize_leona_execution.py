@@ -33,6 +33,8 @@ def main():
     new=(ROOT/'src/mp_offline_driver.F90').read_text()
     pattern=r'  subroutine apply_forcing_and_advance\(.*?  end subroutine apply_forcing_and_advance'
     integrator_same=re.search(pattern,old,re.S).group()==re.search(pattern,new,re.S).group()
+    if core_diff or not integrator_same:
+        raise ValueError('Protected physics or integrator differs from audited baseline')
     pending={
         'CAPExP':'Published functional product implemented; native near-surface isentropic CAPE diagnostic/provider not implemented. Unavailable in native SCM postprocessing.',
         'convective_velocity_methods':'PW10, IFluxT, McCaul2009 and PR92_wmax require resolved convective velocity and collocated hydrometeors; wa/mf_w are not substitutes.',
