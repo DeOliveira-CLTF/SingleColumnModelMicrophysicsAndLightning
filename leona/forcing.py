@@ -30,16 +30,30 @@ def common_grid(case,z):
     """Retain the single SCM height axis after official add_* calls."""
     from dephycf.Axis import Axis
     shared=Axis('lev',np.asarray(z),name='height',units='m')
-    for name,variable in case.variables.items():
+    visited=set()
+    def normalize_variable(variable,initial):
+        if id(variable) in visited:return
+        visited.add(id(variable))
+        tid='t0' if initial else 'time'
+        if variable.time is not None:variable.time.id=tid
         if variable.level is not None:
             if variable.data.shape[-1] != len(z):
-                raise ValueError(f'Inconsistent SCM grid for {name}')
+                raise ValueError(f'Inconsistent SCM grid for {variable.id}')
             variable.set_level(lev=shared)
-            if variable.height is not None:variable.height.set_level(lev=shared)
-            if variable.pressure is not None:variable.pressure.set_level(lev=shared)
-        if name in case.var_forcing_list and variable.time is not None:
-            # convert2SCM has already put all forcing fields on the output time.
-            variable.time.id='time'
+            variable.set_coordinates(tid,'zh' if initial else 'zh_forc','lat','lon')
+        elif variable.time is not None:
+            variable.set_coordinates(tid,'lat','lon')
+        # This audited Variable caches axis IDs in axlist; renaming the Axis
+        # alone leaves stale time_<variable> dimensions in nested coordinates.
+        variable.axlist=([tid] if variable.time is not None else [])+(['lev'] if variable.level is not None else [])
+        if variable.height is not None:
+            variable.height.id='zh' if initial else 'zh_forc'
+            normalize_variable(variable.height,initial)
+        if variable.pressure is not None:
+            variable.pressure.id='pa' if initial else 'pa_forc'
+            normalize_variable(variable.pressure,initial)
+    for name,variable in case.variables.items():
+        normalize_variable(variable,name in case.var_init_list)
 
 def build(config, pl_path, sl_path, output, zgrid):
     if config['area'] is None or config['area_selection']['status'] != 'fixed_before_lightning_evaluation':
