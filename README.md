@@ -1,4 +1,11 @@
-# SCM: microfísica e raios — Argentina, 13–14/12/2018
+# SCM: microfísica e raios — calibração 2019 e avaliação independente 2018
+
+O controle determinístico Thompson C0 de 28–29/10/2019 fornece três coeficientes
+fixos. O evento de 13–14/12/2018 é exclusivo de avaliação; suas observações não
+podem ajustar coeficientes. O fluxo anterior está preservado em
+`results/argentina_20181213/legacy/article_within_event_20261106/`.
+
+Fluxo técnico dos dois eventos: [docs/independent_events.md](docs/independent_events.md).
 
 Thompson/WSM6 × MYNN C0/CL/CF. Ensemble existente: 40 membros perturbados e
 um controle por configuração. ENTLN e seus derivados permanecem locais.
@@ -67,9 +74,9 @@ amostrada a cada 15 min; não é apresentada como a CAPE isentrópica de Romps.
 Esses novos diagnósticos foram calculados para os seis controles, separadamente
 da avaliação principal dos 40 membros.
 
-A área meteorológica e os blocos temporais existentes permanecem fixos:
-desenvolvimento em 13/12, intervalo 00–01 UTC de 14/12 excluído e avaliação após
-01 UTC. Precipitação total vem de `rainnc`, sem somar `snownc`.
+A área meteorológica de 2018 permanece fixa. Os dois dias completos de dezembro
+são exclusivos de avaliação; a divisão antiga desenvolvimento/intervalo/avaliação
+fica somente no histórico. Precipitação total vem de `rainnc`, sem somar `snownc`.
 
 Manifests anteriores foram preservados; `resolve_path` traduz suas referências
 antigas. Consulte [instalação](docs/installation.md), [fontes](docs/data_sources.md),

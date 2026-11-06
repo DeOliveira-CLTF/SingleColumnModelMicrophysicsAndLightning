@@ -1,0 +1,91 @@
+most intense storms observed anywhere in the domain at
+any time during the simulation period. We thus compare
+the maximum gridded observed ﬂash rate to the maximum
+simulated graupel ﬂux within the simulation time frame to
+assess the functional form of f. The results of this com-
+parison and calibration effort are discussed in more detail
+in section 3a.
+The second model proxy ﬁeld considered is based on
+the gridded vertical integral of graupel, snow, and cloud
+ice. Although the cloud ice ﬁeld makes a relatively small
+contribution to the amplitude of the lightning ﬂash-rate
+threat, it serves to distribute the associated lightning
+threat over a wider area and, thus, may help account for
+extended anvil lightning events not readily captured by
+the graupel-ﬂux-based methods, which tend to be more
+conﬁned to active updraft regions. Thus, for our second
+threat F2, we have
+F2 5 h
+ð
+r(qg 1 qs 1 qi)dz
+
+
+,
+(2)
+where r is local air density; qg, qs, and qi are the simu-
+lated mixing ratios of graupel, snow, and ice, respec-
+tively; and h is a functional relationship that will be
+shown in section 3a to be a simple linear proportionality.
+3. Results
+Here, we present results of our calibration efforts,
+followed by data from the two lightning threat algo-
+rithms applied to two successful WRF simulation cases.
+One case is from 0000 to 0600 UTC 30 March 2002,
+when an isolated tornadic supercell erupted in north
+Alabama equatorward of a broken cold frontal squall
+line moving through Tennessee. The supercell storm
+produced the highest peak lightning ﬂash rate observed
+in any storm from this case, roughly 60 ﬂashes min21
+just before generating an F1 tornado near Albertville,
+Alabama. Expressed in terms of ﬂash origin density, the
+supercell produced a peak value of 12 ﬂashes (5 min)21
+per grid-box column.
+The second case is from 1200 to 2000 UTC 10 De-
+cember 2004, when several small storms produced
+2.5-cm hail after an intrusion of destabilizing, cold mid-
+tropospheric air advected across the Tennessee Valley
+region following a cold front. The ﬂash rates from the
+strongest of these hailstorms were less than 5 ﬂashes
+min21, and ﬂash densities never exceeded 3 ﬂashes
+(5 min)21 per grid-box column. These two cases are
+chosen to span the approximate range of severe con-
+vective storm event types found in the north Alabama
+region. Full LMA data were also available for both cases,
+as were the data needed to launch the WRF simulations.
+714
+W E A T H E R A N D
+
+a. Calibration of threat indices
+Before interpreting the results from our two selected
+case studies, it is necessary to compare the ﬁndings from
+our successful simulations in order to establish reason-
+able calibration curves for the two lightning threat in-
+dices described herein. For threat F1, which is based on
+WRF-simulated graupel ﬂuxes at 2158C, we searched
+each simulation and its corresponding LMA-derived
+lightning ﬂash-rate observations, and extracted the max-
+imum WRF graupel ﬂux and LMA ﬂash-rate density
+from each, plotting them as single points in Fig. 1. Ob-
+jective least squares ﬁts of the data using reduced major-
+axis regression techniques indicate that, for both F1 and
+F2, the 95% conﬁdence limits contain the origin. Based
+on this, we devised linear regressions with intercepts at
+the origin for both of our threats, and both regressions
+are found to be signiﬁcant at more than the 99% con-
+ﬁdence level. The slope thereby obtained for the F1 line
+is found to be 0.042. The raw cross correlation between
+the LMA ﬂash rate and the graupel ﬂux is 0.67, with
+rather tight clustering of the data near lower values
+of each variable, but with enhanced scatter at large
+values.
+Based on the ﬁndings from Fig. 1, we propose that the
+functional relationship in (1) can be well described by
+the following simple linear equation:
+FIG. 1. Calibration scatterplot comparing domain-wide maxima
+for the observed LMA ﬂash-rate density [y axis; units are ﬂashes
+(5 min)21 per grid-box column] and WRF-simulated proxy data
+for lightning threat method 1 (x axis; units are m s21), based on the
+WRF-derived graupel ﬂux at the 2158C level. A straight line passing
+through the origin and having a slope of 0.042 ﬁts the data well.
+F O R E C A S T I N G
+VOLUME 24

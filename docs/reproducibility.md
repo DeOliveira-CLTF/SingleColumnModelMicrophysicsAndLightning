@@ -9,9 +9,10 @@ alcance de isotermas por passo e metadados da hipótese em
 `results/argentina_20181213/vertical_diagnostics/`. Arquivos `.vertical.nc`
 permanecem nas execuções apontadas pelo manifest. Não são saídas dos 40 membros.
 
-`calibrate.py adaptations` é opcional, separado, apenas para controles.
-`calibrate.py fit` usa a média dos membros perturbados do ensemble principal;
-uma nova avaliação exige `--evaluation-output CAMINHO_NOVO`.
+O fluxo ativo é [independent_events.md](independent_events.md): ajuste somente
+no controle TH_C0 de 2019; aplicação sem novo ajuste a todos os resultados de
+2018. `calibrate.py fit` e `calibrate.py adaptations` recusam calibração de 2018.
+Os resultados antigos permanecem no histórico com seus hashes.
 
 `evaluate.py migration` verifica hashes das 246 saídas, 41 entradas e estado
 local de DEPHY. Manifests antigos conservam caminhos originais, resolvidos por

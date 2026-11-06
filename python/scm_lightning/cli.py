@@ -9,9 +9,12 @@ from scm_lightning.provenance import ROOT,write_json,sha256,audit
 
 def process_lightning(config, sample=False):
     from scm_lightning.observations import read_events,group_flashes,aggregate
-    folder=ROOT/'data/raw/entln'
-    paths=[folder/'2018-11-25.csv'] if sample else [folder/f'2018-12-{d}.csv' for d in [12,13,14,15]]
-    out=ROOT/'results/argentina_20181213'/('reader_sample' if sample else 'observations')
+    folder=ROOT/config.get('paths',{}).get('entln','data/raw/entln')
+    last=pd.Timestamp(config['end']).normalize()
+    if config.get('total_anchor_counts_causal_end',False):last-=pd.Timedelta(days=1)
+    days=pd.date_range(pd.Timestamp(config['start']).normalize()-pd.Timedelta(days=1),last,freq='D')
+    paths=[folder/'2018-11-25.csv'] if sample else [folder/f'{day:%Y-%m-%d}.csv' for day in days]
+    out=ROOT/config.get('paths',{}).get('results','results/argentina_20181213')/('reader_sample' if sample else 'observations')
     out.mkdir(parents=True,exist_ok=True)
     e,d=read_events(paths,config['flag_mapping'])
     f,a=group_flashes(e,config['grouping'],progress=lambda status:write_json(out/'progress.json',status))
@@ -26,15 +29,25 @@ def process_lightning(config, sample=False):
         'tie_break':'earliest eligible anchor; simultaneous anchors ordered by event_id',
         'duration_limit_ms':700,'radius_km':10,'inclusive_boundaries':True,
         'grouping_domain':'all events in cached files; adjacent days included; no final area selection',
-        'outer_file_boundary_policy':'first/last 1.4s outside target case; target has full adjacent-day grouping margin',
+        'outer_file_boundary_policy':('one-day preceding margin; first-event total-flash counts are causal; future events cannot change earlier anchors; end multiplicity/type may be censored'
+            if config.get('total_anchor_counts_causal_end',False) else 'first/last 1.4s outside target case; target has full adjacent-day grouping margin'),
         'coverage_status':'unknown until explicit coverage intervals supplied',
         'restricted_data':True}
     write_json(out/'manifest.json',manifest)
     if not sample and config['area'] is not None and config['observation_coverage'] is not None:
         if config['area_selection']['status'] != 'fixed_before_lightning_evaluation':
             raise ValueError('Area must be selected independently before evaluation')
-        counts=aggregate(f,config['start'],config['end'],config['area'],config['observation_coverage'],config['interval_minutes'])
+        coverage=config['observation_coverage']
+        if isinstance(coverage,str) and coverage=='full_case':
+            coverage=[True]*len(pd.date_range(config['start'],config['end'],freq=f"{config['interval_minutes']}min",inclusive='left'))
+        counts=aggregate(f,config['start'],config['end'],config['area'],coverage,config['interval_minutes'])
         counts.to_csv(out/'counts_15min.csv',index=False)
+        five=aggregate(f,config['start'],config['end'],config['area'],
+                       [bool(v) for v in coverage for _ in range(3)],5)
+        five.to_csv(out/'counts_5min.csv',index=False)
+        manifest.update(area_wsen=config['area'],coverage_status='user_confirmed' if all(coverage) else 'explicit_mask',
+                        coverage_confirmation=config.get('coverage_confirmation'),counts_sha256=sha256(out/'counts_15min.csv'))
+        write_json(out/'manifest.json',manifest)
     print(json.dumps({'events':len(e),'flashes':len(f),'products':str(out)}))
 
 def query_soundings(config):
@@ -87,10 +100,13 @@ def main():
     elif args.command=='soundings': query_soundings(config)
     elif args.command in ['prepare-era5','download-era5']:
         from scm_lightning.download import acquire_era5,acquire_era5_parallel
-        if args.command=='download-era5':acquire_era5_parallel(config,ROOT/'data/raw/era5')
-        else:acquire_era5(config,ROOT/'data/raw/era5')
+        cache=ROOT/config.get('paths',{}).get('era5','data/raw/era5')
+        if args.command=='download-era5':acquire_era5_parallel(config,cache)
+        else:acquire_era5(config,cache)
     elif args.command in ['lightning','sample-lightning']: process_lightning(config,args.command=='sample-lightning')
     elif args.command=='evaluate':
+        if config.get('role')=='evaluation_only':
+            raise ValueError('2018 is evaluation-only; use the independent frozen-2019 evaluation entry point')
         from scm_lightning.evaluation import evaluate,ensemble_statistics
         if config['area'] is None or config['area_selection']['status']!='fixed_before_lightning_evaluation':
             raise ValueError('Area must be fixed from meteorology before evaluation')
@@ -141,6 +157,11 @@ def main():
             'ensemble_stability':json.loads(stability.read_text()).get('all_available_stable') if stability.exists() else None,
             'heldout_evaluation_available':(ROOT/'results/argentina_20181213/evaluation/manifest.json').exists(),
             'pending_dependencies_file':'results/argentina_20181213/pending_dependencies.json'}
+        if config.get('role')=='evaluation_only':
+            status.update(role='evaluation_only',independent_calibration_event='argentina_20191028',
+                independent_coefficients_available=(ROOT/config['independent_calibration']/'frozen.json').exists(),
+                independent_evaluation_available=(ROOT/'results/argentina_20181213/article/independent_manifest.json').exists(),
+                pending_dependencies_file='results/argentina_20181213/article/pending_dependencies.json')
         write_json(ROOT/'results/argentina_20181213/status.json',status);print(json.dumps(status,indent=2))
 
 if __name__=='__main__': main()

@@ -1,0 +1,136 @@
+relationship [Deierling et al., 2008]. The observed updraft
+volume‐flash rate relationship for the two storms has a much
+larger intercept than that determined by Deierling and
+Petersen [2008] and has a slope smaller, but somewhat
+similar, to the equation. The slope (Table 1) for the pre-
+cipitation ice mass‐flash rate and the ice water path‐flash
+rate relationships is 4.4 times lower in the two simulated
+storms than in the equations determined from previous
+studies, respectively. The power law equation for the max-
+imum updraft velocity has an exponent two times higher
+than in the previous study of PR92, while the exponent for
+the cloud‐top height power law equation is two times lower
+than the fifth exponent in the literature [Williams, 1985].
+The correlation coefficient (Table 1) is higher than 0.73 for
+the precipitation and nonprecipitation ice mass flux product
+(0.73), the cloud top height (0.74), and precipitation ice
+mass (0.76) and has the highest value for the maximum
+vertical velocity (0.80). Hence, on the basis of these results,
+it is expected that the PR92 and the flux product relation-
+ships would provide reasonable estimates of flash rate, while
+IWP would not.
+7.
+Regression of the Observed and Modeled
+Storm Parameters
+[35] Because the model does not exactly reproduce the
+observations of the storm, an adjustment factor is applied to
+each storm parameter. If an adjustment factor were not used,
+differences in the dynamics and microphysics could bias the
+prediction of the lightning flash rate. Applying an adjust-
+ment factor is appropriate because the goal of this study is
+only to assess the ability of the storm parameters to predict
+lightning flash rates in cloud‐resolving models and does not
+provide equations for forecast models to predict flash rate.
+[36] The adjustment factor is obtained by first matching
+times in the model results with observation times. Then a
+regression is computed between the modeled and observed
+storm parameters for both the STERAO‐A and northern
+Alabama cases. The regression of each of the storm para-
+meters, precipitating ice mass, ice water path, flux product,
+updraft volume, maximum updraft speed, and cloud top
+height is shown in Figure 4. While there is much scatter in
+the plots, there appears to be some correlation (Table 2) for
+most parameters, with the best correlation occurring for the
+cloud top height (r = 0.81).
+[37] We further investigated how sensitive the modeled
+storm parameters are to different microphysical para-
+meterizations and different grid spacing. Several simulations
+were conducted for the 10 July STERAO‐A storm with
+different microphysical parameterizations. Of these, three
+Table 1. Correlation Coefficient and Equation of the Regr
+and the Observed Lightning Flash Rate for Both the STER
+Correlation Coefficient
+Precipitation ice mass
+0.76
+Ice water path
+0.58
+Ice mass flux product
+0.73
+Updraft volume
+0.38
+Maximum vertical velocity
+0.80
+Cloud top height
+0.74
+aThe standard deviation between the data values and the regress
+9
+f
+
+parameterizations, the Lin, 1983 scheme already presented,
+N0g = 4 × 104 and rg = 400 kg m3 (hereinafter referred to as
+N4r4), and the Thompson [2004] scheme, are compared.
+These three microphysical parameterizations all produced a
+storm similar to what was observed, especially in that the
+simulated storm transitioned from a multicellular storm to a
+supercell. To give an idea of how well the storm parameters
+are predicted at other model resolutions, we performed
+simulations of the 10 July STERAO‐A storm at both a
+coarser and a finer resolution (2 km and 500 m, respectively).
+The variations (Table 3) in the storm parameters among the
+model resolution simulations were ∼25% or less, with the
+smallest variation occurring for the cloud top height (6%)
+and the greatest variation occurring for the ice mass flux
+product (25%). For the three microphysics parameterization
+simulations, the variations were somewhat greater, with the
+least variation occurring for the cloud top height (6%) and
+the greatest variation occurring for the flux product (59%).
+Except for the flux product, these variations are less than
+35% of the average value of the parameter.
+8.
+Simulated Flash Rate
+[38] To determine the simulated flash rate, the modeled
+storm parameter is adjusted according to the regression
+between the observations and modeled storm parameters
+using the regression equations listed in Table 2. These
+adjusted storm parameters are then inserted into the equa-
+tions described in section 2 to calculate the simulated flash
+rate.
+8.1.
+The 10 July STERAO‐A Storm
+[39] The observed lightning flash rate (Figure 5) for the
+10 July 1996 STERAO‐A storm generally has lower
+flash rates during the multicell and transition stages of
+10–30 fl. min−1 compared to the supercell stage, where the
+flash rate was 40–50 fl. min−1. This trend is repeated by the
+simulated flash rate predicted by the precipitation ice mass.
+However, the magnitude of the flash rate predicted by the
+precipitation ice mass is higher than what was observed
+(50–60 fl. min−1 during multicell and transition stages and
+64–77 fl. min−1 during supercell stage). The flash rate
+predicted by the ice mass flux product replicates the trend
+of the observations fairly well. The magnitude of the flash
+rate predicted by the flux product is slightly lower com-
+pared to observations for the multicell and transition stages
+(20–27 fl. min−1), but does not increase as much (only up to
+30 fl. min−1) during the supercell stage. The flash rate pre-
+dicted by the ice water path (∼40 fl. min−1 during the
+multicell stage) is initially greater than observations. During
+ression Performed Between the Observed Storm Parameters
+RAO‐A and Northern Alabama Cases
+Regression Equation
+Standard Deviationa
+f = 7.64 × 10−9 pm + 3.05
+1.05 × 10−9
+f = 7.67 IWP + 4.29
+1.71
+f = 1.29 × 10−14 (fp × fnp) + 4.54
+1.94 × 10−15
+f = 2.87 × 10−11 w5 + 4.76
+1.10 × 10−11
+f = 1.30 × 10−2 wmax
+2.2
+0.27
+f = 1.71 × 10−9 H8.7
+1.28
+sion line.
+f 17

@@ -1,0 +1,101 @@
+which is somewhat smaller but similar to the observations
+(30–47 fl. min−1).
+[40] When comparing the predicted flash rate from the
+2 km and 500 m horizontal resolution simulations to the
+1 km resolution simulation, we get generally the same result
+(Figure 6). That is, the flash rate predicted by the precipitation
+ice mass ranges from 35 to 75 fl. min−1 with a higher flash
+rate during the supercell stage. The flash rate predicted by the
+ice mass flux product remains between 20 and 30 fl. min−1.
+Flash rates predicted by ice water path, maximum vertical
+velocity, cloud top height, and updraft volume are all similar
+to the 1 km results. Thus, for simulations with different
+horizontal grid resolution of a severe, shear‐driven storm,
+these empirical relationships are fairly robust.
+[41] In comparing the predicted flash rate from the different
+microphysics parameterizations (Lin, 1983, Thompson, 2004,
+and N4r4) simulations, we find only a little variability
+(Figure 6). The flash rates predicted by the precipitation ice
+mass show some variability, depending on the scheme, with
+N4r4 microphysics generally producing flash rates less than
+the other two schemes. The maximum flash rate estimated
+from the precipitation ice mass using the N4r4 microphysics
+scheme only reaches 65 fl. min−1, while it exceeds 75 fl.
+min−1 when the Lin, 1983 and Thompson, 2004 schemes are
+used. The flash rates inferred by the cloud top height, the
+updraft volume, and the flux product are similar in magnitude
+in all three microphysics parameterizations. The flash rate
+predicted by the maximum updraft speed (PR92) is similar in
+magnitude to the Lin, 1983 scheme for both the Thompson,
+2004 and N4r4 schemes. However, the Thompson, 2004
+simulation has a trend similar to observations in that the
+flash rate increases during the supercell stage. When com-
+paring the flash rate predicted by the BB08 equation using
+the Thompson, 2004 microphysics parameterization, there is
+a distinct increase in flash rate during the supercell stage
+(from 5 to 30 fl. min−1). The flash rates are still lower than
+observed (30 fl. min−1 versus 47 fl. min−1), but tuning the
+0.19 factor would likely bring the predicted flash rate into
+agreement with observations. In conclusion, the chosen
+microphysics scheme does not seem to produce significant
+differences in predicted lightning flash rate as long as the
+storm is reasonably represented.
+8.2.
+The 13 July Alabama Storm
+[42] The observed lightning flash rate for the 13 July
+2005 storm (Figure 7) shows only a few flashes per minute
+(<5 fl. min−1), which were typical values for the observed
+Table 3. Average and Standard Deviation of Storm Parameters for
+the 10 July STERAO‐A Storm Among the 500 m, 1 km, and 2 km
+Resolution Simulations, and Among the Lin [1983] Thompson
+[2004] and N4r4 Microphysics Simulations
+Resolution
+Simulations
+Microphysics
+Simulations
+Precipitation ice mass
+2.42 ± 0.34 × 109
+3.02 ± 0.97 × 109
+Ice water path
+1.58 ± 0.12
+1.60 ± 0.34
+Ice mass flux product
+3.54 ± 0.87 × 1016
+2.49 ± 1.46 × 1016
+Updraft volume
+4.37 ± 0.74 × 1011
+4.22 ± 1.31 × 1011
+Maximum vertical velocity
+41.7 ± 7.0
+40.2 ± 5.9
+Cloud top height
+13.53 ± 0.76
+13.24 ± 0.83
+11
+
+storm cells. For the comparison of the observed and simu-
+lated flash rates, we calculated the flash rate for the east
+storm cell in the innermost domain of the model simulation
+(Figure 2d) because it was most similar in structure and
+morphology to the observed storm cells. Additionally, flash
+rates for two other cells are computed and discussed in
+comparison to the east storm cell to evaluate the represen-
+tativeness of the eastern storm cell. Results show that
+inferred flash rates from predicted precipitation ice mass and
+maximum updraft speed agree best with the magnitude of
+the observed flash rates. The flash rate predicted by the
+Figure 5.
+Temporal evolution of the (a) observed and
+(b) modeled flash rates (fl. min−1). In Figure 5b, the flash
+rate is derived from the precipitation ice mass (solid shaded
+line with dot), the ice water path (solid black line with aster-
+isk), the precipitation and nonprecipitation ice mass flux
+product (solid shaded line with circle), the updraft volume
+(solid black line with down triangle), the PR92 equation
+(solid black line with cross), the BB08 equation (dashed
+black line with cross), and the cloud top height (solid shaded
+line with square), all computed from WRF outputs. The
+limits of the different stages of the storm (vertical dashed
+lines) are indicated for the observed and the simulated
+storm.
+f 17

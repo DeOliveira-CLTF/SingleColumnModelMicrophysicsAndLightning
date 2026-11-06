@@ -1,0 +1,29 @@
+Figure 14 portrays the 8-h time series of the areal
+coverage fractions of the observed and predicted light-
+ning threats for this case. Note that the vertical axis in
+Fig. 14 has a much smaller range than in Fig. 8, because
+of the much smaller and more localized lightning threat
+coverage area in the 10 December 2004 event. Figure 14
+shows clearly that the weak, early storms seen in the
+observations have negligible areal coverage in the
+domain and that the WRF model develops more
+widespread storminess approximately 2 h earlier than
+FIG. 12. As in Fig. 6, but for the
+FIG. 13. As in Fig. 7, but for the 12
+722
+W E A T H E R A N D
+
+indicated by the observations. The limited areal cover-
+age of the lightning threat in this event also poses a
+challenge to our prognoses of threat coverage, with
+threat F2 exhibiting a fractional peak of 0.023, some 26%
+smaller than the observed peak of 0.031. As with the
+much more vigorous 30 March 2002 case, threat F1 pre-
+dicts coverage that is even smaller than F2. As before,
+however, both our prognostic threat ﬁelds exhibit much
+more restricted and speciﬁc coverage than more tradi-
+tional convection indicators such as positive CAPE,
+e 1900 UTC 10 Dec 2004 case.
+200–2000 UTC 10 Dec 2004 case.
+F O R E C A S T I N G
+VOLUME 24

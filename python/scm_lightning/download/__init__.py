@@ -69,38 +69,57 @@ def local_inputs(config, root):
     root = Path(root)
     records = []
     # Adjacent days protect midnight and spatial/time grouping boundaries.
-    for day in ['2018-11-25','2018-12-12','2018-12-13','2018-12-14','2018-12-15']:
+    event=config.get('event_id','')
+    if event=='argentina_20191028':
+        dates=pd.date_range(pd.Timestamp(config['start']).normalize()-pd.Timedelta(days=1),
+            pd.Timestamp(config['end']).normalize()-pd.Timedelta(days=1),freq='D')
+        days=[d.strftime('%Y-%m-%d') for d in dates]
+        entln_cache=root/'raw/entln'/event
+    else:
+        days=['2018-11-25','2018-12-12','2018-12-13','2018-12-14','2018-12-15']
+        entln_cache=root/'raw/entln'
+    for day in days:
         src = Path(config['entln_source'])/(day+'.csv')
         try:
-            records.append(verified_copy(src, root/'raw/entln'/src.name))
+            records.append(verified_copy(src, entln_cache/src.name))
         except OSError as exc:
             records.append({'source':str(src),'status':'unavailable','reason':str(exc)})
     qualities = []
-    for src in sorted(Path(config['sounding_source']).glob('*.csv')):
+    profiles=sorted(Path(config['sounding_source']).glob('*.csv')) if config.get('sounding_source') else []
+    for src in profiles:
         records.append(verified_copy(src, root/'raw/radiosondes'/src.name))
         f,q = sounding_quality(root/'raw/radiosondes'/src.name)
         target = root/'processed/profiles'/src.name
         target.parent.mkdir(parents=True, exist_ok=True)
         f.to_csv(target,index=False)
         qualities.append(q)
-    write_json(root/'intermediate/input_inventory.json',records)
-    write_json(root/'processed/profiles/quality.json',qualities)
+    if event=='argentina_20191028':
+        write_json(root/'intermediate'/event/'input_inventory.json',records)
+    else:
+        write_json(root/'intermediate/input_inventory.json',records)
+        write_json(root/'processed/profiles/quality.json',qualities)
     return records,qualities
 
 def era5_request(config, product='reanalysis', single=False):
     # Domain includes a gradient halo; not a final observation mask.
-    return {'product_type':[product], 'year':['2018'],'month':['12'],
-        'day':['12','13','14','15'],'time':[f'{h:02}:00' for h in range(24)],
-        'area':[-27,-68,-40,-50],'data_format':'netcdf','download_format':'unarchived',
+    acquisition = config.get('acquisition', {})
+    dates = pd.date_range(acquisition.get('start', '2018-12-12'),
+                          acquisition.get('end', '2018-12-15'), freq='D')
+    if dates.to_period('M').nunique() != 1:
+        raise ValueError('Daily acquisition requires one calendar month per request configuration')
+    return {'product_type':[product], 'year':[f'{dates[0].year:04}'],'month':[f'{dates[0].month:02}'],
+        'day':[f'{d.day:02}' for d in dates],'time':[f'{h:02}:00' for h in range(24)],
+        'area':acquisition.get('area_nwse', [-27,-68,-40,-50]),'data_format':'netcdf','download_format':'unarchived',
         **({'variable':['surface_pressure','skin_temperature','geopotential','2m_temperature','2m_dewpoint_temperature','10m_u_component_of_wind','10m_v_component_of_wind',
-            'mean_surface_sensible_heat_flux','mean_surface_latent_heat_flux']} if single else
+            'mean_surface_sensible_heat_flux','mean_surface_latent_heat_flux'] +
+            (['total_precipitation','convective_precipitation'] if acquisition.get('meteorological_validation', False) else [])} if single else
            {'variable':['temperature','specific_humidity','u_component_of_wind','v_component_of_wind','vertical_velocity','geopotential'],
             'pressure_level':['1000','975','950','925','900','875','850','825','800','775','750','700','650','600','550','500','450','400','350','300','250','225','200','175','150','125','100','70','50']})}
 
 def acquire_era5(config, cache, execute=False, selection=None):
     records = []
     inventory=Path(cache)/('inventory.json' if selection is None else f'inventory_{selection[0]}_{"sl" if selection[1] else "pl"}.json')
-    for product in ['reanalysis','ensemble_members']:
+    for product in config.get('acquisition', {}).get('products', ['reanalysis','ensemble_members']):
         for single in [False,True]:
             if selection is not None and (product,single)!=selection:
                 continue
@@ -111,7 +130,8 @@ def acquire_era5(config, cache, execute=False, selection=None):
             # Daily chunks stay below CDS cost limits; failure of one chunk does
             # not suppress independent levels/products/dates.
             for day in request['day']:
-                target = Path(cache)/f'{product}_{"sl" if single else "pl"}_201812{day}.nc'
+                stamp = request['year'][0]+request['month'][0]+day
+                target = Path(cache)/f'{product}_{"sl" if single else "pl"}_{stamp}.nc'
                 daily = dict(request,day=[day])
                 write_json(target.with_suffix('.request.json'),{'dataset':dataset,'request':daily})
                 if execute:
@@ -161,7 +181,7 @@ def acquire_era5(config, cache, execute=False, selection=None):
 def acquire_era5_parallel(config,cache):
     """At most three independent CDS streams, each with its own cache manifest."""
     from concurrent.futures import ThreadPoolExecutor
-    selections=[(product,single) for product in ['reanalysis','ensemble_members'] for single in [False,True]]
+    selections=[(product,single) for product in config.get('acquisition', {}).get('products', ['reanalysis','ensemble_members']) for single in [False,True]]
     records=[]
     with ThreadPoolExecutor(max_workers=3) as pool:
         futures=[pool.submit(acquire_era5,config,cache,True,selection) for selection in selections]

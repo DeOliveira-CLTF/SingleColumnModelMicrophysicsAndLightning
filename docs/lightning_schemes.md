@@ -19,6 +19,9 @@ parcela pseudoadiabática líquida na célula simulada inferior. CAPE no início
 da janela multiplica a precipitação total dos 15 min seguintes. Hipótese e
 janela diferem de Romps: identificador `CAPExP_SBCAPE15_1D_adaptado`.
 
-Números PR92/McCaul são escores antes da calibração SCM; não se atribui taxa
-absoluta pelo coeficiente publicado. Calibração exploratória de controles fica
-separada da calibração principal baseada na média dos 40 membros.
+Números PR92/McCaul são escores antes da adaptação de suporte do SCM. O fluxo
+principal independente usa somente CAPE×P, I×G e McCaul F3 LS, com três
+coeficientes fixos do controle TH_C0 de outubro de 2019. Não há ajuste com os
+40 membros nem com as observações de dezembro de 2018. Detalhes de unidades,
+seleção most_cape de LFC/EL, conversões e limitações dos métodos de ajuste:
+[independent_events.md](independent_events.md).

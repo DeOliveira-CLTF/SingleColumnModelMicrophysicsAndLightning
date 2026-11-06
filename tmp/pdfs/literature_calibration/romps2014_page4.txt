@@ -1,0 +1,213 @@
+mean CAPE, precipitation, and lightning. A spa-
+tially resolved evaluation of Eq. 1 is not attempted
+here because of practical difficulties stemming
+from the sparsity of CAPE measurements and
+the fact that convection releases CAPE. The latter
+fact precludes using the product of colocated
+precipitation and CAPE; instead, a CAPE value
+nearby, but upwind, of a storm should be used.
+With the sparse network of noisy CAPE measure-
+ments, this is a challenging task that is left to
+future work.
+Figure 2 plots two time series for the entire
+year of 2011: the product of CONUS mean CAPE
+and CONUS mean precipitation rate in blue
+(axes on the left), and CONUS mean CG lightning
+flash rate in red (axes on the right). The proxy
+varies in synchrony with the flash rate on a range
+of time scales, from the diurnal [high at 0 Green-
+wich mean time (GMT), low at 12 GMT] to the
+seasonal (high in spring and summer, low in fall
+and winter) and time scales in between (high
+during periods of sustained storminess, low in
+the lulls between). The proxy successfully captures
+the varying magnitude of the flash rate, as well.
+In the fall and winter, both the proxy and the
+flash rate have peak values about one order of
+magnitude smaller than their peak values in the
+spring and summer.
+The lower right pan
+scatter plot of the CAPE
+series. They are related t
+fashion, and the proxy e
+iance in the lightning
+compared with other ca
+maximum height of con
+buoyancy (LNB)] to the
+which explain only 29, 3
+iance, respectively. The
+explains a substantial a
+variance within a season
+ruary, March; 65% for A
+July, August, September
+November, December.
+Using the fact that
+equals 1 kg m–2 of liquid
+the lower right panel is
+h/E = 1.3 × 10−11 J−1. A
+energy released by a m
+flash is about 1 GJ, alth
+from a few tenths of a
+Using E = 1 GJ, we obt
+0.01. In other words, 1%
+be theoretically extract
+times the processed wate
+electrical potential energ
+by CG lightning.
+0.0
+0.1
+0.2
+0.3
+0.4
+0.000
+0.002
+0.004
+Precip  (mm hr−1)
+Lightning  (km−2 hr−1)
+R2 = 0.29
+0
+400
+800
+1200
+0.000
+0.002
+0.004
+CAPE  (J kg−1)
+Lightning  (km−2 hr−1)
+R2 = 0.52
+0
+5000
+0.000
+0.002
+0.004
+LN
+Lightning  (km−2 hr−1)
+R2 = 0.
+0
+100
+0.000
+0.002
+0.004
+CAPE × Preci
+Lightning  (km−2 hr−1)
+R2 = 0.
+Fig. 3. Lightning versus various proposed proxies. For the year 2011, sca
+the time series of 0 and 12 GMT CONUS mean lightning against (top left) p
+LNB to the fifth power, (bottom left) CAPE, and (bottom right) CAPE time
+
+nel of Fig. 3 shows the
+E × P and flash-rate time
+to each other in a linear
+explains 77% of the var-
+flash rate. This can be
+andidates, such as P, the
+nvection [level of neutral
+fifth power, and CAPE,
+39, and 52% of the var-
+e CAPE × P proxy also
+amount of the lightning
+n: 69% for January, Feb-
+April, May, June; 75% for
+r; and 40% for October,
+1 mm of precipitation
+water, the best-fit line in
+described by Eq. 1 with
+A best estimate for the
+midlatitude CG lightning
+hough estimates range
+a GJ to several GJ (1).
+ain an efficiency of h =
+% of the CAPE that could
+ted by water (i.e., CAPE
+er mass) is converted to
+gy that is then discharged
+Given the success of CAPE × P in replicating
+the time series of observed lightning flashes, it is
+a natural candidate for assessing future changes
+in flash rates due to global warming. Previous
+studies of GCM simulations have found that glob-
+al warming causes CAPE to increase over much of
+Earth (29, 30) and over the CONUS in particular
+(31–33). Similar results have been found in much
+simpler cloud-resolving simulations, in which
+CAPE increases with sea surface temperature
+(34–36). Recent work has provided insight into
+why this increase in CAPE occurs (36). In addi-
+tion, the global precipitation rate is expected to
+increase with global temperature (37), although
+the predicted changes in annual mean precipita-
+tion are of variable sign across the United States.
+To assess how these future changes will affect
+lightning, we analyzed output from 11 GCMs in
+the Coupled Model Intercomparison Project Phase
+5 [CMIP5 (38)]; see the supplementary materials
+for more details. Table 1 lists the CONUS mean
+fractional changes in CAPE and precipitation for
+the GCMs in our ensemble. To account for dif-
+ferences in climate sensitivity between the mod-
+els, we report these results as percent changes
+per °C of global warming. All GCMs in our en-
+semble predict that CONUS mean CAPE will in-
+crease over the 21st century, with a mean increase
+of 11.2% per °C of global warming. There is a
+high level of agreement between the models on
+the spatial pattern and magnitude of this CAPE
+increase (fig. S1). On the other hand, there is
+significantly more variation in the GCMs’ predic-
+tions for future precipitation; the mean response
+is a 1.5% increase per °C of global warming, but
+some models predict decreased precipitation over
+the CONUS.
+The percent change in annual mean lightning
+flash rate can be estimated as the mean percent
+change in the product of CAPE and precipitation
+time series between the years 1996–2005 and
+2079–2088. Using this method, all GCMs in our
+ensemble predict annual mean lightning-strike
+frequency in the United States to increase, with a
+mean increase of 12% per °C (column 5 of Table
+1). The standard deviation of the ensemble’s pre-
+dictions is 5% per °C; therefore, we can conclude
+that the rate of CG lightning strikes over the
+CONUS is likely to increase as a function of
+global mean temperature at a rate of 12 T 5% per
+°C. Overall, the GCMs predict a ∼50% increase in
+the rate of lightning strikes in the CONUS over
+the 21st century.
+REFERENCES AND NOTES
+1.
+U. Schumann, H. Huntrieser, Atmos. Chem. Phys. 7, 3823–3907
+(2007).
+2.
+H. Levy II, W. J. Moxim, P. S. Kasibhatla, J. Geophys. Res. 101,
+22911 (1996).
+3.
+V. Grewe, Sci. Total Environ. 374, 167–181 (2007).
+4.
+W. J. Bond, J. E. Keeley, Trends Ecol. Evol. 20, 387–394
+(2005).
+5.
+J. G. Pausas, J. E. Keeley, Bioscience 59, 593–601
+(2009).
+6.
+C. Price, D. Rind, J. Geophys. Res. 99, 10823 (1994).
+7.
+N. Michalon, A. Nassif, T. Saouri, J. F. Royer, C. A. Pontikis,
+Geophys. Res. Lett. 26, 3097–3100 (1999).
+8.
+E. R. Williams, Science 256, 1184–1187 (1992).
+9.
+C. Price, D. Rind, J. Geophys. Res. 97, 9919–9933
+(1992).
+0
+150000
+B5  (km5)
+39
+200
+300
+400
+ip  (J kg−1 mm hr−1)
+77
+atter plots are shown of
+precipitation, (top right)
+es precipitation.

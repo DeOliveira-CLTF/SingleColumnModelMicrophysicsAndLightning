@@ -1,0 +1,89 @@
+{
+  "case": "ARGENTINA_20191028_29",
+  "event_id": "argentina_20191028",
+  "role": "calibration_only",
+  "start": "2019-10-28T00:00:00Z",
+  "end": "2019-10-30T00:00:00Z",
+  "area": [
+    -56.75,
+    -32.25,
+    -55.75,
+    -31.25
+  ],
+  "area_selection": {
+    "status": "fixed_before_lightning_evaluation",
+    "criterion": "regional ERA5 positive ascent, precipitation and hourly storm-track review; no lightning input",
+    "decision_sha256": "2f8057601a87ae4d5e103aab2e6542fc418266526a46d6a219e007976aa7f87f"
+  },
+  "meteorological_selection": {
+    "box_width_degrees": 1.0,
+    "search_region_wsen": [
+      -68,
+      -40,
+      -50,
+      -27
+    ],
+    "required_fields": [
+      "omega_500_700hPa",
+      "total_precipitation"
+    ],
+    "selection_period": "full_case"
+  },
+  "acquisition": {
+    "start": "2019-10-27",
+    "end": "2019-10-31",
+    "area_nwse": [
+      -25,
+      -70,
+      -45,
+      -45
+    ],
+    "products": [
+      "reanalysis"
+    ],
+    "meteorological_validation": true
+  },
+  "paths": {
+    "era5": "data/raw/era5/argentina_20191028",
+    "forcing": "data/processed/forcing/argentina_20191028",
+    "entln": "data/raw/entln/argentina_20191028",
+    "results": "results/argentina_20191028"
+  },
+  "reference_configuration": "TH_C0",
+  "interval_minutes": 15,
+  "grouping": "chronis2015_first_v1",
+  "total_anchor_counts_causal_end": true,
+  "flag_mapping": {
+    "0": "CG",
+    "1": "IC"
+  },
+  "flag_mapping_confirmed": true,
+  "entln_source": "I:/Meu Drive/FADAS/LifeCycleOfTLE_producingStorms_MatLab/raw_data/lightning_brasilDat",
+  "observation_coverage": "full_case",
+  "coverage_confirmation": "User confirmed valid continuous coverage for 28-29 October 2019 on 2026-11-06",
+  "dephy_expected_commit": "661b0328acd253f345715534986e65724c8919db",
+  "calibration": {
+    "configuration": "TH_C0",
+    "member": 0,
+    "methods": [
+      "CAPExP",
+      "IxG",
+      "McCaulF3_LS_1D_adapted"
+    ],
+    "target": "total_IC_CG_flash_density_km2_per_15min",
+    "CAPExP": "proportional_OLS_origin_Romps_form_SCM_recalibration",
+    "IxG": "proportional_OLS_origin_new_SCM_mapping_not_published_coefficient",
+    "McCaulF3_LS_1D_adapted": "peak_density_ratio_additional_SCM_mapping",
+    "literature_limit": "one SCM event cannot reproduce McCaul multistorm domain-maximum component regressions",
+    "published_McCaul_coefficients": {
+      "k1": 0.042,
+      "k2": 0.2,
+      "r1": 0.95,
+      "r2": 0.05
+    },
+    "published_McCaul_grid_spacing_degrees": 0.009,
+    "published_McCaul_reference_latitude_degrees": 34.7,
+    "published_McCaul_area_convention": "spherical 0.009 degree analysis cell at Huntsville reference latitude; nominal support, not exact reconstruction of every published grid cell",
+    "published_McCaul_interval_seconds": 300
+  }
+}

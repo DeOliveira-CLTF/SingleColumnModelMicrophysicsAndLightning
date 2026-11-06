@@ -66,14 +66,14 @@ def at_height(values, z, height):
                        if np.isfinite(h) else np.nan for row, h in zip(values, height)])
 
 
-def surface_cape(p, temperature, rv):
+def surface_cape(p, temperature, rv, layer_selection='bottom_top'):
     """MetPy surface parcel, liquid pseudoadiabatic CAPE (explicit adaptation).
 
     Parcel starts in the lowest simulated cell, not an invented surface level.
     qv is dry-air mixing ratio, so vapor pressure is p*r/(epsilon+r).
     This diagnostic is NOT asserted to reproduce Romps' isentropic CAPE.
     """
-    from metpy.calc import dewpoint, surface_based_cape_cin
+    from metpy.calc import dewpoint, surface_based_cape_cin, parcel_profile_with_lcl, cape_cin
     from metpy.units import units
     p, temperature, rv = map(np.asarray, (p, temperature, rv))
     if not np.isfinite([p, temperature, rv]).all() or np.any(p <= 0) or np.any(np.diff(p) >= 0) or np.any(rv < 0):
@@ -88,8 +88,16 @@ def surface_cape(p, temperature, rv):
     with warnings.catch_warnings():
         warnings.simplefilter('ignore', UserWarning)
         td = dewpoint(vapor_pressure[valid]*units.Pa)
-        cape, _ = surface_based_cape_cin(p[valid]*units.Pa, temperature[valid]*units.K, td)
-    return float(cape.to('J/kg').magnitude)
+        if layer_selection=='bottom_top':
+            cape, _ = surface_based_cape_cin(p[valid]*units.Pa, temperature[valid]*units.K, td)
+        elif layer_selection=='most_cape':
+            pressure,environment,dewpoints,parcel=parcel_profile_with_lcl(p[valid]*units.Pa,temperature[valid]*units.K,td)
+            cape, _ = cape_cin(pressure,environment,dewpoints,parcel,which_lfc='most_cape',which_el='most_cape')
+        else:
+            raise ValueError('Unknown a priori CAPE layer-selection policy')
+    value=float(cape.to('J/kg').magnitude)
+    # Never turn a negative signed integral into invented positive energy.
+    return value if layer_selection=='bottom_top' or value>=0 else np.nan
 
 
 def lpi_1d(temperature, dz, qc, qr, qi, qs, qg, w):
@@ -245,6 +253,8 @@ def main():
 def evaluate_main():
     """Optional, separately labeled calibration of the six exploratory controls."""
     from scm_lightning.evaluation import fit_scale
+    if load_config(ROOT/'configs/cases/argentina_20181213.yaml').get('role')=='evaluation_only':
+        raise ValueError('No December 2018 calibration, including exploratory versions; retain raw LS/EDMF diagnostics')
     parser=argparse.ArgumentParser(description='Exploratory controls only; does not modify the main ensemble calibration')
     parser.add_argument('--output', default='results/argentina_20181213/vertical_diagnostics/control_evaluation')
     args=parser.parse_args()

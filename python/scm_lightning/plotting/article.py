@@ -97,9 +97,8 @@ def environment(c):
     from scm_lightning.observations import haversine_km
     distance=float(haversine_km(lat,lon,(south+north)/2,(west+east)/2))
     handles,labels=axes[1].get_legend_handles_labels()
-    fig.legend(handles,labels,loc='lower center',bbox_to_anchor=(.63,.065),ncol=1,frameon=False,fontsize=8)
-    fig.text(.5,.015,f'SACO is {distance:.0f} km from the SCM box center: spatially distinct sounding reference; partial profile is not extrapolated.',ha='center',fontsize=8)
-    fig.tight_layout(rect=[0,.21,1,1]);save(fig,OUT/'figures/Figure_01_case_environment')
+    axes[1].legend(handles,labels,loc='upper right',frameon=False,fontsize=7)
+    fig.tight_layout();save(fig,OUT/'figures/Figure_01_case_environment')
     write_json(OUT/'data/Figure_01_metadata.json',{'SACO_to_box_center_km':distance,'station':station,'profile_labels':labels,
         'ERA5_source_sha256':sha256(ROOT/'data/raw/era5/reanalysis_pl_20181214.nc'),
         'omega_sign':'native Pa/s; negative=ascent','full_data_extent':[float(w.longitude.min()),float(w.longitude.max()),float(w.latitude.min()),float(w.latitude.max())],
@@ -205,9 +204,8 @@ def microphysical_response(c):
         frames.append(pd.DataFrame({'time':clock,'configuration':configuration,'graupel_kg_m2':f.qg,'cloud_ice_snow_kg_m2':f.qi+f.qs,'precipitation_mm':rain}))
     for ax,title,unit in zip(axes,['(a) Graupel path','(b) Cloud ice + snow path','(c) Accumulated precipitation'],[r'kg m$^{-2}$',r'kg m$^{-2}$','mm']):
         ax.set(title=title,ylabel=unit);utc_axis(ax)
-    axes[-1].set_xlabel('UTC');fig.legend(*axes[0].get_legend_handles_labels(),loc='lower center',bbox_to_anchor=(.5,.025),ncol=2,frameon=False)
-    fig.text(.5,.002,'Deterministic controls; no initial-condition or weak/strong members pooled.',ha='center',fontsize=8)
-    fig.tight_layout(rect=[0,.095,1,1]);save(fig,OUT/'figures/Figure_05_microphysical_response')
+    axes[-1].set_xlabel('UTC');axes[0].legend(loc='upper left',ncol=2,frameon=False)
+    fig.tight_layout();save(fig,OUT/'figures/Figure_05_microphysical_response')
     pd.concat(frames).to_csv(OUT/'data/Figure_05_control_paths.csv',index=False)
 
 
@@ -309,6 +307,9 @@ def supplementary(c):
 
 
 def main():
+    if load_config(CASE).get('role')=='evaluation_only':
+        from scm_lightning.plotting.independent import main as independent_main
+        return independent_main()
     ap=argparse.ArgumentParser();ap.add_argument('--skip-supplementary',action='store_true');ap.add_argument('--supplementary-only',action='store_true');args=ap.parse_args()
     c,stats,o=load_data()
     with plt.rc_context(STYLE):

@@ -15,6 +15,8 @@ from scm_lightning.evaluation import evaluate,ensemble_statistics
 def main():
     ap=argparse.ArgumentParser();ap.add_argument('--evaluate',action='store_true');ap.add_argument('--evaluation-output');args=ap.parse_args()
     c=load_config(ROOT/'configs/cases/argentina_20181213.yaml')
+    if args.evaluate and c.get('role')=='evaluation_only':
+        raise ValueError('2018 observations cannot fit coefficients; use independent evaluate')
     ensemble=ROOT/c['ensemble'].get('active_directory','runs/argentina_20181213/_execution/ensemble')
     plan=json.loads((ensemble/'manifest.json').read_text())
     for attempt in range(5):

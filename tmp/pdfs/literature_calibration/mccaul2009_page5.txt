@@ -1,0 +1,109 @@
+larger by the range dependence of the detection efﬁ-
+ciency falloff and by the inherent variability of the
+radiative structure of lightning channels. Although our
+proximity criteria appear generous, tests conﬁrm that
+they are approximately the smallest that can be chosen
+without causing spurious increases in ﬂash counts. Fur-
+thermore, comparisons with an interactive algorithm
+developed by the New Mexico Institute of Mining and
+Technology (see Thomas et al. 2003) show that our al-
+gorithm’s ﬂash counts are within about 5% of theirs,
+with our algorithm being slightly more conservative.
+Because of the rapid increase in range location un-
+certainty with range from the network center, the abil-
+ity to map the ﬁnescale spatial structure of ﬂashes
+diminishes with increasing range from Huntsville. This,
+however, is not an issue with the present research,
+where only peak ﬂash count densities are used, and the
+storms producing these peak values were within 200-km
+range of the network center. Because of the nature of
+our ﬂash clustering algorithm, we believe any errors
+in our ﬂash counts would be manifest as only negligibly
+small undercounts. These small undercounts are at least
+partly offset by the possible splitting of some ﬂashes that
+straddle the beginning times of our 5-min lightning anal-
+ysis periods.
+One issue that complicates our interpretation of the
+derived ﬂash rates is the occurrence of what appear to be
+single-source ﬂashes. These ‘‘singleton’’ events may be
+due to errors in correlating weak raw signals identiﬁed
+as being parts of an individual meteorological source,
+or to errors involving the mixing of nonmeteorological
+pulse detections with meteorological ones (Thomas et al.
+2004). However, because many singletons are observed
+to cluster near meteorological targets such as storms,
+they may also correspond to weak electrical discharges
+that are not directly associated with stronger, more easily
+recognized ﬂash events. Because their validity as true
+independent lightning events is still open to question, and
+because they stand out from what appears to be a true
+background continuum in the spectrum of source num-
+bers per ﬂash, we exclude all singletons from the analyses
+used in this paper. Thus, we consider valid ﬂashes to have
+at least two sources.
+Once the valid meteorological ﬂashes have been
+identiﬁed, we create gridded time-dependent 2D hori-
+zontal maps of vertically integrated ﬂash origin densities
+and ﬂash extent densities at 5-min intervals on a mesh
+that matches that of our WRF analyses. Flash origin
+density, which assigns a unit value to the grid cell where
+a ﬂash initiates, accurately tallies the actual ﬂash rate in
+a storm and is used here as a basis for calibration of
+WRF model proxies against forecast ﬂash rates. Flash
+extent density, which assigns a unit value to each grid
+JUNE 2009
+M C C A U L
+
+cell a given ﬂash traverses (Murphy and Demetriades
+2005; Lojou and Cummins 2005), is better suited for
+gauging the spatial extent of the lightning threat, and is
+presented here as a means of comparing the areal cov-
+erage of the observed and forecast lightning threats. It
+is also a ﬁeld that is much less sparse than the ﬂash
+origin density and, thus, more amenable to graphical
+display. For these reasons, it is used extensively in our
+ﬁgures describing our actual lightning observations. In
+all the LMA-based assessments that follow, we propose
+that a ﬂash extent density of at least 1.0 ﬂash traversal
+(5 min)21 per grid box column represents an objective
+minimum threshold above which an observed lightning
+threat may be said to exist.
+Only the ﬂash origin and extent density maps pro-
+duced at those 5-min time intervals that coincide tem-
+porally with the WRF output analysis times are used in
+direct comparisons with WRF data. These 5-min snap-
+shots of lightning data are similar to what have been
+used by other researchers in their observational studies
+of lightning in storms, and represent a good compromise
+between the brevity needed to reveal trends in storm
+ﬂash rate and a duration long enough to provide ade-
+quate sampling of the lightning ﬂash rate in storms,
+especially in low ﬂash-rate situations.
+c. Calibration of WRF lightning proxies
+Based on previous published work (e.g., Petersen
+et al. 2005), we propose that one useful estimate of the
+total ﬂash rate may be based on the resolved upward
+ﬂux wqg of large precipitating ice (i.e., graupel) in the
+mixed-phase region at 2158C. We designate this ﬁrst
+type of threat estimate by the symbol F1. For this threat
+we thus assume
+F1 5 f[(wqg)m],
+(1)
+where w is the vertical velocity, qg is the graupel mixing
+ratio, and the subscript m attached to the ﬂux implies
+evaluation at the 2158C level in the mixed-phase re-
+gion. Based on published ﬁndings and our own results
+described below in section 3, we will show that the
+functional dependence symbolized by f in (1) is well
+described by a simple linear relationship.
+Because the WRF model, like many other cloud-
+resolving models, cannot be expected to simulate individual
+convective cells in exactly the same locations and at the
+same times as the observed storms, one cannot use simple
+scatterplots of individual simulated and observed grid-
+point data to assess the nature of the functional depen-
+dence f. Instead, we assume that in successful simulations
+the model produces convection that, at its most intense,
+has a character that is a reasonably faithful rendition of the
+L E T A L .
+713

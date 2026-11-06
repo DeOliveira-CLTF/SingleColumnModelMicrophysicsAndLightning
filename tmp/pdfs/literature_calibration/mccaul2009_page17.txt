@@ -1,0 +1,27 @@
+blended threat F3 appears to mitigate the shortcomings
+of threats F1 and F2, by using a judicious weighted av-
+erage of the two basic threat ﬁelds. By design, F3 tends
+to match the peak ﬂash-rate densities in storm systems,
+but it also provides a realistic match for lightning threat
+areal coverage, while retaining most of the temporal
+variability of lightning in observed mature storms. It
+should be noted, however, that our threat F3 should not
+be expected to match either the observed peak ﬂash-
+FIG. 17. As in Fig. 8, but for the blended threat (
+FIG. 18. As in Fig. 5, but for the blended thre
+JUNE 2009
+M C C A U L
+
+rate densities or the threat areal coverages exactly for
+any speciﬁc storm cases, because of the statistical char-
+acter of our calibration methods. For example, the peak
+values of F3 in Figs. 16 and 19 both lie below those of the
+observed peak ﬂash densities. This is simply because both
+these observed cases happened to produce peak ﬂash-
+rate densities that fell above the least squares best-ﬁt
+calibration line in Fig. 1. The behavior of the threat areal
+coverage can differ, however, from that of peak ﬂash-rate
+(THREAT3), 0000–0600 UTC 30 Mar 2002 case.
+eat (THREAT3), 1900 UTC 10 Dec 2004 case.
+L E T A L .
+725

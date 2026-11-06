@@ -1,0 +1,212 @@
+papers extended this to cloud-to-ground (CG)
+lightning [e.g., (10)]. Despite this proxy’s lack of
+dependence on area (making it sensitive to GCM
+grid spacing) or on the amount of storm activity
+(making it insensitive to the rain rate), it is the
+most widely used proxy for lightning (6, 7, 11, 12),
+generating estimates for the increase in global
+flash rate ranging from 5% per °C to 16% per °C.
+Observational estimates also predict a wide range,
+but at much higher values. At some specific weath-
+er stations, flash rates increase with wet-bulb tem-
+perature over the seasonal cycle at rates in the
+range of 100 to 800% per °C (13). A similar analy-
+sis using satellite lightning data gives interannual
+sensitivities for Northern Hemisphere land and
+the globe of 56% per °C and 40% per °C, respec-
+tively (14). Using the fundamental mode of the
+Schumann resonance as a proxy for flash rate, a
+global sensitivity of 100% per °C is found (8).
+Although these estimates have the advantage of
+being rooted in observations, it is unlikely that
+these intraseasonal and interseasonal relation-
+ships are the same as those in a global warming
+scenario. By developing a new proxy for lightning
+that is physically motivated, testable with obser-
+vations, and applicable to GCMs, a more robust
+projection is sought here for the CONUS, which
+is a major contributor to global lightning (15).
+Here we propose that the lightning flash rate
+per area is proportional to the precipitation rate
+times convective available potential energy (CAPE).
+This proxy combines the observed linearity of flash
+rate on precipitation rate (16–19) with sugges-
+tions that flashes are positively correlated with
+CAPE (20–23). In mathematical form,
+F ¼ h
+E  P  CAPE
+ð1Þ
+where F is the lightning flash rate per area (m−2 s−1),
+P is the precipitation rate (kg m−2 s−1), and CAPE
+is in J kg−1. Using an adiabatic definition of CAPE,
+the product of CAPE and P is the theoretical max-
+imum rate at which kinetic energy is imparted to
+ascending water condensates, in units of W m−2.
+The constant of proportionality, h/E, contains
+the dimensionless conversion efficiency h and
+the energy discharge per flash E (in joules). The
+efficiency h is the ratio of power per area dis-
+sipated by lightning to the CAPE per area per
+time available to condensates. We do not propose
+here a specific charging mechanism, but we note
+that most charging mechanisms are consistent
+with the notion that higher updraft speeds and
+water contents should yield higher flash rates.
+In this study, we focused on the CONUS be-
+cause it is well instrumented. Three sets of data
+were used, which overlap during the year 2011.
+CAPE is calculated from SPARC (Stratosphere-
+troposphere Processes And their Role in Climate)
+radiosonde data (24), P is taken from the Na-
+tional Oceanic and Atmospheric Administration
+River Forecast Centers (25), and CG lightning
+flashes are obtained from the National Lightning
+Detection Network [NLDN (26, 27)]; for more
+details, see the supplementary materials. The
+means of these quantities during 2011 are shown
+in Fig. 1.
+Also shown in Fig. 1 is
+the annual mean CAPE ma
+map. This map of CAPE ×
+a close resemblance to the
+(lower right panel). In part
+the flash rate maximize in
+adjacent to the Mississip
+Table 1. Future change
+percent per global mean °C
+flash rate (DCG) are shown
+experiment relative to the y
+GCM
+BCC-CSM1.1
+BCC-CSM1.1(m)
+CanESM2
+CCSM4
+CNRM-CM5
+FGOALS-g2
+GFDL-CM3
+GFDL-ESM2M
+MIROC5
+MRI-CGCM3
+NorESM1-M
+Mean:
+0
+100
+200
+300
+Ja
+0
+100
+200
+300
+A
+0
+100
+200
+300
+J
+0
+100
+200
+300
+Oc
+CONUS−mean CAPE ×  CONUS−mean precipitation rate (J kg−1 mm hr−1)
+Fig. 2. Time series of th
+shown of 0 and 12 GM
+CONUS mean CG lightn
+
+the pointwise product of
+ap andthe annual meanP
+× P (lower left panel) bears
+e map of lightning flashes
+ticular, both CAPE × P and
+Florida and in the states
+ppi and Ohio rivers. This
+distribution of flashes is similar to the long-term
+annual mean [see Fig. 1 of (28)], because we are
+sampling lightning in the local morning and eve-
+ning, which correspond to the trough and peak of
+the CONUS mean diurnal cycle [see Fig. 2 of (28)].
+To assess the performance of the CAPE × P
+proxy, we focus here on the time series of CONUS
+es predicted by GCMs. Predicted changes in global mean temperature (DT) and
+C changes in CONUS annual mean CAPE (DCAPE), precipitation (DPr), and CG lightning
+n for 11 CMIP5 GCMs. Changes are calculated for the years 2079–2088 of the RCP8.5
+years 1996–2005 of the historical experiment.
+DT (°C)
+DCAPE (%°C)
+DPr (%°C)
+DCG (%°C)
+3.4
+6.4
+-0.6
+3.4
+3.1
+8.8
+-0.2
+6.9
+4.7
+12.9
+4.2
+17.3
+3.9
+7.3
+2.0
+9.1
+3.9
+9.9
+2.6
+12.2
+3.1
+11.5
+-1.8
+7.0
+5.0
+16.5
+2.6
+17.6
+2.5
+13.4
+2.7
+15.9
+3.4
+15.1
+0.3
+16.3
+3.4
+12.5
+3.0
+14.7
+3.6
+8.5
+1.4
+10.3
+3.6
+11.2
+1.5
+11.9
+0
+0.002
+anuary
+February
+March
+CAPE ×  precipitation rate
+Lightning flashes
+0
+0.002
+April
+May
+June
+0
+0.002
+July
+August
+September
+0
+0.002
+ctober
+November
+December
+CONUS−mean CG lightning flash rate (km−2 hr−1)
+he proxy and observed lightning flashes. For the year 2011, time series are
+T (blue) CONUS mean precipitation times CONUS mean CAPE and (red)
+ing flash rate.

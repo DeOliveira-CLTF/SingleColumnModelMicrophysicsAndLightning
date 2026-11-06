@@ -1,0 +1,129 @@
+storm height. Also, on the basis of coincident data from PR
+and LIS aboard TRMM, Yoshida et al. [2009] found that the
+number of flashes per second per convective cloud is pro-
+portional to the fifth power of the cold‐cloud depth.
+2.6.
+Maximum Vertical Velocity
+[18] Power law relationships between the lightning flash
+rate and the maximum vertical velocity have been widely
+used to study the production of nitrogen oxides from
+lightning [Pickering et al., 1998; Fehr et al., 2004;
+Salzmann et al., 2008; Barthe and Barth, 2008]. A Price
+and Rind [1992]‐based relationship between flash rate and
+wmax (m s−1) has been used extensively in these previous
+studies. The power law from Price and Rind [1992] for
+continental storms is based on scaling arguments previously
+derived by Vonnegut [1963] and simplified by Williams
+[1985] (see section 2.5) and the assumption that the
+updraft intensity is positively correlated with the cloud top
+height:
+f ¼ 5  106  wk
+max
+ð8Þ
+The exponent k was derived empirically from satellite data
+to be 4.5 for continental deep convection [Price and Rind,
+1992]. The variance associated with this relation was not
+reported by Price and Rind [1992], but is expected to be of a
+similar magnitude as the other relationships on the basis of
+their scatterplots.
+[19] In our study, we calculate the flash rate as written
+above using k = 4.5 and refer to this relationship as PR92
+hereafter. Several previous studies have applied an adjust-
+ment factor to this equation. For example, Fehr et al. [2004]
+scaled the equation by a factor of 0.26, Salzmann et al.
+[2008] used a factor of 0.06, and Barthe and Barth [2008]
+used a factor of 0.19. Pickering et al. [1998] adjusted the
+exponent to obtain better agreement between observed and
+modeled lightning flash rate. As described in section 3, the
+flash rate computed in this study is based on an adjusted
+value for wmax producing a reduction in the flash rate of the
+same order as Fehr et al. [2004]. In addition, we also discuss
+the results using the scaling factor of Barthe and Barth
+[2008] (hereinafter referred to as BB08).
+3.
+Methodology and Model Description
+[20] To assess whether any of these storm parameters can
+be used as a proxy for the total lightning flash rate in cloud‐
+resolving models, two different storms, one severe and one
+ordinary thunderstorm, are simulated. First, simulated and
+observed radar reflectivities from the storms are compared
+to evaluate the simulated storm structure, intensity, and
+morphology. The aim of this study is to test the relationships
+in a model framework. Because the simulated storm is only
+a representation of the observed storm and not an exact
+depiction, the observed storm parameter‐lightning flash rate
+relationships described in section 2 are not directly applied
+in the model. For example, Pickering et al. [1998] and Fehr
+et al. [2004] did not directly apply the flash rate‐wmax
+relationship from Price and Rind [1992], but applied an
+adjustment factor so that the simulated flash rate better
+matched the observed flash rate. To minimize the bias
+between model and observational parameters, a regression
+4
+f
+
+between the observed and modeled storm parameters is
+calculated (see section 7). The resulting equation is then
+applied to the relationships presented in section 2 to calcu-
+late the flash rate estimated from model parameters.
+[21] The Weather Research and Forecasting model ver-
+sion 2.2 [Skamarock et al., 2005] is used for the simulations
+because of its ability to represent reasonably convective
+storms. The model solves the conservative (flux‐form),
+nonhydrostatic compressible equations using a split‐explicit
+time‐integration method on the basis of a third‐order
+Runge‐Kutta scheme [Skamarock et al., 2005; Wicker and
+Skamarock, 2002]. The cloud microphysics in the model
+is configured to use a single moment (bulk‐water) micro-
+physics parameterization. Thus, water vapor, cloud water,
+rain, cloud ice, snow, and graupel (or hail) are the water
+reservoirs transported. Transport of the moisture fields is
+integrated with the Runge‐Kutta scheme using fifth‐order
+(horizontal)
+and
+third‐order
+(vertical)
+upwind‐biased
+advection operators. Cloud water and ice are represented as
+a monodisperse size distribution, whereas rain, snow, and
+graupel/hail are represented as inverse exponential size
+distributions.
+[22] Our aim is to obtain a good representation from the
+model of the observed storm characteristics and their trend
+with time. As part of the analysis, we examine the variability
+in the results for simulations with different horizontal resolu-
+tions and with different cloud microphysics parameterizations.
+4.
+The 10 July 1996 STERAO‐A Storm
+[23] The 10 July 1996 STERAO‐A storm, which was
+an isolated severe storm, occurred along the Wyoming‐
+Nebraska‐Colorado border and was observed during the
+Stratospheric‐Tropospheric Experiment: Radiation, Aerosols
+and Ozone (STERAO‐A) [Dye et al., 2000]. This storm was
+initially a multicellular storm that later transitioned to a
+supercellular storm. The 10 July 1996 STERAO‐A storm
+was chosen for this study because it has been investigated by
+several groups in detail previously. For example, its elec-
+trical activity in relation to its microphysical properties was
+investigated by Defer et al. [2001], Lang and Rutledge
+[2002], and Deierling et al. [2005]. In addition, the 10 July
+STERAO‐A storm has been simulated by several groups
+[Skamarock et al., 2000, 2003; Barth et al., 2001, 2007a,
+2007b; Barthe et al., 2007; Barthe and Barth, 2008; Ott et al.,
+2010] to study transport, chemistry, and lightning‐produced
+NOx characteristics.
+4.1.
+Observations
+[24] During STERAO‐A, dual‐polarimetric radar data were
+collected by the Colorado State University‐University of
+Chicago‐Illinois State Water Survey (CSU‐CHILL) National
+Radar Facility’s S‐band radar [Brunkow et al., 2000], and
+total lightning was recorded by the Office Nationale d’Etudes
+et de Recherches Aérospatiales (ONERA) three‐dimensional
+lightning VHF‐interferometer system [Laroche et al., 1994;
+Defer et al., 2001]. From these data, several microphysical
+and dynamical storm parameters such as updraft volume,
+maximum updraft speed, precipitation ice mass, ice water
+path, and the product of precipitation and nonprecipitation ice
+mass fluxes were computed.
+f 17

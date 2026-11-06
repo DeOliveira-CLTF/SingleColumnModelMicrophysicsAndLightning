@@ -134,6 +134,8 @@ def performance(observed,predicted):
 
 
 def assemble():
+    if load_config(CASE).get('role')=='evaluation_only':
+        raise ValueError('2018 is evaluation-only. Use scripts/evaluate.py independent evaluate; within-event calibration is archived.')
     c=load_config(CASE);paths=sorted((OUT/'data/members').glob('*/*/predictors.csv'))
     if len(paths)!=246:raise ValueError('All 40 members + separate control in all six configurations are required')
     p=pd.concat([pd.read_csv(path) for path in paths],ignore_index=True)
@@ -222,6 +224,8 @@ def assemble():
 
 
 def main():
+    if load_config(CASE).get('role')=='evaluation_only':
+        raise ValueError('Use scripts/evaluate.py independent prepare|evaluate. No 2018 fitting is allowed.')
     ap=argparse.ArgumentParser(description=__doc__);ap.add_argument('--workers',type=int,default=6);ap.add_argument('--assemble-only',action='store_true')
     args=ap.parse_args();OUT.mkdir(parents=True,exist_ok=True)
     old_metric_audit()

@@ -1,6 +1,16 @@
 interval_minutes: 15
-development_end: '2018-12-14T00:00:00Z'
-evaluation_start: '2018-12-14T01:00:00Z'
-coefficient: one nonnegative scale per method on perturbed-member development mean
-A: fit each configuration
-B: freeze TH_C0 scale for all configurations
+calibration_event: argentina_20191028
+calibration_configuration: TH_C0
+calibration_member: 0
+calibration_start: '2019-10-28T00:00:00Z'
+calibration_end_exclusive: '2019-10-30T00:00:00Z'
+evaluation_event: argentina_20181213
+evaluation_start: '2018-12-13T00:00:00Z'
+evaluation_end_exclusive: '2018-12-15T00:00:00Z'
+coefficient: three frozen 2019-only coefficients shared across all configurations and members
+observed_target: total_IC_CG_flashes_per_15min
+spatial_transfer: calibrated density times each independently fixed event area
+valid_support: global finite intersection across three methods, six configurations and all 40 members plus controls
+baselines: [zero, calibration_2019_observed_mean_density_times_evaluation_area]
+spread: sample_std_of_40_perturbed_members_control_separate
+missing_policy: NaN_with_reason_never_fabricated_zero

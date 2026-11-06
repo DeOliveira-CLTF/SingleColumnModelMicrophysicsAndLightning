@@ -1,0 +1,77 @@
+the supercell stage, it has a somewhat similar trend to the
+observations and a similar magnitude (40–50 fl. min−1). The
+flash rate predicted by the maximum updraft speed from
+PR92, by the cloud top height, and by the updraft vol-
+ume is much smaller than observed, with values less than
+25 fl. min−1 all along the simulation. The inferred flash rate
+from the updraft volume does not show the distinct increase
+when the storm became a supercell. We also tested the Price
+and Rind [1992] equation multiplied by 0.19, which is the
+same value used by BB08 for the 10 July STERAO‐A
+storm. For this case, wmax is not adjusted by the regression.
+Table 2. Correlation Coefficient and Equation of the Regres
+Parameters for Both the STERAO‐A and Northern Alabam
+Correlation Coefficient
+Precipitation ice mass
+0.64
+Ice water path
+0.43
+Ice mass flux product
+0.45
+Updraft volume
+0.55
+Maximum vertical velocity
+0.49
+Cloud top height
+0.81
+aThe regression performed is for the control simulations (10 July
+cell at 1 km resolution). The last column corresponds to the standar
+regression equation column, x and y correspond to the model and t
+Figure 4.
+Scatterplots of the observed versus mod
+(c) precipitation and nonprecipitation ice mass flux
+velocity, and (f) cloud top height for the control sim
+1983 microphysics; 13 July: east cell at 1 km resolu
+STERAO‐A storm and to the 13 July Alabama storm
+of both storms is plotted with the solid black line.
+modeled values, equations for the best fit line throug
+deviation can be found in Table 2.
+10
+
+The predicted flash rate is 5–15 fl. min−1 during the multi-
+cell stage, similar to the observations up to 0000 UTC (10–
+15 fl. min−1). After 0000 UTC, the observed flash rate
+increases to 30 fl. min−1, while the flash rate estimated from
+BB08 remains lower than 10 fl. min−1 after 60 min. During
+the transition stage, the predicted flash rate increases to
+55 fl. min−1, which occurs sooner than observed and might
+be related to the fact that the modeled transition stage is
+shorter than the observed transition stage. The flash rate
+then drops to 30–42 fl. min−1 during the supercell stage,
+ssion Performed Between the Model and the Observed Storm
+ma Casesa
+Regression Equation
+Standard Deviation
+y = 0.91x + 4.92 × 108
+0.27
+y = 0.49x + 0.58
+0.26
+y = 0.024x + 7.12 × 1014
+0.012
+y = 0.46x + 1.52 × 1011
+0.17
+y = 0.25x + 13.55
+0.11
+y = 0.55x + 6.09
+0.10
+: 1 km horizontal resolution, Lin [1983] microphysics; 13 July: east
+rd deviation between the data values and the regression line. In the
+to the observations, respectively.
+deled (a) precipitation ice mass, (b) ice water path,
+product, (d) updraft volume, (e) maximum vertical
+mulations (10 July: 1 km horizontal resolution, Lin,
+ution). Crosses and circles correspond to the 10 July
+m, respectively. The best fit line through data points
+Correlation coefficients between the observed and
+gh data points of both storms and associated standard
+f 17

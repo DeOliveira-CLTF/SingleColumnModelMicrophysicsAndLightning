@@ -1,0 +1,27 @@
+two variables as linear, but it is possible that nonlinear
+behavior might emerge if a larger data sample were
+available. This is considered a possibility in light of the
+behavior of the right-most data point in Fig. 1, which has
+a graupel ﬂux of 400 m s21, but falls below the regres-
+sion line. This particular point derives from a simulation
+for a severe squall line that occurred on 31 May 2004,
+and is characterized by our largest updraft strengths and
+largest environmental CAPE values. It is possible that
+FIG. 15. As in Fig. 5, but for the blended threa
+FIG. 16. As in Fig. 7, but for the blended threat (T
+724
+W E A T H E R A N D
+
+the model’s lack of representation of the hail species
+may have led to an overproduction of graupel for this
+intense storm system simulation, although additional
+cases featuring very large CAPE would be needed to
+conﬁrm this speculation.
+Despite the uncertainties attending our small sample
+of cases, the methods used to devise the lightning threat
+proxy ﬁelds F1 and F2 still appear to yield useful ap-
+proximate indicators of the lightning threat. Our
+at (THREAT3), 0400 UTC 30 Mar 2002 case.
+THREAT3), 0000–0600 UTC 30 Mar 2002 case.
+F O R E C A S T I N G
+VOLUME 24

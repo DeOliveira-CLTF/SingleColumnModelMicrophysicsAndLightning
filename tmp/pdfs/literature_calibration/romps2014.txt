@@ -1,0 +1,348 @@
+=== PDF PAGE 1 ===
+                       Projected increase in lightning strikes in the United States due to
+                        global warming
+                       David M. Romps et al.
+                       Science 346 , 851 (2014);
+                       DOI: 10.1126/science.1259100
+
+
+
+                             This copy is for your personal, non-commercial use only.
+
+
+
+
+                    If you wish to distribute this article to others, you can order high-quality copies for your
+             colleagues, clients, or customers by clicking here.
+           Permission to republish or repurpose articles or portions of articles can be obtained by
+              following the guidelines here.
+
+          The following resources related to this article are available online at
+           www.sciencemag.org (this information is current as of November 13, 2014 ):                                 20142014201420142014
+          Updated information and services, including high-resolution figures, can be found in the online          13,13,13,13,13,
+             version of this article at:
+             http://www.sciencemag.org/content/346/6211/851.full.html
+           Supporting Online Material can be found at:             http://www.sciencemag.org/content/suppl/2014/11/12/346.6211.851.DC1.html                                                                             NovemberNovemberNovemberNovemberNovember
+             This article cites 36 articles, 3 of which can be accessed free:                             ononononon
+             http://www.sciencemag.org/content/346/6211/851.full.html#ref-list-1
+             This article appears in the following subject collections:
+            Geochemistry, Geophysics
+             http://www.sciencemag.org/cgi/collection/geochem_phys                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             www.sciencemag.orgwww.sciencemag.orgwww.sciencemag.orgwww.sciencemag.orgwww.sciencemag.org
+                                                                                                                                                            fromfromfromfromfrom
+                                                                                                                                                                                                                                                                                                                                                                                                      DownloadedDownloadedDownloadedDownloadedDownloaded
+
+
+
+
+
+Science (print ISSN 0036-8075; online ISSN 1095-9203) is published weekly, except the last week in December, by the
+American Association for the Advancement of Science, 1200 New York Avenue NW, Washington, DC 20005. Copyright
+2014 by the American Association for the Advancement of Science; all rights reserved. The title Science is a
+registered trademark of AAAS.
+
+=== PDF PAGE 2 ===
+                                                                        RESEARCH   | REPORTS
+
+
+
+25. T. Naish et al., Nature 458, 322–328 (2009).                         Proceedings of the Ocean Drilling Program, Scientific Results,      was provided by NSF grants EAR-1052257 and OCE-1334691.
+26. R. McKay et al., Proc. Natl. Acad. Sci. U.S.A. 109, 6423–6428 (2012).           P. F. Barker, A. Camerlenghi, G. D. Acton, A. T. S. Ramsay, Eds. (Ocean      B.K.C. thanks Rutgers Aresty Undergraduate Research Fellowship
+27. A. N. LeGrande, G. A. Schmidt, Geophys. Res. Lett. 33, L12604             Drilling Program, College Station, TX, 2001), vol. 178, pp. 1–33.            for its support.
+    (2006).                                                          34. D. M. Sigman, S. L. Jaccard, G. H. Haug, Nature 428, 59–63
+28. A. H. Orsi, G. C. Johnson, J. L. Bullister, Prog. Oceanogr. 43,           (2004).
+   55–109 (1999).                                                   35. D. A. Hodell, K. A. Venz-Curtis, Geochem. Geophys. Geosyst. 7,   SUPPLEMENTARY MATERIALS
+29. Z. Zhang, K. H. Nisancioglu, U. S. Ninnemann, Nat. Commun. 4,       Q09001 (2006).
+                                                                                                                             www.sciencemag.org/content/346/6211/847/suppl/DC1   1499 (2013).                                                     36. A. Martínez-Garcia et al., Nature 476, 312–315 (2011).
+30. M. E. Raymo, B. Grant, M. Horowitz, G. H. Rau, Mar. Micropaleontol.      37. L. Menviel, A. Timmermann, O. E. Timm, A. Mouchet,               Materials and Methods
+    27, 313–326 (1996).                                                Paleoceanography 25, PA4231 (2010).                          Supplementary Text
+31. A. C. Ravelo, D. H. Andreasen, Geophys. Res. Lett. 27,             38. N. J. Shackleton, J. Imbrie, M. A. Hall, Earth Planet. Sci. Lett.       Figs. S1 to S8
+   1001–1004 (2000).                                                 65, 233–244 (1983).                                           References (39–84)
+32. J. D. Wright, K. G. Miller, Paleoceanography 11, 157–170 (1996).
+33. C.-D. Hillenbrand, D. K. Fütterer, “Neogene to Quaternary     ACKNOWLEDGMENTS                                  5 May 2014; accepted 10 October 2014
+    deposition of opal on the continental rise west of the Antarctic    We thank N. Venti and K. Billups for providing samples and           Published online 23 October 2014;
+    Peninsula, ODP leg 178, sites 1095, 1096, and 1101,”                   J. Crisicone, N. Abdul, and R. Mortlock for lab assistance. Funding     10.1126/science.1255586
+
+
+CLIMATE CHANGE
+                                                                                                        of global mean temperature increase. Here we
+                                                                              show that a simple proxy—the product of the
+                                                                                                       convective instability and the precipitation rate—Projected increase in lightning                                                                                                        explains most of the variance in lightning flashes
+                                                                                                    over the contiguous United States (CONUS). Whenstrikes in the United States due to              applied to global climate models (GCMs), this
+                                                                                          proxy predicts a mean increase in flash rate of
+                                                                             12% per global-mean °C over the CONUS. Thisglobal warming
+                                                                                            augurs significant changes in the future atmo-
+David M. Romps,1* Jacob T. Seeley,1 David Vollaro,2 John Molinari2                           spheric chemistry and wildfire frequency of North
+                                                                                                America.
+Lightning plays an important role in atmospheric chemistry and in the initiation of
+                                                                                                    Previous estimates of the sensitivity of light-
+wildfires, but the impact of global warming on lightning rates is poorly constrained.
+                                                                                           ning flash rates to global mean temperature have
+Here we propose that the lightning flash rate is proportional to the convective available
+                                                                                                             relied on ad hoc proxies for use in GCMs or ob-
+potential energy (CAPE) times the precipitation rate. Using observations, the product of
+                                                                                              served correlations between temperature and
+CAPE and precipitation explains 77% of the variance in the time series of total cloud-to-
+                                                                                                       lightning (or lighting proxies). One GCM param-
+ground lightning flashes over the contiguous United States (CONUS). Storms convert
+                                                                                                           eterization sets the total flash rate (in flashes per
+CAPE times precipitated water mass to discharged lightning energy with an efficiency of
+                                                                                            minute) equal to a constant times the maximum
+1%. When this proxy is applied to 11 climate models, CONUS lightning strikes are predicted
+                                                                                            cloud height to the fifth power (9), and later
+to increase 12 +_ 5% per degree Celsius of global warming and about 50% over this century.
+
+     ightning exerts a powerful control on at-    shapes the evolution of species and ecosystems     1Department of Earth and Planetary Science, University of
+    mospheric chemistry through its genera-     (4, 5). Despite its importance, the future increase      California, Berkeley, and Earth Sciences Division, Lawrence
+                                                                                                                             Berkeley National Laboratory, Berkeley, CA, USA.
+     tion of nitrogen oxides, especially in the    in lightning flash rates due to global warming                                                                                                                   2Department of Atmospheric and Environmental Sciences,
+     middle and upper troposphere (1–3). As the    remains poorly constrained: Estimates range from     State University of New York at Albany, Albany, NY, USA.
+     primary trigger for wildfires, lightning also   5% (6, 7) to over 100% (8) per degree Celsius (°C)     *Corresponding author. E-mail: romps@berkeley.eduL
+
+                                                                                                           Fig. 1. Mean maps of CAPE, precipitation, CAPE
+                                                                                         times precipitation, and lightning flashes. For
+                                                                                                   the year 2011, maps are shown of mean (top left)
+                                                                           CAPE from the SPARC radiosonde data, (top right)
+                                                                                                                precipitation from the National Weather Service
+                                                                                                         River Forecast Center data, (bottom left) product
+                                                                                                            of the top two maps, and (bottom right) CG light-
+                                                                                                    ning from the NLDN data. For CAPE, means are
+                                                                                                         calculated by averaging all 00 and 12 GMT sound-
+                                                                                                                   ings; circles denote the locations of radiosonde  CAPE (J kg−1)                               Precip (mm hr−1)
+                                                                                                              releases. For precipitation and lightning, means are
+     200      600      1000     1400           0.05    0.10    0.15    0.20    0.25     calculated by averaging over 22-02 and 10-14 GMT.
+
+
+
+
+
+ CAPE × Precip (J kg−1 mm hr−1)                Lightning flashes (km−2 hr−1)
+
+        50     100    150    200      0.0000       0.0010       0.0020
+
+
+SCIENCE sciencemag.org                                                                                                14 NOVEMBER 2014 • VOL 346 ISSUE 6211  851
+
+=== PDF PAGE 3 ===
+RESEARCH   | REPORTS
+
+
+papers extended  this  to  cloud-to-ground (CG)      Also shown in Fig. 1 is the pointwise product of    distribution of flashes is similar to the long-term
+lightning [e.g., (10)]. Despite this proxy’s lack of    the annual mean CAPE map andthe annual meanP    annual mean [see Fig. 1 of (28)], because we are
+dependence on area (making it sensitive to GCM   map. This map of CAPE × P (lower left panel) bears    sampling lightning in the local morning and eve-
+grid spacing) or on the amount of storm activity   a close resemblance to the map of lightning flashes    ning, which correspond to the trough and peak of
+(making it insensitive to the rain rate), it is the    (lower right panel). In particular, both CAPE × P and    the CONUS mean diurnal cycle [see Fig. 2 of (28)].
+most widely used proxy for lightning (6, 7, 11, 12),    the flash rate maximize in Florida and in the states     To assess the performance of the CAPE × P
+generating estimates for the increase in global    adjacent to the Mississippi and Ohio rivers. This    proxy, we focus here on the time series of CONUS
+flash rate ranging from 5% per °C to 16% per °C.
+Observational estimates also predict a wide range,
+                                              Table 1. Future changes predicted by GCMs. Predicted changes in global mean temperature (DT) andbut at much higher values. At some specific weath-                                                     percent per global mean °C changes in CONUS annual mean CAPE (DCAPE), precipitation (DPr), and CG lightning
+er stations, flash rates increase with wet-bulb tem-     flash rate (DCG) are shown for 11 CMIP5 GCMs. Changes are calculated for the years 2079–2088 of the RCP8.5
+perature over the seasonal cycle at rates in the    experiment relative to the years 1996–2005 of the historical experiment.
+range of 100 to 800% per °C (13). A similar analy-
+sis using satellite lightning data gives interannual  GCM             DT (°C)     DCAPE (%°C)      DPr (%°C)    DCG (%°C)
+sensitivities for Northern Hemisphere land and   BCC-CSM1.1             3.4               6.4                -0.6               3.4
+the globe of 56% per °C and 40% per °C, respec-   BCC-CSM1.1(m)          3.1               8.8                -0.2              6.9
+tively (14). Using the fundamental mode of the   CanESM2                4.7              12.9                4.2                17.3
+Schumann resonance as a proxy for flash rate, a                              CCSM4                 3.9                 7.3               2.0                9.1
+global sensitivity of 100% per °C is found (8).                               CNRM-CM5             3.9               9.9                2.6              12.2
+Although these estimates have the advantage of
+                                    FGOALS-g2               3.1                11.5                  -1.8                 7.0
+being rooted in observations, it is unlikely that
+                                  GFDL-CM3              5.0              16.5                2.6                17.6
+these intraseasonal and interseasonal relation-
+                                 GFDL-ESM2M           2.5              13.4                 2.7              15.9ships are the same as those in a global warming
+                                 MIROC5                 3.4                15.1                0.3              16.3scenario. By developing a new proxy for lightning
+that is physically motivated, testable with obser-   MRI-CGCM3             3.4              12.5                3.0               14.7
+vations, and applicable to GCMs, a more robust   NorESM1-M             3.6               8.5                  1.4              10.3
+projection is sought here for the CONUS, which   Mean:                   3.6                11.2                  1.5               11.9
+is a major contributor to global lightning (15).
+  Here we propose that the lightning flash rate
+per area is proportional to the precipitation rate
+times convective available potential energy (CAPE).           300
+This proxy combines the observed linearity of flash
+rate on precipitation rate (16–19) with sugges-           200           CAPE × precipitation rate
+                                                                              Lightning flashestions that flashes are positively correlated with     hr−1)CAPE (20–23). In mathematical form,                                                                                                                                                                                                                    0.002                                      mm  100
+                h
+                                                               kg−1 0                                 0           F ¼ E  P  CAPE           ð1Þ
+                           (J                January               February              Marchwhere     F           is the lightning                         flash                             rate                              per                                  area                                   (m−2                                                             s−1),                                                                    300                                                                                                                 hr−1)                                                                             rateP  is the        precipitation                     rate                        (kg                      m−2                                           s−1),                              and                              CAPE
+is in J kg−1. Using an adiabatic definition of CAPE,                                                                    200the product of CAPE and P is the theoretical max-                                                                                                                                (km−2
+imum rate at which kinetic energy is imparted to                                                                                                                                                                                               0.002                                                                    100                                                                                                                                rateascending water condensates, in units of W m−2.                                                                                                                                                                                                                                                          precipitation
+The constant of proportionality, h/E, contains                       0                                 0   flash
+the dimensionless conversion efficiency h and
+the energy discharge per flash E (in joules). The                               April                May                  June                                                                    300
+efficiency h is the ratio of power per area dis-sipated by lightning to the CAPE per area per                                                                                                                                                                                                                                                                                                                                        lightning
+                                                                    200                                                                                                            CGtime available to condensates. We do not propose                  CONUS−mean
+here a specific charging mechanism, but we note  ×                                                                                                                                                                               0.002that most charging mechanisms are consistent           100
+with the notion that higher updraft speeds and
+                       0                                 0water contents should yield higher flash rates.          CAPE
+  In this study, we focused on the CONUS be-                             July                  August              Septembercause it is well instrumented. Three sets of data           300                                                                                                                                                                                                                                                                                                                                 CONUS−mean
+were used, which overlap during the year 2011.
+CAPE is calculated from SPARC (Stratosphere-           200
+troposphere Processes And their Role in Climate)                                                                                                                                                                                                CONUS−mean                                                                                                                                                                                0.002radiosonde data (24), P is taken from the Na-           100
+tional Oceanic and Atmospheric Administration
+River Forecast Centers (25), and CG lightning    0                                 0
+flashes are obtained from the National Lightning                       October             November            December
+Detection Network [NLDN (26, 27)]; for more
+details, see the supplementary materials. The    Fig. 2. Time series of the proxy and observed lightning flashes. For the year 2011, time series are
+means of these quantities during 2011 are shown   shown of 0 and 12 GMT (blue) CONUS mean precipitation times CONUS mean CAPE and (red)
+in Fig. 1.                            CONUS mean CG lightning flash rate.
+
+
+852    14 NOVEMBER 2014 • VOL 346 ISSUE 6211                                                                                  sciencemag.org SCIENCE
+
+=== PDF PAGE 4 ===
+                                                                        RESEARCH   | REPORTS
+
+
+mean CAPE, precipitation, and lightning. A spa-     The lower right panel of Fig. 3 shows the      Given the success of CAPE × P in replicating
+tially resolved evaluation of Eq. 1 is not attempted    scatter plot of the CAPE × P and flash-rate time    the time series of observed lightning flashes, it is
+here because of practical difficulties stemming     series. They are related to each other in a linear   a natural candidate for assessing future changes
+from the sparsity of CAPE measurements and    fashion, and the proxy explains 77% of the var-    in flash rates due to global warming. Previous
+the fact that convection releases CAPE. The latter    iance in the lightning flash rate. This can be    studies of GCM simulations have found that glob-
+fact precludes using the product of colocated   compared with other candidates, such as P, the     al warming causes CAPE to increase over much of
+precipitation and CAPE; instead, a CAPE value   maximum height of convection [level of neutral    Earth (29, 30) and over the CONUS in particular
+nearby, but upwind, of a storm should be used.   buoyancy (LNB)] to the fifth power, and CAPE,    (31–33). Similar results have been found in much
+With the sparse network of noisy CAPE measure-   which explain only 29, 39, and 52% of the var-    simpler cloud-resolving simulations, in which
+ments, this is a challenging task that is left to    iance, respectively. The CAPE × P proxy also   CAPE increases with sea surface temperature
+future work.                                       explains a substantial amount of the lightning    (34–36). Recent work has provided insight into
+  Figure 2 plots two time series for the entire    variance within a season: 69% for January, Feb-   why this increase in CAPE occurs (36). In addi-
+year of 2011: the product of CONUS mean CAPE    ruary, March; 65% for April, May, June; 75% for     tion, the global precipitation rate is expected to
+and CONUS mean precipitation rate in blue    July, August, September; and 40% for October,    increase with global temperature (37), although
+(axes on the left), and CONUS mean CG lightning   November, December.                            the predicted changes in annual mean precipita-
+flash rate in red (axes on the right). The proxy      Using the fact that 1 mm of precipitation    tion are of variable sign across the United States.
+varies in synchrony with the flash rate on a range    equals 1 kg m–2 of liquid water, the best-fit line in     To assess how these future changes will affect
+of time scales, from the diurnal [high at 0 Green-    the lower right panel is described by Eq. 1 with    lightning, we analyzed output from 11 GCMs in
+wich mean time (GMT), low at 12 GMT] to the   h/E = 1.3 × 10−11 J−1. A best estimate for the    the Coupled Model Intercomparison Project Phase
+seasonal (high in spring and summer, low in fall    energy released by a midlatitude CG lightning   5 [CMIP5 (38)]; see the supplementary materials
+and winter) and time scales in between (high    flash is about 1 GJ, although estimates range    for more details. Table 1 lists the CONUS mean
+during periods of sustained storminess, low in   from a few tenths of a GJ to several GJ (1).    fractional changes in CAPE and precipitation for
+the lulls between). The proxy successfully captures   Using E = 1 GJ, we obtain an efficiency of h =    the GCMs in our ensemble. To account for dif-
+the varying magnitude of the flash rate, as well.    0.01. In other words, 1% of the CAPE that could    ferences in climate sensitivity between the mod-
+In the fall and winter, both the proxy and the   be theoretically extracted by water (i.e., CAPE     els, we report these results as percent changes
+flash rate have peak values about one order of    times the processed water mass) is converted to    per °C of global warming. All GCMs in our en-
+magnitude smaller than their peak values in the     electrical potential energy that is then discharged    semble predict that CONUS mean CAPE will in-
+spring and summer.                           by CG lightning.                                   crease over the 21st century, with a mean increase
+                                                                                                        of 11.2% per °C of global warming. There is a
+                                                                                          high level of agreement between the models on
+                                                                                              the spatial pattern and magnitude of this CAPE
+           R2 = 0.29                         R2 = 0.39                       increase (fig. S1). On the other hand, there is
+                                                                                                                significantly more variation in the GCMs’ predic-hr−1)   0.004                                               hr−1)    0.004                                             tions for future precipitation; the mean response
+(km−2                                                   (km−2                                                            issomea 1.5%modelsincreasepredictperdecreased°C of globalprecipitationwarming,overbut
+                                                                                                 the CONUS.
+                                                                                   The percent change in annual mean lightning           0.002                                                                                         0.002
+                                                                                                             flash rate can be estimated as the mean percent
+                                                                                        change in the product of CAPE and precipitation   Lightning                                                                                                                                          Lightning
+                                                                                           time series between the years 1996–2005 and
+                                                                                            2079–2088. Using this method, all GCMs in our           0.000                                                                                         0.000                                     ensemble predict annual mean lightning-strike
+          0.0     0.1     0.2     0.3     0.4            0     50000           150000    frequency in the United States to increase, with a
+                                                                          mean increase of 12% per °C (column 5 of Table
+               Precip (mm hr−1)                     LNB5 (km5)                       1). The standard deviation of the ensemble’s pre-
+                                                                                                         dictions is 5% per °C; therefore, we can conclude
+                                                                                                       that the rate of CG lightning strikes over the
+                                                                   CONUS is likely to increase as a function of
+           R2 = 0.52                         R2 = 0.77                         global mean temperature at a rate of 12 T 5% per
+                                                                                                          °C. Overall, the GCMs predict a ∼50% increase inhr−1)   0.004                                               hr−1)    0.004
+                                                                                                 the rate of lightning strikes in the CONUS over
+                                                                                                 the 21st century.(km−2                                                   (km−2
+           0.002                                                                                         0.002                                  REFERENCES1.  U. Schumann, H.ANDHuntrieser,NOTESAtmos. Chem. Phys. 7, 3823–3907
+                                                                                                                                               (2007).
+                                                                                                                                                               2.  H. Levy II, W. J. Moxim, P. S. Kasibhatla, J. Geophys. Res. 101,   Lightning                                                                                                                                          Lightning                                                                22911 (1996).
+                                                                                                                                                             3.  V. Grewe, Sci. Total Environ. 374, 167–181 (2007).
+                                                                                                                                                           4.  W. J. Bond, J. E. Keeley, Trends Ecol. Evol. 20, 387–394           0.000                                                                                         0.000                                                                                                                                         (2005).
+          0     400    800    1200               0    100    200    300    400       5.   J. G. Pausas, J. E. Keeley, Bioscience 59, 593–601
+                                                                                                                                        (2009).
+           CAPE (J kg−1)            CAPE × Precip (J kg−1 mm hr−1)        6.  C. Price, D. Rind, J. Geophys. Res. 99, 10823 (1994).
+                                                                                                                                                                    7.  N. Michalon, A. Nassif, T. Saouri, J. F. Royer, C. A. Pontikis,
+Fig. 3. Lightning versus various proposed proxies. For the year 2011, scatter plots are shown of         Geophys. Res. Lett. 26, 3097–3100 (1999).
+                                                                                                                                                           8.  E. R. Williams, Science 256, 1184–1187 (1992).
+the time series of 0 and 12 GMT CONUS mean lightning against (top left) precipitation, (top right)      9.  C. Price, D. Rind, J. Geophys. Res. 97, 9919–9933
+LNB to the fifth power, (bottom left) CAPE, and (bottom right) CAPE times precipitation.                     (1992).
+
+
+SCIENCE sciencemag.org                                                                                               14 NOVEMBER 2014 • VOL 346 ISSUE 6211  853
+
+=== PDF PAGE 5 ===
+RESEARCH   | REPORTS
+
+
+10. C. Price, D. Rind, Mon. Weather Rev. 122, 1930–1939       CIRCADIAN RHYTHM
+    (1994).
+11.  A. Banerjee et  al., Atmos. Chem. Phys. 14, 9871–9881
+    (2014).
+12. A. Krause, S. Kloster, S. Wilkenskjeld, H. Paeth, J. Geophys. Res.:    Biogeosci. 119, 312 (2014).          Dysrhythmia in the suprachiasmatic
+13. E. R. Williams, Mon. Weather Rev. 122, 1917–1929
+    (1994).14. N. Reeve, R. Toumi, Q. J. R. Meteorol. Soc. 125, 893–903   nucleus inhibits memory processing
+    (1999).
+15. H. J. Christian et al., J. Geophys. Res. 108, 4005 (2003).      Fabian Fernandez,2 Derek Lu,1 Phong Ha,1 Patricia Costacurta,1 Renee Chavez,1
+16. L. J. Battan, J. Atmos. Sci. 22, 79–84 (1965).            H. Craig Heller,1 Norman F. Ruby1*
+17. A. Tapia, J. A. Smith, M. Dixon, J. Appl. Meteorol. 37,
+   1497–1509 (1998).
+18. W. A. Petersen, S. A. Rutledge, J. Geophys. Res. 103, 14025     Chronic circadian dysfunction impairs declarative memory in humans but has little effect
+    (1998).                                            in common rodent models of arrhythmia caused by clock gene knockouts or surgical
+19. E. W. Meijer, P. F. J. van Velthoven, D. W. Brunner,           ablation of the suprachiasmatic nucleus (SCN). An important problem overlooked in these
+    H. Huntrieser, H. Kelder, Phys. Chem. Earth, Part C Sol.-Terr.
+    Planet. Sci. 26, 577–583 (2001).                        translational models is that human dysrhythmia occurs while SCN circuitry is genetically
+20. E. R. Williams et al., J. Atmos. Sci. 49, 1386–1395        and neurologically intact. Siberian hamsters (Phodopus sungorus) are particularly well
+    (1992).                                      suited for translational studies because they can be made arrhythmic by a one-time photic
+21. E. Williams et al., J. Geophys. Res., D, Atmospheres 107, 8082   treatment that severely impairs spatial and recognition memory. We found that once
+    (2002).
+22. S. D. Pawar, D. M. Lal, P. Murugavel, Atmos. Res. 106, 44–49    animals are made arrhythmic, subsequent SCN ablation completely rescues memory
+    (2012).                                      processing. These data suggest that the inhibitory effects of a malfunctioning SCN on
+23. P. Murugavel, S. D. Pawar, V. Gopalakrishan, Int. J. Climatol.     cognition require preservation of circuitry between the SCN and downstream targets that
+    34, 3179–3187 (2014).                            are lost when these connections are severed.
+24. SPARC, U.S. High Vertical Resolution Radiosonde Data,
+    Stratosphere-troposphere Processes and their Role in Climate
+    (2013).                                                            eficits in cognitive performance caused by    gene effects, or to abnormalities during brain de-
+25. D. Kitzmiller, D. Miller, R. Fulton, F. Ding, J. Hydrol. Eng. 18,            disrupted circadian timing have become a    velopment (10). Mice and rats with SCN lesions
+   133–142 (2013).                                      growing concern among health care pro-    exhibit no substantial impairment in avoidance
+26. R. S. Wacker, R. E. Orville, J. Geophys. Res. 104, 2151                 fessionals (1). Recent clinical studies have    tasks, recognition memory, spatial learning, or
+    (1999).
+27. R. E. Orville, G. R. Huffines, Mon. Weather Rev. 129, 1179–1193         found that age-related declines in circa-    reversal spatial learning but have modest deficits    (2001).        Ddian function can lead to mild cognitive impair-    in contextual fear conditioning and in the water
+28. R. L. Holle, Mon. Weather Rev. 142, 1037–1052 (2014).       ment or dementia (2, 3). These memory deficits   maze probe test (11–14). In some studies, SCN ab-
+29. B. Ye, A. D. Del Genio, K. K. W. Lo, J. Clim. 11, 1997–2015       are not simply a consequence of poorer sleep,    lation actually improves task performance (11, 12).
+    (1998).
+30. A. H. Sobel, S. J. Camargo, J. Clim. 24, 473–487          because reductions in circadian rhythm ampli-     The marginal effect of clock gene knockouts
+    (2011).                                       tude and robustness can accelerate progression   and SCN lesions on memory stands in stark con-
+31. R. J. Trapp et al., Proc. Natl. Acad. Sci. U.S.A. 104,            of mild cognitive impairment or dementia even    trast to the well-documented adverse effects of
+   19719–19723 (2007).                        when sleep quality is maintained (2, 3). The ob-     shift work and jet lag on cognition (15). One crit-
+32. R. J. Trapp, N. S. Diffenbaugh, A. Gluhovsky, Geophys. Res. Lett.
+    36, L01703 (2009).                                 servation that circadian timing is substantially     ical factor that often gets overlooked in relating
+33. N. S. Diffenbaugh, M. Scherer, R. J. Trapp, Proc. Natl. Acad. Sci.   weakened among people with Alzheimer’s dis-    animal circadian studies to human conditions is
+    U.S.A. 110, 16361–16366 (2013).                        ease has raised the possibility that cognitive def-    the fact that human dysrhythmia occurs while
+34. D. M. Romps, J. Atmos. Sci. 68, 123–138 (2011).                 icits might be treated by improving circadian    the SCN circuitry remains intact both genetically
+35. C. J. Muller, P. A. O’Gorman, L. E. Back, J. Clim. 24,
+   2784–2800 (2011).                                 function (4–6). However, there are no mouse or   and structurally. We evaluated the possibility that
+36. M. S. Singh, P. A. O’Gorman, Geophys. Res. Lett. 40,           rat models of adult-onset circadian dysfunction    intact SCN circuitry is necessary for circadian
+   4398–4403 (2013).                                  in genetically and neurologically intact animals    dysfunction to interfere with memory processing
+37.  I. M. Held, B. J. Soden, J. Clim. 19, 5686–5699 (2006).          living in standard laboratory conditions.          by using the Siberian hamster (Phodopus sungorus)
+38. K. E. Taylor, R. J. Stouffer, G. A. Meehl, Bull. Am. Meteorol. Soc.
+    93, 485–498 (2012).                              Rodent models of chronic circadian arrhyth-   model of circadian arrhythmia. This model has
+                                        mia such as clock gene knockouts or surgical   been used to study homeostatic sleep mecha-
+ACKNOWLEDGMENTS                              ablation of the central circadian pacemaker, the    nisms, where its value compared to clock gene
+D.M.R. acknowledges support from the Scientific Discovery         suprachiasmatic nucleus (SCN), exhibit no or only   knockout and SCN lesion models of arrhythmia
+through Advanced Computing (SciDAC) program funded by the     modest deficits in declarative memory. Clock    has been recognized (16).
+U.S. Department of Energy Office of Advanced Scientific Computing
+Research and Office of Biological and Environmental Research,       gene knockouts of cryptochrome 1 and 2 or      Siberian hamsters exhibit phase-resetting re-
+and by the U.S. Department of Energy’s Earth System Modeling,      period 1 and 2 are arrhythmic, and they exhibit    sponses to single light pulses that are typical of
+an Office of Science, Office of Biological and Environmental Research   normal spontaneous alternation behavior, long-    nocturnal rodents (Fig. 1A), yet their response to
+program under contract no. DE-AC02-05CH11231.              term spatial memory for food rewards, and con-   two light signals is quite different. When these
+J.T.S. acknowledges support from the National Science Foundation
+(NSF) Graduate Research Fellowship under grant no. DGE1106400.      textual memory for environments associated with    animals are given a phase-advancing light signal
+D.V. and J.M. acknowledge support from NSF under grant            foot shock (7, 8), although cryptochrome 1 and 2   on one night, followed by a phase-delaying light
+no. AGS1132576. Thanks are due to the SPARC data center for       knockouts do fail to learn time-place associations    signal on the next night, circadian timing is com-
+archiving the high-resolution radiosonde data and making               (7). Bmal1 knockouts are also arrhythmic and     pletely abolished within a few days, even though
+them publicly available. The authors are also grateful to J. Paul,
+B. Lawrence, K. Sugioka, and N. Jeevanjee for their help with          exhibit normal contextual fear conditioning and    each signal given alone does not disrupt their cir-
+the precipitation data. Thanks also to three anonymous            novel object recognition; however, they navigate    cadian organization (Fig. 1B). This disruptive phase
+reviewers. Data sources are described in the online               poorly in the Morris water maze  (9). In the     shift (DPS) protocol causes arrhythmia by suppress-
+supplementary materials.                                  instances where knockout mice exhibit perform-    ing the amplitude of clock gene oscillations within
+                                             ance deficits, it is unclear whether memory im-    the SCN to zero, thereby driving the clock to its
+SUPPLEMENTARY MATERIALS                       pairments are due to arrhythmia, to pleiotropic    singularity point (17, 18). Induction of arrhythmia at
+www.sciencemag.org/content/346/6211/851/suppl/DC1                                                             the genetic and behavioral levels occurs within a
+Methods
+Fig. S1                                                                                       few days and lasts indefinitely despite the con-                                                                   1Biology Department, Stanford University, Stanford CA, USA.References                                                                                             tinued presence of a daily light-dark cycle (18, 19).                                                          2Department of Psychiatry and Behavioral Sciences, Stanford
+23 July 2014; accepted 20 October 2014                               University, Palo Alto, CA, USA.                        The DPS protocol allowed us to evaluate rec-
+10.1126/science.1259100                                         *Corresponding author. E-mail: ruby@stanford.edu             ognitionandspatialmemoryinarrhythmicSiberian
+
+
+854   14 NOVEMBER 2014 • VOL 346 ISSUE 6211                                                                                  sciencemag.org SCIENCE

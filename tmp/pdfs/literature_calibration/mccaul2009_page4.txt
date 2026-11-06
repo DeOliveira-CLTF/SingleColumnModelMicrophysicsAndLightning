@@ -1,0 +1,110 @@
+Appalachian Mountains intrudes several vertical levels
+into our simulation domain. As a result, all atmospheric
+data from points located beneath the earth’s surface
+were treated as missing and were excluded from our
+calculations of atmospheric quantities.
+Several diverse case studies were selected from the
+north Alabama region, based on the availability of both
+model initialization and boundary data and also of
+‘‘ground truth’’ lightning data from the North Alabama
+Lightning Mapping Array (LMA; Goodman et al. 2005),
+described brieﬂy below. Results from the simulations
+showed varying degrees of success. Simulations that we
+consider to be successful featured deep convection of
+the proper general intensity, with subjectively identiﬁed
+main reﬂectivity features that appeared to resemble
+those of the observed storms, and which occurred in the
+right general area [spatial positioning errors O(100 km)],
+at the right time [temporal errors O(2 h)]. In two other
+cases, the WRF model failed either to initiate or sustain
+convection of the proper intensity and, thus, did not
+provide data that could be used to characterize or cal-
+ibrate the lightning threat associated with the convec-
+tion. For such cases, it was found that even model runs
+initialized with radar reﬂectivity ﬁelds failed to generate
+sustained intense convection. Insofar as the purpose
+of this research is to demonstrate methods of using
+cloud-resolving model output as a means of obtaining
+quantitatively calibrated lightning forecasts–and not to
+pursue a validation study of any speciﬁc model–we con-
+sider here only the successful WRF simulations. For the
+purposes of documenting our ﬂash-rate density fore-
+cast calibration methods, we will present results using
+data from all seven of our successful simulations. For
+the purposes of showing graphically the character of
+individual forecasts, however, we will focus on results
+from two strongly contrasting cases: one featuring a
+tornadic supercell ahead of a frontal squall line on
+30 March 2002, and another featuring smaller and weaker
+cold season hailstorms on 10 December 2004. The
+30 March 2002 event represents a high ﬂash-rate case,
+while the 10 December 2004 case represents the low
+ﬂash-rate end of the spectrum.
+b. Lightning observations
+Our ground-truth lightning dataset consists of ﬂash
+analyses derived from data collected by the north Alabama
+LMA (see, e.g., Krehbiel et al. 2000). Located in the
+greater Huntsville area, this array consists of 10 sensors
+that detect VHF pulses from lightning channel seg-
+ments. After the sensors record the times of received
+pulses, supplied software (version 6.2) cross-correlates
+them and identiﬁes which ones likely correspond to
+individual physical radiation events. Using this infor-
+712
+W E A T H E R A N D
+
+mation, the actual times and three-dimensional loca-
+tions of the physical source events composing the light-
+ning ﬂash segments can be estimated (Hamlin 2004). A
+ﬂash clustering algorithm is then applied to these chro-
+nologically ordered source data to segregate the large
+numbers of individual radiation sources into discrete
+lightning ﬂashes.
+The ﬂash algorithm employs time and space proximity
+criteria to identify which sources are likely to be part of
+any given ﬂash. Sources are assumed to be part of the
+same ﬂash if they occur less than 0.3 s apart in time and
+also satisfy a spatial separation restriction. This spatial
+separation criterion is spatially inhomogeneous, to re-
+ﬂect the differing range and azimuth dependences of the
+LMA location error, and the range dependence of its
+detection efﬁciency characteristics. In addition, consid-
+eration is also given to the maximum likely physical
+spacings between radiating segments of lightning chan-
+nels, but these spacings are treated as spatially homo-
+geneous, at least in the horizontal. Previous research
+(Boccippio et al. 2000; Thomas et al. 2004; Koshak et al.
+2004) has shown that the source range and altitude un-
+certainty increase quadratically with range, while the
+azimuthal error is approximately independent of range.
+As with the range location uncertainty, the LMA detec-
+tion efﬁciency decreases rapidly with range. The physical
+spacing between radiating segments of lightning channels,
+meanwhile, can exceed 1 km.
+Thus, consideration of the above factors, along with
+the study of the radial stretching of LMA-derived storm
+footprints with range, suggests that it is appropriate to
+assume that the maximum allowable total range loca-
+tion difference between successive radiation sources
+that belong to the same ﬂash increases with the square
+of the range from the network center, such that the
+range difference is 10 km at a range of 100 km and 40 km
+at a range of 200 km. Maximum azimuthal location
+uncertainties appear to be bounded by 0.05 rad, which is
+equivalent to 5 km at a range of 100 km. Thus, pairs of
+sources that satisfy our time difference criterion and
+also are spaced at ranges that differ by less than our
+empirical range uncertainty and also at azimuths that
+differ by less than our empirical azimuthal uncertainty
+are considered to be part of the same lightning ﬂash.
+Note that our empirically derived source-linkage spatial
+criteria for points in ﬂashes are considerably larger than
+the simple root-mean-square range and azimuthal errors
+of individual LMA points documented in Thomas et al.
+(2004). This is due to the need to correctly group most, if
+not all, the sources belonging to individual ﬂashes, which
+requires the use of proximity criteria that are much larger
+than the root-mean-square point location errors of indi-
+vidual sources. The proximity criteria are also made
+F O R E C A S T I N G
+VOLUME 24
