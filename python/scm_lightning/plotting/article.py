@@ -335,6 +335,7 @@ def write_manifest():
         'source_code':[{'path':str(p.relative_to(ROOT)),'sha256':sha256(p)} for p in [
             ROOT/'python/scm_lightning/evaluation/article.py',ROOT/'python/scm_lightning/plotting/article.py']],
         'MC_spread':'initial-condition spread only; no method/physics/pulse pooling',
+        'supplementary_state_response_scope':'The state component includes thermodynamics, hydrometeors, density, precipitation and isotherm-height changes; it is not a purely microphysical attribution.',
         'statistics_audit_sha256':sha256(OUT/'audit/current_statistics.json'),'legacy_audit_sha256':sha256(OUT/'audit/legacy_audit.json'),
         'files':[{'path':str(p.relative_to(ROOT)),'sha256':sha256(p),'bytes':p.stat().st_size} for folder in ['figures','tables','supplementary','audit','data'] for p in (OUT/folder).rglob('*') if p.is_file()]})
 
