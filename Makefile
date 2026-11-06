@@ -31,6 +31,8 @@ FFLAGS := -cpp -Dmpas -ffree-form -ffree-line-length-none -fdefault-real-8 -fdef
 COMMON_OBJS := \
   $(BUILD)/process_diagnostics.o \
   $(BUILD)/vertical_diagnostics.o \
+  $(BUILD)/sensitivity_budget.o \
+  $(BUILD)/updraft_pulse.o \
   $(BUILD)/mpas_stubs_offline.o \
   $(BUILD)/mpas_constants.o \
   $(BUILD)/mpas_atmphys_constants.o \
@@ -70,6 +72,8 @@ $(BUILD)/mp_offline_driver: $(MP_DRIVER_OBJS)
 # ---- compile (one pattern rule per source directory; order-only deps on $(BUILD)
 #      just make sure the directory exists, not the compile order -- that's fixed
 #      by the object lists above, which `make` compiles depth-first as needed) ----
+$(BUILD)/%.o: $(SRC)/forcing/%.F90 | $(BUILD)
+	$(FC) $(FFLAGS) -c $< -o $@
 $(BUILD)/%.o: $(SRC)/diagnostics/%.F90 | $(BUILD)
 	$(FC) $(FFLAGS) -c $< -o $@
 $(BUILD)/%.o: $(SRC)/%.F90 | $(BUILD)
@@ -94,6 +98,8 @@ $(BUILD)/ccpp_kind_types.o: $(BUILD)/mpas_stubs_offline.o
 $(BUILD)/mpas_atmphys_constants.o: $(BUILD)/mpas_stubs_offline.o $(BUILD)/mpas_constants.o
 $(BUILD)/mpas_atmphys_functions.o: $(BUILD)/mpas_stubs_offline.o
 $(BUILD)/module_mp_radar.o: $(BUILD)/ccpp_kind_types.o
+$(BUILD)/updraft_pulse.o: $(BUILD)/mpas_stubs_offline.o
+$(BUILD)/sensitivity_budget.o: $(BUILD)/mpas_stubs_offline.o
 $(BUILD)/vertical_diagnostics.o: $(BUILD)/mpas_stubs_offline.o
 $(BUILD)/process_diagnostics.o: $(BUILD)/mpas_stubs_offline.o
 $(BUILD)/module_mp_thompson.o: $(BUILD)/mpas_stubs_offline.o $(BUILD)/mpas_atmphys_functions.o $(BUILD)/module_mp_radar.o $(BUILD)/process_diagnostics.o

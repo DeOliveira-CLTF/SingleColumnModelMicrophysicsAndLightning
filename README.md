@@ -75,3 +75,32 @@ Manifests anteriores foram preservados; `resolve_path` traduz suas referências
 antigas. Consulte [instalação](docs/installation.md), [fontes](docs/data_sources.md),
 [metodologia](docs/methodology.md), [esquemas](docs/lightning_schemes.md) e
 [reprodução](docs/reproducibility.md).
+
+## Sensibilidade determinística do movimento vertical
+
+`configs/experiments/updraft_sensitivity.yaml` congela o desenho meteorológico
+antes dos resultados: ERA5, incremento fraco e incremento mais intenso × seis
+configurações. O pulso conserva a forma cosseno temporal × gaussiana vertical
+do código histórico, sem saturação artificial. O integrador principal e as
+equações físicas são preservados. Não se multiplicam esses casos pelos 40 membros.
+
+```powershell
+python scripts/run_scm.py sensitivity design
+python scripts/run_scm.py sensitivity run
+python scripts/process_lightning.py sensitivity
+```
+
+O desenho existente é imutável; `design` recusa substituí-lo. Compilar com
+`make -j4 BUILD=build/updraft_sensitivity`. Os 18 casos ficam em
+`runs/argentina_20181213/updraft_sensitivity/`. NetCDF derivados, tabelas,
+figuras e testes ficam em `results/argentina_20181213/updraft_sensitivity/`.
+
+`w_LS`, `w_perturbation`, `w_effective=w_LS+w_perturbation` e `w_EDMF` são
+exportados separadamente. A decomposição de quatro combinações de estado e
+velocidade separa resposta do estado, efeito da velocidade e interação, sem
+calibração ou leitura da ENTLN. A contabilidade de água usa massas secas iniciais
+fixas e conserva separadamente os resíduos de microfísica/precipitação e as
+diferenças de densidade; não certifica fechamento atmosférico completo.
+A demanda de divergência para equilibrar o pulso é diagnosticada, não aplicada.
+O integrador existente transporta verticalmente theta e vapor; não foi adicionado
+transporte resolvido de hidrometeoros. Seus produtos de fluxo elétrico são diagnósticos.

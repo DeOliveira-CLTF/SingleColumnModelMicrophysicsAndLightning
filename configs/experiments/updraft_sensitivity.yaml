@@ -1,0 +1,39 @@
+case: LEONA_20181213_14
+design_status: frozen_before_runs_and_any_ENTLN_access
+regimes:
+  ERA5: 0.0
+  weak: 0.4907809653043276
+  strong: 0.9815619306086552
+pulse:
+  start_s: 102600.0
+  duration_s: 10800.0
+  center_m_AGL: 6804.913368535539
+  sigma_m: 1110.547836526137
+design_basis:
+  amplitude: 0, 0.5, 1.0 times 95th percentile of positive ERA5 geometric w in -5
+    to -20 C; capped by incremental Courant<=0.20
+  reference_positive_w_p95_m_s: 0.9815619306086552
+  incremental_courant_cap_amplitude_m_s: 2.6449382328030038
+  timing: Maximum hourly Gaussian-weighted positive ERA5 ascent in fixed column; centered
+    pulse duration from contiguous half-maximum episode, bounded to 1-3 h
+  duration_unbounded_s: 10800.0
+  height: Median ERA5 -15 C height AGL; sigma=half median thickness from -5 to -20
+    C
+  interpretation_scope: Prescribed advective sensitivity, not a dynamically balanced
+    reconstruction or resolved convective plume
+  centered_Euler: Courant is an exposure diagnostic, not a stability proof for centered
+    forward Euler; numerical and clipping checks remain mandatory
+forcing_sha256: fed396c8d6e97b18313dc0178245b8b1185861d079162e37e803e9564ed0b3cc
+meteorology_sources:
+  data\intermediate\era5\reanalysis_pl.nc: 3a47264081f1f3d264a1796f40172482cea370bceb89451743d87d148af99dab
+  data\intermediate\era5\reanalysis_sl.nc: b9aee5784b7cdd32862746a27ac88e8c7835d5c12f933a933ce8d3911cb42b56
+historical_pulse_source_sha256: 415ba0c9efe508404d8cfe65e649f64ec72a96561e09524f28503426d8a6132f
+initial_conditions: Exact unmodified full-case forcing; no saturation adjustment
+mynn: type=0, explicit plume MP=0, w2=0; pulse is not supplied to MYNN as vertical
+  velocity
+continuity: Horizontal advection and pressure remain prescribed ERA5. Added vertical
+  motion is not balanced by a horizontal mass-divergence adjustment; diagnose this
+  inconsistency explicitly.
+primary_ensemble: 40-member T/humidity ensemble remains unchanged; only 18 deterministic
+  runs
+ENTLN_accessed: false

@@ -61,6 +61,8 @@ program mp_offline_driver
        &                             uedmf_src, uedmf_src_th, uedmf_T_flux, uedmf_c_flux, uedmf_thl_flux, uedmf_diag_fo_pos, uedmf_diag_fo_neg, &
        &                             uedmf_c_eps, uedmf_c_delta, uedmf_c_lambda, uedmf_beta, uedmf_mu0, uedmf_chi, uedmf_c_gamma
   use mpas_atmphys_lightning, only : driver_lightning
+  use sensitivity_budget, only: sb_open,sb_begin,sb_transport,sb_before_mp,sb_finish,sb_close
+  use updraft_pulse, only: pulse_profile
   use vertical_diagnostics, only: vd_open, vd_write, vd_close
   use process_diagnostics, only : pd_open, pd_begin, pd_finish, pd_close
   use, intrinsic :: ieee_arithmetic, only : ieee_value, ieee_quiet_nan
@@ -87,6 +89,9 @@ program mp_offline_driver
   logical :: write_process_diagnostics = .false. ! observational hooks only
   logical :: write_water_budget = .false. ! native microphysics water closure only
   logical :: write_vertical_diagnostics = .false. ! read-only MYNN entry snapshots
+  real(RKIND) :: pulse_amplitude=0.0_RKIND,pulse_start=0.0_RKIND,pulse_duration=3600.0_RKIND
+  real(RKIND) :: pulse_center=5000.0_RKIND,pulse_sigma=1000.0_RKIND
+  real(RKIND),allocatable :: w_ls_diagnostic(:),w_pulse_diagnostic(:)
   integer :: water_budget_unit
   real(kind=RKIND), allocatable :: budget_before(:), budget_native_mass(:)
   real(kind=RKIND) :: budget_rain_before, budget_delta, budget_rain_delta, budget_residual
@@ -117,7 +122,8 @@ program mp_offline_driver
        &                       mynn_uedmf_thermo, mynn_uedmf_c0_auto, mynn_uedmf_qc_crit, &
        &                       mynn_uedmf_e0_floor, mynn_uedmf_econv, mynn_uedmf_econv_l, mynn_uedmf_hmode, mynn_uedmf_mp, plume_channel_conserve, &
        &                       mynn_uedmf_c_eps, mynn_uedmf_c_delta, mynn_uedmf_c_lambda, mynn_uedmf_beta, mynn_uedmf_mu0, mynn_uedmf_chi, mynn_uedmf_c_gamma, &
-       &                microp_scheme, legacy_temperature_tendency, legacy_lightning, write_process_diagnostics, write_water_budget, write_vertical_diagnostics
+       &                microp_scheme, legacy_temperature_tendency, legacy_lightning, write_process_diagnostics, write_water_budget, write_vertical_diagnostics, &
+       pulse_amplitude, pulse_start, pulse_duration, pulse_center, pulse_sigma
 
   ! ---- vertical grid (1-D, driver's own bookkeeping) ----
   real(kind=RKIND), allocatable :: z(:), dz(:)
@@ -195,6 +201,7 @@ program mp_offline_driver
   allocate(tke_diag(nz), mixlen_diag(nz), exch_h_diag(nz), exch_m_diag(nz))
   allocate(cldfra_bl_diag(nz), qc_bl_diag(nz), qi_bl_diag(nz))
   allocate(mf_a_diag(nz), mf_w_diag(nz))
+  allocate(w_ls_diagnostic(nz),w_pulse_diagnostic(nz))
   pblh_diag = 0.0_RKIND
   tke_diag = 0.0_RKIND; mixlen_diag = 0.0_RKIND; exch_h_diag = 0.0_RKIND; exch_m_diag = 0.0_RKIND
   cldfra_bl_diag = 0.0_RKIND; qc_bl_diag = 0.0_RKIND; qi_bl_diag = 0.0_RKIND
@@ -275,6 +282,7 @@ program mp_offline_driver
   snownc = 0.0_RKIND; snowncv = 0.0_RKIND; graupelnc = 0.0_RKIND; graupelncv = 0.0_RKIND
 
   call output_open(trim(path_output), nz, z)
+  if (write_vertical_diagnostics) call sb_open(trim(path_output)//".stage_water.csv",nz,dz,pres(1,:,1),th(1,:,1),qv(1,:,1))
   if (write_vertical_diagnostics) call vd_open(trim(path_output)//".vertical.nc", nz, z, dz, mynn_edmf_type, mynn_uedmf_mp)
   if (write_water_budget) then
     open(newunit=water_budget_unit, file=trim(path_output)//'.water_budget.csv', status='replace', action='write')
@@ -304,6 +312,9 @@ program mp_offline_driver
 
     call goamazon_get_forcing_at_time(gfile, t_sec, nz, z, pres(1,:,1), ta_adv, rv_adv, rt_adv, &
          &                            w3(1,:,1), hfss_t, hfls_t, ps_t, ts_t, z0_t, u_col, v_col)
+    w_ls_diagnostic=w3(1,:,1)
+    w_pulse_diagnostic=pulse_profile(z,t_sec,pulse_start,pulse_duration,pulse_center,pulse_sigma,pulse_amplitude)
+    if (pulse_amplitude>0.0_RKIND) w3(1,:,1)=w_ls_diagnostic+w_pulse_diagnostic
     pii = (pres/p0)**rcp
     tt  = th(1,:,1)*pii(1,:,1)
     rho = pres(1,:,1) / (R_d*tt*(1.0_RKIND + 0.61_RKIND*qv(1,:,1)))
@@ -327,13 +338,15 @@ program mp_offline_driver
       rqcblten = 0.0_RKIND; rqiblten = 0.0_RKIND
     end if
 
-    if (write_vertical_diagnostics) call vd_write(t_sec, nz, dz, w3(1,:,1), rho, mf_a_diag, mf_w_diag, tt, &
-         pres(1,:,1), qv(1,:,1), qc(1,:,1), qr(1,:,1), qi(1,:,1), qs(1,:,1), qg(1,:,1))
+    if (write_vertical_diagnostics) call vd_write(t_sec, nz, dz, w_ls_diagnostic, rho, mf_a_diag, mf_w_diag, tt, &
+         pres(1,:,1), qv(1,:,1), qc(1,:,1), qr(1,:,1), qi(1,:,1), qs(1,:,1), qg(1,:,1), w_pulse_diagnostic, w3(1,:,1))
 
     ! --- apply forcing: horizontal advection (from the file) plus
     !     vertical advection -w*d(.)/dz using the column's own current
     !     gradient (see header note on the revealed-forcing convention)
+    if (write_vertical_diagnostics) call sb_begin(nz,process_state(),dt_microp,dz,rv_adv,w_ls_diagnostic,w_pulse_diagnostic)
     call apply_forcing_and_advance(nz, dz, dt_microp, w3(1,:,1), ta_adv, rv_adv, th(1,:,1), qv(1,:,1))
+    if (write_vertical_diagnostics) call sb_transport(process_state())
     th(1,:,1) = th(1,:,1) + dt_microp*rthblten
     qv(1,:,1) = max(qv(1,:,1) + dt_microp*rqvblten, 0.0_RKIND)
     ! --- EXPERIMENTAL, NOT MASS-CONSERVING (upper-bound sensitivity only; see the report): the flux form lacks the
@@ -375,6 +388,7 @@ program mp_offline_driver
       end do
     end if
 
+    if (write_vertical_diagnostics) call sb_before_mp(process_state())
     itimestep = itimestep + 1
     if (write_water_budget) then
       budget_before = qv(1,:,1)+qc(1,:,1)+qr(1,:,1)+qi(1,:,1)+qs(1,:,1)+qg(1,:,1)
@@ -437,6 +451,7 @@ program mp_offline_driver
     ! cldtop_km below are therefore unused, passed only because the
     ! interface requires them.
     if (write_process_diagnostics) call pd_finish(t_sec + dt_microp, process_state())
+    if (write_vertical_diagnostics) call sb_finish(t_sec+dt_microp,process_state(),rainncv(1,1))
     if (write_water_budget) then
       budget_delta = sum((qv(1,:,1)+qc(1,:,1)+qr(1,:,1)+qi(1,:,1)+qs(1,:,1)+qg(1,:,1)-budget_before)*budget_native_mass)
       budget_rain_delta = rainnc(1,1)-budget_rain_before
@@ -466,6 +481,7 @@ program mp_offline_driver
 
   call output_close()
   if (write_vertical_diagnostics) call vd_close()
+  if (write_vertical_diagnostics) call sb_close()
   if (write_water_budget) close(water_budget_unit)
   if (write_process_diagnostics) call pd_close()
   call goamazon_close(gfile)

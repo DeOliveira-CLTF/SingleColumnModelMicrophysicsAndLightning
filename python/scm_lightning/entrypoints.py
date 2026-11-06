@@ -6,11 +6,11 @@ import sys
 ACTIONS = {
     "download": {"era5": "cli:download-era5", "soundings": "cli:soundings", "cache": "cli:cache-inputs", "boundaries": "download.boundaries:main"},
     "prepare_forcing": {"assemble": "forcing.assemble:main", "build": "cli:forcing", "select-support": "forcing.select_support:main", "collocate-eda": "cli:collocate-eda"},
-    "run_scm": {"controls": "cli:controls", "prepare-ensemble": "cli:prepare-ensemble", "ensemble": "cli:run-ensemble"},
-    "process_lightning": {"observations": "cli:lightning", "aggregate": "observations.finalize:main", "diagnostics": "lightning.adaptations:main", "native": "evaluation.process_ensemble:main"},
+    "run_scm": {"sensitivity": "ensemble.updraft_sensitivity:main", "controls": "cli:controls", "prepare-ensemble": "cli:prepare-ensemble", "ensemble": "cli:run-ensemble"},
+    "process_lightning": {"sensitivity": "evaluation.updraft_sensitivity:main", "observations": "cli:lightning", "aggregate": "observations.finalize:main", "diagnostics": "lightning.adaptations:main", "native": "evaluation.process_ensemble:main"},
     "calibrate": {"fit": "evaluation.process_ensemble:main", "adaptations": "lightning.adaptations:evaluate_main"},
     "evaluate": {"contracts": "evaluation.check_delivery:main", "stability": "evaluation.check_stability:main", "controls": "evaluation.check_controls:main", "vertical": "evaluation.vertical_audit:main", "migration": "evaluation.migration:main", "tables": "evaluation.finalize_execution:main"},
-    "plot": {"all": "plotting.figures:main"},
+    "plot": {"sensitivity": "evaluation.updraft_sensitivity:plot_main", "all": "plotting.figures:main"},
     "reproduce": {"status": "cli:status", "audit": "cli:audit", "archive": "evaluation.archive_products:main", "utc": "evaluation.normalize_time:main", "inventory": "evaluation.prepare_products:main"},
 }
 

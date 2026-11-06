@@ -7,7 +7,7 @@ module vertical_diagnostics
   private
   public :: vd_open, vd_write, vd_close
   integer :: nc, td, ld, zd, rec=0, ti, zi, li, dzi
-  integer :: ids(17)
+  integer :: ids(20)
 contains
   subroutine check(status)
     integer, intent(in) :: status
@@ -58,10 +58,13 @@ contains
     call define('qs','kg kg-1',[ld,td],ids(15))
     call define('qg','kg kg-1',[ld,td],ids(16))
     call define('graupel_plume_flux_available','1',[td],ids(17))
+    call define('w_perturbation','m s-1',[ld,td],ids(18))
+    call define('w_effective','m s-1',[ld,td],ids(19))
+    call define('w_effective_interface','m s-1',[zd,td],ids(20))
     call check(nf90_put_att(nc,nf90_global,'sample_phase', &
       'At forcing time, immediately after MYNN call, before applying tendencies, transport or microphysics'))
     call check(nf90_put_att(nc,nf90_global,'velocity_frame', &
-      'MYNN receives w2=0; w_EDMF is its area-weighted plume velocity. w_LS prescribed separately; never summed.'))
+      'MYNN receives w2=0; w_effective=w_LS+w_perturbation is prescribed geometric transport; never add w_EDMF.'))
     call check(nf90_put_att(nc,nf90_global,'rhoz_definition', &
       '(rho(k)*dz(k+1)+rho(k+1)*dz(k))/(dz(k+1)+dz(k)); exact MYNN interpolation'))
     call check(nf90_put_att(nc,nf90_global,'inactive_plume_policy', &
@@ -85,11 +88,13 @@ contains
     rec=0
   end subroutine
 
-  subroutine vd_write(time,nz,dz,w,rho,area,mfw,t,p,qv,qc,qr,qi,qs,qg)
+  subroutine vd_write(time,nz,dz,w,rho,area,mfw,t,p,qv,qc,qr,qi,qs,qg,wpert,weffective)
     integer, intent(in) :: nz
     real(RKIND), intent(in) :: time,dz(nz),w(nz),rho(nz),area(nz),mfw(nz)
     real(RKIND), intent(in) :: t(nz),p(nz),qv(nz),qc(nz),qr(nz),qi(nz),qs(nz),qg(nz)
+    real(RKIND), intent(in),optional :: wpert(nz),weffective(nz)
     real(RKIND) :: rz(nz-1),wi(nz-1),we(nz-1),active(nz-1),zero
+    real(RKIND) :: perturb(nz),effective(nz),effective_i(nz-1)
     integer :: k
     do k=1,nz-1
       rz(k)=(rho(k)*dz(k+1)+rho(k+1)*dz(k))/(dz(k+1)+dz(k))
@@ -111,6 +116,13 @@ contains
     call put(ids(15),qs);call put(ids(16),qg)
     zero=0.0_RKIND
     call check(nf90_put_var(nc,ids(17),[zero],start=[rec],count=[1]))
+    perturb=0.0_RKIND;effective=w
+    if (present(wpert)) perturb=wpert
+    if (present(weffective)) effective=weffective
+    do k=1,nz-1
+      effective_i(k)=(effective(k)*dz(k+1)+effective(k+1)*dz(k))/(dz(k+1)+dz(k))
+    enddo
+    call put(ids(18),perturb);call put(ids(19),effective);call put(ids(20),effective_i)
   end subroutine
 
   subroutine put(id,x)
