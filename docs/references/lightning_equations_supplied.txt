@@ -1,0 +1,349 @@
+ESQUEMAS DE RAIOS - EQUACOES E ESPECIFICACOES PARA O CODEX
+Versao: 2026-11-05 | Formato: TXT UTF-8 | Uso: referencia tecnica, nao codigo executavel
+
+ESCOPO E FONTES
+[A] Barthe, Deierling & Barth (2010), JGR 115, D24202,
+    DOI 10.1029/2010JD014405; PDF enviado, seccoes 2 e 7, pp. 2-4 e 9.
+[B] Romps (2019), GRL 46, 14863-14871, DOI 10.1029/2019GL085748;
+    PDF enviado, sec. 3, pp. 2-3 (equacoes 1-4).
+[C] Projeto_FAPESP_vFinal.pdf enviado, sec. 4.2, pp. impressas 12-13,
+    equacoes (4.1)-(4.3); contem proposta de adaptacao de McCaul.
+[D] McCaul et al. (2009), Weather and Forecasting 24, 709-729,
+    DOI 10.1175/2008WAF2222152.1; artigo original NAO estava entre
+    os PDFs enviados. Conferido adicionalmente em versao tecnica NASA:
+    https://ntrs.nasa.gov/api/citations/20080048096/downloads/20080048096.pdf
+[E] Yair et al. (2010), JGR, DOI 10.1029/2008JD010868;
+    citado por [A], mas formula completa NAO aparece no PDF de [A].
+    Equacoes conferidas em publicacoes externas de Yair e revisao NHESS:
+    https://agupubs.onlinelibrary.wiley.com/doi/10.1029/2008JD010868
+    https://nhess.copernicus.org/articles/22/2943/2022/
+
+AVISO: este arquivo nao substitui os artigos para julgar aplicabilidade.
+Equacoes publicadas, ajustes publicados e adaptacoes 1D sao DISTINTOS.
+Nao atribuir a um esquema uma taxa absoluta quando ele fornece apenas proxy.
+
+======================================================================
+0. NOTACAO, DIMENSOES E REGRAS TRANSVERSAIS
+======================================================================
+T [K], Tc [graus C], p [Pa], z [m AGL ou ASL, conforme definicao],
+w [m/s] velocidade vertical; w > 0 = ascensao.
+qv, qc, qr, qi, qs, qg: vapor, nuvem liquida, chuva, gelo de nuvem,
+neve e graupel. Especificar se q se refere a massa de ar SECO ou UMIDO.
+rho [kg/m^3] densidade de ar compatível com a base de massa dos q.
+rho_i e rho_g [kg/m^3]: concentracoes massicas de gelo e graupel.
+Se q_i e q_g sao razoes de mistura por kg de AR SECO:
+  rho_i = rho_d * qi  ;  rho_g = rho_d * qg
+Se q_i e q_g sao fracoes massicas por kg de AR UMIDO:
+  rho_i = rho_air * qi;  rho_g = rho_air * qg
+Nao confundir densidade de hidrometeor com densidade do ar.
+
+Hstep(x) = 1 para x > 0; Hstep(x) = 0 para x <= 0.
+A condicao no valor exato do limiar deve ser documentada.
+SUM[z] representa soma sobre camadas com espessura dz, respeitando
+mascaras, posicao da variavel e valores de fronteira.
+SUM[volume] representa soma 3D em celulas de tempestade.
+
+Escalas diferentes, NAO diretamente comparaveis:
+  f [flashes/min]       : taxa total de uma tempestade ou objeto;
+  FD [flashes/km^2/dia]: densidade de taxa;
+  F1,F2,F3 de McCaul   : origens de flashes/(5 min)/celula da grade
+                        na calibracao original (nao total do SCM);
+  LPI [J/kg]           : indice de potencial de eletrificacao;
+  CAPE*P [W/m^2]      : proxy energetico;
+  PW10 [kg/m^2/s]      : precipitacao condicionada;
+  IFluxT [kg/m^2/s]    : fluxo vertical de gelo de nuvem;
+  I*G [kg^2/m^5]      : produto integrado de concentracoes.
+
+Nunca aplicar coeficientes originalmente calibrados com area ou tempo
+especificos a uma coluna unica sem declarar a transformacao.
+As variaveis de um esquema devem referir-se a suporte fisico compativel.
+
+======================================================================
+1. BARTHE ET AL. 2010 - SEIS RELACOES ORIGINAIS (sec. 2)
+======================================================================
+
+[A1] MASSA DE GELO PRECIPITANTE - Deierling et al. (2008)
+  EQUACAO [A], eq. (1):
+    f = 3.4e-8 * PM - 18.1
+  PM [kg] = massa TOTAL de gelo PRECIPITANTE dentro da tempestade,
+            em regioes com Tc < -5 C.
+  f [flashes/min], total da tempestade.
+  ENTRADAS: classificacao de gelo precipitante, densidade, volumes
+            3D, mascara da tempestade, temperatura.
+  SCM: SUM(rho*q_precip_ice*dz) fornece kg/m^2, NAO PM em kg.
+       Multiplicar por area arbitraria nao reproduz o metodo original.
+  Intercepto pode gerar valores negativos fora do dominio calibrado;
+  qualquer truncamento deve ser declarado como pos-processamento.
+
+[A2] ICE WATER PATH - Petersen et al. (2005)
+  EQUACAO [A], eq. (2):
+    FD = 33.33 * IWP - 0.17
+  FD [flashes/km^2/dia]; IWP [kg/m^2].
+  DEFINICAO aplicada por [A]: integral vertical de gelo precipitante
+  MAIS nao precipitante, somente onde Tc < -10 C E Z > 18 dBZ.
+  ENTRADAS: gelo, densidade, espessuras, temperatura, refletividade Z.
+  Em [A], a passagem a taxa de tempestade usa hipotese adicional de
+  que cada bloco de 0.5 x 0.5 grau representa uma tempestade.
+  SCM: IWP sem mascara de refletividade NAO e a mesma variavel.
+  Nao atribuir unidade flashes/min sem conversao espacial/temporal.
+
+[A3] PRODUTO DE FLUXOS DE GELO - Deierling et al. (2008)
+  EQUACAO [A], eqs. (3)-(5):
+    f = 9.0e-15 * (fp * fnp) + 13.4
+    fp  = SUM[volume]{(-vp) * qp  * rho * dV}
+    fnp = SUM[volume]{ div_h_np * qnp * rho * dV}
+  Somar SOMENTE em temperatura Tc < -5 C.
+  fp [kg*m/s]; fnp [kg/s]; produto [kg^2*m/s^2].
+  vp [m/s] = velocidade terminal do gelo precipitante (convencao
+              de sinal do artigo); div_h_np [1/s] = divergencia
+              horizontal da componente de gelo nao precipitante.
+  qp/qnp: razoes de mistura das classes apropriadas.
+  ADAPTACAO feita por Barthe [A], paragrafo 14 (NAO a formula 3D
+  observacional original): fp usa (w - vp) em lugar de (-vp); fnp e
+  relacionado a SUM[(w - vnp)*rho*qnp*dV], por aproximacao fisica.
+  A substituicao de divergencia por transporte vertical necessita
+  justificativa dimensional/operacional; nao preservar o coeficiente
+  9e-15 para uma expressao reconfigurada sem validacao.
+  SCM: faltam velocidades terminais diagnosticas e divergencia 3D.
+
+[A4] VOLUME DE ASCENDENCIA - Deierling & Petersen (2008)
+  EQUACAO [A], eq. (6):
+    f = 6.75e-11 * V5 - 13.9
+    V5 = SUM[volume]{dV | Tc < -5 C AND w > 5 m/s}
+  V5 [m^3]; f [flashes/min].
+  ENTRADAS: velocidade convectiva 3D, temperatura, volume da tempestade.
+  SCM: nao existe V5 fisicamente definido somente por perfil 1D.
+
+[A5] ALTURA DO TOPO CONVECTIVO - Price & Rind (1992), continente
+  EQUACAO [A], eq. (7):
+    f = 3.44e-5 * H^4.9
+  H [km], em [A] altura MAXIMA do eco de refletividade de 20 dBZ.
+  f [flashes/min] para tempestade continental.
+  ENTRADAS: Z e geometria espacial. Topo da nuvem por qc/qi > 0
+  NAO equivale ao topo de eco de 20 dBZ.
+
+[A6] MAXIMO DE VELOCIDADE VERTICAL - Price & Rind (1992)
+  EQUACAO [A], eq. (8), k = 4.5:
+    f = 5.0e-6 * (wmax)^4.5
+  wmax [m/s] = velocidade ASCENDENTE maxima na tempestade.
+  f [flashes/min]. Relacao continental.
+  O movimento de grande escala w_ERA5 nao equivale a wmax convectivo.
+  A opcao MYNN-EDMF requer auditoria de unidade, altura, area e
+  correspondencia das plumas antes de usar esta formula.
+
+--- REGRESSOES EMPIRICAS REAJUSTADAS POR BARTHE - NAO SAO [A1]-[A6] ---
+Fonte: [A], Tabela 1, p. 9 do PDF; regressao entre PARAMETROS
+OBSERVADOS e taxa OBSERVADA em dois eventos especificos.
+Todas as saidas f abaixo em flashes/min; NAO sao calibracoes universais.
+  massa precip.     f = 7.64e-9 * PM + 3.05
+  IWP               f = 7.67 * IWP + 4.29
+  produto fluxos    f = 1.29e-14 * (fp*fnp) + 4.54
+  volume asc.       f = 2.87e-11 * V5 + 4.76
+  velocidade max.   f = 1.30e-2 * (wmax)^2.2
+  topo              f = 1.71e-9 * H^8.7
+OBS.: [A] tambem ajustou, separadamente, vieses MODELO-OBSERVACAO
+nos parametros antes de estimar flashes. Nao confundir essa etapa
+com a regressao de relampagos da Tabela 1.
+
+======================================================================
+2. ROMPS 2019 - QUATRO PROXIES (sec. 3, eqs. 1-4)
+======================================================================
+
+[B1] CAPE x PRECIPITACAO
+  EQUACAO [B], eq. (1):
+    X_CAPEP(x,y,t) = CAPE(x,y,t) * P(x,y,t)
+  CAPE [J/kg]; P [kg/m^2/s]; X_CAPEP [W/m^2].
+  CAPE e calculada para ascensao ISENTROPICA de ar proximo da superficie.
+  Na analise CONUS: CAPE instantanea e taxa P media nas 3 horas
+  SEGUINTES; no RCE: CAPE e P dos respectivos perfis/medias.
+  CAPE de parcela com outras hipoteses e janela P de 15 min sao
+  ADAPTACOES, nao a configuracao temporal reproduzida por [B].
+  Nenhum coeficiente de conversao universal para flashes e dado por [B].
+
+[B2] PW10 - PRECIPITACAO CONDICIONADA A ASCENDENCIA INTENSA
+  EQUACAO [B], eq. (2):
+    X_PW10(x,y,t) = P(x,y,t) * Hstep(max_z(w(x,y,z,t)) - 10 m/s)
+  P [kg/m^2/s]; w [m/s]; X_PW10 [kg/m^2/s].
+  Nao e P*w nem P*wmax. Necessita velocidade convectiva resolvida.
+  Um w de grande escala nao testa a hipotese fisica de PW10.
+
+[B3] IFluxT - FLUXO DE GELO DE NUVEM EM ISOTERMA
+  EQUACAO [B], eq. (3):
+    X_IFLUXT(x,y,t) = rho_i(x,y,z260,t) * w(x,y,z260,t)
+                      * Hstep(w(x,y,z260,t) - 1 m/s)
+    T(x,y,z260,t) = 260 K = -13.15 C
+  rho_i [kg/m^3] = concentracao de GELO DE NUVEM, NAO gelo total;
+  w [m/s]; X_IFLUXT [kg/m^2/s].
+  Requer interpolar ambos na mesma isoterma; cuidar de multiplos
+  cruzamentos de T=260 K. Corrente ascendente convectiva resolvida.
+
+[B4] I x G - PRODUTO INTEGRADO DE GELO DE NUVEM E GRAUPEL
+  EQUACAO [B], eq. (4):
+    X_IXG(x,y,t) = integral_[0,topo] rho_i(x,y,z,t)*rho_g(x,y,z,t) dz
+  rho_i, rho_g [kg/m^3]; X_IXG [kg^2/m^5].
+  A integral original cobre a COLUNA COMPLETA, sem mascara 0..-20 C.
+  Se qi e qg sao kg/kg de ar seco, integrando = (rho_d^2)*qi*qg.
+  Nao substituir rho_i por todo gelo (qi+qs+qg).
+
+[B5] IFluxP - COMPARADOR CITADO POR ROMPS (Finney et al. 2014)
+  DESCRICAO [B], sec. 3.3 (nao figura entre as quatro eqs numeradas):
+    X_IFLUXP = rho_i(z_440hPa)*w(z_440hPa)
+               * Hstep(w(z_440hPa) - 1 m/s)
+    p(z_440hPa) = 440 hPa = 44 kPa
+  Unidade [kg/m^2/s]. Diferenca: nivel ISOBARICO fixo em vez de 260 K.
+
+NOTAS [B]: os quatro principais X sao PROXIES distintos e nao taxa
+absoluta. A validade depende das velocidades RESOLVIDAS pelo CRM.
+O artigo nao oferece coeficiente unico que converta cada X em flash/min.
+
+======================================================================
+3. MCCAUL 2009 E FORMULACAO NO PROJETO FAPESP
+======================================================================
+
+[C,D1] F1 - FLUXO CINEMATICO DE GRAUPEL NA ISOTERMA -15 C
+  EQUACAO [C], parcela da eq. 4.1; [D], eq. 3:
+    GFX = (w * qg)|_(T=258.15 K)
+    F1 = k1 * GFX
+  qg = graupel; w [m/s]. NAO ha rho multiplicando GFX original.
+  COEFICIENTE [D]: k1 = 0.042 (original, calibrado para o suporte
+  espacial/temporal e dados LMA especificos do trabalho).
+  UNIDADE CRITICA: trabalhos de implementacao reportam uso de qg em
+  g/kg na regressao de F1; valores do SCM em kg/kg exigem qg_gkg=1000*qg.
+  A literatura historica possui notacao dimensional nao convencional:
+  NAO assumir que o numero 0.042 pode ser usado sobre kg/kg sem testar.
+  Aplicar mascara de fluxo ASCENDENTE na isoterma -15 C; caso nao haja
+  cruzamento valido ou graupel, registrar ausencia/zero de acordo com
+  definicao, sem inventar a altura.
+
+[C,D2] F2 - VERTICALLY INTEGRATED ICE / VII
+  EQUACAO [C], parcela da eq. 4.1; [D], eq. 4:
+    VII = integral_[base,topo] rho(z)*(qg(z)+qs(z)+qi(z)) dz
+    F2 = k2 * VII
+  VII [kg/m^2]; qg, qs, qi [kg/kg] em base coerente com rho.
+  [D]: integrar por toda profundidade da coluna de tempestade.
+  COEFICIENTE [D]: k2 = 0.20. Nao inserir fator 1000 em VII.
+
+[C,D3] F3 - COMBINACAO PONDERADA
+  EQUACAO [C], eq. 4.1; [D], eq. 5:
+    F3 = r1*F1 + r2*F2
+    r1 = 0.95 ; r2 = 0.05
+  Pesos originais adimensionais. F1 e F2 ja calibrados sobre a
+  MESMA grandeza antes da combinacao. Nao misturar bruto com calibrado.
+
+ESCALA ORIGINAL [D]: o alvo foi densidade de ORIGENS de flashes por
+celula de grade do estudo em intervalos de CINCO MINUTOS, nao taxa
+integrada de um grande SCM nem contagem de strokes. A calibracao [D]
+comparou MAXIMOS simulados e observados em casos distintos.
+
+LIMIARES PARA EXIBICAO DA AREA DE AMEACA EM [D]:
+    F1 >= 0.01 origem/(5 min)/celula
+    F2 >= 0.40 origem/(5 min)/celula
+    F3 >= 0.02 origem/(5 min)/celula
+Sao limiares empiricos de contorno/area no estudo original; NAO
+aplicar automaticamente como mascara de fisica nem de calibracao SCM.
+
+[C4] POSSIVEL VARIANTE COM DENSIDADE - PROPOSTA DO PROJETO
+  [C] menciona Charn e Parishani (2021) e a possibilidade de usar rho
+  no preditor de fluxo, esquematicamente:
+    GFX_rho = (rho*w*qg)|_(T=258.15 K)
+    F1_rho = k1_rho * GFX_rho
+  ATENCAO: esta forma algebrica e uma explicitacao da ideia em [C],
+  NAO uma equacao numerada nem calibrada em [C]. GFX_rho tem unidade
+  de fluxo de massa, diferente de GFX. k1_rho precisa ser calibrado
+  separadamente. Nao usar k1=0.042 por padrao.
+
+[C5] PARTICAO IC/CG POR PROFUNDIDADE DA NUVEM FRIA - OPCIONAL
+  Projeto [C], eqs. (4.2)-(4.3), atribuido a Price (1993):
+    Hcold [km] = z_topo_nuvem - z_isoterma_0C
+    Z = N_IC/N_CG = 0.021*Hcold^4 - 0.648*Hcold^3
+                     + 7.493*Hcold^2 - 36.54*Hcold + 63.09
+    CG = Ftotal/(1+Z)
+    IC = Ftotal - CG
+  Requer altura de topo fisicamente definida e Hcold na faixa valida.
+  Fora da faixa fisica podem surgir razoes inaplicaveis.
+  Como este estudo observa TOTAL IC+CG, a particao NAO e requisito
+  para o artigo principal. Nao impor 10% CG / 90% IC.
+
+======================================================================
+4. LPI DE YAIR ET AL. 2010 (CITADO, NAO FORMULADO EM BARTHE)
+======================================================================
+
+[E1] LIGHTNING POTENTIAL INDEX (LPI)
+  Formula externa verificada de Yair et al. (2010):
+    LPI = (1/V) * integral_[V, 0C >= Tc >= -20C] epsilon*w^2 dV
+    epsilon = 2*sqrt(Qi*Ql)/(Qi+Ql)
+    Ql = qc + qr
+    Qi = qg*[ sqrt(qs*qg)/(qs+qg) + sqrt(qi*qg)/(qi+qg) ]
+  LPI [J/kg] (= m^2/s^2); epsilon adimensional (0..1);
+  q em razoes de mistura numa mesma base.
+  Evitar NaN: fracao 0/0 recebe zero, documentando a convencao.
+  O metodo original usa volume tridimensional na zona de cargas
+  entre 0 e -20 C e CONDICAO HORIZONTAL adicional: maioria das
+  celulas a ate 5 pontos de grade (~10 km) com w > 0.5 m/s.
+  Uma media vertical 1D nao implementa a condicao de vizinhanca:
+  somente rotular como LPI_1D_adaptado se esta for omitida.
+  LPI nao equivale a raios/min sem uma calibracao observacional.
+  Fonte [A] cita LPI, mas NAO fornece sua formula; [E] e externo.
+
+======================================================================
+5. CONTRATOS DE IMPLEMENTACAO E CALIBRACAO NO SCM (NAO ORIGINAIS)
+======================================================================
+1. Manter separadas versoes originais e versoes adaptadas. Metadados:
+   id_esquema, fonte, eq, coeficientes, unidades, suporte_horiz,
+   suporte_temporal, mascara, metodo_w, metodo_z, elegibilidade.
+2. w_ERA5 = movimento vertical de GRANDE ESCALA prescrito; nao e a
+   ascensao maxima convectiva exigida por PR92, PW10, IFluxT ou McCaul.
+   Se for usado, criar etiqueta distinta _LS_1D_adaptado.
+3. w_MYNN/EDMF deriva de plumas subgrade; auditar rho, unidade real,
+   altitude e fracao de area; verificar hidrometeoros COLACADOS COM A
+   MESMA PLUMA antes de construir fluxos. Nao somar w_ERA5+w_EDMF sem
+   derivacao fisica adequada. Versao assim produzida = ADAPTADA.
+4. Saida 'indisponivel' e diferente de valor 'zero'. Um preditor com
+   valor zero fisicamente definido tambem nao pode ser corrigido por
+   coeficiente multiplicativo.
+5. A area da coluna representada no caso 13-14/12/2018 deve ser
+   fixada por criterio meteorologico independente das observacoes de
+   raios usadas na calibracao; documentar area efetiva em km^2.
+6. O alvo ENTLN deve contar FLASHES unicos (IC+CG), NAO strokes.
+   Agregar apenas apos agrupamento temporal/espacial validado.
+   Contagem em janela dt: N = numero de flashes unicos;
+   taxa R = N/dt_min [flashes/min];
+   densidade D = N/(A_km2*dt_min) [flashes/km^2/min].
+7. Quando o diagnostico X NAO tem unidade de flashes, o ajuste
+   empirico e uma ETAPA NOVA do estudo; nao o atribuir ao artigo:
+       D_hat = a * X, com a >= 0 e unidade apropriada.
+   Ajustar a SOMENTE nos blocos de treino; avaliar em blocos
+   reservados. Preservar formula de X (expoentes, pesos, mascaras).
+8. Para sensibilidade microfisica, calibrar no controle definido antes
+   da avaliacao e manter o mesmo coeficiente a nas outras fisicas.
+   Uma nova calibracao para cada configuracao pode mascarar o efeito
+   microfisico; realizar analise separada se desejado.
+9. Precipitacao total: no driver auditado, rainnc ja inclui
+   equivalente de agua da precipitacao liquida e congelada.
+   P = [rainnc(t2)-rainnc(t1)]/[t2-t1] [kg/m^2/s], tratando resets.
+   NAO somar snownc novamente (subconjunto).
+10. Validar cada metodo por testes de unidades, mascaras termicas,
+    limites verticais, crossing das isotermas e constantes de
+    calibracao. Registros ausentes nao devem ser preenchidos com 0.
+
+======================================================================
+6. ELEGIBILIDADE INICIAL NO REPOSITORIO AUDITADO
+======================================================================
+Possiveis sem dinamica convectiva 3D, apos exportar campos:
+  - B4 I*G: integral fisica 1D de concentracoes, sem coef. de flashes.
+  - B1 CAPE*P: exige CAPE nativa/consistente e taxa P; CAPE nao estava
+    implementada no pos-processamento registrado nas pendencias.
+  - D2 McCaul VII/F2: calculavel, mas a calibracao original nao tem
+    a mesma escala horizontal/temporal do SCM.
+
+Dependem de refletividade, area de tempestade ou 3D:
+  - A1, A2, A3, A4, A5 (para reproduzir a definicao original).
+
+Dependem de ascensao CONVECTIVA e variaveis colocalizadas:
+  - A6, B2, B3, B5, D1/D3 e E1.
+  - Versoes com w_ERA5 ou w_EDMF so sao cientificamente defensaveis
+    se identificadas e testadas como adaptacoes e nao replicas fieis.
+
+Nao numerar indisponibilidade como ausencia de tempestade/raios.
+
+FIM.

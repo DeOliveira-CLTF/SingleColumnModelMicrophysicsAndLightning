@@ -1,0 +1,6 @@
+interval_minutes: 15
+development_end: '2018-12-14T00:00:00Z'
+evaluation_start: '2018-12-14T01:00:00Z'
+coefficient: one nonnegative scale per method on perturbed-member development mean
+A: fit each configuration
+B: freeze TH_C0 scale for all configurations

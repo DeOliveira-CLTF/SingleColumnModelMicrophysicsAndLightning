@@ -1,24 +1,4 @@
-# Makefile for mp_offline
-#
-# Builds the two drivers of this project:
-#   mp_offline_driver  -- GOAMAZON single-column case (Thompson or WSM6, MYNN optional,
-#                          including the unified-EDMF plume core inside MYNN)
-#   ensemble_driver     -- ERA5 ensemble x saturation-perturbation case
-#
-# Requires: gfortran, and a NetCDF-Fortran install findable by nf-config (on the
-# PATH). Everything else (Thompson, WSM6, MYNN...) is extracted physics already
-# checked into src/ -- nothing is downloaded by this Makefile.
-#
-# Usage:
-#   make                  # builds both drivers into build/
-#   make mp_offline_driver
-#   make ensemble_driver
-#   make clean            # removes build/
-#   make DEBUG=1          # -O0 -g -fbacktrace instead of -O2 (faster to rebuild, slower to run)
-#
-# Then run from build/, e.g.:
-#   cd build && ./mp_offline_driver     (reads ./namelist.mp_offline)
-
+# Active Argentina SCM; historical ensemble recipes: archive/goamazon.
 FC      := gfortran
 BUILD   := build
 SRC     := src
@@ -50,6 +30,7 @@ FFLAGS := -cpp -Dmpas -ffree-form -ffree-line-length-none -fdefault-real-8 -fdef
 # ---- object files, in dependency order (see the comment block at the end for why) ----
 COMMON_OBJS := \
   $(BUILD)/process_diagnostics.o \
+  $(BUILD)/vertical_diagnostics.o \
   $(BUILD)/mpas_stubs_offline.o \
   $(BUILD)/mpas_constants.o \
   $(BUILD)/mpas_atmphys_constants.o \
@@ -76,16 +57,8 @@ MP_DRIVER_OBJS := $(COMMON_OBJS) $(MYNN_OBJS) \
   $(BUILD)/goamazon_bridge.o \
   $(BUILD)/mp_offline_driver.o
 
-ENSEMBLE_DRIVER_OBJS := $(COMMON_OBJS) \
-  $(BUILD)/goamazon_bridge.o \
-  $(BUILD)/era5_bridge.o \
-  $(BUILD)/saturation_perturbation.o \
-  $(BUILD)/updraft_forcing.o \
-  $(BUILD)/output_ensemble_netcdf.o \
-  $(BUILD)/ensemble_driver.o
-
 .PHONY: all clean
-all: $(BUILD)/mp_offline_driver $(BUILD)/ensemble_driver
+all: $(BUILD)/mp_offline_driver
 
 $(BUILD):
 	mkdir -p $(BUILD)
@@ -94,12 +67,11 @@ $(BUILD):
 $(BUILD)/mp_offline_driver: $(MP_DRIVER_OBJS)
 	$(FC) $(FFLAGS) -o $@ $(MP_DRIVER_OBJS) $(NF_FLIBS)
 
-$(BUILD)/ensemble_driver: $(ENSEMBLE_DRIVER_OBJS)
-	$(FC) $(FFLAGS) -o $@ $(ENSEMBLE_DRIVER_OBJS) $(NF_FLIBS)
-
 # ---- compile (one pattern rule per source directory; order-only deps on $(BUILD)
 #      just make sure the directory exists, not the compile order -- that's fixed
 #      by the object lists above, which `make` compiles depth-first as needed) ----
+$(BUILD)/%.o: $(SRC)/diagnostics/%.F90 | $(BUILD)
+	$(FC) $(FFLAGS) -c $< -o $@
 $(BUILD)/%.o: $(SRC)/%.F90 | $(BUILD)
 	$(FC) $(FFLAGS) -c $< -o $@
 $(BUILD)/%.o: $(SRC)/%.F | $(BUILD)
@@ -122,6 +94,7 @@ $(BUILD)/ccpp_kind_types.o: $(BUILD)/mpas_stubs_offline.o
 $(BUILD)/mpas_atmphys_constants.o: $(BUILD)/mpas_stubs_offline.o $(BUILD)/mpas_constants.o
 $(BUILD)/mpas_atmphys_functions.o: $(BUILD)/mpas_stubs_offline.o
 $(BUILD)/module_mp_radar.o: $(BUILD)/ccpp_kind_types.o
+$(BUILD)/vertical_diagnostics.o: $(BUILD)/mpas_stubs_offline.o
 $(BUILD)/process_diagnostics.o: $(BUILD)/mpas_stubs_offline.o
 $(BUILD)/module_mp_thompson.o: $(BUILD)/mpas_stubs_offline.o $(BUILD)/mpas_atmphys_functions.o $(BUILD)/module_mp_radar.o $(BUILD)/process_diagnostics.o
 $(BUILD)/mp_wsm6.o: $(BUILD)/ccpp_kind_types.o $(BUILD)/module_libmassv.o $(BUILD)/module_mp_radar.o $(BUILD)/process_diagnostics.o
@@ -137,11 +110,13 @@ $(BUILD)/plume_microphysics_thompson.o: $(BUILD)/mpas_stubs_offline.o $(BUILD)/m
 $(BUILD)/mynn_offline_coupling.o: $(BUILD)/mpas_stubs_offline.o $(BUILD)/bl_mynn_subroutines.o $(BUILD)/bl_mynn.o $(BUILD)/sf_mynn.o
 $(BUILD)/goamazon_bridge.o: $(BUILD)/mpas_stubs_offline.o
 $(BUILD)/mp_offline_driver.o: $(filter-out $(BUILD)/mp_offline_driver.o,$(MP_DRIVER_OBJS))
-$(BUILD)/era5_bridge.o: $(BUILD)/mpas_stubs_offline.o $(BUILD)/mpas_atmphys_constants.o
-$(BUILD)/saturation_perturbation.o: $(BUILD)/mpas_stubs_offline.o $(BUILD)/mpas_atmphys_functions.o
-$(BUILD)/updraft_forcing.o: $(BUILD)/mpas_stubs_offline.o
-$(BUILD)/output_ensemble_netcdf.o: $(BUILD)/mpas_stubs_offline.o
-$(BUILD)/ensemble_driver.o: $(filter-out $(BUILD)/ensemble_driver.o,$(ENSEMBLE_DRIVER_OBJS))
 
 clean:
 	rm -rf $(BUILD)
+
+.PHONY: mp_offline_driver test reproduce
+mp_offline_driver: $(BUILD)/mp_offline_driver
+test:
+	python -m pytest tests -q
+reproduce:
+	python scripts/reproduce.py --help

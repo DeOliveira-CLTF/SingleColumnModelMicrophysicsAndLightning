@@ -186,7 +186,7 @@ contains
     real(kind=RKIND), intent(out), optional :: qc_bl_out(nz)         ! kg/kg, PBL-diagnosed subgrid cloud water
     real(kind=RKIND), intent(out), optional :: qi_bl_out(nz)         ! kg/kg, PBL-diagnosed subgrid cloud ice
     real(kind=RKIND), intent(out), optional :: mf_a_out(nz)          ! 0-1, EDMF updraft area fraction
-    real(kind=RKIND), intent(out), optional :: mf_w_out(nz)          ! m/s, EDMF updraft vertical velocity
+    real(kind=RKIND), intent(out), optional :: mf_w_out(nz)          ! kg m-2 s-1, rhoz * area-weighted plume velocity
     real(kind=RKIND), intent(out), optional :: pblh_out              ! m, boundary-layer height (scalar)
     ! LOCAL-ONLY condensate tendencies: what bl_mynn_run returns for qc/qi when its
     ! EDMF mass-flux component is switched OFF, from the SAME input state. Computed by

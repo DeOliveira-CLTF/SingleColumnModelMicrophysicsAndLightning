@@ -1,0 +1,399 @@
+{
+  "baseline": "394a91af2ad66e7b8be2aab0743f95b416beb900",
+  "moves": [
+    {
+      "old": "leona/acquire.py",
+      "new": "python/scm_lightning/download/__init__.py"
+    },
+    {
+      "old": "leona/forcing.py",
+      "new": "python/scm_lightning/forcing/__init__.py"
+    },
+    {
+      "old": "leona/contracts.py",
+      "new": "python/scm_lightning/forcing/contracts.py"
+    },
+    {
+      "old": "leona/spatial.py",
+      "new": "python/scm_lightning/forcing/spatial.py"
+    },
+    {
+      "old": "leona/lightning.py",
+      "new": "python/scm_lightning/observations/__init__.py"
+    },
+    {
+      "old": "leona/proxies.py",
+      "new": "python/scm_lightning/lightning/__init__.py"
+    },
+    {
+      "old": "leona/postprocess.py",
+      "new": "python/scm_lightning/lightning/postprocess.py"
+    },
+    {
+      "old": "leona/ensemble.py",
+      "new": "python/scm_lightning/ensemble/__init__.py"
+    },
+    {
+      "old": "leona/experiments.py",
+      "new": "python/scm_lightning/ensemble/experiments.py"
+    },
+    {
+      "old": "leona/evaluate.py",
+      "new": "python/scm_lightning/evaluation/__init__.py"
+    },
+    {
+      "old": "leona/figures.py",
+      "new": "python/scm_lightning/plotting/basic.py"
+    },
+    {
+      "old": "leona/io.py",
+      "new": "python/scm_lightning/io.py"
+    },
+    {
+      "old": "leona/provenance.py",
+      "new": "python/scm_lightning/provenance.py"
+    },
+    {
+      "old": "leona/cli.py",
+      "new": "python/scm_lightning/cli.py"
+    },
+    {
+      "old": "leona/__init__.py",
+      "new": "python/scm_lightning/__init__.py"
+    },
+    {
+      "old": "scripts/assemble_leona_era5.py",
+      "new": "python/scm_lightning/forcing/assemble.py"
+    },
+    {
+      "old": "scripts/select_leona_support.py",
+      "new": "python/scm_lightning/forcing/select_support.py"
+    },
+    {
+      "old": "scripts/finalize_leona_observations.py",
+      "new": "python/scm_lightning/observations/finalize.py"
+    },
+    {
+      "old": "scripts/process_leona_controls.py",
+      "new": "python/scm_lightning/evaluation/process_controls.py"
+    },
+    {
+      "old": "scripts/process_leona_ensemble.py",
+      "new": "python/scm_lightning/evaluation/process_ensemble.py"
+    },
+    {
+      "old": "scripts/figures_leona.py",
+      "new": "python/scm_lightning/plotting/figures.py"
+    },
+    {
+      "old": "scripts/check_leona_controls.py",
+      "new": "python/scm_lightning/evaluation/check_controls.py"
+    },
+    {
+      "old": "scripts/check_leona_delivery.py",
+      "new": "python/scm_lightning/evaluation/check_delivery.py"
+    },
+    {
+      "old": "scripts/check_leona_stability.py",
+      "new": "python/scm_lightning/evaluation/check_stability.py"
+    },
+    {
+      "old": "scripts/check_leona_driver.py",
+      "new": "python/scm_lightning/evaluation/check_driver.py"
+    },
+    {
+      "old": "scripts/archive_leona_products.py",
+      "new": "python/scm_lightning/evaluation/archive_products.py"
+    },
+    {
+      "old": "scripts/normalize_leona_native_time.py",
+      "new": "python/scm_lightning/evaluation/normalize_time.py"
+    },
+    {
+      "old": "scripts/finalize_leona_execution.py",
+      "new": "python/scm_lightning/evaluation/finalize_execution.py"
+    },
+    {
+      "old": "scripts/prepare_leona_products.py",
+      "new": "python/scm_lightning/evaluation/prepare_products.py"
+    },
+    {
+      "old": "tests/test_leona.py",
+      "new": "tests/unit/test_contracts.py"
+    },
+    {
+      "old": "tests/test_leona_forcing.py",
+      "new": "tests/integration/test_forcing.py"
+    },
+    {
+      "old": "work/leona/controls/TH_C0",
+      "new": "runs/argentina_20181213/thompson_C0/control"
+    },
+    {
+      "old": "work/leona/controls/TH_CL",
+      "new": "runs/argentina_20181213/thompson_CL/control"
+    },
+    {
+      "old": "work/leona/controls/TH_CF",
+      "new": "runs/argentina_20181213/thompson_CF/control"
+    },
+    {
+      "old": "work/leona/controls/WS_C0",
+      "new": "runs/argentina_20181213/wsm6_C0/control"
+    },
+    {
+      "old": "work/leona/controls/WS_CL",
+      "new": "runs/argentina_20181213/wsm6_CL/control"
+    },
+    {
+      "old": "work/leona/controls/WS_CF",
+      "new": "runs/argentina_20181213/wsm6_CF/control"
+    },
+    {
+      "old": "work/leona/build",
+      "new": "build/leona"
+    },
+    {
+      "old": "work/leona/case_forcing_v2",
+      "new": "data/processed/forcing"
+    },
+    {
+      "old": "work/leona",
+      "new": "runs/argentina_20181213/_execution"
+    },
+    {
+      "old": "products/leona",
+      "new": "results/argentina_20181213"
+    },
+    {
+      "old": "data_private/leona/era5",
+      "new": "data/raw/era5"
+    },
+    {
+      "old": "data_private/leona/raw/entln",
+      "new": "data/raw/entln"
+    },
+    {
+      "old": "data_private/leona/raw/soundings",
+      "new": "data/raw/radiosondes"
+    },
+    {
+      "old": "data_private/leona/processed/soundings",
+      "new": "data/processed/profiles"
+    },
+    {
+      "old": "data_private/leona/wyoming",
+      "new": "data/raw/radiosondes/wyoming"
+    },
+    {
+      "old": "data_private/leona/forcing_source",
+      "new": "data/intermediate/era5"
+    },
+    {
+      "old": "data_private/leona/manifest.json",
+      "new": "data/intermediate/input_inventory.json"
+    },
+    {
+      "old": "era5_forcing/DEPHY-SCM",
+      "new": "external/DEPHY-SCM"
+    },
+    {
+      "old": "data_era5",
+      "new": "archive/goamazon/data_era5"
+    },
+    {
+      "old": "data_goamazon",
+      "new": "archive/goamazon/data_goamazon"
+    },
+    {
+      "old": "era5_forcing",
+      "new": "archive/goamazon/era5_forcing"
+    },
+    {
+      "old": "figuras_artigo",
+      "new": "archive/goamazon/figuras_artigo"
+    },
+    {
+      "old": "figuras_mp_offline",
+      "new": "archive/goamazon/figuras_mp_offline"
+    },
+    {
+      "old": "resultados",
+      "new": "archive/goamazon/resultados"
+    },
+    {
+      "old": "andes_portillo_thompson.nml",
+      "new": "archive/goamazon/andes_portillo_thompson.nml"
+    },
+    {
+      "old": "andes_portillo_wsm6.nml",
+      "new": "archive/goamazon/andes_portillo_wsm6.nml"
+    },
+    {
+      "old": "ensemble.goamazon.nml.sample",
+      "new": "archive/goamazon/ensemble.goamazon.nml.sample"
+    },
+    {
+      "old": "ensemble.nml.sample",
+      "new": "archive/goamazon/ensemble.nml.sample"
+    },
+    {
+      "old": "Makefile_old",
+      "new": "archive/goamazon/Makefile_old"
+    },
+    {
+      "old": "namelist.mp_offline",
+      "new": "archive/goamazon/namelist.mp_offline"
+    },
+    {
+      "old": "output_mp_offline.nc",
+      "new": "archive/goamazon/output_mp_offline.nc"
+    },
+    {
+      "old": "plot_mp_offline.py",
+      "new": "archive/goamazon/plot_mp_offline.py"
+    },
+    {
+      "old": "Projeto_artigo_microfisica_raios_Amazonia.docx",
+      "new": "archive/goamazon/Projeto_artigo_microfisica_raios_Amazonia.docx",
+      "source_retained": "open in another application"
+    },
+    {
+      "old": "README_ANALISE_ARTIGO.md",
+      "new": "archive/goamazon/README_ANALISE_ARTIGO.md"
+    },
+    {
+      "old": "requirements-analysis.txt",
+      "new": "archive/goamazon/requirements-analysis.txt"
+    },
+    {
+      "old": "requirements-leona.txt",
+      "new": "archive/goamazon/requirements-leona.txt"
+    },
+    {
+      "old": "scripts/analisar_experimentos.py",
+      "new": "archive/goamazon/scripts/analisar_experimentos.py"
+    },
+    {
+      "old": "scripts/avaliar_ensemble_amazonia.py",
+      "new": "archive/goamazon/scripts/avaliar_ensemble_amazonia.py"
+    },
+    {
+      "old": "scripts/controlar_perturbacao_inicial.py",
+      "new": "archive/goamazon/scripts/controlar_perturbacao_inicial.py"
+    },
+    {
+      "old": "scripts/diagnosticar_ensemble_goamazon.py",
+      "new": "archive/goamazon/scripts/diagnosticar_ensemble_goamazon.py"
+    },
+    {
+      "old": "scripts/executar_ensemble_goamazon.py",
+      "new": "archive/goamazon/scripts/executar_ensemble_goamazon.py"
+    },
+    {
+      "old": "scripts/executar_experimentos.py",
+      "new": "archive/goamazon/scripts/executar_experimentos.py"
+    },
+    {
+      "old": "scripts/executar_processos_figura7.py",
+      "new": "archive/goamazon/scripts/executar_processos_figura7.py"
+    },
+    {
+      "old": "scripts/gerar_figura7_processos.py",
+      "new": "archive/goamazon/scripts/gerar_figura7_processos.py"
+    },
+    {
+      "old": "scripts/gerar_figuras_artigo.py",
+      "new": "archive/goamazon/scripts/gerar_figuras_artigo.py"
+    },
+    {
+      "old": "scripts/gerar_relatorio_artigo.py",
+      "new": "archive/goamazon/scripts/gerar_relatorio_artigo.py"
+    },
+    {
+      "old": "scripts/historical_contracts.py",
+      "new": "archive/goamazon/scripts/historical_contracts.py"
+    },
+    {
+      "old": "scripts/instrumentar_processos.py",
+      "new": "archive/goamazon/scripts/instrumentar_processos.py"
+    },
+    {
+      "old": "scripts/orcamento_coluna_prescrita.py",
+      "new": "archive/goamazon/scripts/orcamento_coluna_prescrita.py"
+    },
+    {
+      "old": "scripts/relatar_diagnostico_ensemble.py",
+      "new": "archive/goamazon/scripts/relatar_diagnostico_ensemble.py"
+    },
+    {
+      "old": "scripts/relatar_orcamento_prescrito.py",
+      "new": "archive/goamazon/scripts/relatar_orcamento_prescrito.py"
+    },
+    {
+      "old": "scripts/resolucao_controlada.py",
+      "new": "archive/goamazon/scripts/resolucao_controlada.py"
+    },
+    {
+      "old": "scripts/scm_artigo.py",
+      "new": "archive/goamazon/scripts/scm_artigo.py"
+    },
+    {
+      "old": "scripts/test_artigo.py",
+      "new": "archive/goamazon/scripts/test_artigo.py"
+    },
+    {
+      "old": "scripts/test_diagnostico_ensemble.py",
+      "new": "archive/goamazon/scripts/test_diagnostico_ensemble.py"
+    },
+    {
+      "old": "scripts/test_ensemble_goamazon.py",
+      "new": "archive/goamazon/scripts/test_ensemble_goamazon.py"
+    },
+    {
+      "old": "scripts/test_orcamento_prescrito.py",
+      "new": "archive/goamazon/scripts/test_orcamento_prescrito.py"
+    },
+    {
+      "old": "scripts/test_processos_figura7.py",
+      "new": "archive/goamazon/scripts/test_processos_figura7.py"
+    },
+    {
+      "old": "scripts/validar_resultados.py",
+      "new": "archive/goamazon/scripts/validar_resultados.py"
+    },
+    {
+      "old": "src/Makefile",
+      "new": "archive/goamazon/src/Makefile"
+    },
+    {
+      "old": "src/ensemble_driver.F90",
+      "new": "archive/goamazon/src/ensemble_driver.F90"
+    },
+    {
+      "old": "src/era5_bridge.F90",
+      "new": "archive/goamazon/src/era5_bridge.F90"
+    },
+    {
+      "old": "src/output_ensemble_netcdf.F90",
+      "new": "archive/goamazon/src/output_ensemble_netcdf.F90"
+    },
+    {
+      "old": "src/saturation_perturbation.F90",
+      "new": "archive/goamazon/src/saturation_perturbation.F90"
+    },
+    {
+      "old": "src/updraft_forcing.F90",
+      "new": "archive/goamazon/src/updraft_forcing.F90"
+    },
+    {
+      "old": "src/mpas_atmphys_driver_microphysics_REFERENCE.F",
+      "new": "archive/goamazon/src/mpas_atmphys_driver_microphysics_REFERENCE.F"
+    },
+    {
+      "old": "src/process_diagnostics.F90",
+      "new": "src/diagnostics/process_diagnostics.F90"
+    }
+  ],
+  "historical_manifests": "preserved byte-for-byte; use resolve_path for old references"
+}

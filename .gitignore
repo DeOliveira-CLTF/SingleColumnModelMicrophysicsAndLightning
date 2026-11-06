@@ -1,7 +1,24 @@
-# Private observations and reproducible local products (never redistribute).
-/data_private/
-/products/leona/
-/work/leona/
+# Local/private inputs, model runs and generated scientific products.
+/data/raw/
+/data/intermediate/
+/data/processed/
+/runs/
+/results/
+/build/
+*.egg-info/
 __pycache__/
 .pytest_cache/
 *.pyc
+
+# Historical generated material is retained locally, not re-added to Git.
+/archive/goamazon/**/*.nc
+/archive/goamazon/**/*.npz
+/archive/goamazon/**/*.png
+/archive/goamazon/**/*.pdf
+/archive/goamazon/**/*.docx
+/archive/goamazon/**/*.csv
+/archive/goamazon/**/*.log
+/archive/goamazon/**/build/
+/archive/goamazon/**/build_*/
+/archive/goamazon/**/profile_*
+/archive/goamazon/**/summary.nc

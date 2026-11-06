@@ -1,0 +1,9 @@
+microphysics:
+- thompson
+- wsm6
+condensate_coupling:
+- C0
+- CL
+- CF
+mynn_type: 0
+physics_changes: false

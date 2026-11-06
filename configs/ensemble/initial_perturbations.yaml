@@ -1,0 +1,8 @@
+members: 40
+seed: 20181213
+variables:
+- temperature
+- log_dry_air_vapor_mixing_ratio
+paired_across_configurations: true
+source: ERA5 EDA joint anomalies
+pressure: prescribed

@@ -1,0 +1,19 @@
+name: scm-lightning
+channels: [conda-forge]
+dependencies:
+  - python=3.12
+  - numpy
+  - pandas>=2.2
+  - xarray
+  - netcdf4
+  - scipy
+  - matplotlib
+  - metpy>=1.5
+  - requests
+  - cdsapi
+  - pyyaml>=6
+  - pytest
+  - pip
+  - pip:
+      - -e .
+# Build Fortran in Linux/WSL with gfortran and libnetcdff-dev.

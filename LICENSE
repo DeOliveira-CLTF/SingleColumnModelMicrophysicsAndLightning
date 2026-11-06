@@ -1,0 +1,8 @@
+Licensing notice
+
+This repository contains scientific source code from multiple upstream projects.
+Their original copyright and license notices remain in the source files and in
+external/DEPHY-SCM. No blanket relicensing is asserted for these components.
+A license for the project-specific orchestration code has not yet been selected
+by its copyright holder. All rights are reserved unless an existing source notice
+provides otherwise. ENTLN observations and local input data are not redistributed.

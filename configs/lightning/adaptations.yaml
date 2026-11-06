@@ -1,0 +1,107 @@
+original_registry: schemes.yaml
+scope: Separate SCM adaptations; six deterministic controls; not the primary 40-member
+  calibration
+representations:
+  LS: Prescribed ERA5 geometric velocity at SCM centers, m s-1; not resolved convective
+    w
+  EDMF: mf_w/rhoz, m s-1 at internal interfaces; native area-mean plumes; no addition
+    to LS
+EDMF_hydrometeors: Grid-column dry-air mixing ratios assumed representative of active
+  plumes; not covariant species fluxes
+temporal_support: 30-second step-begin snapshots integrated over complete 15-min bins;
+  actual native rainnc increments
+methods:
+- id: PR92_wmax_LS_1D_adaptado
+  equation: 5e-6*max(w,0)**4.5
+  raw_units: published nominal flash/min treated as SCM score
+  isotherm_K: null
+  threshold: null
+  velocity: LS
+  geometry: vertical column only
+- id: PR92_wmax_EDMF_1D_adaptado
+  equation: 5e-6*max(w,0)**4.5
+  raw_units: published nominal flash/min treated as SCM score
+  isotherm_K: null
+  threshold: null
+  velocity: EDMF
+  geometry: vertical column only
+- id: PW10_LS_1D_adaptado
+  equation: P*(max_z(w)>10)
+  raw_units: kg m-2 s-1
+  isotherm_K: null
+  threshold: w>10 m s-1
+  velocity: LS
+  geometry: vertical column only
+- id: PW10_EDMF_1D_adaptado
+  equation: P*(max_z(w)>10)
+  raw_units: kg m-2 s-1
+  isotherm_K: null
+  threshold: w>10 m s-1
+  velocity: EDMF
+  geometry: vertical column only
+- id: IFluxT_LS_1D_adaptado
+  equation: interpolate(rho_d*qi)*interpolate(w)*(w>1)
+  raw_units: kg m-2 s-1
+  isotherm_K: 260.0
+  threshold: w>1 m s-1
+  velocity: LS
+  geometry: vertical column only
+- id: IFluxT_EDMF_1D_adaptado
+  equation: interpolate(rho_d*qi)*interpolate(w)*(w>1)
+  raw_units: kg m-2 s-1
+  isotherm_K: 260.0
+  threshold: w>1 m s-1
+  velocity: EDMF
+  geometry: vertical column only
+- id: McCaul_F1_LS_1D_adaptado
+  equation: .042*max(w,0)*interpolate(1000*qg)
+  raw_units: published cell/5min score
+  isotherm_K: 258.15
+  threshold: w>0
+  velocity: LS
+  geometry: vertical column only
+- id: McCaul_F1_EDMF_1D_adaptado
+  equation: .042*max(w,0)*interpolate(1000*qg)
+  raw_units: published cell/5min score
+  isotherm_K: 258.15
+  threshold: w>0
+  velocity: EDMF
+  geometry: vertical column only
+- id: McCaul_F3_LS_1D_adaptado
+  equation: .95*F1+.05*F2
+  raw_units: published cell/5min score
+  isotherm_K: 258.15
+  threshold: null
+  velocity: LS
+  geometry: vertical column only
+- id: McCaul_F3_EDMF_1D_adaptado
+  equation: .95*F1+.05*F2
+  raw_units: published cell/5min score
+  isotherm_K: 258.15
+  threshold: null
+  velocity: EDMF
+  geometry: vertical column only
+- id: LPI_LS_1D_adaptado
+  equation: depth_mean(epsilon*w**2), center-mask 253.15<=T<=273.15
+  raw_units: J kg-1
+  isotherm_K: null
+  threshold: horizontal neighborhood criterion omitted
+  velocity: LS
+  geometry: vertical column only
+- id: LPI_EDMF_1D_adaptado
+  equation: depth_mean(epsilon*w**2), center-mask 253.15<=T<=273.15
+  raw_units: J kg-1
+  isotherm_K: null
+  threshold: horizontal neighborhood criterion omitted
+  velocity: EDMF
+  geometry: vertical column only
+- id: McCaul_F2_1D_adaptado
+  equation: .20*integral(rho_d*(qi+qs+qg)*dz)
+  raw_units: published cell/5min score
+  velocity: null
+- id: CAPExP_SBCAPE15_1D_adaptado
+  equation: SBCAPE_at_bin_start*P_step
+  raw_units: W m-2
+  cape: MetPy pseudoadiabatic liquid parcel in lowest simulated cell; 15min samples
+    held constant per bin
+  original_isentropic_definition_reproduced: false

@@ -1,0 +1,3 @@
+[submodule "DEPHY-SCM"]
+	path = external/DEPHY-SCM
+	url = https://github.com/GdR-DEPHY/DEPHY-SCM.git

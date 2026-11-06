@@ -61,6 +61,7 @@ program mp_offline_driver
        &                             uedmf_src, uedmf_src_th, uedmf_T_flux, uedmf_c_flux, uedmf_thl_flux, uedmf_diag_fo_pos, uedmf_diag_fo_neg, &
        &                             uedmf_c_eps, uedmf_c_delta, uedmf_c_lambda, uedmf_beta, uedmf_mu0, uedmf_chi, uedmf_c_gamma
   use mpas_atmphys_lightning, only : driver_lightning
+  use vertical_diagnostics, only: vd_open, vd_write, vd_close
   use process_diagnostics, only : pd_open, pd_begin, pd_finish, pd_close
   use, intrinsic :: ieee_arithmetic, only : ieee_value, ieee_quiet_nan
 
@@ -85,6 +86,7 @@ program mp_offline_driver
   logical :: legacy_lightning = .false. ! retired EP and fixed IC/CG partition
   logical :: write_process_diagnostics = .false. ! observational hooks only
   logical :: write_water_budget = .false. ! native microphysics water closure only
+  logical :: write_vertical_diagnostics = .false. ! read-only MYNN entry snapshots
   integer :: water_budget_unit
   real(kind=RKIND), allocatable :: budget_before(:), budget_native_mass(:)
   real(kind=RKIND) :: budget_rain_before, budget_delta, budget_rain_delta, budget_residual
@@ -115,7 +117,7 @@ program mp_offline_driver
        &                       mynn_uedmf_thermo, mynn_uedmf_c0_auto, mynn_uedmf_qc_crit, &
        &                       mynn_uedmf_e0_floor, mynn_uedmf_econv, mynn_uedmf_econv_l, mynn_uedmf_hmode, mynn_uedmf_mp, plume_channel_conserve, &
        &                       mynn_uedmf_c_eps, mynn_uedmf_c_delta, mynn_uedmf_c_lambda, mynn_uedmf_beta, mynn_uedmf_mu0, mynn_uedmf_chi, mynn_uedmf_c_gamma, &
-       &                microp_scheme, legacy_temperature_tendency, legacy_lightning, write_process_diagnostics, write_water_budget
+       &                microp_scheme, legacy_temperature_tendency, legacy_lightning, write_process_diagnostics, write_water_budget, write_vertical_diagnostics
 
   ! ---- vertical grid (1-D, driver's own bookkeeping) ----
   real(kind=RKIND), allocatable :: z(:), dz(:)
@@ -273,6 +275,7 @@ program mp_offline_driver
   snownc = 0.0_RKIND; snowncv = 0.0_RKIND; graupelnc = 0.0_RKIND; graupelncv = 0.0_RKIND
 
   call output_open(trim(path_output), nz, z)
+  if (write_vertical_diagnostics) call vd_open(trim(path_output)//".vertical.nc", nz, z, dz, mynn_edmf_type, mynn_uedmf_mp)
   if (write_water_budget) then
     open(newunit=water_budget_unit, file=trim(path_output)//'.water_budget.csv', status='replace', action='write')
     write(water_budget_unit,'(A)') 'time_s,water_change_native_kg_m2,precip_increment_kg_m2,residual_kg_m2,min_qv_before_mp'
@@ -323,6 +326,9 @@ program mp_offline_driver
       rthblten = 0.0_RKIND; rqvblten = 0.0_RKIND
       rqcblten = 0.0_RKIND; rqiblten = 0.0_RKIND
     end if
+
+    if (write_vertical_diagnostics) call vd_write(t_sec, nz, dz, w3(1,:,1), rho, mf_a_diag, mf_w_diag, tt, &
+         pres(1,:,1), qv(1,:,1), qc(1,:,1), qr(1,:,1), qi(1,:,1), qs(1,:,1), qg(1,:,1))
 
     ! --- apply forcing: horizontal advection (from the file) plus
     !     vertical advection -w*d(.)/dz using the column's own current
@@ -459,6 +465,7 @@ program mp_offline_driver
   end do
 
   call output_close()
+  if (write_vertical_diagnostics) call vd_close()
   if (write_water_budget) close(water_budget_unit)
   if (write_process_diagnostics) call pd_close()
   call goamazon_close(gfile)

@@ -1,148 +1,77 @@
-# Single-column microphysics and lightning — LEONA
+# SCM: microfísica e raios — Argentina, 13–14/12/2018
 
-Fluxo principal: tempestade de 13–14/12/2018. Duas perguntas operacionais:
-1. Desempenho fora do ajuste das parametrizações de raios totais calibradas.
-2. Sensibilidade às configurações Thompson/WSM6 × C0/CL/CF, com coeficiente de referência fixo.
+Thompson/WSM6 × MYNN C0/CL/CF. Ensemble existente: 40 membros perturbados e
+um controle por configuração. ENTLN e seus derivados permanecem locais.
 
-## Estrutura
+| Pasta | Conteúdo |
+|---|---|
+| `src/` | SCM Fortran; instrumentação em `diagnostics/` |
+| `python/scm_lightning/` | Download, forcing, observações, raios, ensemble, calibração, avaliação e figuras |
+| `scripts/` | Oito pontos de entrada; implementações ficam no pacote |
+| `configs/` | Configurações YAML do caso e métodos |
+| `external/DEPHY-SCM/` | Dependência Git com alterações locais anteriores preservadas |
+| `data/` | Cache privado, intermediários, forcing e perfis |
+| `runs/argentina_20181213/` | `thompson_C0`…`wsm6_CF`, com `control/` e `members/` |
+| `results/argentina_20181213/` | Figuras, tabelas, avaliação e diagnósticos |
+| `archive/goamazon/` | Fontes e material histórico fora do fluxo principal |
+| `build/` | Compilação local, ignorada pelo Git |
 
-- `leona/`: aquisição, contratos, DEF/SCM, eventos/flashes, proxies, ensemble e avaliação.
-- `configs/leona.json`: período UTC, referência TH_C0, divisão contígua, sementes e pendências.
-- `configs/parameterizations.json`: equações, unidades, coeficientes e requisitos publicados.
-- `tests/`: testes sintéticos de contratos e integração DEPHY; nunca representam observações.
-- `data_private/leona/`: originais copiados com SHA256, cache e sondagens processadas; ignorado pelo Git.
-- `products/leona/`: tabelas, figuras, manifests e resultados de testes locais; ignorado pelo Git.
-- `products/leona/simulations/`: saídas por configuração/membro; preferir `output_utc.nc`, com relógio CF/UTC e metadados do caso. `output.nc` preserva os bytes nativos originais.
-- `work/leona/`: build isolado, logs e execuções de verificação; ignorado pelo Git.
-- `src/`, `era5_forcing/DEPHY-SCM/`: física e biblioteca existente preservadas.
-- `docs/historical/README_pre_leona.md`, `scripts/`, `resultados/`, `figuras_artigo/`: reprodução histórica. Não são o fluxo LEONA.
+## Uso
 
-## Ambiente e comandos
-
-Python 3.11+, dependências em `requirements-leona.txt`; DEPHY importado de
-`era5_forcing/DEPHY-SCM` (commit e caminho importado registrados no manifest).
-Fortran: gfortran + NetCDF-Fortran (`nf-config`) + make. No Windows, executar
-compilação e simulações no WSL; scripts Python podem rodar no Windows.
-
-```text
-python -m leona.cli --help
-python -m leona.cli audit
-python -m leona.cli cache-inputs
-python -m leona.cli soundings
-python -m leona.cli prepare-era5
-python -m leona.cli download-era5
-python -m leona.cli sample-lightning
-python -m leona.cli lightning
+```powershell
+python -m pip install -e ".[test]"
+python scripts/download.py --help
+python scripts/prepare_forcing.py --help
+python scripts/run_scm.py --help
+python scripts/process_lightning.py --help
+python scripts/calibrate.py --help
+python scripts/evaluate.py --help
+python scripts/plot.py --help
+python scripts/reproduce.py status
 python -m pytest tests -q
-make BUILD=work/leona/build work/leona/build/mp_offline_driver
-python scripts/check_leona_driver.py
-python -m leona.cli status
 ```
 
-Configuração alternativa: `python -m leona.cli --config caminho.json COMANDO`.
-CDS exige credenciais locais e termos aceitos; nenhum segredo é incluído no código.
-As requisições são diárias, cacheadas, verificadas e retomáveis; falhas são inventariadas.
-No Wyoming, `sounding_json` é consultado por horário antes de `/wsgi/sounding`.
-Ausência do inventário difere de erro do servidor e de perfil parcial.
-IGRA/acervos de campanha são alternativas identificadas, sem substituição silenciosa.
+No Linux/WSL com gfortran e NetCDF-Fortran: `make -j4 BUILD=build/vertical_audit`.
 
-## Contratos e bloqueios de execução
+```powershell
+python scripts/evaluate.py vertical
+python scripts/process_lightning.py diagnostics
+python scripts/download.py boundaries
+python scripts/plot.py all
+python scripts/evaluate.py migration
+python scripts/evaluate.py contracts
+```
 
-C0 mantém MYNN termodinâmico e não aplica suas tendências de condensado; CL aplica
-apenas a parcela local; CF aplica a tendência completa. Todos usam o driver principal,
-MYNN original (`mynn_edmf_type=0`) e forçantes temporais completas. Sem pulsos verticais,
-saturação artificial ou microfísica adicional de pluma.
+`vertical` executa as seis configurações por 48 h em pasta separada e compara
+todas as variáveis nativas com os controles anteriores. Não substitui o ensemble.
+Mudanças de executável ou inputs exigem uma nova pasta `--output`.
 
-A área exige seleção meteorológica documentada, anterior à avaliação dos raios.
-O caso usa uma caixa de 1 grau selecionada pelo máximo da ascendência positiva média
-ERA5 em 500/700 hPa no período completo, dentro do setor visual de atividade.
-`products/leona/support/selection.json` registra critério, dados, hashes e instante da
-fixação anterior aos erros observacionais. Isso não garante representatividade convectiva
-da coluna. Anillaco é a estação óptica; o setor vermelho é seu campo de visão.
-Registrar `area=[west,south,east,north]`, justificar o suporte e fixar
-`area_selection.status=fixed_before_lightning_evaluation` somente depois dessa seleção.
-O recorte visual não é uma escolha automática. A área não participa do ajuste.
+## Contratos
 
-`observation_coverage` é uma lista booleana por intervalo de 15 min. Presença de arquivo
-não certifica cobertura. Lacunas permanecem NaN e interrompem o acumulado conhecido.
-A convenção 1=IC/0=CG e a cobertura completa dos dois dias foram confirmadas pelo usuário;
-essas confirmações ficam registradas separadamente no JSON.
+Omega negativo em Pa/s representa ascensão: `w=−omega/(rho*g)`. A figura 01
+mostra omega sem inversão, recorta a cobertura finita do ERA5 e usa SACO/WMO
+87344 em 31,32°S e 64,22°W. O ponto GPS de lançamento é distinto da coordenada
+de estação.
 
-Agrupamento conjunto IC+CG, 700 ms e 10 km do primeiro evento detectado, limites
-inclusivos, sem encadeamento ilimitado. Desempate: primeiro grupo elegível por tempo do
-âncora e event_id. CG em qualquer evento classifica o grupo como CG. Duplicatas exatas
-mantêm proveniência. Nanosegundos são inteiros; dias adjacentes são processados antes do
-recorte. A variante Azambuja (1,4 s / intervalo consecutivo de 700 ms) é identificada à parte.
+`mf_w` é densidade vezes velocidade média das plumas nas interfaces. A saída
+`.vertical.nc` exporta `w_EDMF=mf_w/rhoz`, `w_LS`, `mf_a`, densidades, alturas,
+espessuras e campos da coluna no instante da chamada MYNN. Plumas inativas
+têm `w_EDMF=NaN`; as velocidades não são somadas. A física principal permanece
+`mynn_edmf_type=0`, `mynn_uedmf_mp=0`.
 
-O leitor agora entrega `tntheta_adv` ao integrador de θ; a preparação deriva advecção
-horizontal de r=q/(1-q), antes da média espacial. O driver acrescenta transporte vertical.
-A pressão é prescrita; não se alega equilíbrio hidrostático exato. Forçantes acima da
-superfície e do topo e fora do período não são extrapoladas. A superfície usa 2 m/10 m
-mapeados ao nível 0 m AGL, decisão registrada no manifest. `rainnc` já é o equivalente
-total de água; nunca somar `snownc`.
+As adaptações `*_LS_1D_adaptado` e `*_EDMF_1D_adaptado` são separadas das
+formulações originais. Combinar velocidade EDMF com hidrometeoros da coluna
+assume representatividade da coluna nas plumas; não produz fluxos covariantes
+de espécies. CAPE×P usa CAPE pseudoadiabática MetPy do perfil simulado,
+amostrada a cada 15 min; não é apresentada como a CAPE isentrópica de Romps.
+Esses novos diagnósticos foram calculados para os seis controles, separadamente
+da avaliação principal dos 40 membros.
 
-`mf_w` exporta sum(rho_interface*a*w)/sum(a), nas interfaces: contém densidade e não é
-velocidade convectiva resolvida. Não é usado nos proxies que exigem velocidade convectiva
-colocalizada com gelo/graupel. O método I×G usa concentrações mássicas integradas, com
-r em base seca e densidade de ar seco. EP e partição fixa IC/CG ficam desativados; as
-saídas legadas de raios contêm NaN. Para reproduzir a interface antiga, definir
-`legacy_temperature_tendency=.true., legacy_lightning=.true.` e reutilizar a entrada
-histórica original (não regenerada pelo preparador corrigido).
+A área meteorológica e os blocos temporais existentes permanecem fixos:
+desenvolvimento em 13/12, intervalo 00–01 UTC de 14/12 excluído e avaliação após
+01 UTC. Precipitação total vem de `rainnc`, sem somar `snownc`.
 
-## Execução do caso e produtos
-
-`leona.forcing.build` e o comando `forcing PL SL OUTPUT` reutilizam Case e convert2SCM.
-`leona.experiments.run_controls` executa seis controles, valida finitude/positividade/tempo,
-temperatura/pressão, vapor à entrada da microfísica e precipitação. O balanço ponderado
-pela densidade nativa de entrada é registrado. Thompson recalcula densidade internamente;
-esse resíduo não é um contrato de fechamento exato. `configs/budget_contract.json` define
-o escopo e os limites. `scripts/check_leona_driver.py` usa GOAMAZON para testes de software e
-compara diagnósticos ligados/desligados; não certifica o caso LEONA.
-
-`leona.ensemble.prepare` exige pré-teste físico e numérico válido, seis configurações e
-checksum da mesma forçante. Recebe dez perfis EDA colocalizados (T, r), gera inicialmente 20 amostras
-sintéticas conjuntas de T/log(r), salva os sorteios e pesos realizados e usa o mesmo membro
-nas seis configurações. Nenhuma perturbação de vento é contada. `stability` registra média
-e dispersão por tamanho do conjunto; a dispersão é apenas de condição inicial.
-Uma extensão por `prepare-ensemble --inherit MANIFEST` preserva exatamente os sorteios,
-entradas e saídas anteriores. A extensão para 40 segue o teste de quantis previamente
-registrado; os produtos de 20 membros permanecem em `evaluation_20` e nos manifestos originais.
-
-Sequência do caso: `assemble_leona_era5.py`, comando `forcing`, comando `controls`,
-`collocate-eda`, `prepare-ensemble` e `run-ensemble` (ver `python -m leona.cli --help`).
-`process_leona_ensemble.py` processa os membros concluídos; `--evaluate` exige o conjunto
-pareado completo. `check_leona_stability.py` usa critérios previamente registrados em
-`configs/ensemble_stability.json`, sem observações. `figures_leona.py` produz as quatro
-figuras principais. `process_leona_controls.py` usa os processos efetivamente aplicados,
-normalizados pela massa seca inicial, explicitamente distintos de fluxos instantâneos.
-O encerramento usa `archive_leona_products.py`, `normalize_leona_native_time.py`,
-`check_leona_delivery.py`, `finalize_leona_execution.py` e `prepare_leona_products.py`.
-As cópias UTC têm metadados corrigidos e os mesmos valores físicos; arquivos nativos
-originais e produtos dos conjuntos menores são preservados.
-
-`leona.postprocess` diagnostica saídas sem mutá-las e integra passos nativos em intervalos
-completos. `evaluate PREDICTORS OBSERVATIONS OUTPUT` exige a área e cobertura fixadas.
-Preditores CSV: time,method,configuration,member,predictor (integral no suporte do intervalo).
-Observações CSV: time,count. Não misturar unidades de densidade, taxa e contagem.
-Coeficientes são ajustados na média dos membros perturbados, ou no controle se não houver
-ensemble; um único coeficiente por método/configuração, nunca por membro. O bloco reservado
-não entra no ajuste. Os cortes iniciais são pré-especificados no JSON, sem minutos aleatórios.
-Preditor nulo recebe estado irrecuperável, sem atividade artificial. Uma previsão cujo
-preditor continua nulo é zero para toda escala finita; preditor posterior não nulo com
-escala não identificável permanece indisponível. Dados ausentes permanecem NaN.
-
-Saídas: coefficients, heldout_predictions, metrics, fixed_scale_skill_contrasts,
-physical_trajectories e ensemble_statistics, todos em CSV, mais manifest de configuração e hashes.
-O critério principal é RMSE de contagens; MAE, correlação, pico e acumulado são complementares.
-Mudança física e melhoria de erro são campos distintos. `leona.figures` prepara as quatro
-figuras principais somente quando os produtos correspondentes existem; não fabrica séries
-nem gráficos de previsão quando faltam as entradas do caso.
-
-Não há relatórios de interpretação científica no novo fluxo. Observações e seus derivados
-permanecem locais, ignorados pelo Git e sujeitos às restrições do fornecedor.
-
-Os testes históricos agora verificam preservação de fontes em relação ao commit auditado
-`5c1655c`, com normalização exclusiva de finais de linha. Os três adaptadores corrigidos
-têm contratos novos e reprodução histórica explícita. Manifestos anteriores permanecem
-imutáveis; seus hashes binários de entradas/saídas continuam sendo conferidos. Os logs
-de tentativas e a discrepância de hashes anteriores à auditoria são preservados localmente.
+Manifests anteriores foram preservados; `resolve_path` traduz suas referências
+antigas. Consulte [instalação](docs/installation.md), [fontes](docs/data_sources.md),
+[metodologia](docs/methodology.md), [esquemas](docs/lightning_schemes.md) e
+[reprodução](docs/reproducibility.md).

@@ -1,0 +1,8 @@
+cff-version: 1.2.0
+message: "Cite the software version and the original parameterization/physics papers."
+title: "Single-column microphysics and lightning: Argentina, 13–14 December 2018"
+type: software
+version: 0.2.0
+repository-code: "https://github.com/DeOliveira-CLTF/SingleColumnModelMicrophysicsAndLightning"
+authors:
+  - name: "SingleColumnModelMicrophysicsAndLightning contributors"
