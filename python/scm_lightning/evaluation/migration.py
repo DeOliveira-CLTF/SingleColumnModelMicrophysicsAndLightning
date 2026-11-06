@@ -4,7 +4,7 @@ import json
 from scm_lightning.provenance import ROOT, git, resolve_path, sha256, write_json
 
 
-def main():
+def main(destination=None):
     root=ROOT/'runs/argentina_20181213/_execution/ensemble40'
     runs=json.loads((root/'run_checks.json').read_text(encoding='utf-8'))
     plan=json.loads((root/'manifest.json').read_text(encoding='utf-8'))
@@ -25,7 +25,7 @@ def main():
     dephy=ROOT/'external/DEPHY-SCM'
     assert git('rev-parse','HEAD',cwd=dephy)==before['dephy_head']
     assert git('status','--short',cwd=dephy)==before['dephy_status']
-    write_json(ROOT/'results/argentina_20181213/tests/path_migration.json', {
+    write_json(destination or ROOT/'results/argentina_20181213/tests/path_migration.json', {
         'status':'passed', 'model_outputs_checked':len(outputs), 'unique_member_forcings_checked':len(inputs),
         'all_checksums_unchanged':True, 'dephy_commit_and_preexisting_status_unchanged':True,
         'legacy_manifests':'Retained unchanged; legacy path strings resolved through provenance.resolve_path',

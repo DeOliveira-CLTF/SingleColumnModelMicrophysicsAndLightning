@@ -82,7 +82,7 @@ def case(c):
     handles,labels=axes[1].get_legend_handles_labels();fig.legend(handles,labels,loc='lower center',ncol=3,fontsize=8)
     fig.tight_layout(rect=[0,.08,1,1]);save(fig,'01_case_area_environment.png')
 
-def microphysics(c):
+def microphysics(c, output_dir=None, filename="04_microphysics_processes"):
     fig,axes=plt.subplots(6,2,figsize=(14,16),sharex=True)
     categories=['Deposição/sublimação','Congelamento','Riming (água de nuvem)','Fusão','Sedimentação']
     root=ROOT/'results/argentina_20181213/control_diagnostics'
@@ -98,7 +98,8 @@ def microphysics(c):
         for category in categories:
             values=pivot[category] if category in pivot else pd.Series(0.,index=pivot.index)
             values=values.resample('15min',closed='right',label='right').mean()
-            axes[row,1].plot(values.index,values,label=category,linewidth=.9)
+            label={'Deposição/sublimação':'Deposition/sublimation','Congelamento':'Freezing','Riming (água de nuvem)':'Cloud-water riming','Fusão':'Melting','Sedimentação':'Sedimentation'}.get(category,category) if output_dir else category
+            axes[row,1].plot(values.index,values,label=label,linewidth=.9)
         axes[row,0].set_ylabel(configuration+'\nkg m-2');axes[row,1].set_ylabel('kg m-2 s-1')
         for ax in axes[row]:ax.grid(alpha=.2);ax.tick_params(axis='x',rotation=25,labelsize=7)
     axes[0,0].set_title('Instantaneous dry-air density weighted species paths')
@@ -106,7 +107,12 @@ def microphysics(c):
     axes[-1,0].set_xlabel('UTC');axes[-1,1].set_xlabel('UTC')
     h,l=axes[0,0].get_legend_handles_labels();fig.legend(h,l,loc='lower center',bbox_to_anchor=(.28,.005),ncol=2,fontsize=8)
     h,l=axes[0,1].get_legend_handles_labels();fig.legend(h,l,loc='lower center',bbox_to_anchor=(.76,.005),ncol=2,fontsize=8)
-    fig.tight_layout(rect=[0,.06,1,1]);save(fig,'04_microphysics_processes.png')
+    fig.tight_layout(rect=[0,.06,1,1])
+    if output_dir:
+        output_dir=Path(output_dir);output_dir.mkdir(parents=True,exist_ok=True)
+        fig.savefig(output_dir/(filename+'.png'),dpi=300,bbox_inches='tight')
+        fig.savefig(output_dir/(filename+'.pdf'),bbox_inches='tight');plt.close(fig)
+    else:save(fig,filename+'.png')
 
 def evaluation(c):
     root=ROOT/'results/argentina_20181213/evaluation'

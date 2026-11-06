@@ -246,10 +246,24 @@ def main():
         'source_files':[{'path':str(p.relative_to(ROOT)),'sha256':sha256(p),'bytes':p.stat().st_size} for p in list(tables.iterdir())+list(figures.iterdir())+list(netcdf.iterdir())]})
 
 
-def make_figures(predictors,decomposition,out,cfg):
+def make_figures(predictors,decomposition,out,cfg,dpi=150,vector_pdf=False):
+    out=Path(out);out.mkdir(parents=True,exist_ok=True)
     import matplotlib
     matplotlib.use('Agg')
     import matplotlib.pyplot as plt
+    def emit(fig,path):
+        if vector_pdf:
+            from matplotlib.ticker import FixedLocator,FuncFormatter
+            for ax in fig.axes:
+                if ax.get_xlim()[1]>24 and ax.get_xlim()[0]<1:
+                    ax.set_xlim(0,48)
+                    ax.xaxis.set_major_locator(FixedLocator([0,12,24,36,48]))
+                    ax.xaxis.set_major_formatter(FuncFormatter(lambda hour,pos:(pd.Timestamp('2018-12-13T00:00Z')+pd.Timedelta(hours=hour)).strftime('%d %b\n%H:%M')))
+                    if ax.get_xlabel():ax.set_xlabel('UTC')
+            fig.subplots_adjust(bottom=max(.075,fig.subplotpars.bottom))
+            if not any(ax.get_xlabel()=='UTC' for ax in fig.axes):fig.supxlabel('UTC',y=.005,fontsize=9)
+        fig.savefig(path,dpi=dpi)
+        if vector_pdf:fig.savefig(path.with_suffix('.pdf'))
     colors={'ERA5':'black','weak':'#167aaf','strong':'#ce4936'}
     basis=pd.read_csv(OUT/'design_basis.csv');hours=(pd.to_datetime(basis.time)-pd.Timestamp('2018-12-13')).dt.total_seconds()/3600
     from scm_lightning.ensemble.updraft_sensitivity import pulse
@@ -268,7 +282,7 @@ def make_figures(predictors,decomposition,out,cfg):
     axes[2].axhline(p['center_m_AGL']/1000,color='black',ls='--',label='Pulse center')
     axes[2].set(xlabel='Hours since case start',ylabel='Height AGL (km)');axes[2].legend(fontsize=7)
     for ax in axes:ax.grid(alpha=.2)
-    fig.tight_layout();fig.savefig(out/'00_frozen_meteorological_design.png',dpi=160);plt.close(fig)
+    fig.tight_layout();emit(fig,out/'00_frozen_meteorological_design.png');plt.close(fig)
     fig,axes=plt.subplots(6,3,figsize=(14,16),sharex=True)
     for i,c in enumerate(CONFIGURATIONS):
         for regime in cfg['regimes']:
@@ -281,7 +295,7 @@ def make_figures(predictors,decomposition,out,cfg):
         for ax in axes[i]:ax.grid(alpha=.2);ax.axvspan(cfg['pulse']['start_s']/3600,(cfg['pulse']['start_s']+cfg['pulse']['duration_s'])/3600,color='.8',alpha=.2)
     for ax,title in zip(axes[0],['Graupel path','Cloud ice + snow path','Accumulated precipitation']):ax.set_title(title)
     for ax in axes[-1]:ax.set_xlabel('Hours since 13 Dec 2018 00 UTC')
-    axes[0,0].legend(fontsize=8);fig.tight_layout();fig.savefig(out/'01_hydrometeor_response.png',dpi=150);plt.close(fig)
+    axes[0,0].legend(fontsize=8);fig.tight_layout();emit(fig,out/'01_hydrometeor_response.png');plt.close(fig)
     for rep in ['prescribed','EDMF']:
         methods=['IxG','CAPExP_SBCAPE15_1D','PR92_wmax_1D','IFluxT_1D','McCaul_F3_1D','LPI_1D']
         fig,axes=plt.subplots(6,6,figsize=(19,15),sharex=True)
@@ -294,7 +308,7 @@ def make_figures(predictors,decomposition,out,cfg):
                 if i==0:axes[i,j].set_title(method,fontsize=8)
                 if j==0:axes[i,j].set_ylabel(c,fontsize=8)
         axes[0,0].legend(fontsize=6);fig.suptitle(rep+' velocity; raw proxy-unit seconds / 15 min; zero retained')
-        fig.tight_layout(rect=[0,0,1,.97]);fig.savefig(out/('02_predictors_'+rep+'.png'),dpi=150);plt.close(fig)
+        fig.tight_layout(rect=[0,0,1,.97]);emit(fig,out/('02_predictors_'+rep+'.png'));plt.close(fig)
     fig,axes=plt.subplots(2,3,figsize=(15,8))
     for ax,c in zip(axes.flat,CONFIGURATIONS):
         for field,style in [('state_response','-'),('velocity_on_control_state','--'),('interaction',':')]:
@@ -302,7 +316,7 @@ def make_figures(predictors,decomposition,out,cfg):
             ax.plot(np.arange(192)/4,f[field],style,label=field)
         ax.set_title(c);ax.grid(alpha=.2);ax.set_xlabel('Hours since case start');ax.set_ylabel('F3 score s / 15 min');ax.ticklabel_format(axis='y',style='sci',scilimits=(0,0))
     axes[0,0].legend(fontsize=7);fig.suptitle('Four-corner diagnostic decomposition: McCaul F3 score (strong pulse)')
-    fig.tight_layout(rect=[0,0,1,.95]);fig.savefig(out/'03_direct_velocity_and_state_components.png',dpi=150);plt.close(fig)
+    fig.tight_layout(rect=[0,0,1,.95]);emit(fig,out/'03_direct_velocity_and_state_components.png');plt.close(fig)
     fig,axes=plt.subplots(6,3,figsize=(14,16),sharex=True)
     for i,c in enumerate(CONFIGURATIONS):
         for regime in cfg['regimes']:
@@ -315,7 +329,7 @@ def make_figures(predictors,decomposition,out,cfg):
     for ax,title in zip(axes[0],['Prescribed maximum w_LS + increment','Diagnosed EDMF maximum (m/s)','Active EDMF depth (km)']):ax.set_title(title,fontsize=9)
     axes[0,0].legend(fontsize=7)
     for ax in axes[-1]:ax.set_xlabel('Hours since case start')
-    fig.tight_layout();fig.savefig(out/'04_prescribed_velocity_and_EDMF.png',dpi=150);plt.close(fig)
+    fig.tight_layout();emit(fig,out/'04_prescribed_velocity_and_EDMF.png');plt.close(fig)
     fig,axes=plt.subplots(2,3,figsize=(15,8))
     for ax,c in zip(axes.flat,CONFIGURATIONS):
         for regime in cfg['regimes']:
@@ -323,7 +337,7 @@ def make_figures(predictors,decomposition,out,cfg):
             ax.plot(f.time_s/3600,f.pulse_vertical_ref.cumsum(),color=colors[regime],label=regime+' pulse transport')
             ax.plot(f.time_s/3600,f.adv_clip_ref.cumsum(),color=colors[regime],ls=':',label=regime+' clipping')
         ax.set(title=c,xlabel='Hours since case start',ylabel='kg m-2 / initial dry-mass weights');ax.grid(alpha=.2)
-    axes[0,0].legend(fontsize=6);fig.tight_layout();fig.savefig(out/'05_water_stage_accounting.png',dpi=150);plt.close(fig)
+    axes[0,0].legend(fontsize=6);fig.tight_layout();emit(fig,out/'05_water_stage_accounting.png');plt.close(fig)
 
 
 def plot_main():
