@@ -29,11 +29,15 @@ def main():
     baseline='5c1655c6d23514d9a993b61b208dc9454f0e36ef'
     protected=['src/module_mp_thompson.F','src/wsm6','src/mynn']
     core_diff=git('diff',baseline,'--',*protected)
+    def statements(source):
+        return ''.join(line.split('!',1)[0].strip() for line in source.splitlines())
+    coupling_same=statements(git('show',baseline+':src/mynn_offline_coupling.F90'))==statements(
+        (ROOT/'src/mynn_offline_coupling.F90').read_text(encoding='utf-8'))
     old=git('show',baseline+':src/mp_offline_driver.F90')
     new=(ROOT/'src/mp_offline_driver.F90').read_text()
     pattern=r'  subroutine apply_forcing_and_advance\(.*?  end subroutine apply_forcing_and_advance'
     integrator_same=re.search(pattern,old,re.S).group()==re.search(pattern,new,re.S).group()
-    if core_diff or not integrator_same:
+    if core_diff or not integrator_same or not coupling_same:
         raise ValueError('Protected physics or integrator differs from audited baseline')
     pending={
         'CAPExP':'Original isentropic definition remains conditional. CAPExP_SBCAPE15_1D_adaptado now uses MetPy pseudoadiabatic CAPE from simulated profiles, diagnosed every 15min; separate control-only exploratory outputs.',
@@ -46,6 +50,11 @@ def main():
     write_json(out/'execution_manifest.json',{'baseline':baseline,'head':git('rev-parse','HEAD'),
         'commits':git('log','--oneline',baseline+'..HEAD').splitlines(),'config':c,
         'protected_physics_diff_empty':not bool(core_diff),'integrator_subroutine_unchanged':integrator_same,
+        'coupling_executable_statements_unchanged':coupling_same,
+        'vertical_instrumentation_check_sha256':sha256(out/'tests/vertical_instrumentation.json'),
+        'vertical_diagnostic_manifest_sha256':sha256(out/'vertical_diagnostics/manifest.json'),
+        'relocated_inputs_outputs_check_sha256':sha256(out/'tests/path_migration.json'),
+        'current_tests_xml_sha256':sha256(out/'tests/reorganized_vertical.xml'),
         'ensemble_runs':len(models),'all_member_preflights_passed':all(r.get('physical_preflight_passed',False) for r in models),
         'case_controls_sha256':sha256(out/'tests/case_controls.json'),
         'instrumentation_invariance_sha256':sha256(out/'tests/driver_checks.json'),

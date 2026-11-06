@@ -35,7 +35,7 @@ def main():
     fig.legend(handles,labels,loc='lower center',bbox_to_anchor=(.5,.01),fontsize=7)
     fig.tight_layout(rect=[0,.16,1,1]);(out/'supplement').mkdir(exist_ok=True)
     fig.savefig(out/'supplement/S01_sounding_QA.png',dpi=180,bbox_inches='tight');plt.close(fig)
-    names=['numpy','pandas','xarray','netCDF4','scipy','matplotlib','metpy','requests','cdsapi','pytest']
+    names=['numpy','pandas','xarray','netCDF4','scipy','matplotlib','metpy','requests','cdsapi','PyYAML','pytest']
     versions={n:importlib.metadata.version(n) for n in names}
     write_json(out/'tests/environment.json',{'python':sys.version,'packages':versions,
         'head':git('rev-parse','HEAD'),'dephy_head':git('rev-parse','HEAD',cwd=ROOT/'external/DEPHY-SCM')})
