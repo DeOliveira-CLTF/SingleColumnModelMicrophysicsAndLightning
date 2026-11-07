@@ -164,6 +164,9 @@ def cape_figure():
 
 
 def main():
+    active=OUT/'independent_manifest.json'
+    if active.exists() and json.loads(active.read_text()).get('version')==3:
+        raise ValueError('Historical plotting driver cannot relabel v3; use scripts/plot.py article')
     ap=argparse.ArgumentParser();ap.add_argument('--available-only',action='store_true');ap.add_argument('--skip-supplementary',action='store_true');a=ap.parse_args()
     OUT.mkdir(parents=True,exist_ok=True);(OUT/'data').mkdir(parents=True,exist_ok=True)
     c=load_config(EVALUATION_CONFIG)

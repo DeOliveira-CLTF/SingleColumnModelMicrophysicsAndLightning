@@ -8,10 +8,11 @@ dependencies:
   - netcdf4
   - scipy
   - matplotlib
-  - metpy>=1.5
+  - metpy=1.7.1
   - requests
   - cdsapi
   - pyyaml>=6
+  - rasterio>=1.3
   - pytest
   - pip
   - pip:

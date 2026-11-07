@@ -44,7 +44,7 @@ def preserve_legacy():
             'source_directory':str(source),'git_commit':git('rev-parse','HEAD'),'native_simulations_moved':False})
 
 
-def control_predictors(simulation, forcing, config, destination, configuration='TH_C0', member_id=0, export_native=True, cape_cache=None, cape_memo_path=None):
+def control_predictors(simulation, forcing, config, destination, configuration='TH_C0', member_id=0, export_native=True, cape_cache=None, cape_memo_path=None, compute_cape=True):
     """Read native snapshots; export pre-calibration fields, components and units."""
     destination=Path(destination);destination.mkdir(parents=True,exist_ok=True)
     before=sha256(simulation)
@@ -84,7 +84,8 @@ def control_predictors(simulation, forcing, config, destination, configuration='
         from scm_lightning.lightning.cape_cache import CapeCache
         memo=CapeCache(cape_memo_path)
     for i in range(0,len(seconds)-1,step):
-        if clock[i] in cached:value=cached[clock[i]]
+        if not compute_cape:value=np.nan
+        elif clock[i] in cached:value=cached[clock[i]]
         elif memo is not None:value=memo.get(d.pressure.values[i],t[i],d.qv.values[i],surface_cape)
         else:value=surface_cape(d.pressure.values[i],t[i],d.qv.values[i],layer_selection='most_cape')
         amount=float(rain[i+step]-rain[i])
@@ -119,7 +120,7 @@ def control_predictors(simulation, forcing, config, destination, configuration='
     if sha256(simulation)!=before:raise IOError('Diagnostic processing modified native model output')
     write_json(destination/'manifest.json',{'simulation':str(simulation),'simulation_sha256':before,'forcing_sha256':sha256(forcing),
         'configuration':configuration,'member':member_id,'case':config['case'],'origin_UTC':config['start'],'native_output_unchanged':True,
-        'interval_minutes':minutes,'CAPE_clock':'profile at each bin start; cached identical 15min profiles reused only at matching native UTC timestamps',
+        'interval_minutes':minutes,'CAPE_clock':'profile at each bin start; cached identical 15min profiles reused only at matching native UTC timestamps' if compute_cape else 'not computed; separate versioned thermodynamics required',
         'exact_CAPE_cache':memo_statistics})
     return primary,five
 
@@ -147,11 +148,11 @@ def metric_values(y,p,constant,minutes=15):
     return result
 
 
-def evaluate_predictions(predictions,observations,constant,minutes=15):
+def evaluate_predictions(predictions,observations,constant,minutes=15,methods=None):
     """One global time mask across methods, configurations and all 40 members."""
     p=predictions.copy();o=observations.copy()
     from scm_lightning.ensemble.experiments import CONFIGURATIONS
-    if set(p.method)!=set(METHODS) or set(p.configuration)!=set(CONFIGURATIONS):raise ValueError('Unexpected primary method or physical configuration')
+    if set(p.method)!=set(METHODS if methods is None else methods) or set(p.configuration)!=set(CONFIGURATIONS):raise ValueError('Unexpected primary method or physical configuration')
     p.time=pd.to_datetime(p.time,utc=True);o.time=pd.to_datetime(o.time,utc=True)
     if p.duplicated(['time','method','configuration','member']).any() or o.time.duplicated().any():raise ValueError('Duplicate metric support')
     groups=p.groupby(['time','method','configuration']).member.agg(lambda x:tuple(sorted(x)))

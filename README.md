@@ -1,15 +1,23 @@
 # SCM: microfísica e raios — calibração 2019 e avaliação independente 2018
 
-O controle determinístico Thompson C0 de 28–29/10/2019 fornece três coeficientes
-fixos. O evento de 13–14/12/2018 é exclusivo de avaliação; suas observações não
+Os controles determinísticos Thompson C0 e WSM6 C0 de 28–29/10/2019 fornecem
+seis coeficientes fixos (três por microfísica). O evento de 13–14/12/2018 é exclusivo de avaliação; suas observações não
 podem ajustar coeficientes. O fluxo anterior está preservado em
 `results/argentina_20181213/legacy/article_within_event_20261106/`.
 
 Os resultados atuais usam janelas reais de **1 minuto**, em flashes/min.
-Protocolo ativo: `configs/evaluation/validation_1min.yaml`; coeficientes:
-`results/argentina_20191028/calibration/v2_1min/`. A análise independente de
+Protocolo ativo: `configs/evaluation/validation_v3_mucape.yaml`; coeficientes:
+`results/argentina_20191028/calibration/v3_mucape_microphysics_OLS/`.
+MUCAPE utiliza a função oficial MetPy nos 300 hPa inferiores; McCaul recebe
+mínimos quadrados sem intercepto sobre todos os intervalos válidos de cinco
+minutos, mantendo previsões de um minuto pelas integrais nativas.
+A sensibilidade com coeficientes Thompson comuns é um suplemento separado.
+A análise independente de
 15 minutos permanece em `legacy/article_independent_15min_20261106/`.
-A figura 6 compara precipitação horária com ERA5. As sondagens são separadas
+A figura 6 compara precipitação horária com MERGE CPTEC/INPE, mantendo ERA5
+nos dois painéis. A versão anterior de um minuto fica em
+`legacy/article_v2_1min_most_cape/`, incluindo os coeficientes originais comuns.
+As sondagens são separadas
 por estação e lançamento; a pasta `data/raw/projetoCHUVA` tem prioridade na
 caracterização de 2018. As condições iniciais e forçantes continuam sendo ERA5,
 pois os perfis fornecidos não são colocalizados com as áreas fixas.

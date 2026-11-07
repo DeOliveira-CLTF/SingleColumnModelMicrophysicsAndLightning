@@ -1,0 +1,36 @@
+version: v3_mucape_microphysics_OLS
+interval_minutes: 1
+native_snapshot_seconds: 30
+calibration_event: argentina_20191028
+evaluation_event: argentina_20181213
+calibration_controls: [TH_C0, WS_C0]
+coefficients: six_fixed_by_method_and_microphysics
+member_specific_or_coupling_specific_fits: false
+MUCAPE:
+  provider: metpy.calc.most_unstable_cape_cin
+  installed_version_validated: 1.7.1
+  parcel_selection: maximum_equivalent_potential_temperature_in_lowest_layer
+  depth_Pa: 30000
+  rationale: lowest_approximately_3km_includes_boundary_layer_and_elevated_inflow
+  preflight: results/argentina_20181213/thermodynamic_revision/search_depth_preflight.csv
+  native_boundary_convention: MetPy_get_layer_interpolate_false_nearest_native_top_level
+  time_support: native_profile_at_minute_start_times_next_60s_rainnc_increment
+  humidity: dry_air_mixing_ratio_to_vapor_pressure_to_dewpoint_without_floor
+  incomplete_profile: missing_search_depth_or_top_above_100hPa_or_span_below_15km
+  absent_values: NaN_with_explicit_status_not_zero
+  interpretation: SCM_MUCAPE_adaptation_not_SBCAPE_or_Romps_isentropic_CAPE
+McCaul:
+  calibration_minutes: 5
+  evaluation_minutes: 1
+  fit: nonnegative_proportional_OLS_origin_all_valid_intervals
+  original_constants: {k1: 0.042, k2: 0.20, r1: 0.95, r2: 0.05}
+  conversion: native_30s_F3_integral_divided_by_300s_and_published_nominal_cell_area
+  velocity: LS_only_no_EDMF_addition
+comparisons:
+  main: microphysics_specific_v3_coefficients
+  physical_sensitivity: common_v3_Thompson_C0_coefficients_same_MUCAPE_OLS_definitions
+  historical_supplement: original_v2_Thompson_common_coefficients_with_original_most_cape_and_peak_mapping
+precipitation:
+  observations: CPTEC_INPE_MERGE_GPM_HOURLY
+  additional_reference: ERA5_not_independent_observation
+  support: complete_UTC_hours_same_fixed_box_spherical_cell_overlap_area_mean

@@ -9,6 +9,10 @@ from scm_lightning.calibration.independent import load_frozen,METHODS
 from scm_lightning.evaluation.independent import metric_values
 from scm_lightning.forcing.contracts import area_km2
 
+# Retain the v2 methodological checks against their preserved products.
+_v2=ROOT/'results/argentina_20181213/legacy/article_v2_1min_most_cape'
+if _v2.exists():OUT=_v2
+
 
 def test_real_minute_flash_counts_conserve_totals_and_are_not_uniform_splits():
     for event in ['argentina_20181213','argentina_20191028']:

@@ -232,6 +232,9 @@ def check():
 
 def main():
     ap=argparse.ArgumentParser();ap.add_argument('stage',choices=['prepare','calibrate','evaluate','check']);ap.add_argument('--workers',type=int,default=12);a=ap.parse_args()
+    active=OUT/'independent_manifest.json'
+    if active.exists() and json.loads(active.read_text()).get('version')==3:
+        raise ValueError('Historical v2 driver cannot overwrite v3; use scripts/evaluate.py independent or the preserved v2 archive')
     if a.stage=='prepare':prepare(a.workers)
     else:{'calibrate':calibrate,'evaluate':evaluate,'check':check}[a.stage]()
 

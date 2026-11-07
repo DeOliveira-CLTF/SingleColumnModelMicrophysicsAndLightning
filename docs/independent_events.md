@@ -1,6 +1,81 @@
 # Reprodução dos dois eventos
 
-## Protocolo ativo de um minuto
+## Protocolo ativo v3: MUCAPE, seis coeficientes e MERGE
+
+```powershell
+python scripts/run_scm.py independent run-control
+python scripts/download.py merge
+python scripts/evaluate.py merge
+python scripts/evaluate.py independent prepare --workers 12
+python scripts/evaluate.py independent compare-controls
+python scripts/calibrate.py independent calibrate
+python scripts/evaluate.py independent evaluate
+python scripts/plot.py article
+python scripts/evaluate.py contracts
+python -m pytest tests -q
+```
+
+O primeiro comando valida/reutiliza ou executa somente WS_C0 de outubro de
+2019. Copia o namelist Thompson, alterando apenas esquema e caminho de saída,
+com o mesmo executável e forçante. Não cria ensemble de calibração.
+`prepare` lê os 246 NetCDF existentes de 2018 e os dois controles de 2019.
+`prepare-calibration` pode priorizar os dois controles separadamente.
+
+Protocolo: `configs/evaluation/validation_v3_mucape.yaml`. A implementação
+oficial `metpy.calc.most_unstable_cape_cin` recebe pressão em Pa, temperatura
+em K e ponto de orvalho obtido de `vapor_pressure(p,rv)` e `dewpoint`, com rv
+em kg/kg de ar seco. Pressão é ordenada em sentido decrescente, mantendo as
+demais grandezas alinhadas. Ausências, níveis exatamente secos e cobertura
+insuficiente têm status próprio e CAPE NaN; zero físico permanece zero.
+Não se extrapolam perfis ou se modifica umidade.
+
+A camada de busca de 300 hPa representa aproximadamente os 3 km inferiores
+nestes perfis, incluindo ingresso elevado além da parcela da célula inferior.
+A verificação prévia de 100/200/300 hPa não lê raios. MetPy seleciona o máximo
+de temperatura potencial equivalente e usa o nível nativo mais próximo ao
+limite superior (`get_layer(interpolate=False)`); pressão/altura efetivas são
+exportadas. A integral oficial termina no EL ou no topo disponível. Controles
+com CAPE positiva sem EL fechado recebem sinalização de limite superior;
+perfis com menos de 15 km de extensão ou topo acima de 100 hPa são incompletos.
+MUCAPE do SCM não é SBCAPE nem reprodução exata da CAPE isentrópica de Romps.
+
+`compare-controls` exporta SBCAPE, antiga seleção most_cape, MUCAPE, CIN,
+parcela, LFC/EL, precipitação, CAPE×P e diferenças dos perfis nativos.
+Os indicadores de transições próximas de 13/12 21 UTC e durante 14/12 são
+diagnósticos, com limiares registrados; não constituem prova causal automática.
+Nenhuma observação de dezembro seleciona a definição ou a camada de busca.
+
+Os seis fatores ficam congelados em `calibration/v3_mucape_microphysics_OLS/`.
+Todos usam mínimos quadrados proporcionais não negativos, sem intercepto,
+sobre os pares válidos de outubro: CAPE×P/I×G a um minuto e McCaul a cinco.
+McCaul conserva k1=.042, k2=.20, r1=.95 e r2=.05. O diagnóstico de 30s é
+integrado em 300s para ajuste ou em 60s para previsão, e dividido por 300s e
+pela área nominal publicada de 0,009° na latitude 34,7N. Essa conversão é uma
+adaptação espacial do SCM, não reconstrução exata do domínio original.
+Não se interpolam contagens ENTLN nem se somam velocidades LS e EDMF.
+Cada microfísica compartilha seus três fatores entre C0/CL/CF, 40 membros e
+controles. Os ensembles permanecem separados por configuração e método.
+
+Avaliação principal: fatores específicos por microfísica. O suplemento
+`common_TH_same_MUCAPE_OLS` aplica os novos fatores Thompson aos dois esquemas
+mantendo definições idênticas. O suplemento `legacy_original_TH_v2` preserva
+exatamente a avaliação com os fatores comuns originais e suas definições
+anteriores (most_cape e razão de picos), sem misturá-la às métricas v3.
+Todo o artigo anterior fica em `legacy/article_v2_1min_most_cape/`.
+
+MERGE oficial horário: arquivos GRIB2 PREC e descritores CTL, resolução 0,1°,
+48 acumulações por evento. O horário do arquivo marca o final da hora anterior,
+conforme o [catálogo oficial](https://data.inpe.br/bdc/stac/v1/collections/prec_merge_hourly-1).
+1 kg/m² equivale a 1 mm no intervalo de uma hora. A média utiliza interseções
+esféricas célula/caixa; células ausentes não são transformadas em zero ou
+renormalizadas. MERGE, ERA5 e rainnc do SCM têm os mesmos limites e horários.
+ERA5 permanece comparação adicional, não observação independente. O MERGE é
+estimativa combinada de satélite/pluviômetros, não verdade observacional sem erro.
+Os arquivos históricos não codificam a versão do algoritmo: registra-se a
+coleção STAC v1, os descritores, metadados GRIB, hashes e versão de leitura,
+sem atribuir a versão atual IMERG V07B retroativamente ao arquivo histórico.
+
+## Protocolo histórico v2 de um minuto
 
 `configs/evaluation/validation_1min.yaml` define a resolução atual. Os campos
 de cobertura/intervalo de 15 minutos dos arquivos históricos de caso são
