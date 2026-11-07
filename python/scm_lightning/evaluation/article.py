@@ -17,7 +17,7 @@ from scm_lightning.lightning.adaptations import surface_cape, crossing, at_heigh
 from scm_lightning.lightning.postprocess import integrate_bins
 from scm_lightning.evaluation import evaluate, split_times
 
-OUT=ROOT/'results/argentina_20181213/article'
+OUT=ROOT/'results/argentina_20181213/article_bulk_memory_final'
 CASE=ROOT/'configs/cases/argentina_20181213.yaml'
 METHODS=['CAPExP','IxG','McCaulF3']
 VERSION='article_native_snapshot_LS_v1'

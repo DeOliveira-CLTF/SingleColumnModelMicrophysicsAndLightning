@@ -19,7 +19,9 @@ OUT=ROOT/'results/argentina_20181213/figures'
 
 def save(fig,name):
     OUT.mkdir(parents=True,exist_ok=True)
-    fig.savefig(OUT/name,dpi=180,bbox_inches='tight');plt.close(fig)
+    fig.savefig(OUT/name,dpi=180,bbox_inches='tight')
+    fig.savefig((OUT/name).with_suffix('.svg'),bbox_inches='tight')
+    plt.close(fig)
 
 
 def boundaries(ax,color='0.18'):

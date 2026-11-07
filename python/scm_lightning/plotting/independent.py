@@ -1,9 +1,11 @@
 """Principal figures bound to frozen independent-event CSVs; legends inside axes."""
 import argparse
 import json
+from pathlib import Path
 import numpy as np
 import pandas as pd
 import xarray as xr
+from scipy.io import loadmat
 import matplotlib
 matplotlib.use('Agg')
 import matplotlib.pyplot as plt
@@ -38,38 +40,51 @@ def calibration_weather():
     # ERA5 tp is an hourly amount ending at valid_time. Align to the actual event.
     rain=rain.assign_coords(time=rain.time-np.timedelta64(1,'h')).sel(time=omega.time)*1000
     area=c['area'];west,south,east,north=area
-    fig=plt.figure(figsize=(14,8.5));grid=fig.add_gridspec(2,6)
-    axes=[fig.add_subplot(grid[0,i*2:(i+1)*2]) for i in range(3)]
-    profiles=[fig.add_subplot(grid[1,:3]),fig.add_subplot(grid[1,3:])]
-    for ax,field,unit in [(axes[0],omega.mean('time'),'Pa s$^{-1}$'),(axes[1],rain.sum('time'),'mm')]:
-        if ax is axes[0]:
-            limit=float(abs(field).max());field.plot(ax=ax,cmap='RdBu_r',vmin=-limit,vmax=limit,cbar_kwargs={'label':unit},add_labels=False)
-        else:field.plot(ax=ax,cbar_kwargs={'label':unit},add_labels=False)
-        boundaries(ax,color='white' if ax is axes[1] else '0.18');ax.add_patch(Rectangle((west,south),east-west,north-south,fill=False,ec='black',lw=1.5))
-        ax.set(xlim=(float(field.longitude.min()),float(field.longitude.max())),ylim=(float(field.latitude.min()),float(field.latitude.max())),xlabel='Longitude',ylabel='Latitude')
-    def mean_area(field):
-        box,weights=subset(field.to_dataset(name='value'),area)
-        return box.value.weighted(weights).mean(('latitude','longitude'))
-    clock=pd.to_datetime(omega.time.values,utc=True)
-    axes[2].plot(clock,mean_area(omega),c=BLUE,label=r'$\omega$')
-    rainax=axes[2].twinx();rainax.plot(clock+pd.Timedelta(minutes=30),mean_area(rain),c=RED,label='Rain')
-    axes[2].set_ylabel('Pa s$^{-1}$');rainax.set_ylabel('mm h$^{-1}$');axes[2].set_xlabel('Day / UTC')
-    axes[2].xaxis.set_major_locator(mdates.HourLocator(byhour=[0,6,12,18]))
-    axes[2].xaxis.set_major_formatter(mdates.DateFormatter('%d %H:%M'))
-    axes[2].tick_params(axis='x',labelrotation=90);axes[2].grid(alpha=.2)
-    handles,labels=axes[2].get_legend_handles_labels();h,l=rainax.get_legend_handles_labels()
-    axes[2].legend(handles+h,labels+l,loc='upper center',ncol=2,frameon=False)
-    axes[0].set_title('(a) Mean $\omega$, 500/700 hPa\n'+start.strftime('%m/%d/%Y %H:%M')+' -\n'+clock[-1].strftime('%m/%d/%Y %H:%M UTC'),fontsize=8)
-    axes[1].set_title('(b) Accumulated precipitation\n'+start.strftime('%m/%d/%Y %H:%M')+' -\n'+end.strftime('%m/%d/%Y %H:%M UTC'),fontsize=8)
-    axes[2].set_title('(c)')
-    f,metadata=draw(profiles,selected('argentina_20191028'),map_axes=axes[:2])
-    profiles[0].set_title('(d) Temperature');profiles[1].set_title('(e) Water vapor')
+    fig=plt.figure(figsize=(14,9.5))
+    grid=fig.add_gridspec(2,2,height_ratios=[1.05,1],wspace=.34,hspace=.38)
+    map_axes=[fig.add_subplot(grid[0,0]),fig.add_subplot(grid[0,1])]
+    profiles=[fig.add_subplot(grid[1,0]),fig.add_subplot(grid[1,1])]
+    omega_field=omega.mean('time')
+    limit=float(abs(omega_field).max())
+    omega_field.plot(ax=map_axes[0],cmap='RdBu_r',vmin=-limit,vmax=limit,
+        cbar_kwargs={'label':r'$\omega$ (Pa s$^{-1}$); negative = ascent'},add_labels=False)
+    boundaries(map_axes[0])
+    map_axes[0].add_patch(Rectangle((west,south),east-west,north-south,fill=False,ec='black',lw=1.8,zorder=6))
+    map_axes[0].set(xlim=(float(omega_field.longitude.min()),float(omega_field.longitude.max())),
+        ylim=(float(omega_field.latitude.min()),float(omega_field.latitude.max())),
+        xlabel='Longitude (°E)',ylabel='Latitude (°N)',title='(a) ERA5 vertical velocity — 500 hPa\n28 Oct 2019 00–30 Oct 2019 00 UTC')
+
+    goes_file=Path(r'I:\Meu Drive\FADAS\LifeCycleOfTLE_producingStorms_MatLab\raw_data\infrared_goes16\corrected_images_achaf_PY\Storm_20191028\corrected_20191029_0710.mat')
+    if not goes_file.exists():raise FileNotFoundError(f'GOES-16 maximum-storm image not found: {goes_file}')
+    goes=loadmat(goes_file)
+    temperature=np.asarray(goes['tempRetangular'],dtype=float)
+    glat=np.asarray(goes['latRetangular']).squeeze();glon=np.asarray(goes['lonRetangular']).squeeze()
+    cmap=matplotlib.colors.ListedColormap(np.vstack([plt.cm.jet(np.linspace(0,1,92)),
+                                                       plt.cm.gray_r(np.linspace(0,1,60))]))
+    mesh=map_axes[1].pcolormesh(glon,glat,temperature,cmap=cmap,vmin=-92,vmax=60,shading='auto')
+    mesh.set_rasterized(True);boundaries(map_axes[1])
+    map_axes[1].add_patch(Rectangle((west,south),east-west,north-south,fill=False,ec='black',lw=1.8,zorder=6))
+    map_axes[1].set(xlim=(float(glon.min()),float(glon.max())),ylim=(float(glat.min()),float(glat.max())),
+        xlabel='Longitude (°E)',ylabel='Latitude (°N)',title='(b) GOES-16 infrared — 10.35 µm\n29 Oct 2019 07:10 UTC')
+    cb=fig.colorbar(mesh,ax=map_axes[1],pad=.025,shrink=.9);cb.set_label('Brightness temperature (°C)')
+    cb.set_ticks([-92,-60,-30,0,60])
+
+    f,metadata=draw(profiles,selected('argentina_20191028'),map_axes=map_axes[:1])
+    profiles[0].set_title('(c) Temperature');profiles[1].set_title('(d) Water vapor mixing ratio')
+    for ax in profiles: ax.set_ylim(0,20);ax.grid(alpha=.2)
+    handles,labels=profiles[0].get_legend_handles_labels()
+    profiles[1].legend(handles,labels,loc='upper center',bbox_to_anchor=(.5,.98),ncol=2,frameon=False,fontsize=10)
     f.to_csv(OUT/'data/S2019_profiles.csv.gz',index=False)
+    clock=pd.to_datetime(omega.time.values,utc=True)
     write_json(OUT/'data/S2019_metadata.json',{'profile_sources':metadata,'map_omega':'native signed omega; negative=ascent; mean 500/700 hPa',
         'omega_snapshot_range_UTC':[str(clock[0]),str(clock[-1])],'precipitation_interval_UTC':[c['start'],c['end']],
-        'date_display':'MM/DD/YYYY HH:MM UTC','time_axis':'day and HH:MM; 90 degrees; no month',
-        'sondes_used_as_initial_or_boundary_conditions':False})
-    fig.tight_layout();save(fig,OUT/'supplementary/S2019_20191028_29_ERA5_fixed_support_ascent_precipitation')
+        'date_display':'DD Mon HH:MM UTC','time_axis':'day and HH:MM; no month on temporal axes',
+        'sondes_used_as_initial_or_boundary_conditions':False,
+        'GOES16_source':str(goes_file),'GOES16_source_sha256':sha256(goes_file),
+        'GOES16_maximum_storm_time_utc':'2019-10-29T07:10:00Z',
+        'GOES16_temperature_range_C':[-92,60],
+        'panel_order':['ERA5 vertical velocity','GOES-16 infrared','Temperature','Water vapor mixing ratio']})
+    fig.tight_layout(rect=(0,.08,1,1));save(fig,OUT/'supplementary/S2019_20191028_29_ERA5_fixed_support_ascent_precipitation')
 
 
 def predictions(stats,observed,coupling='C0',supplement=False,symlog=False):
@@ -82,10 +97,11 @@ def predictions(stats,observed,coupling='C0',supplement=False,symlog=False):
             ax.plot(f.time,f['mean'],c=color,lw=1.1,label=label)
             ax.fill_between(f.time,np.maximum(0,f['mean']-f['std']),f['mean']+f['std'],color=color,alpha=.18,lw=0)
             rows.append(f)
-        ax.set(ylabel='Flashes min$^{-1}$',title=f'({chr(97+i)}) {LABELS[method]}');ax.set_ylim(bottom=0);utc_axis(ax)
+        ax.set(ylabel='Flashes min$^{-1}$' if i==1 else '',title=f'({chr(97+i)}) {LABELS[method]}');ax.set_ylim(bottom=0);utc_axis(ax)
         if symlog:ax.set_yscale('symlog',linthresh=1)
-        ax.legend(loc='upper right',ncol=3,frameon=False)
-    axes[-1].set_xlabel('UTC');fig.tight_layout()
+    handles,labels=axes[0].get_legend_handles_labels()
+    fig.legend(handles,labels,loc='lower center',bbox_to_anchor=(.5,.025),ncol=3,frameon=False)
+    axes[-1].set_xlabel('UTC');fig.tight_layout(rect=(0,.08,1,1))
     name=('supplementary/S03_'+coupling if supplement else 'figures/Figure_03')+'_20181213_14_independent_20191028_TH_C0_calibration_mean_std40'
     if symlog:name+='_symlog_linthresh1'
     save(fig,OUT/name)
@@ -115,7 +131,9 @@ def performance():
     for ax in [axes[0,0],axes[0,1],axes[1,0]]:ax.set_yticks(y,[LABELS[m] for m in METHODS])
     axes[1,1].set_yticks(np.arange(6),[LABELS[m]+' / '+mode+'−C0' for m,mode in positions])
     for ax,title,xlabel in zip(axes.flat,['(a)','(b)','(c) WSM6 − Thompson','(d)'],['RMSE (flashes/min)','MSE skill','ΔRMSE (flashes/min)','ΔRMSE (flashes/min)']):
-        ax.set(title=title,xlabel=xlabel);ax.invert_yaxis();ax.grid(axis='x',alpha=.2);ax.legend(loc='best',frameon=False,fontsize=7)
+        ax.set(title=title,xlabel=xlabel);ax.invert_yaxis();ax.grid(axis='x',alpha=.2);ax.legend(loc='best',frameon=False,fontsize=12,markerscale=1.3)
+        ax.tick_params(axis='both',labelsize=14)
+        ax.xaxis.label.set_size(15);ax.yaxis.label.set_size(15);ax.title.set_size(17)
         if ax is not axes[0,0]:ax.axvline(0,color='0.3',lw=.7)
     axes[0,0].set_xscale('log')
     reference=table[table.configuration.isin(['TH_C0','WS_C0'])]
@@ -159,8 +177,10 @@ def cape_figure():
         s=f[f.configuration==cfg].sort_values('time')
         for ax,column in zip(axes,['cape_J_kg','precipitation_amount_kg_m2','CAPExP_J_m2']):ax.plot(s.time,s[column],c=color,label=label,lw=1.1)
     for ax,title,unit in zip(axes,['(a) CAPE','(b) Precipitation','(c) CAPE × P'],['J kg$^{-1}$',f'kg m$^{{-2}}$ / {minutes} min',f'J m$^{{-2}}$ / {minutes} min']):
-        ax.set(title=title,ylabel=unit);utc_axis(ax);ax.legend(loc='upper right',frameon=False)
-    fig.tight_layout();save(fig,OUT/f'supplementary/S_CAPE_20181213_14_{minutes}min_uncalibrated_most_cape_pseudoadiabatic')
+        ax.set(title=title,ylabel=unit);utc_axis(ax)
+    handles,labels=axes[0].get_legend_handles_labels()
+    fig.legend(handles,labels,loc='lower center',bbox_to_anchor=(.5,.02),ncol=2,frameon=False)
+    fig.tight_layout(rect=(0,.08,1,1));save(fig,OUT/f'supplementary/S_CAPE_20181213_14_{minutes}min_uncalibrated_most_cape_pseudoadiabatic')
 
 
 def main():

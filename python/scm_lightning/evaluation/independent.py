@@ -17,7 +17,7 @@ from scm_lightning.calibration.independent import METHODS, normalize_predictors,
 
 CALIBRATION_CONFIG=ROOT/'configs/cases/argentina_20191028.yaml'
 EVALUATION_CONFIG=ROOT/'configs/cases/argentina_20181213.yaml'
-OUT=ROOT/'results/argentina_20181213/article'
+OUT=ROOT/'results/argentina_20181213/article_bulk_memory_final'
 FROZEN=ROOT/'results/argentina_20191028/calibration/v1'
 LEGACY=ROOT/'results/argentina_20181213/legacy/article_within_event_20261106'
 

@@ -6,6 +6,7 @@ from pathlib import Path
 import numpy as np
 import pandas as pd
 import xarray as xr
+from scipy.io import loadmat
 import matplotlib
 matplotlib.use('Agg')
 import matplotlib.pyplot as plt
@@ -22,15 +23,15 @@ from scm_lightning.plotting.figures import boundaries,microphysics
 
 BLUE='#2166ac';RED='#b2182b'
 LABELS={'CAPExP':'CAPExP','IxG':'IxG','McCaulF3':'McCaulF3 (1D, prescribed w)'}
-STYLE={'font.family':'DejaVu Sans','font.size':9,'axes.labelsize':9,'axes.titlesize':10,
-       'legend.fontsize':8,'xtick.labelsize':8,'ytick.labelsize':8,'pdf.fonttype':42,
+STYLE={'font.family':'DejaVu Sans','font.size':18,'axes.labelsize':18,'axes.titlesize':20,
+       'legend.fontsize':16,'xtick.labelsize':16,'ytick.labelsize':16,'pdf.fonttype':42,
        'axes.spines.top':False,'axes.spines.right':False,'savefig.facecolor':'white','timezone':'UTC'}
 
 
 def save(fig,path):
     path.parent.mkdir(parents=True,exist_ok=True)
     candidates=[]
-    for extension in ['.pdf','.png']:
+    for extension in ['.pdf','.png','.svg']:
         temporary=path.with_suffix('.pending'+extension)
         fig.savefig(temporary,bbox_inches='tight',**({'dpi':300} if extension=='.png' else {}))
         candidates.append((temporary,path.with_suffix(extension)))
@@ -47,7 +48,7 @@ def save(fig,path):
 
 def utc_axis(ax):
     ax.xaxis.set_major_locator(mdates.HourLocator(byhour=[0,6,12,18]))
-    ax.xaxis.set_major_formatter(mdates.DateFormatter('%d %b\n%H:%M'))
+    ax.xaxis.set_major_formatter(mdates.DateFormatter('%d\n%H:%M'))
     ax.grid(axis='y',alpha=.2)
 
 
@@ -64,9 +65,13 @@ def environment(c):
     w=d.w.sel(time='2018-12-14T06:00',level=500)
     assert np.isfinite(w).all()
     w.to_dataframe(name='omega_Pa_s').reset_index().to_csv(OUT/'data/Figure_01_omega.csv',index=False)
-    fig,axes=plt.subplots(1,3,figsize=(12.8,5),gridspec_kw={'width_ratios':[1.45,1,1]})
+    fig=plt.figure(figsize=(14,9.5))
+    grid=fig.add_gridspec(2,2,height_ratios=[1.05,1],wspace=.34,hspace=.38)
+    axes=[fig.add_subplot(grid[0,0]),fig.add_subplot(grid[1,0]),
+          fig.add_subplot(grid[1,1]),fig.add_subplot(grid[0,1])]
     limit=float(abs(w).max())
     mesh=axes[0].pcolormesh(w.longitude,w.latitude,w,cmap='RdBu_r',vmin=-limit,vmax=limit,shading='auto')
+    mesh.set_rasterized(True)
     boundaries(axes[0])
     west,south,east,north=c['area']
     axes[0].add_patch(Rectangle((west,south),east-west,north-south,fill=False,ec='black',lw=1.7,label='Fixed SCM area',zorder=6))
@@ -75,29 +80,54 @@ def environment(c):
     axes[0].annotate('SACO',(lon,lat),xytext=(-1,10),textcoords='offset points',ha='center',fontsize=8,zorder=7)
     axes[0].set(xlim=(float(w.longitude.min()),float(w.longitude.max())),ylim=(float(w.latitude.min()),float(w.latitude.max())),
                 xlabel='Longitude (°E)',ylabel='Latitude (°N)',title='(a) ERA5, 14 Dec 2018 06 UTC')
-    axes[0].set_aspect(1/np.cos(np.deg2rad((south+north)/2)))
     cb=fig.colorbar(mesh,ax=axes[0],shrink=.87,pad=.025);cb.set_label(r'$\omega$ (Pa s$^{-1}$); negative = ascent')
     if cb.solids is not None:cb.solids.set_rasterized(False)
-    axes[0].legend(loc='lower left',fontsize=7)
+    axes[0].legend(loc='lower left',fontsize=11)
     labels=[]
     from scm_lightning.observations.profiles import selected
     from scm_lightning.plotting.profiles import draw
     records=selected('argentina_20181213')
-    frames,profile_metadata=draw(axes[1:],records,map_axes=[axes[0]])
+    frames,profile_metadata=draw([axes[1],axes[2]],records,map_axes=[axes[0]])
     frames.to_csv(OUT/'data/Figure_01_campaign_profiles.csv.gz',index=False)
-    axes[1].set(title='(b) Temperature');axes[2].set(title='(c) Water vapor')
+    axes[1].set(title='(c) Temperature');axes[2].set(title='(d) Water vapor mixing ratio')
     for ax in axes[1:]:ax.grid(alpha=.2)
     from scm_lightning.observations import haversine_km
     distance=float(haversine_km(lat,lon,(south+north)/2,(west+east)/2))
     handles,labels=axes[1].get_legend_handles_labels()
-    axes[1].legend(handles,labels,loc='upper right',frameon=False,fontsize=6.5,ncol=2)
-    fig.tight_layout();save(fig,OUT/'figures/Figure_01_case_environment')
+    axes[1].legend_.remove()
+
+    goes_file=ROOT/'data/raw/infrared_goes16/Storm_20181213/corrected_20181214_0700.mat'
+    if not goes_file.exists():
+        goes_file=Path(r'I:\Meu Drive\FADAS\LifeCycleOfTLE_producingStorms_MatLab\raw_data\infrared_goes16\corrected_images_achaf_PY\Storm_20181213\corrected_20181214_0700.mat')
+    if not goes_file.exists():
+        raise FileNotFoundError(f'GOES-16 maximum-storm image not found: {goes_file}')
+    goes=loadmat(goes_file)
+    temperature=np.asarray(goes['tempRetangular'],dtype=float)
+    lat=np.asarray(goes['latRetangular']).squeeze()
+    lon=np.asarray(goes['lonRetangular']).squeeze()
+    cmap=matplotlib.colors.ListedColormap(np.vstack([plt.cm.jet(np.linspace(0,1,92)),
+                                                       plt.cm.gray_r(np.linspace(0,1,60))]))
+    im=axes[3].pcolormesh(lon,lat,temperature,cmap=cmap,vmin=-92,vmax=60,shading='auto')
+    im.set_rasterized(True)
+    boundaries(axes[3])
+    axes[3].add_patch(Rectangle((west,south),east-west,north-south,fill=False,ec='black',lw=1.7,zorder=6))
+    axes[3].set(xlim=(float(lon.min()),float(lon.max())),ylim=(float(lat.min()),float(lat.max())),
+                xlabel='Longitude (°E)',ylabel='Latitude (°N)',title='(b) GOES-16 infrared — 10.35 µm\n14 Dec 2018 07 UTC')
+    cb=fig.colorbar(im,ax=axes[3],shrink=.87,pad=.025)
+    cb.set_label('Cloud-top temperature (°C)')
+    cb.set_ticks([-92,-60,-30,0,60])
+    axes[2].legend(handles,labels,loc='upper center',bbox_to_anchor=(.5,.98),ncol=2,frameon=False,fontsize=10)
+    fig.subplots_adjust(left=.06,right=.97,top=.93,bottom=.22,wspace=.30,hspace=.35)
+    save(fig,OUT/'figures/Figure_01_case_environment')
     write_json(OUT/'data/Figure_01_metadata.json',{'SACO_to_box_center_km':distance,'station':station,'profile_labels':labels,
         'ERA5_source_sha256':sha256(ROOT/'data/raw/era5/reanalysis_pl_20181214.nc'),
         'omega_sign':'native Pa/s; negative=ascent','full_data_extent':[float(w.longitude.min()),float(w.longitude.max()),float(w.latitude.min()),float(w.latitude.max())],
         'sounding_scope':'spatially distinct reference; not observations collocated with the model box',
         'profile_sources':profile_metadata,'preferred_source':'CSU_RELAMPAGO_in_projetoCHUVA; Wyoming retained in normalized inventory',
-        'used_for_initial_or_boundary_conditions':False})
+        'used_for_initial_or_boundary_conditions':False,
+        'GOES16_maximum_storm_time_utc':'2018-12-14T07:00:00Z',
+        'GOES16_source':str(goes_file),'GOES16_source_sha256':sha256(goes_file),
+        'GOES16_temperature_range_C':[-92,60]})
 
 
 def observations(c,o):
