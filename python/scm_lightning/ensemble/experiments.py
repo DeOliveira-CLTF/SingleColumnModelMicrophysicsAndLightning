@@ -8,6 +8,7 @@ import xarray as xr
 from scm_lightning.provenance import write_json,sha256
 
 CONFIGURATIONS = [f'{s}_{c}' for s in ['TH','WS'] for c in ['C0','CL','CF']]
+PHYSICS_PROFILE = 'bulk_memory'
 
 
 def control_directory(configuration):
@@ -31,15 +32,18 @@ def execute(executable,folder):
         else:
             subprocess.run([str(executable)],cwd=folder,stdout=log,stderr=subprocess.STDOUT,check=True)
 
-def namelist(configuration, forcing, output):
+def namelist(configuration, forcing, output, physics_profile=PHYSICS_PROFILE):
     scheme,coupling = configuration.split('_')
     if configuration not in CONFIGURATIONS:
         raise ValueError(configuration)
+    if physics_profile != PHYSICS_PROFILE:
+        raise ValueError(f'Unsupported physics profile: {physics_profile}')
     return f'''&mp_offline
  path_input="{model_path(forcing)}",
  path_output="{model_path(output)}",
  nz=60,ztop=20000.,dz0=50.,dt_microp=30.,
  use_mynn=.true.,mynn_edmf=1,mynn_edmf_type=0,mynn_uedmf_mp=0,
+ correct_mynn_boundary_units=.true.,mynn_surface_flux_memory=.true.,mynn_surface_flux_mode=0,
  apply_rt_adv=.false.,legacy_temperature_tendency=.false.,write_water_budget=.true.,
  couple_mynn_condensate={'.true.' if coupling != 'C0' else '.false.'},
  mynn_condensate_local_only={'.true.' if coupling == 'CL' else '.false.'},
@@ -88,13 +92,17 @@ def validate_output(path,expected_end=None):
             budget_scope='ENTRY native-density weighting; Thompson recomputes rho internally (module_mp_thompson.F); this residual is NOT an exact variable-density closure contract. Prescribed forcing and MYNN are separate.')
     return result
 
-def run_controls(executable, forcing, directory):
+def run_controls(executable, forcing, directory, configurations=None):
     executable = Path(executable).resolve()
     directory = Path(directory).resolve()
+    configurations = CONFIGURATIONS if configurations is None else list(configurations)
+    unknown = set(configurations)-set(CONFIGURATIONS)
+    if unknown:
+        raise ValueError(f'Unknown configurations: {sorted(unknown)}')
     results=[]
     with xr.open_dataset(forcing,decode_times=False) as source:
         expected_end=float(source.time.values[-1])
-    for configuration in CONFIGURATIONS:
+    for configuration in configurations:
         folder = directory/configuration
         folder.mkdir(parents=True,exist_ok=True)
         output = folder/'output.nc'
@@ -104,9 +112,15 @@ def run_controls(executable, forcing, directory):
         nml=nml.replace('legacy_temperature_tendency=.false.,','legacy_temperature_tendency=.false.,write_process_diagnostics=.true.,')
         (folder/'namelist.mp_offline').write_text(nml)
         execute(executable,folder)
-        results.append({'configuration':configuration,**validate_output(output,expected_end)})
+        result={'configuration':configuration,**validate_output(output,expected_end)}
+        write_json(folder/'run_identity.json',{
+            'configuration':configuration,'member':0,'physics_profile':PHYSICS_PROFILE,
+            'executable_sha256':sha256(executable),'forcing_sha256':sha256(forcing),
+            'namelist_sha256':sha256(folder/'namelist.mp_offline'),'result':result})
+        results.append(result)
     write_json(directory/'control_checks.json',results)
-    gate={'configurations':CONFIGURATIONS,'forcing_sha256':sha256(forcing),'numerical_passed':True,
+    gate={'configurations':configurations,'physics_profile':PHYSICS_PROFILE,
+        'forcing_sha256':sha256(forcing),'numerical_passed':True,
         'executable_sha256':sha256(executable),
         'physical_preflight_passed':all(r.get('physical_preflight_passed',False) for r in results),
         'physical_scope':'finite/positive species; pressure/temperature bounds; entry vapor nonnegative; finite entry-density water diagnostics. No exact mass/energy closure claim under prescribed pressure.',

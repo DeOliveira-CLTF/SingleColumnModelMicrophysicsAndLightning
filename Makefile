@@ -29,6 +29,7 @@ FFLAGS := -cpp -Dmpas -ffree-form -ffree-line-length-none -fdefault-real-8 -fdef
 
 # ---- object files, in dependency order (see the comment block at the end for why) ----
 COMMON_OBJS := \
+  $(BUILD)/mynn_audit.o \
   $(BUILD)/process_diagnostics.o \
   $(BUILD)/vertical_diagnostics.o \
   $(BUILD)/sensitivity_budget.o \
@@ -109,7 +110,8 @@ $(BUILD)/module_mp_wsm6.o: $(BUILD)/mpas_stubs_offline.o $(BUILD)/mp_wsm6.o $(BU
 $(BUILD)/mpas_atmphys_lightning.o: $(BUILD)/mpas_stubs_offline.o
 $(BUILD)/output_mp_netcdf.o: $(BUILD)/mpas_stubs_offline.o
 $(BUILD)/mynn_shared.o: $(BUILD)/ccpp_kind_types.o
-$(BUILD)/bl_mynn_subroutines.o: $(BUILD)/ccpp_kind_types.o
+$(BUILD)/mynn_audit.o: $(BUILD)/mpas_stubs_offline.o
+$(BUILD)/bl_mynn_subroutines.o: $(BUILD)/ccpp_kind_types.o $(BUILD)/mynn_audit.o
 $(BUILD)/bl_mynn.o: $(BUILD)/ccpp_kind_types.o $(BUILD)/bl_mynn_subroutines.o
 $(BUILD)/sf_mynn.o: $(BUILD)/ccpp_kind_types.o $(BUILD)/mynn_shared.o
 $(BUILD)/plume_microphysics_thompson.o: $(BUILD)/mpas_stubs_offline.o $(BUILD)/module_mp_thompson.o

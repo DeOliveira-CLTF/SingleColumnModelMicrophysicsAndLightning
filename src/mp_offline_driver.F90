@@ -64,6 +64,8 @@ program mp_offline_driver
   use sensitivity_budget, only: sb_open,sb_begin,sb_transport,sb_before_mp,sb_finish,sb_close
   use updraft_pulse, only: pulse_profile
   use vertical_diagnostics, only: vd_open, vd_write, vd_close
+  use mynn_audit, only: ma_open,ma_close,ma_time,ma_applied,ma_skip_shadow
+  use mynn_offline_coupling, only: boundary_fix,surface_flux_memory,surface_flux_mode
   use process_diagnostics, only : pd_open, pd_begin, pd_finish, pd_close
   use, intrinsic :: ieee_arithmetic, only : ieee_value, ieee_quiet_nan
 
@@ -89,6 +91,7 @@ program mp_offline_driver
   logical :: write_process_diagnostics = .false. ! observational hooks only
   logical :: write_water_budget = .false. ! native microphysics water closure only
   logical :: write_vertical_diagnostics = .false. ! read-only MYNN entry snapshots
+  logical :: write_mynn_audit=.false.
   real(RKIND) :: pulse_amplitude=0.0_RKIND,pulse_start=0.0_RKIND,pulse_duration=3600.0_RKIND
   real(RKIND) :: pulse_center=5000.0_RKIND,pulse_sigma=1000.0_RKIND
   real(RKIND),allocatable :: w_ls_diagnostic(:),w_pulse_diagnostic(:)
@@ -97,6 +100,9 @@ program mp_offline_driver
   real(kind=RKIND) :: budget_rain_before, budget_delta, budget_rain_delta, budget_residual
   logical :: use_mynn = .true.               ! MYNN surface layer + PBL, see mynn_offline_coupling.F90
   logical :: mynn_condensate_local_only = .false. ! apply only the EDMF-OFF (local mixing) part of MYNN's qc/qi tendencies
+  logical :: mynn_audit_no_shadow=.false., correct_mynn_boundary_units=.false.
+  logical :: mynn_surface_flux_memory=.false.
+  integer :: mynn_surface_flux_mode=0
   integer :: mynn_edmf_type = 0                ! 0 = MPAS DMP_mf plumes (default); 1 = unified plume core inside MYNN (uedmf_core)
   real(kind=RKIND) :: mynn_uedmf_exc_mult = 1.0_RKIND, mynn_uedmf_kfac_max = 3.0_RKIND  ! unified core tunables (uncalibrated)
   real(kind=RKIND) :: mynn_uedmf_e0_floor = 1.0e-4_RKIND, mynn_uedmf_econv_l = 300.0_RKIND   ! min TKE seen by the closure (m2/s2); dissipation length of e_conv (m)
@@ -122,8 +128,8 @@ program mp_offline_driver
        &                       mynn_uedmf_thermo, mynn_uedmf_c0_auto, mynn_uedmf_qc_crit, &
        &                       mynn_uedmf_e0_floor, mynn_uedmf_econv, mynn_uedmf_econv_l, mynn_uedmf_hmode, mynn_uedmf_mp, plume_channel_conserve, &
        &                       mynn_uedmf_c_eps, mynn_uedmf_c_delta, mynn_uedmf_c_lambda, mynn_uedmf_beta, mynn_uedmf_mu0, mynn_uedmf_chi, mynn_uedmf_c_gamma, &
-       &                microp_scheme, legacy_temperature_tendency, legacy_lightning, write_process_diagnostics, write_water_budget, write_vertical_diagnostics, &
-       pulse_amplitude, pulse_start, pulse_duration, pulse_center, pulse_sigma
+       &                microp_scheme, legacy_temperature_tendency, legacy_lightning, write_process_diagnostics, write_water_budget, write_vertical_diagnostics, write_mynn_audit, mynn_audit_no_shadow, correct_mynn_boundary_units, &
+       pulse_amplitude, pulse_start, pulse_duration, pulse_center, pulse_sigma,mynn_surface_flux_memory,mynn_surface_flux_mode
 
   ! ---- vertical grid (1-D, driver's own bookkeeping) ----
   real(kind=RKIND), allocatable :: z(:), dz(:)
@@ -284,6 +290,15 @@ program mp_offline_driver
   call output_open(trim(path_output), nz, z)
   if (write_vertical_diagnostics) call sb_open(trim(path_output)//".stage_water.csv",nz,dz,pres(1,:,1),th(1,:,1),qv(1,:,1))
   if (write_vertical_diagnostics) call vd_open(trim(path_output)//".vertical.nc", nz, z, dz, mynn_edmf_type, mynn_uedmf_mp)
+  ma_skip_shadow=mynn_audit_no_shadow
+  boundary_fix=correct_mynn_boundary_units
+  surface_flux_memory=mynn_surface_flux_memory
+  surface_flux_mode=mynn_surface_flux_mode
+  if(write_mynn_audit) then
+    if(mynn_uedmf_mp/=0.or..not.use_mynn) error stop 'MYNN audit requires MYNN ON and plume microphysics OFF'
+    call ma_open(trim(path_output)//'.mynn_audit.nc',nz,z)
+  endif
+  if(mynn_audit_no_shadow.and.mynn_condensate_local_only) error stop 'CL requires EDMF-OFF shadow tendencies'
   if (write_water_budget) then
     open(newunit=water_budget_unit, file=trim(path_output)//'.water_budget.csv', status='replace', action='write')
     write(water_budget_unit,'(A)') 'time_s,water_change_native_kg_m2,precip_increment_kg_m2,residual_kg_m2,min_qv_before_mp'
@@ -324,6 +339,7 @@ program mp_offline_driver
     !     mynn_offline_coupling.F90 header for what this call does and
     !     leaves out)
     if (use_mynn) then
+      ma_time=t_sec
       call mynn_coupling_step(nz, dt_microp, z, dz, u_col, v_col, th(1,:,1), tt, pres(1,:,1), &
            &                   pii(1,:,1), rho, qv(1,:,1), qc(1,:,1), qi(1,:,1), qs(1,:,1), &
            &                   ts_t, z0_t, ps_t, itimestep+1, rthblten, rqvblten, &
@@ -332,7 +348,7 @@ program mp_offline_driver
            &                   tke_out=tke_diag, mixing_length_out=mixlen_diag, &
            &                   exch_h_out=exch_h_diag, exch_m_out=exch_m_diag, &
            &                   cldfra_bl_out=cldfra_bl_diag, qc_bl_out=qc_bl_diag, qi_bl_out=qi_bl_diag, &
-           &                   mf_a_out=mf_a_diag, mf_w_out=mf_w_diag, pblh_out=pblh_diag)
+           &                   mf_a_out=mf_a_diag, mf_w_out=mf_w_diag, pblh_out=pblh_diag,hfss_in=hfss_t,hfls_in=hfls_t)
     else
       rthblten = 0.0_RKIND; rqvblten = 0.0_RKIND
       rqcblten = 0.0_RKIND; rqiblten = 0.0_RKIND
@@ -358,13 +374,9 @@ program mp_offline_driver
       call apply_plume_species(nz, dz, rho, dt_microp, qr(1,:,1), qi(1,:,1), qs(1,:,1), qg(1,:,1), &
            &                   ext_net, ext_abs, ext_clip, ext_qg, plume_channel_conserve)
     end if
-    ! EDMF-to-microphysics coupling: cloud water/ice detrained by MYNN's
-    ! mass-flux updraft plumes becomes a genuine qc/qi source term here,
-    ! feeding directly into whichever scheme (Thompson/WSM6) is about to
-    ! run -- see mynn_offline_coupling.F90's header for what this is and
-    ! why it is exactly zero whenever the EDMF scheme itself is inactive
-    ! (its own internal size/flux criteria unmet), which is the
-    ! physically correct outcome, not a placeholder.
+    ! Apply total MYNN condensate tendencies once: local mixing is present
+    ! even without active EDMF plumes. CL uses the EDMF-OFF shadow response;
+    ! CF uses the complete response, including feedback on local mixing.
     if (couple_mynn_condensate) then
       if (mynn_condensate_local_only) then
         qc(1,:,1) = max(qc(1,:,1) + dt_microp*rqcblten_loc, 0.0_RKIND)
@@ -375,6 +387,7 @@ program mp_offline_driver
       end if
     end if
 
+    if(write_mynn_audit) call ma_applied(qc(1,:,1),qi(1,:,1),merge(merge(1,2,mynn_condensate_local_only),0,couple_mynn_condensate))
     ! --- mode 3: species channels WITH the plume's source terms and precipitation fallout (balanced version of mode 2)
     if (edmf_type == 1 .and. uedmf_mp_mode == 3 .and. use_mynn) then
       call apply_plume_balance(nz, dz, rho, pii(1,:,1), dt_microp, th(1,:,1), qv(1,:,1), qc(1,:,1), &
@@ -481,6 +494,7 @@ program mp_offline_driver
 
   call output_close()
   if (write_vertical_diagnostics) call vd_close()
+  if(write_mynn_audit) call ma_close()
   if (write_vertical_diagnostics) call sb_close()
   if (write_water_budget) close(water_budget_unit)
   if (write_process_diagnostics) call pd_close()

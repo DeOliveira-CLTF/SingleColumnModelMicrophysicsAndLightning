@@ -14,13 +14,13 @@ from scm_lightning.config import load_config
 
 CAL=ROOT/'configs/cases/argentina_20191028.yaml'
 CASE=ROOT/'configs/cases/argentina_20181213.yaml'
-FROZEN=ROOT/'results/argentina_20191028/calibration/v3_mucape_microphysics_OLS'
-OUT=ROOT/'results/argentina_20181213/article'
+FROZEN=ROOT/'results/argentina_20191028/calibration/bulk_memory_final'
+OUT=ROOT/'results/argentina_20181213/article_bulk_memory_final'
 PREVIOUS=ROOT/'results/argentina_20181213/legacy/article_v2_1min_most_cape'
 MU_METHOD='MUCAPExP_300hPa_SCM'
 
 
-def diagnostics_root(event):return ROOT/'results'/event/'diagnostics_v3'
+def diagnostics_root(event):return ROOT/'results'/event/'diagnostics_bulk_memory_final'
 
 
 def plan():
@@ -32,8 +32,8 @@ def plan():
         member=r['member'],sha256=checks[(r['configuration'],r['member'])]['sha256']) for r in native]
     if len(runs)!=246:raise ValueError('Six controls and 240 existing perturbed members required')
     runs.sort(key=lambda r:(r['member']!=0 or r['configuration'] not in ['TH_C0','WS_C0'],r['configuration'],r['member']))
-    for scheme,name in [('TH','thompson'),('WS','wsm6')]:
-        folder=ROOT/'runs/argentina_20191028'/(name+'_C0')/'control'
+    for scheme in ['TH','WS']:
+        folder=ROOT/'runs/argentina_20191028/bulk_memory_final'/(scheme+'_C0')
         identity=json.loads((folder/'run_identity.json').read_text())
         if not identity['result'].get('physical_preflight_passed'):raise ValueError('Invalid calibration control')
         runs.append(dict(event='argentina_20191028',folder=str(folder),configuration=scheme+'_C0',member=0,sha256=identity['result']['sha256']))
@@ -54,19 +54,14 @@ def diagnose_run(run):
         raise ValueError('MUCAPE cache identity mismatch')
     if sha256(source)!=run['sha256']:raise ValueError('Native source identity changed')
     c=load_config(CAL if event=='argentina_20191028' else CASE);c['interval_minutes']=1
-    if event=='argentina_20181213':
-        old=(PREVIOUS if PREVIOUS.exists() else OUT)/'data/members'/cfg/f'{member:02}'
-        record=json.loads((old/'minute_identity.json').read_text())
-        if record['source_sha256']!=run['sha256']:raise ValueError('Ice integrals do not match native output')
-        ice=pd.read_csv(old/'predictors_1min.csv');five=pd.read_csv(old/'predictors_5min.csv')
-    elif cfg=='TH_C0':
-        old=ROOT/'results/argentina_20191028/diagnostics_1min'
-        if json.loads((old/'manifest.json').read_text())['simulation_sha256']!=run['sha256']:raise ValueError('2019 ice source changed')
-        ice=pd.read_csv(old/'predictors_1min.csv');five=pd.read_csv(old/'predictors_5min.csv')
-    else:
-        old=destination/'native_ice_integrals'
-        ice,five=control_predictors(source,ROOT/c['paths']['forcing']/'LEONA_SCM.nc',c,old,
-            configuration=cfg,export_native=True,compute_cape=False)
+    old=destination/'native_ice_integrals'
+    forcing_root=c.get('paths',{}).get('forcing','data/processed/forcing')
+    ice,five=control_predictors(source,ROOT/forcing_root/'LEONA_SCM.nc',c,old,
+        configuration=cfg,export_native=True,compute_cape=False)
+    ice['configuration']=cfg
+    ice['member']=member
+    five['configuration']=cfg
+    five['member']=member
     with xr.open_dataset(source,decode_times=False) as original:
         d=original[['time','lev','pressure','theta','qv','rainnc']].load()
     duration=(pd.Timestamp(c['end'])-pd.Timestamp(c['start'])).total_seconds()
@@ -90,7 +85,8 @@ def diagnose_run(run):
     ice=ice[ice.method!='CAPExP'];result=pd.concat([ice,cap],ignore_index=True)
     result.to_csv(destination/'predictors_1min.csv',index=False);five.to_csv(destination/'predictors_5min.csv',index=False)
     if sha256(source)!=run['sha256']:raise IOError('Native simulation changed during diagnosis')
-    forcing=ROOT/(c['paths']['forcing'] if event=='argentina_20191028' else 'data/processed/forcing')/'LEONA_SCM.nc'
+    forcing=ROOT/(c.get('paths',{}).get('forcing','data/processed/forcing')
+        if event=='argentina_20191028' else 'data/processed/forcing')/'LEONA_SCM.nc'
     write_json(tag,dict(run,source_sha256=run['sha256'],algorithm_sha256=algorithm,definition=DEFINITION,
         search_depth_Pa=DEPTH_PA,forcing_sha256=sha256(forcing),comparison=compare,native_output_unchanged=True,
         ice_integral_source=str(old),ice_predictor_sha256=sha256(old/'predictors_1min.csv'),
@@ -138,7 +134,14 @@ def calibrate():
 def prepare_calibration():
     """Prioritize the two controls; no 2019 ensemble is constructed."""
     for key in ['OMP_NUM_THREADS','OPENBLAS_NUM_THREADS','MKL_NUM_THREADS','NUMEXPR_NUM_THREADS']:os.environ[key]='1'
-    runs=[r for r in plan() if r['event']=='argentina_20191028']
+    runs=[]
+    for scheme in ['TH','WS']:
+        folder=ROOT/'runs/argentina_20191028/bulk_memory_final'/(scheme+'_C0')
+        identity=json.loads((folder/'run_identity.json').read_text())
+        if identity.get('physics_profile')!='bulk_memory' or identity.get('member')!=0:
+            raise ValueError('Invalid bulk_memory calibration control identity')
+        runs.append(dict(event='argentina_20191028',folder=str(folder),
+            configuration=scheme+'_C0',member=0,sha256=identity['result']['sha256']))
     with ProcessPoolExecutor(max_workers=2) as pool:
         for future in as_completed([pool.submit(diagnose_run,r) for r in runs]):future.result()
     print('Both 2019 MUCAPE controls prepared.',flush=True)

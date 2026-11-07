@@ -54,12 +54,17 @@ module mynn_offline_coupling
   use mpas_kind_types, only : RKIND
   use bl_mynn, only : bl_mynn_run, bl_mynn_init
   use sf_mynn, only : sf_mynn_run
+  use mynn_audit, only: ma_enabled,ma_main,ma_dt,ma_skip_shadow,ma_write,ma_boundary
+  use, intrinsic :: ieee_arithmetic, only: ieee_value,ieee_quiet_nan
 
   implicit none
   private
 
   public :: mynn_coupling_init
   public :: mynn_coupling_step
+  logical, save, public :: boundary_fix = .false. ! versioned sensitivity; retain historical reference by default
+  logical, save, public :: surface_flux_memory=.false.
+  integer, save, public :: surface_flux_mode=0 ! 0 bulk; 1 prescribed scalar-flux sensitivity, bulk momentum transfer
 
   ! ---- physical constants (match MPAS's own mpas_atmphys_constants.F
   !      and the standard WRF svp1/2/3/svpt0/ep1/ep2 Bolton constants) ----
@@ -111,6 +116,7 @@ module mynn_offline_coupling
   integer,          save :: kpbl_s = 1
   real(kind=RKIND), save :: ust_s = 0.1_RKIND, rmol_s = 0.0_RKIND, mol_s = 0.0_RKIND
   real(kind=RKIND), save :: qsfc_s = 0.0_RKIND
+  real(kind=RKIND), save :: hfx_s=0._RKIND,qfx_s=0._RKIND
 
 contains
 
@@ -153,6 +159,7 @@ contains
     pblh_s = 100.0_RKIND  ! first-guess PBL depth, m -- MYNN re-diagnoses this every call
     kpbl_s = 2
     ust_s = 0.1_RKIND; rmol_s = 0.0_RKIND; mol_s = 0.0_RKIND
+    hfx_s=0._RKIND;qfx_s=0._RKIND;qsfc_s=0._RKIND
     initialized = .true.
   end subroutine mynn_coupling_init
 
@@ -163,13 +170,14 @@ contains
        &                        rqcblten_loc_out, rqiblten_loc_out, &
        &                        tke_out, mixing_length_out, exch_h_out, exch_m_out, &
        &                        cldfra_bl_out, qc_bl_out, qi_bl_out, &
-       &                        mf_a_out, mf_w_out, pblh_out)
+       &                        mf_a_out, mf_w_out, pblh_out,hfss_in,hfls_in)
   !===================================================================
     integer, intent(in) :: nz, itimestep
     real(kind=RKIND), intent(in) :: dt, ts, z0_in, ps_in
     real(kind=RKIND), intent(in) :: z(nz), dz(nz), u_col(nz), v_col(nz)
     real(kind=RKIND), intent(in) :: th(nz), tt(nz), p(nz), exner(nz), rho(nz)
     real(kind=RKIND), intent(in) :: qv(nz), qc(nz), qi(nz), qs(nz)
+    real(kind=RKIND), intent(in), optional :: hfss_in,hfls_in ! W/m2 upward, complete time forcing
     real(kind=RKIND), intent(out) :: rthblten(nz), rqvblten(nz)
     real(kind=RKIND), intent(out), optional :: rqcblten_out(nz), rqiblten_out(nz)
 
@@ -190,7 +198,8 @@ contains
     real(kind=RKIND), intent(out), optional :: pblh_out              ! m, boundary-layer height (scalar)
     ! LOCAL-ONLY condensate tendencies: what bl_mynn_run returns for qc/qi when its
     ! EDMF mass-flux component is switched OFF, from the SAME input state. Computed by
-    ! a shadow call (see the ipass loop below). full - local = the EDMF plumes' share.
+    ! a shadow call (see the ipass loop below). Full - local is the response of the
+    ! complete MYNN call to EDMF, including cloud/mixing feedbacks.
     real(kind=RKIND), intent(out), optional :: rqcblten_loc_out(nz), rqiblten_loc_out(nz)
     integer :: ipass, npass
     logical :: edmf_flag
@@ -231,6 +240,7 @@ contains
     real(kind=RKIND) :: dz_arr(1,nz)
 
     integer :: k
+    real(RKIND) :: audit_profiles(nz,20),audit_surface(20),input_hfx,input_qfx,bulk_hfx,bulk_qfx,forcing_hfx,forcing_lh
 
     if (.not. initialized) call mynn_coupling_init(nz)
 
@@ -240,7 +250,7 @@ contains
     !    ts_forc) and the first two model levels -- see this module's
     !    header for why flux is diagnosed here, not prescribed.
     !=================================================================
-    mavail  = 1.0_RKIND     ! continental rainforest, not water-limited -- GOAMAZON gives no better estimate
+    mavail  = 1.0_RKIND     ! inherited wet-limit assumption; not independently validated for Argentina
     pblh1   = pblh_s
     xland   = 1.0_RKIND     ! land
     tsk     = ts
@@ -259,7 +269,25 @@ contains
 
     ! first-guess/previous-step values for the iterative similarity solve:
     ust1 = ust_s; rmol1 = rmol_s; mol1 = mol_s; znt = z0_in; qsfc1 = qsfc_s
+    ! No land model updates qsfc in this offline driver. In the existing wet-limit
+    ! boundary, request saturation at CURRENT Tskin/ps rather than latch first value.
+    if(boundary_fix) qsfc1=0._RKIND
     regime = 0.0_RKIND; hfx = 0.0_RKIND; qfx = 0.0_RKIND; qgh = 0.0_RKIND
+    ! The SF scheme reads incoming fluxes for Beljaars wstar BEFORE recomputing
+    ! bulk fluxes. Retain the last actually applied flux only in the opt-in mode.
+    if(surface_flux_memory) then
+      hfx = hfx_s; qfx = qfx_s
+    endif
+    forcing_hfx=ieee_value(0._RKIND,ieee_quiet_nan);forcing_lh=forcing_hfx
+    if(present(hfss_in)) forcing_hfx=hfss_in
+    if(present(hfls_in)) forcing_lh=hfls_in
+    if(surface_flux_mode==1) then
+      if(.not.present(hfss_in).or..not.present(hfls_in)) error stop 'Prescribed surface flux needs both forcing fields'
+      hfx=forcing_hfx;qfx=forcing_lh/xlv_c
+    else if(surface_flux_mode/=0) then
+      error stop 'Unsupported surface flux mode'
+    endif
+    input_hfx=hfx(1);input_qfx=qfx(1)
     cpm = cp_c; chs2 = 0.0_RKIND; cqs2 = 0.0_RKIND; chs = 0.0_RKIND; ch = 0.0_RKIND
     flhc = 0.0_RKIND; flqc = 0.0_RKIND; gz1oz0 = 0.0_RKIND; wspd = 0.0_RKIND; br = 0.0_RKIND
     psim = 0.0_RKIND; psih = 0.0_RKIND; zol = 0.0_RKIND
@@ -277,6 +305,17 @@ contains
          spp_pbl=.false., rstoch1d=rstoch1d, isftcflx=isftcflx_c, iz0tlnd=iz0tlnd_c, &
          its=1, ite=1, errmsg=errmsg, errflg=errflg )
 
+    bulk_hfx=hfx(1);bulk_qfx=qfx(1)
+    if(surface_flux_mode==1) then
+      ! Diagnostic boundary experiment only. Keep SF bulk momentum/stability;
+      ! prescribe heat/vapor fluxes to PBL, which recomputes its own 1/L.
+      ! Do not claim a fully flux-driven Monin-Obukhov surface-layer solution.
+      hfx=forcing_hfx;qfx=forcing_lh/xlv_c;lh=forcing_lh
+    endif
+    hfx_s=hfx(1);qfx_s=qfx(1)
+    if(ma_enabled) ma_boundary=[input_hfx,input_qfx,bulk_hfx,bulk_qfx,hfx(1),qfx(1),lh(1), &
+      forcing_hfx,forcing_lh,wstar(1),ust1(1),rmol1(1),rho(1),pblh1(1),ts,qsfc1(1),mavail(1), &
+      real(surface_flux_mode,RKIND),merge(1._RKIND,0._RKIND,surface_flux_memory),dt]
     ust_s = ust1(1); rmol_s = rmol1(1); mol_s = mol1(1); qsfc_s = qsfc1(1); pblh_s = pblh1(1)
 
     !=================================================================
@@ -291,7 +330,10 @@ contains
     ! identical inputs.
     npass = 1
     if (present(rqcblten_loc_out) .or. present(rqiblten_loc_out)) npass = 2
+    if(ma_skip_shadow) npass=1
+    rqcloc=0.;rqiloc=0.
     do ipass = 3-npass, 2
+    ma_main=(ipass==2)
     edmf_flag = (bl_mynn_edmf_c == 1)
     if (npass == 2 .and. ipass == 1) edmf_flag = .false.
     u2(1,:) = u_col; v2(1,:) = v_col; w2(1,:) = 0.0_RKIND
@@ -299,6 +341,14 @@ contains
     th2d(1,:) = th; tt2d(1,:) = tt; p2(1,:) = p; exner2(1,:) = exner; rho2(1,:) = rho
     rthraten2 = 0.0_RKIND   ! no radiation scheme in this driver -- see header note
     sqv2(1,:) = qv; sqc2(1,:) = qc; sqi2(1,:) = qi; sqs2(1,:) = qs
+    if(boundary_fix) then
+      ! MYNN expects specific vapor and condensate per moist-gas mass; SCM uses
+      ! dry-air mixing ratios. Match MYNN's inverse q/(1-sqv) exactly.
+      sqv2(1,:) = qv/(1._RKIND+qv)
+      sqc2(1,:) = qc/(1._RKIND+qv)
+      sqi2(1,:) = qi/(1._RKIND+qv)
+      sqs2(1,:) = qs/(1._RKIND+qv)
+    endif
     qnc2 = 0.0_RKIND; qni2 = 0.0_RKIND; qnwfa2 = 0.0_RKIND; qnifa2 = 0.0_RKIND; qnbca2 = 0.0_RKIND
     qozone2 = 0.0_RKIND; pattern_spp2 = 0.0_RKIND
 
@@ -352,6 +402,14 @@ contains
          flag_qc=.true., flag_qi=.true., flag_qs=.true., flag_qnc=.false., flag_qni=.false., &
          flag_qnwfa=.false., flag_qnifa=.false., flag_qnbca=.false., flag_qoz=.false., &
          its=1, ite=1, kts=1, kte=nz, kme=nz, errmsg=errmsg, errflg=errflg )
+    if(boundary_fix) then
+      ! Convert complete finite-step end states, not just multiply tendencies
+      ! by a constant: vapor changes the common denominator during the step.
+      if(any(1._RKIND-sqv2(1,:)-dt*rqvblten2(1,:)<=0._RKIND)) error stop 'Invalid MYNN end humidity'
+      rqcblten2(1,:)=((sqc2(1,:)+dt*rqcblten2(1,:))/(1._RKIND-sqv2(1,:)-dt*rqvblten2(1,:))-qc)/dt
+      rqiblten2(1,:)=((sqi2(1,:)+dt*rqiblten2(1,:))/(1._RKIND-sqv2(1,:)-dt*rqvblten2(1,:))-qi)/dt
+      rqvblten2(1,:)=((sqv2(1,:)+dt*rqvblten2(1,:))/(1._RKIND-sqv2(1,:)-dt*rqvblten2(1,:))-qv)/dt
+    endif
     if (npass == 2 .and. ipass == 1) then
       rqcloc = rqcblten2(1,:); rqiloc = rqiblten2(1,:)
     end if
@@ -371,16 +429,12 @@ contains
     ! (no momentum equation in this driver -- wind is prescribed from
     ! GOAMAZON's ua_nud/va_nud, so a wind tendency has nowhere to act).
     !
-    ! rqcblten2/rqiblten2 (EDMF cloud-water/ice detrainment tendencies)
-    ! ARE now returned (see rqcblten_out/rqiblten_out below) -- this is
-    ! the actual EDMF-to-microphysics coupling requested: when the
-    ! mass-flux scheme's updraft plumes detrain condensate into the
-    ! grid-mean state, that appears here as a genuine qc/qi SOURCE for
-    ! whichever microphysics scheme (Thompson/WSM6) runs next, closing
-    ! the loop between the two parameterizations. In a case where EDMF
-    ! never activates (its own internal criteria unmet -- see
-    ! mynn_coupling_step's header), these come back as exactly zero,
-    ! which is the physically correct outcome, not a stand-in value.
+    ! rqcblten2/rqiblten2 are TOTAL local mixing plus EDMF response, not
+    ! isolated detrainment. They may be nonzero when EDMF is inactive.
+    ! Full minus shadow includes feedbacks of the complete MYNN call.
+    ! rqcblten2/rqiblten2 (cloud-water/ice tendencies)
+    ! ARE returned to the microphysics coupling. Local mixing remains available
+    ! even when no plume is active; these fields are not plume-only sources.
     if (present(rqcblten_out)) rqcblten_out = rqcblten2(1,:)
     if (present(rqiblten_out)) rqiblten_out = rqiblten2(1,:)
 
@@ -393,15 +447,30 @@ contains
     if (present(cldfra_bl_out))     cldfra_bl_out     = cldfra_bl2(1,:)
     if (present(qc_bl_out))         qc_bl_out         = qc_bl2(1,:)
     if (present(qi_bl_out))         qi_bl_out         = qi_bl2(1,:)
-    ! mass flux itself (kg/m2/s equivalent) is mf_a*mf_w*rho, left to the
-    ! caller to multiply by its own rho if wanted -- returned here as the
-    ! two EDMF factors (area fraction, updraft velocity) rather than a
-    ! single combined field, since that keeps both physically legible
-    ! quantities available (e.g. to check whether a near-zero mass flux
-    ! is due to a vanishing updraft area or a vanishing updraft speed)
+    ! mass flux itself (kg/m2/s) is mf_a*mf_w; mf_w ALREADY contains rhoz.
+    ! Characteristic plume speed is mf_w/rhoz on diagnosed interfaces.
     if (present(mf_a_out))          mf_a_out          = edmf_a2(1,:)
     if (present(mf_w_out))          mf_w_out          = edmf_w2(1,:)
     if (present(pblh_out))          pblh_out          = pblh_bl1(1)
+    if(ma_enabled) then
+      audit_profiles(:,1)=.5_RKIND*qke2(1,:)
+      audit_profiles(:,2)=rqcloc;audit_profiles(:,3)=rqcblten2(1,:)
+      audit_profiles(:,4)=rqiloc;audit_profiles(:,5)=rqiblten2(1,:)
+      if(ma_skip_shadow) then
+        audit_profiles(:,2)=ieee_value(0._RKIND,ieee_quiet_nan)
+        audit_profiles(:,4)=ieee_value(0._RKIND,ieee_quiet_nan)
+      endif
+      audit_profiles(:,6)=tt;audit_profiles(:,7)=p;audit_profiles(:,8)=rho
+      audit_profiles(:,9)=qv;audit_profiles(:,10)=qc;audit_profiles(:,11)=qi
+      audit_profiles(:,12)=rthblten2(1,:);audit_profiles(:,13)=rqvblten2(1,:)
+      audit_profiles(:,14)=el_pbl2(1,:);audit_profiles(:,15)=exch_h2(1,:);audit_profiles(:,16)=exch_m2(1,:)
+      audit_profiles(:,17)=edmf_a2(1,:);audit_profiles(:,18)=edmf_w2(1,:)
+      audit_profiles(:,19)=cldfra_bl2(1,:);audit_profiles(:,20)=edmf_ent2(1,:)
+      audit_surface=[ts,qsfc1(1),hfx(1),lh(1),qfx(1),ust1(1),rmol1(1),pblh_bl1(1),znt(1), &
+        mavail(1),dx1(1),pblh1(1),maxwidth1(1),maxmf1(1),ztop_plume1(1),wstar(1),ps_in,ts/exner(1),qv(1),dt]
+      ma_dt=dt
+      call ma_write(audit_surface,audit_profiles)
+    endif
 
   contains
 

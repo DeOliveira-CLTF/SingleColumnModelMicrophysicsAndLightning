@@ -1,0 +1,12 @@
+source: https://www.ecmwf.int/sites/default/files/elibrary/2016/16648-part-iv-physical-processes.pdf
+reference: IFS CY41R2 Part IV, Table 8.9, printed page 137 (PDF page 136 zero-based)
+units: m3 m-3
+interpretation: Contextual hydraulic thresholds, not MYNN mavail or a replacement land-surface scheme.
+soil_classes:
+  1: {name: coarse, saturation: 0.403, field_capacity: 0.244, wilting_point: 0.059}
+  2: {name: medium, saturation: 0.439, field_capacity: 0.347, wilting_point: 0.151}
+  3: {name: medium_fine, saturation: 0.430, field_capacity: 0.383, wilting_point: 0.133}
+  4: {name: fine, saturation: 0.520, field_capacity: 0.448, wilting_point: 0.279}
+  5: {name: very_fine, saturation: 0.614, field_capacity: 0.541, wilting_point: 0.335}
+  6: {name: organic, saturation: 0.766, field_capacity: 0.663, wilting_point: 0.267}
+unmapped_classes: Remain missing; do not assign loamy/default properties.

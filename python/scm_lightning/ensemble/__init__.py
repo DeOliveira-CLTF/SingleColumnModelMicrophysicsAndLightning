@@ -87,7 +87,8 @@ def stability(statistic_by_member, sizes=(5,10,15,20)):
     a = np.asarray(statistic_by_member)
     return [{'members':n,'mean':float(a[:n].mean()),'std':float(a[:n].std(ddof=1))} for n in sizes if n<=len(a)]
 
-def prepare(config, control, eda_profiles, control_checks, output, inherit=None):
+def prepare(config, control, eda_profiles, control_checks, output, inherit=None,
+            perturbation_archive=None):
     """Validated, collocated EDA NPZ must contain temperature,rv (10,z).
 
     Generate 20 paired inputs + the control shared across the six configurations.
@@ -98,21 +99,32 @@ def prepare(config, control, eda_profiles, control_checks, output, inherit=None)
     from scm_lightning.ensemble.experiments import CONFIGURATIONS,perturb_scm,namelist
     from scm_lightning.provenance import write_json,sha256
     gate=json.loads(Path(control_checks).read_text())
-    if set(gate.get('configurations',[])) != set(CONFIGURATIONS) or not gate.get('numerical_passed') or not gate.get('physical_preflight_passed'):
+    if (set(gate.get('configurations',[])) != set(CONFIGURATIONS)
+            or gate.get('physics_profile') != 'bulk_memory'
+            or not gate.get('numerical_passed')
+            or not gate.get('physical_preflight_passed')):
         raise ValueError('Six LEONA controls must pass numerical and physical gates')
     if gate.get('forcing_sha256') != sha256(control):
         raise ValueError('Controls were not run with this forcing')
     if config['area'] is None:
         raise ValueError('Fixed meteorological support required')
-    data=np.load(eda_profiles,allow_pickle=False)
-    if 'forcing_sha256' not in data or str(data['forcing_sha256']) != sha256(control):
-        raise ValueError('EDA collocation must be tied to the control forcing checksum')
     import xarray as xr
     with xr.open_dataset(control,decode_times=False) as f:
-        if 'z' not in data or not np.array_equal(data['z'],f.lev.values):
+        control_z=f.lev.values.copy()
+    data=np.load(eda_profiles,allow_pickle=False) if perturbation_archive is None else None
+    archive=np.load(perturbation_archive,allow_pickle=False) if perturbation_archive is not None else None
+    if archive is None:
+        if 'forcing_sha256' not in data or str(data['forcing_sha256']) != sha256(control):
+            raise ValueError('EDA collocation must be tied to the control forcing checksum')
+        if 'z' not in data or not np.array_equal(data['z'],control_z):
             raise ValueError('EDA vertical grid differs from control')
     n,seed=config['ensemble']['perturbed_members'],config['ensemble']['seed']
-    delta,weights=joint_perturbations(data['temperature'],data['rv'],n,seed)
+    if archive is None:
+        delta,weights=joint_perturbations(data['temperature'],data['rv'],n,seed)
+    else:
+        if archive['delta'].shape != (n,2,len(control_z)) or int(archive['seed']) != seed:
+            raise ValueError('Perturbation archive does not match the fixed ensemble design')
+        delta=np.asarray(archive['delta']);weights=np.asarray(archive['weights'])
     prior=None;prior_runs={};prior_files={};accepted=[];old_n=0
     if inherit is not None:
         prior_path=Path(inherit);prior=json.loads(prior_path.read_text())
@@ -128,8 +140,12 @@ def prepare(config, control, eda_profiles, control_checks, output, inherit=None)
         prior_files={r['member']:resolve_path(r['forcing']) for r in prior['runs']}
         accepted=[sha256(prior_path),*prior.get('accepted_prior_manifest_sha256',[])]
     out=Path(output);out.mkdir(parents=True,exist_ok=False)
-    np.savez_compressed(out/'realized_perturbations.npz',delta=delta,weights=weights,
-        eda_temperature=data['temperature'],eda_rv=data['rv'],seed=seed)
+    archive_fields={'delta':delta,'weights':weights,'seed':seed}
+    if archive is None:
+        archive_fields.update(eda_temperature=data['temperature'],eda_rv=data['rv'])
+    else:
+        archive_fields['source_archive_sha256']=sha256(perturbation_archive)
+    np.savez_compressed(out/'realized_perturbations.npz',**archive_fields)
     files=[Path(control).resolve()]
     for i in range(n):
         if i+1<=old_n:
@@ -144,13 +160,15 @@ def prepare(config, control, eda_profiles, control_checks, output, inherit=None)
             folder=out/configuration/f'{member:02}';folder.mkdir(parents=True)
             (folder/'namelist.mp_offline').write_text(namelist(configuration,forcing,folder/'output.nc'))
             runs.append({'configuration':configuration,'member':member,'forcing':str(forcing),'forcing_sha256':sha256(forcing),'folder':str(folder.resolve())})
-    write_json(out/'manifest.json',{'case':config['case'],'seed':seed,'distribution':'low-rank Gaussian joint T/log(rv) from sample EDA covariance',
+    write_json(out/'manifest.json',{'case':config['case'],'physics_profile':'bulk_memory',
+        'seed':seed,'distribution':'low-rank Gaussian joint T/log(rv) from sample EDA covariance',
         'synthetic_members':n,'reanalysis_members_used_for_covariance':10,'control_member':0,'paired_across_configurations':True,
         'pressure_balance':'prescribed pressure; no exact hydrostatic balance','wind_perturbations':False,
         'controls_sha256':sha256(control_checks),'config':config,'runs':runs,
         'control_executable_sha256':gate.get('executable_sha256'),
         'accepted_prior_manifest_sha256':accepted,'inherited_members':old_n,
-        'realized_perturbations_sha256':sha256(out/'realized_perturbations.npz')})
+        'realized_perturbations_sha256':sha256(out/'realized_perturbations.npz'),
+        'perturbation_archive_sha256':None if perturbation_archive is None else sha256(perturbation_archive)})
     return runs
 
 def run_prepared(executable,manifest):

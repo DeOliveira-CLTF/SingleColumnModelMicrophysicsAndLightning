@@ -63,6 +63,9 @@
   "coverage_confirmation": "User confirmed valid continuous coverage for 28-29 October 2019 on 2026-11-06",
   "dephy_expected_commit": "661b0328acd253f345715534986e65724c8919db",
   "calibration": {
+    "physics_profile": "bulk_memory",
+    "output_directory": "runs/argentina_20191028/bulk_memory_final",
+    "results_directory": "results/argentina_20191028/calibration/bulk_memory_final",
     "configuration": "TH_C0",
     "member": 0,
     "methods": [

@@ -335,6 +335,7 @@ MODULE bl_mynn_subroutines
 
   use mynn_shared,only: esat_blend,qsat_blend,xl_blend
 
+  use mynn_audit, only: ma_enabled,ma_main,ma_gate,ma_term
   implicit none
   private
   public:: dmp_mf,                   &
@@ -4945,6 +4946,9 @@ ENDIF
 !     print *,'pblh',pblh
 
 ! Initialize individual updraft properties
+  if(ma_enabled.and.ma_main) then
+    ma_gate=0.;ma_term=0.;ma_gate(13)=1.
+  endif
   UPW=0.
   UPTHL=0.
   UPTHV=0.
@@ -5028,6 +5032,7 @@ ENDIF
   enddo
 
   !do nothing for small w (< 1 m/s), but linearly taper off for w > 1.0 m/s
+  if(ma_enabled.and.ma_main) ma_gate(11)=maxw
   maxw = max(0.,maxw - 1.0)
   Psig_w = max(0.0, 1.0 - maxw)
   Psig_w = min(Psig_w, Psig_shcu)
@@ -5096,6 +5101,12 @@ ENDIF
     !large enough to handle the representation of small plumes).
     if (maxwidth .ge. (lmax - 1.0) .and. fltv .gt. 0.2)minwidth = lmin + dlmin*min((fltv-0.2)/0.3, 1._kind_phys)
 
+    if(ma_enabled.and.ma_main) then
+      ma_gate(1:10)=[fltv2,merge(1._kind_phys,0._kind_phys,superadiabatic),maxwidth,minwidth, &
+        min(dx*dcut,lmax),1.1_kind_phys*pblh,merge(.5_kind_phys,.9_kind_phys,landsea<1.5)*cloud_base,width_flx,Psig_w,Psig_shcu]
+      ma_gate(15)=fltv
+      ma_gate(16)=1.-min(max((wspd_pbl-10.)/15.,0._kind_phys),1._kind_phys)
+    endif
     if (maxwidth .le. minwidth) then ! deactivate MF component
        nup2 = 0
        maxwidth = 0.0
@@ -5119,6 +5130,7 @@ mp_ext_flag = .false.
        endif
        call system_clock(tclk0,tclk_rate)
        call uedmf_core()
+       if(ma_enabled.and.ma_main) ma_term(1,:)=6.
        call system_clock(tclk1)
        uedmf_t_core = uedmf_t_core + real(tclk1-tclk0,8)/real(tclk_rate,8)
     else
@@ -5263,6 +5275,9 @@ else if ( fltv2 > 0.002 .AND. (maxwidth > minwidth) .AND. superadiabatic) then
        QCn = 0.
        overshoot = 0
        l  = minwidth + dl*real(i-1)            ! diameter of plume
+       if(ma_enabled.and.ma_main) then
+         ma_term(1,i)=5.;ma_term(9,i)=l
+       endif
        do k=kts+1,kte-1
           !Entrainment from Tian and Kuang (2016)
           !ENT(k,i) = 0.35/(MIN(MAX(UPW(K-1,I),0.75),1.9)*l)
@@ -5361,6 +5376,12 @@ else if ( fltv2 > 0.002 .AND. (maxwidth > minwidth) .AND. superadiabatic) then
           ELSE
              Wn = UPW(K-1,I) + (-2. * ENT(K,I) * UPW(K-1,I) + BCOEFF*B / UPW(K-1,I)) * MIN(ZW(k)-ZW(k-1), 250.)
           ENDIF
+          if(ma_enabled.and.ma_main) then
+            ma_term(2:8,i)=[zw(k),UPW(k-1,i),B,ENT(k,i), &
+              BCOEFF*B/MAX(UPW(k-1,i),.2_kind_phys)*MIN(ZW(k)-ZW(k-1),250._kind_phys), &
+              -2.*ENT(k,i)*UPW(k-1,i)*MIN(ZW(k)-ZW(k-1),250._kind_phys),Wn]
+            ma_term(10,i)=real(k,kind_phys)
+          endif
           !Do not allow a parcel to accelerate more than 1.25 m/s over 200 m.
           !Add max increase of 2.0 m/s for coarse vertical resolution.
           IF(Wn > UPW(K-1,I) + MIN(1.25*(ZW(k)-ZW(k-1))/200., 2.0) ) THEN
@@ -5375,6 +5396,7 @@ else if ( fltv2 > 0.002 .AND. (maxwidth > minwidth) .AND. superadiabatic) then
           !Check to make sure that the plume made it up at least one level.
           !if it failed, then set nup2=0 and exit the mass-flux portion.
           IF (k==kts+1 .AND. Wn == 0.) THEN
+             if(ma_enabled.and.ma_main) ma_term(1,i)=1.
              NUP2=0
              exit
           ENDIF
@@ -5453,6 +5475,11 @@ else if ( fltv2 > 0.002 .AND. (maxwidth > minwidth) .AND. superadiabatic) then
              ENDIF
              ktop = MAX(ktop,k)
           ELSE
+             if(ma_enabled.and.ma_main) then
+               ma_term(1,i)=4.
+               if(B<=0.) ma_term(1,i)=2.
+               if(B>0..and.ma_term(7,i)<0.) ma_term(1,i)=3.
+             endif
              exit  !exit k-loop
           END IF
        ENDDO
@@ -5482,6 +5509,9 @@ ELSE
 END IF !end criteria check for mass-flux scheme
 
 ktop=MIN(ktop,KTE-1)
+if(ma_enabled.and.ma_main) then
+  ma_gate(12)=nup2;ma_gate(14)=real(ktop,kind_phys)
+endif
 IF (ktop == 0) THEN
    ztop = 0.0
 ELSE
@@ -5602,6 +5632,7 @@ IF (nup2 > 0) THEN
       uedmf_c_flux(kts:kte+1)   = s_awqc(kts:kte+1)
       uedmf_thl_flux(kts:kte+1) = s_awthl(kts:kte+1)
    endif
+   if(ma_enabled.and.ma_main) ma_gate(13)=adjustment
    !Print*,"adjustment=",adjustment," fluxportion=",fluxportion," flt=",flt
 
    !Calculate mean updraft properties for output:
