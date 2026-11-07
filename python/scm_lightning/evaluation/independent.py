@@ -44,7 +44,7 @@ def preserve_legacy():
             'source_directory':str(source),'git_commit':git('rev-parse','HEAD'),'native_simulations_moved':False})
 
 
-def control_predictors(simulation, forcing, config, destination):
+def control_predictors(simulation, forcing, config, destination, configuration='TH_C0', member_id=0, export_native=True, cape_cache=None, cape_memo_path=None):
     """Read native snapshots; export pre-calibration fields, components and units."""
     destination=Path(destination);destination.mkdir(parents=True,exist_ok=True)
     before=sha256(simulation)
@@ -73,27 +73,38 @@ def control_predictors(simulation, forcing, config, destination):
     raw=pd.concat([pd.DataFrame({'time':clock,'method':name,'value':v}) for name,v in
         [('IxG',ixg),('McCaulF3',f3),('McCaulF1',f1),('McCaulF2',f2)]],ignore_index=True)
     five=integrate_bins(raw,config['start'],config['end'],5)
-    bins=integrate_bins(raw,config['start'],config['end'],15)
+    minutes=config.get('interval_minutes',15)
+    bins=integrate_bins(raw,config['start'],config['end'],minutes)
     cape=[];rain=d.rainnc.values
     if (np.diff(rain)<0).any():raise ValueError('Reset/negative total precipitation increment')
-    step=30  # thirty native 30s steps per 15min, following interval
+    step=int(minutes*60/30)
+    cached={} if cape_cache is None else pd.read_csv(cape_cache).assign(time=lambda f:pd.to_datetime(f.time,utc=True)).set_index('time').cape_J_kg.to_dict()
+    memo=None
+    if cape_memo_path is not None:
+        from scm_lightning.lightning.cape_cache import CapeCache
+        memo=CapeCache(cape_memo_path)
     for i in range(0,len(seconds)-1,step):
-        value=surface_cape(d.pressure.values[i],t[i],d.qv.values[i],layer_selection='most_cape')
+        if clock[i] in cached:value=cached[clock[i]]
+        elif memo is not None:value=memo.get(d.pressure.values[i],t[i],d.qv.values[i],surface_cape)
+        else:value=surface_cape(d.pressure.values[i],t[i],d.qv.values[i],layer_selection='most_cape')
         amount=float(rain[i+step]-rain[i])
         cape.append({'time':str(clock[i]),'cape_J_kg':value,'precipitation_amount_kg_m2':amount,
                      'CAPExP_J_m2':value*amount,'parcel_height_AGL_m':float(z[0]),
                      'parcel_pressure_Pa':float(d.pressure.values[i,0]),'parcel_temperature_K':float(t[i,0]),
                      'parcel_mixing_ratio_kg_kg':float(d.qv.values[i,0]),'parcel_definition':'lowest simulated cell, liquid pseudoadiabatic MetPy; most_cape LFC/EL'})
-    therm=pd.DataFrame(cape);therm.to_csv(destination/'thermodynamics_15min.csv',index=False)
+    memo_statistics=None
+    if memo is not None:
+        memo_statistics={'exact_profile_hits':memo.hits,'new_provider_calls':memo.misses,'namespace':memo.namespace};memo.close()
+    therm=pd.DataFrame(cape);therm.to_csv(destination/f'thermodynamics_{minutes}min.csv',index=False)
     cap=therm[['time','CAPExP_J_m2']].rename(columns={'CAPExP_J_m2':'predictor'})
     cap['method']='CAPExP';cap['status']=np.where(np.isfinite(cap.predictor),'available','unavailable')
     bins['time']=bins.time.astype(str)
     primary=pd.concat([bins[bins.method.isin(['IxG','McCaulF3'])],cap],ignore_index=True)
     five=five[five.method=='McCaulF3'].copy();five['time']=five.time.astype(str)
-    for frame in [primary,five]:frame['configuration']='TH_C0';frame['member']=0
-    primary.to_csv(destination/'predictors_15min.csv',index=False)
+    for frame in [primary,five]:frame['configuration']=configuration;frame['member']=member_id
+    primary.to_csv(destination/f'predictors_{minutes}min.csv',index=False)
     five.to_csv(destination/'predictors_5min.csv',index=False)
-    bins.to_csv(destination/'components_15min.csv',index=False)
+    bins.to_csv(destination/f'components_{minutes}min.csv',index=False)
     native=xr.Dataset({'w_LS':(('time','height'),w), 'rho_d':(('time','height'),rho),
         'cloud_ice_concentration':(('time','height'),rho*d.qi.values),'graupel_concentration':(('time','height'),rho*d.qg.values),
         'IxG':('time',ixg),'McCaul_F1_LS':('time',f1),'McCaul_F2':('time',f2), 'McCaul_F3_LS':('time',f3),
@@ -104,10 +115,12 @@ def control_predictors(simulation, forcing, config, destination):
     native.time.attrs['units']='seconds since '+pd.Timestamp(config['start']).strftime('%Y-%m-%d %H:%M:%S')+' UTC'
     native.attrs.update(velocity_support='prescribed LS only; no EDMF addition',CAPE_definition='liquid pseudoadiabatic surface parcel; not asserted isentropic',
         precipitation='rainnc already includes solid water equivalent; never add snownc',source_sha256=before)
-    native.to_netcdf(destination/'diagnostics_native.nc')
+    if export_native:native.to_netcdf(destination/'diagnostics_native.nc')
     if sha256(simulation)!=before:raise IOError('Diagnostic processing modified native model output')
     write_json(destination/'manifest.json',{'simulation':str(simulation),'simulation_sha256':before,'forcing_sha256':sha256(forcing),
-        'configuration':'TH_C0','member':0,'case':config['case'],'origin_UTC':config['start'],'native_output_unchanged':True})
+        'configuration':configuration,'member':member_id,'case':config['case'],'origin_UTC':config['start'],'native_output_unchanged':True,
+        'interval_minutes':minutes,'CAPE_clock':'profile at each bin start; cached identical 15min profiles reused only at matching native UTC timestamps',
+        'exact_CAPE_cache':memo_statistics})
     return primary,five
 
 
@@ -134,7 +147,7 @@ def metric_values(y,p,constant,minutes=15):
     return result
 
 
-def evaluate_predictions(predictions,observations,constant):
+def evaluate_predictions(predictions,observations,constant,minutes=15):
     """One global time mask across methods, configurations and all 40 members."""
     p=predictions.copy();o=observations.copy()
     from scm_lightning.ensemble.experiments import CONFIGURATIONS
@@ -156,7 +169,7 @@ def evaluate_predictions(predictions,observations,constant):
         f.loc[f.n_members!=40,['mean','std']]=np.nan
         f['method']=method;f['configuration']=configuration;stats.append(f.reset_index())
         selected=f.reindex(valid)
-        values=metric_values(o.set_index('time').loc[valid,'count'].values,selected['mean'].values,constant)
+        values=metric_values(o.set_index('time').loc[valid,'count'].values,selected['mean'].values,constant,minutes=minutes)
         # Peak timing uses actual UTC positions when the shared support contains gaps.
         if np.isfinite(values['peak_time_error_minutes']):
             y=o.set_index('time').loc[valid,'count'].values
@@ -191,7 +204,7 @@ def tables(config,calibration=None):
          'start':config['start'],'end_exclusive':config['end']}]).to_csv(out/'Table_01_experimental_design.csv',index=False)
     pd.DataFrame([
         {'method':METHODS[0],'equation':'CAPE * P','reference':'Romps 2014; 2019 eq1','published_coefficient':'2014 CG eta/E is not transferred as total-flash coefficient',
-         'adaptation':'MetPy lowest-cell liquid pseudoadiabatic CAPE; not isentropic','predictor_units':'J km-2 per 15min', 'requirements':'Pa, K, kg/kg dry air, total rainnc increment'},
+         'adaptation':'MetPy lowest-cell liquid pseudoadiabatic CAPE; not isentropic','predictor_units':f"J km-2 per {config.get('interval_minutes',15)}min", 'requirements':'Pa, K, kg/kg dry air, total rainnc increment'},
         {'method':METHODS[1],'equation':'integral (rho_d*qi)*(rho_d*qg) dz','reference':'Romps 2019 eq4','published_coefficient':'none universal',
          'adaptation':'whole SCM column, cloud ice only','predictor_units':'kg2 s m-5 per bin','requirements':'rho_d kg/m3; qi and qg kg/kg dry air; dz m'},
         {'method':METHODS[2],'equation':'0.95*0.042*(w_LS_positive*qg_g/kg)[258.15K] + 0.05*0.20*VII','reference':'McCaul 2009 eq3-5',

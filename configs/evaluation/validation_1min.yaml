@@ -1,0 +1,26 @@
+interval_minutes: 1
+native_model_snapshot_seconds: 30
+observed_target: total_IC_CG_flashes_per_minute
+observation_grouping: reuse_original_grouped_flashes_then_aggregate_real_start_times
+uniform_disaggregation_from_15min: false
+calibration_event: argentina_20191028
+calibration_configuration: TH_C0
+calibration_member: 0
+calibration_directory: results/argentina_20191028/calibration/v2_1min
+calibration_fitting_minutes:
+  CAPExP: 1
+  IxG: 1
+  McCaulF3_LS_1D_adapted: 5
+CAPE: native_profile_at_each_minute_start_MetPy_pseudoadiabatic_most_cape_LFC_EL
+precipitation: exact_rainnc_increment_over_following_60_seconds_no_snownc_addition
+IxG_McCaul: trapezoidal_native_30s_proxy_integral_over_each_complete_60s_bin
+evaluation_event: argentina_20181213
+coefficients: same_three_2019_coefficients_for_all_40_members_controls_and_six_configurations
+valid_support: common_finite_minute_intersection
+historical_protocol: configs/evaluation/validation_15min.yaml
+profiles:
+  preferred_2018: CSU_RELAMPAGO_in_projetoCHUVA
+  different_stations_are_not_merged: true
+  actual_UTC_preserved: true
+  missing_flight_times_are_not_invented: true
+  initial_and_boundary_conditions: ERA5_retained_no_spatial_transplantation

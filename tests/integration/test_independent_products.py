@@ -9,6 +9,10 @@ from scm_lightning.provenance import ROOT,sha256
 from scm_lightning.forcing.contracts import area_km2
 from scm_lightning.config import load_config
 
+# Preserve the original independent-15min checks against their immutable archive.
+_archived=ROOT/'results/argentina_20181213/legacy/article_independent_15min_20261106'
+if _archived.exists():OUT=_archived
+
 
 def test_legacy_products_preserved_with_original_checksums():
     if not (LEGACY/'preservation.json').exists():pytest.skip('Local legacy archive unavailable')

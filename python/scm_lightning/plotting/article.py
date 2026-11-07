@@ -80,33 +80,29 @@ def environment(c):
     if cb.solids is not None:cb.solids.set_rasterized(False)
     axes[0].legend(loc='lower left',fontsize=7)
     labels=[]
-    for index,p in enumerate(sorted((ROOT/'data/processed/profiles').glob('*.csv'))):
-        f=pd.read_csv(p)
-        if 'time' in f:
-            stamp=pd.Timestamp(f.time.iloc[0]);label=stamp.strftime('%d Dec %H:%M UTC')
-            if '1403' in p.name:label+=' (partial)'
-        else:label='14 Dec 12 UTC (nominal)'
-        labels.append(label)
-        axes[1].plot(f.temperature_C,f['geopotential height_m']/1000,lw=1.3,label=label)
-        axes[2].plot(f['mixing ratio_g/kg'],f['geopotential height_m']/1000,lw=1.3,label=label)
-        export=f[['geopotential height_m','temperature_C','mixing ratio_g/kg']].copy();export['profile']=label
-        export.to_csv(OUT/'data'/('Figure_01_profile_'+str(index+1)+'.csv'),index=False)
-    axes[1].set(xlabel='Temperature (°C)',ylabel='Geopotential height (km)',title='(b) Córdoba temperature')
-    axes[2].set(xlabel=r'Vapor mixing ratio (g kg$^{-1}$)',ylabel='Geopotential height (km)',title='(c) Córdoba vapor')
+    from scm_lightning.observations.profiles import selected
+    from scm_lightning.plotting.profiles import draw
+    records=selected('argentina_20181213')
+    frames,profile_metadata=draw(axes[1:],records,map_axes=[axes[0]])
+    frames.to_csv(OUT/'data/Figure_01_campaign_profiles.csv.gz',index=False)
+    axes[1].set(title='(b) Temperature');axes[2].set(title='(c) Water vapor')
     for ax in axes[1:]:ax.grid(alpha=.2)
     from scm_lightning.observations import haversine_km
     distance=float(haversine_km(lat,lon,(south+north)/2,(west+east)/2))
     handles,labels=axes[1].get_legend_handles_labels()
-    axes[1].legend(handles,labels,loc='upper right',frameon=False,fontsize=7)
+    axes[1].legend(handles,labels,loc='upper right',frameon=False,fontsize=6.5,ncol=2)
     fig.tight_layout();save(fig,OUT/'figures/Figure_01_case_environment')
     write_json(OUT/'data/Figure_01_metadata.json',{'SACO_to_box_center_km':distance,'station':station,'profile_labels':labels,
         'ERA5_source_sha256':sha256(ROOT/'data/raw/era5/reanalysis_pl_20181214.nc'),
         'omega_sign':'native Pa/s; negative=ascent','full_data_extent':[float(w.longitude.min()),float(w.longitude.max()),float(w.latitude.min()),float(w.latitude.max())],
-        'sounding_scope':'spatially distinct reference; not observations collocated with the model box'})
+        'sounding_scope':'spatially distinct reference; not observations collocated with the model box',
+        'profile_sources':profile_metadata,'preferred_source':'CSU_RELAMPAGO_in_projetoCHUVA; Wyoming retained in normalized inventory',
+        'used_for_initial_or_boundary_conditions':False})
 
 
 def observations(c,o):
-    bytype=pd.read_csv(ROOT/'results/argentina_20181213/observations/counts_by_type_15min.csv')
+    minutes=c.get('interval_minutes',15)
+    bytype=pd.read_csv(ROOT/f'results/argentina_20181213/observations/counts_by_type_{minutes}min.csv')
     bytype.time=pd.to_datetime(bytype.time,utc=True)
     assert bytype.covered.all() and c['flag_mapping_confirmed']
     sub=bytype[bytype.type.isin(['IC','CG'])].pivot(index='time',columns='type',values='count').reindex(o.time)
@@ -115,12 +111,12 @@ def observations(c,o):
     axes[0].step(o.time,o['count'],where='post',c='black',lw=1.3,label='Total')
     for name,color in [('IC','#666666'),('CG','#b4b4b4')]:
         axes[0].step(o.time,sub[name].values,where='post',c=color,lw=.8,label=name)
-        axes[1].plot(o.time+pd.Timedelta(minutes=15),sub[name].cumsum(),c=color,lw=.9,label=name)
+        axes[1].plot(o.time+pd.Timedelta(minutes=minutes),sub[name].cumsum(),c=color,lw=.9,label=name)
     peak=int(np.argmax(o['count'].values));stamp=o.time.iloc[peak]
     axes[0].scatter([stamp],[o['count'].iloc[peak]],c='black',s=22,zorder=5)
     axes[0].annotate(stamp.strftime('Peak interval: %d Dec %H:%M UTC'),(stamp,o['count'].iloc[peak]),xytext=(10,-20),textcoords='offset points',fontsize=8)
-    axes[1].plot(o.time+pd.Timedelta(minutes=15),o['count'].cumsum(),c='black',lw=1.4,label='Total')
-    axes[0].set(title='(a) Reconstructed ENTLN flashes',ylabel='Flashes / 15 min')
+    axes[1].plot(o.time+pd.Timedelta(minutes=minutes),o['count'].cumsum(),c='black',lw=1.4,label='Total')
+    axes[0].set(title='(a) Reconstructed ENTLN flashes',ylabel='Flashes min$^{-1}$' if minutes==1 else 'Flashes / 15 min')
     axes[1].set(title='(b) Accumulated activity',ylabel='Cumulative flashes',xlabel='UTC')
     for ax in axes:utc_axis(ax)
     axes[0].legend(ncol=3,frameon=False,loc='upper left')

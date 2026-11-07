@@ -22,7 +22,7 @@ def save(fig,name):
     fig.savefig(OUT/name,dpi=180,bbox_inches='tight');plt.close(fig)
 
 
-def boundaries(ax):
+def boundaries(ax,color='0.18'):
     """Draw cached country outlines and global first-level subdivisions."""
     root=ROOT/'data/raw/boundaries'
     def line(coordinates, **style):
@@ -30,7 +30,7 @@ def boundaries(ax):
         ax.plot(xy[:,0],xy[:,1],**style)
     for name in ['states','countries']:
         content=json.loads((root/(name+'.geojson')).read_text(encoding='utf-8'))
-        style={'color':'0.18','linewidth':.65 if name=='countries' else .35,'alpha':.9,'zorder':3}
+        style={'color':color,'linewidth':.65 if name=='countries' else .35,'alpha':.9,'zorder':3}
         for feature in content['features']:
             geometry=feature['geometry']
             if geometry is None:continue

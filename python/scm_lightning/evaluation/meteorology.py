@@ -22,6 +22,70 @@ BASE='https://data.chc.ucsb.edu/products/CHIRPS/v2.0/'
 CACHE=ROOT/'data/raw/precipitation/chirps_v2'
 
 
+def acquire_era5_precipitation(config):
+    """ERA5 hourly totals, in metres over the hour ending at valid_time."""
+    import cdsapi
+    import zipfile
+    cache=ROOT/'data/raw/precipitation/era5'/config['event_id'];cache.mkdir(parents=True,exist_ok=True)
+    target=cache/'total_precipitation.nc'
+    if target.exists():
+        meta=__import__('json').loads(target.with_suffix('.json').read_text())
+        if sha256(target)!=meta['sha256']:raise ValueError('ERA5 precipitation cache checksum mismatch')
+        return target
+    days=pd.date_range(config['start'],config['end'],freq='D')
+    w,s,e,n=config['area']
+    request={'product_type':['reanalysis'],'variable':['total_precipitation'],
+        'year':[str(days[0].year)],'month':[f'{days[0].month:02}'],'day':[f'{d.day:02}' for d in days],
+        'time':[f'{h:02}:00' for h in range(24)],'area':[n+.5,w-.5,s-.5,e+.5],
+        'data_format':'netcdf','download_format':'unarchived'}
+    write_json(cache/'request.json',{'dataset':'reanalysis-era5-single-levels','request':request})
+    pending=target.with_suffix('.download')
+    cdsapi.Client().retrieve('reanalysis-era5-single-levels',request,str(pending))
+    if zipfile.is_zipfile(pending):
+        with zipfile.ZipFile(pending) as archive:
+            names=[n for n in archive.namelist() if n.endswith('.nc')]
+            if len(names)!=1:raise ValueError('Unexpected ERA5 precipitation archive')
+            target.write_bytes(archive.read(names[0]))
+    else:pending.replace(target)
+    with xr.open_dataset(target) as d:
+        if 'tp' not in d or d.tp.attrs.get('units')!='m':raise ValueError('Expected ERA5 tp in metres')
+    write_json(target.with_suffix('.json'),{'source':'ERA5 CDS','sha256':sha256(target),'request':request,
+        'temporal_support':'one hour ending at valid_time','independent_observation':False})
+    return target
+
+
+def era5_hourly(config):
+    from scm_lightning.forcing import normalize
+    source=ROOT/'data/raw/precipitation/era5'/config['event_id']/'total_precipitation.nc'
+    with xr.open_dataset(source) as original:
+        selected,weights=subset(normalize(original),config['area'])
+        rain=1000*selected.tp.weighted(weights).mean(('latitude','longitude')).load()
+    start,end=pd.Timestamp(config['start']),pd.Timestamp(config['end'])
+    valid=pd.DatetimeIndex(rain.time.values).tz_localize('UTC')
+    wanted=pd.date_range(start+pd.Timedelta(hours=1),end,freq='h')
+    f=pd.DataFrame({'valid_time':valid,'ERA5_mm':rain.values}).set_index('valid_time').reindex(wanted)
+    if f.ERA5_mm.isna().any() or (f.ERA5_mm<0).any():raise ValueError('Incomplete or negative ERA5 hourly precipitation')
+    f['time']=wanted-pd.Timedelta(hours=1);f['end_time']=wanted
+    rows=[]
+    for configuration in ['TH_C0','TH_CL','TH_CF','WS_C0','WS_CL','WS_CF']:
+        path=control_directory(configuration)/'output.nc'
+        with xr.open_dataset(path,decode_times=False) as d:
+            for row in f.itertuples():
+                a=(row.time-start).total_seconds();b=a+3600
+                amount=daily_amount(d.time.values,d.rainnc.values,a,b)
+                rows.append({'time':str(row.time),'end_time':str(row.end_time),'configuration':configuration,
+                    'simulation_mm':amount,'ERA5_mm':row.ERA5_mm,'difference_mm':amount-row.ERA5_mm})
+    out=ROOT/'results'/config['event_id']/'meteorological_validation';out.mkdir(parents=True,exist_ok=True)
+    result=pd.DataFrame(rows);result.to_csv(out/'precipitation_comparison_ERA5_hourly.csv',index=False)
+    write_json(out/'ERA5_manifest.json',{'source_sha256':sha256(source),'area_wsen':config['area'],
+        'units':'mm per hour; numerical rate mm/h','ERA5_time':'valid_time labels preceding hour; table time labels interval start',
+        'support':'same fixed SCM area, spherical area weights, exact complete UTC hourly intervals',
+        'simulation':'rainnc differences only; no snownc addition','independent_observation':False,
+        'interpretation':'comparison with forcing reanalysis, not independent precipitation validation',
+        'temporal_convention_source':'https://confluence.ecmwf.int/pages/viewpage.action?pageId=111150967'})
+    return result
+
+
 def acquire(days):
     CACHE.mkdir(parents=True,exist_ok=True)
     for day in days:
@@ -96,9 +160,11 @@ def build(config_path):
 
 
 def main():
-    ap=argparse.ArgumentParser();ap.add_argument('stage',choices=['download','build']);ap.add_argument('--config',default=str(ROOT/'configs/cases/argentina_20181213.yaml'));a=ap.parse_args()
+    ap=argparse.ArgumentParser();ap.add_argument('stage',choices=['download','build','era5-download','era5-build']);ap.add_argument('--config',default=str(ROOT/'configs/cases/argentina_20181213.yaml'));a=ap.parse_args()
     c=load_config(a.config)
     if a.stage=='download':acquire(pd.date_range(c['start'],c['end'],freq='D',inclusive='left'))
+    elif a.stage=='era5-download':acquire_era5_precipitation(c)
+    elif a.stage=='era5-build':era5_hourly(c)
     else:build(a.config)
 
 

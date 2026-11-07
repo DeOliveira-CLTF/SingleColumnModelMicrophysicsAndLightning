@@ -1,5 +1,63 @@
 # Reprodução dos dois eventos
 
+## Protocolo ativo de um minuto
+
+`configs/evaluation/validation_1min.yaml` define a resolução atual. Os campos
+de cobertura/intervalo de 15 minutos dos arquivos históricos de caso são
+preservados para verificar as exportações antigas; o novo processador aplica
+explicitamente intervalos de um minuto sem alterar essas forçantes físicas.
+Não há divisão uniforme das contagens antigas.
+
+```powershell
+python scripts/process_lightning.py profiles
+python scripts/evaluate.py independent prepare --workers 12
+python scripts/calibrate.py independent calibrate
+python scripts/evaluate.py independent evaluate
+python scripts/evaluate.py meteorology era5-download
+python scripts/evaluate.py meteorology era5-build
+python scripts/plot.py article
+python scripts/evaluate.py contracts
+python -m pytest tests -q
+```
+
+ENTLN é reagregada pelos horários reais dos flashes agrupados. I×G e McCaul
+são reintegrados das saídas nativas de 30 segundos; CAPE é diagnosticada a cada
+minuto, no início da janela, e multiplica o incremento exato de `rainnc` dos
+60 segundos seguintes. Perfis exatamente iguais podem compartilhar CAPE em
+cache; não há arredondamento dos valores usados na chave. O cache considera
+a versão MetPy e o código da definição de CAPE. Saídas prontas são reutilizadas.
+
+A versão `v2_1min` ajusta CAPE×P e I×G sobre os 2880 intervalos de 2019, apenas
+no TH_C0 determinístico. O fator adicional de McCaul mantém o suporte de picos
+de cinco minutos e é aplicado à integral de cada minuto, com a conversão de
+300 segundos da formulação original. A versão `v1` não é sobrescrita.
+
+A figura 6 usa diferenças horárias de `rainnc` e `tp` ERA5 sobre a mesma área.
+`tp` em metros corresponde à hora anterior ao horário de validade: o intervalo
+00–01 UTC usa o campo válido às 01 UTC. A figura é uma comparação com a
+reanálise que também fornece as forçantes, não uma validação observacional
+independente. Fontes e horários estão no `ERA5_manifest.json`.
+
+As sondagens CSU/RELAMPAGO contidas em `projetoCHUVA` são preferidas a Wyoming
+na figura de 2018. São preservados estação móvel, coordenadas de cada lançamento,
+instantes UTC por amostra, segmentos de subida e perfis incompletos. A velocidade
+de subida do balão nunca é usada como movimento vertical do ar. Pressão é
+convertida para Pa, temperatura para K, vapor para kg/kg de ar seco, vento para
+u/v e alturas GPS para geopotenciais. Arquivos sem horário real não recebem um
+horário de voo inventado a partir do nome nominal.
+
+Nenhum perfil fornecido satisfaz simultaneamente colocalização, horário de
+inicialização e cobertura da coluna. Portanto não substituem condições iniciais
+ou forçantes de contorno, nem são misturados entre estações para produzir uma
+coluna artificial. A elegibilidade está em
+`data/processed/radiosondes/case_availability_and_forcing_eligibility.csv`.
+
+## Aquisição e protocolo histórico de quinze minutos
+
+As etapas abaixo documentam a primeira versão preservada. Para os resultados
+atuais, usar os comandos de um minuto acima; as funções físicas de preparação
+ERA5/DEF/DEPHY e o driver principal são os mesmos.
+
 Configurações: `configs/cases/argentina_20191028.yaml` (calibração) e
 `configs/cases/argentina_20181213.yaml` (avaliação). Dados e derivados são privados,
 locais e ignorados pelo Git. Não há novo ensemble de 2019.

@@ -5,6 +5,15 @@ fixos. O evento de 13–14/12/2018 é exclusivo de avaliação; suas observaçõ
 podem ajustar coeficientes. O fluxo anterior está preservado em
 `results/argentina_20181213/legacy/article_within_event_20261106/`.
 
+Os resultados atuais usam janelas reais de **1 minuto**, em flashes/min.
+Protocolo ativo: `configs/evaluation/validation_1min.yaml`; coeficientes:
+`results/argentina_20191028/calibration/v2_1min/`. A análise independente de
+15 minutos permanece em `legacy/article_independent_15min_20261106/`.
+A figura 6 compara precipitação horária com ERA5. As sondagens são separadas
+por estação e lançamento; a pasta `data/raw/projetoCHUVA` tem prioridade na
+caracterização de 2018. As condições iniciais e forçantes continuam sendo ERA5,
+pois os perfis fornecidos não são colocalizados com as áreas fixas.
+
 Fluxo técnico dos dois eventos: [docs/independent_events.md](docs/independent_events.md).
 
 Thompson/WSM6 × MYNN C0/CL/CF. Ensemble existente: 40 membros perturbados e

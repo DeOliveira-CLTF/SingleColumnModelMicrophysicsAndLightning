@@ -63,7 +63,7 @@ def fit(config, predictors, observations, five_predictors, five_observations):
     area=area_km2(config['area'])
     rows=[]
     for method in METHODS:
-        minutes=5 if method=='McCaulF3_LS_1D_adapted' else 15
+        minutes=5 if method=='McCaulF3_LS_1D_adapted' else config.get('interval_minutes',15)
         x=p5 if minutes==5 else p
         obs=five_observations if minutes==5 else observations
         f=x[x.method==method].merge(obs[['time','count']],on='time',validate='one_to_one')
@@ -108,7 +108,8 @@ def freeze(destination, config, coefficients, baseline, sources):
     (destination/'calibration_implementation_at_freeze.py').write_bytes(Path(__file__).read_bytes())
     write_json(manifest,{'schema_version':1,'calibration_event':'argentina_20191028','configuration':'TH_C0','member':0,
         'start':config['start'],'end_exclusive':config['end'],'area_wsen':config['area'],'area_km2':area_km2(config['area']),
-        'constant_density_flashes_km2_per_15min':baseline,'coefficient_sha256':sha256(table),
+        'constant_density_flashes_km2_per_15min':baseline if config.get('interval_minutes',15)==15 else None,
+        'interval_minutes':config.get('interval_minutes',15),'constant_density_flashes_km2_per_interval':baseline,'coefficient_sha256':sha256(table),
         'all_identifiable':bool((coefficients.status=='fitted').all()),'published_constants':config['calibration']['published_McCaul_coefficients'],
         'mccaul_nominal_cell_area_km2':nominal_mccaul_cell_area(config),
         'mccaul_support_limit':config['calibration']['published_McCaul_area_convention'],
