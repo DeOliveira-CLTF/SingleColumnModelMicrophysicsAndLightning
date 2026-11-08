@@ -131,28 +131,33 @@ def environment(c):
 
 
 def observations(c,o):
-    minutes=c.get('interval_minutes',15)
-    bytype=pd.read_csv(ROOT/f'results/argentina_20181213/observations/counts_by_type_{minutes}min.csv')
+    minutes=1
+    observed=pd.read_csv(ROOT/'results/argentina_20181213/observations/counts_1min.csv')
+    observed.time=pd.to_datetime(observed.time,utc=True)
+    bytype=pd.read_csv(ROOT/'results/argentina_20181213/observations/counts_by_type_1min.csv')
     bytype.time=pd.to_datetime(bytype.time,utc=True)
-    assert bytype.covered.all() and c['flag_mapping_confirmed']
-    sub=bytype[bytype.type.isin(['IC','CG'])].pivot(index='time',columns='type',values='count').reindex(o.time)
-    np.testing.assert_allclose(sub.sum(axis=1),o['count'])
+    assert observed.covered.all() and bytype.covered.all() and c['flag_mapping_confirmed']
+    sub=bytype[bytype.type.isin(['IC','CG'])].pivot(index='time',columns='type',values='count').reindex(observed.time)
+    np.testing.assert_allclose(sub.sum(axis=1),observed['count'])
+    rate=observed['count']
+    sub_rate=sub
     fig,axes=plt.subplots(2,1,figsize=(9.5,6),sharex=True)
-    axes[0].step(o.time,o['count'],where='post',c='black',lw=1.3,label='Total')
+    axes[0].step(observed.time,rate,where='post',c='black',lw=1.3,label='Total')
     for name,color in [('IC','#666666'),('CG','#b4b4b4')]:
-        axes[0].step(o.time,sub[name].values,where='post',c=color,lw=.8,label=name)
-        axes[1].plot(o.time+pd.Timedelta(minutes=minutes),sub[name].cumsum(),c=color,lw=.9,label=name)
-    peak=int(np.argmax(o['count'].values));stamp=o.time.iloc[peak]
-    axes[0].scatter([stamp],[o['count'].iloc[peak]],c='black',s=22,zorder=5)
-    axes[0].annotate(stamp.strftime('Peak interval: %d Dec %H:%M UTC'),(stamp,o['count'].iloc[peak]),xytext=(10,-20),textcoords='offset points',fontsize=8)
-    axes[1].plot(o.time+pd.Timedelta(minutes=minutes),o['count'].cumsum(),c='black',lw=1.4,label='Total')
-    axes[0].set(title='(a) Reconstructed ENTLN flashes',ylabel='Flashes min$^{-1}$' if minutes==1 else 'Flashes / 15 min')
+        axes[0].step(observed.time,sub_rate[name].values,where='post',c=color,lw=.8,label=name)
+        axes[1].plot(observed.time+pd.Timedelta(minutes=minutes),sub[name].cumsum(),c=color,lw=.9,label=name)
+    peak=int(np.argmax(observed['count'].values));stamp=observed.time.iloc[peak]
+    axes[0].scatter([stamp],[rate.iloc[peak]],c='black',s=22,zorder=5)
+    axes[0].annotate(stamp.strftime('Peak interval: %d Dec %H:%M UTC'),(stamp,rate.iloc[peak]),xytext=(10,-20),textcoords='offset points',fontsize=8)
+    axes[1].plot(observed.time+pd.Timedelta(minutes=minutes),observed['count'].cumsum(),c='black',lw=1.4,label='Total')
+    axes[0].set(title='(a) Reconstructed ENTLN flashes',ylabel='Flashes min$^{-1}$')
     axes[1].set(title='(b) Accumulated activity',ylabel='Cumulative flashes',xlabel='UTC')
     for ax in axes:utc_axis(ax)
     axes[0].legend(ncol=3,frameon=False,loc='upper left')
     fig.tight_layout();save(fig,OUT/'figures/Figure_02_observed_lightning')
-    data=o.copy()
-    for name in ['IC','CG']:data[name]=sub[name].values;data['cumulative_'+name]=sub[name].cumsum().values
+    data=observed.copy();data['count']=rate
+    for name in ['IC','CG']:
+        data[name]=sub_rate[name].values;data['cumulative_'+name]=sub[name].cumsum().values
     data['cumulative_total']=data['count'].cumsum()
     data.to_csv(OUT/'data/Figure_02_observations.csv',index=False)
 
